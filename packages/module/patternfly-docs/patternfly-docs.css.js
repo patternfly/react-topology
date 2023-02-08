@@ -6,8 +6,8 @@ import '@patternfly/patternfly/patternfly-addons.css';
 import '@patternfly/documentation-framework/global.css';
 
 // Add your extension CSS below
-import '@patternfly/react-styles/src/css/components/Topology/topology-controlbar.css';
-import '@patternfly/react-styles/src/css/components/Topology/topology-side-bar.css';
-import '@patternfly/react-styles/src/css/components/Topology/topology-view.css';
-import '@patternfly/react-styles/src/css/components/Topology/topology-components.css';
-import '@patternfly/react-styles/src/css/components/Topology/topology-pipelines.css';
+import '@patternfly/react-topology/dist/esm/css/topology-controlbar.css';
+import '@patternfly/react-topology/dist/esm/css/topology-side-bar.css';
+import '@patternfly/react-topology/dist/esm/css/topology-view.css';
+import '@patternfly/react-topology/dist/esm/css/topology-components.css';
+import '@patternfly/react-topology/dist/esm/css/topology-pipelines.css';

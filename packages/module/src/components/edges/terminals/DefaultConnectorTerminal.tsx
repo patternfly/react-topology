@@ -2,7 +2,7 @@ import * as React from 'react';
 import { observer } from 'mobx-react';
 import * as _ from 'lodash';
 import { css } from '@patternfly/react-styles';
-import styles from '@patternfly/react-styles/css/components/Topology/topology-components';
+import styles from '../../../css/topology-components';
 import { Edge, EdgeTerminalType, NodeStatus } from '../../../types';
 import { ConnectDragSource } from '../../../behavior/dnd-types';
 import ConnectorArrow from './ConnectorArrow';

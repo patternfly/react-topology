@@ -9,7 +9,6 @@ import {
   SELECTION_EVENT,
   useVisualizationController
 } from '@patternfly/react-topology';
-import '@patternfly/react-styles/css/components/Topology/topology-components.css';
 import pipelineComponentFactory from '../components/pipelineComponentFactory';
 import { usePipelineOptions } from '../utils/usePipelineOptions';
 import { useDemoPipelineNodes } from '../utils/useDemoPipelineNodes';

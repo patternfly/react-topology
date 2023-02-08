@@ -1,5 +1,5 @@
 import { css } from '@patternfly/react-styles';
-import styles from '@patternfly/react-styles/css/components/Topology/topology-components';
+import styles from '../../../css/topology-components';
 import * as React from 'react';
 import { PointTuple } from '../../../types';
 import { getHullPath, TRAPEZOID_CORNER_RADIUS, ShapeProps } from './shapeUtils';

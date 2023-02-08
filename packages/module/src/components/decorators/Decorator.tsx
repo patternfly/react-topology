@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { css } from '@patternfly/react-styles';
-import styles from '@patternfly/react-styles/css/components/Topology/topology-components';
+import styles from '../../css/topology-components';
 import SvgDropShadowFilter from '../svg/SvgDropShadowFilter';
 import { createSvgIdUrl, useHover } from '../../utils';
 import { DEFAULT_DECORATOR_PADDING } from '../nodes';

@@ -19,7 +19,6 @@ import {
   DEFAULT_SPACER_NODE_TYPE,
   DEFAULT_FINALLY_NODE_TYPE
 } from '@patternfly/react-topology';
-import '@patternfly/react-styles/css/components/Topology/topology-components.css';
 import pipelineComponentFactory, { GROUPED_EDGE_TYPE } from '../components/pipelineComponentFactory';
 import { usePipelineOptions } from '../utils/usePipelineOptions';
 import { useDemoPipelineNodes } from '../utils/useDemoPipelineNodes';
