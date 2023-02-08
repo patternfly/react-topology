@@ -1,6 +1,5 @@
 import React from 'react';
 import { Checkbox, ToolbarItem } from '@patternfly/react-core';
-import '@patternfly/react-styles/css/components/Topology/topology-components.css';
 
 export const usePipelineOptions = (
   allowGroups = false

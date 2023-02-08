@@ -6,9 +6,9 @@ import {
   DEFAULT_WHEN_SIZE,
   PipelineNodeModel,
   RunStatus,
-  WhenStatus
+  WhenStatus,
 } from '@patternfly/react-topology';
-import '@patternfly/react-styles/css/components/Topology/topology-components.css';
+
 import { logos } from './logos';
 
 export const NODE_PADDING_VERTICAL = 45;

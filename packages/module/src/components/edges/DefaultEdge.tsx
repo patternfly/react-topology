@@ -12,7 +12,7 @@ import {
 import { useHover } from '../../utils';
 import { Layer } from '../layers';
 import { css } from '@patternfly/react-styles';
-import styles from '@patternfly/react-styles/css/components/Topology/topology-components';
+import styles from '../../css/topology-components';
 import { getEdgeAnimationDuration, getEdgeStyleClassModifier } from '../../utils/style-utils';
 import DefaultConnectorTerminal from './terminals/DefaultConnectorTerminal';
 import { TOP_LAYER } from '../../const';

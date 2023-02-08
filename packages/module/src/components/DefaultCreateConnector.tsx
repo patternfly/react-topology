@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { css } from '@patternfly/react-styles';
-import styles from '@patternfly/react-styles/css/components/Topology/topology-components';
+import styles from '../css/topology-components';
 import AddCircleOIcon from '@patternfly/react-icons/dist/esm/icons/add-circle-o-icon';
 import { Tooltip } from '@patternfly/react-core';
 import Point from '../geom/Point';

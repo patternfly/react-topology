@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { css } from '@patternfly/react-styles';
-import styles from '@patternfly/react-styles/css/components/Topology/topology-side-bar';
+import styles from '../../css/topology-side-bar';
 import TimesIcon from '@patternfly/react-icons/dist/esm/icons/times-icon';
 import { Button } from '@patternfly/react-core';
 
@@ -60,7 +60,7 @@ export const TopologySideBar: React.FunctionComponent<TopologySideBarProps> = ({
               <TimesIcon />
             </Button>
           )}
-          {header && <div className={css(styles.topologySideBarHeader)}>{header}</div>}
+          {header && <div className={styles.topologySideBarHeader}>{header}</div>}
           {children}
         </React.Fragment>
       )}

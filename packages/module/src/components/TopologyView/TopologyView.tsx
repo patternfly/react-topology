@@ -13,9 +13,9 @@ import {
   StackItem
 } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
-import styles from '@patternfly/react-styles/css/components/Topology/topology-view';
-import sideBarStyles from '@patternfly/react-styles/css/components/Topology/topology-side-bar';
-import controlBarStyles from '@patternfly/react-styles/css/components/Topology/topology-controlbar';
+import styles from '../../css/topology-view';
+import sideBarStyles from '../../css/topology-side-bar';
+import controlBarStyles from '../../css/topology-controlbar';
 
 export interface TopologyViewProps extends React.HTMLProps<HTMLDivElement> {
   /** Additional classes added to the view */

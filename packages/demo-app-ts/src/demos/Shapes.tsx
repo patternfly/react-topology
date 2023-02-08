@@ -10,7 +10,6 @@ import {
   ComponentFactory,
   NodeShape
 } from '@patternfly/react-topology';
-import '@patternfly/react-styles/css/components/Topology/topology-components.css';
 import defaultComponentFactory from '../components/defaultComponentFactory';
 import shapesComponentFactory from '../components/shapesComponentFactory';
 import DemoDefaultNode from '../components/DemoDefaultNode';

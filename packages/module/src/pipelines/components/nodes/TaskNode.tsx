@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { css } from '@patternfly/react-styles';
-import styles from '@patternfly/react-styles/css/components/Topology/topology-pipelines';
-import topologyStyles from '@patternfly/react-styles/css/components/Topology/topology-components';
+import styles from '../../../css/topology-pipelines';
+import topologyStyles from '../../../css/topology-components';
 import { Popover, PopoverProps, Tooltip } from '@patternfly/react-core';
 import { observer } from '../../../mobx-exports';
 import { AnchorEnd, Node, ScaleDetailsLevel } from '../../../types';
