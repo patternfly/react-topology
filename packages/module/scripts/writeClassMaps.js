@@ -1,7 +1,7 @@
 const { join, basename, resolve, relative } = require('path');
-const { outputFileSync, copyFileSync, copySync } = require('fs-extra');
+const { outputFileSync, copyFileSync, copySync, appendFileSync, existsSync, readFileSync } = require('fs-extra');
 const { generateClassMaps } = require('./generateClassMaps');
-const {ensureDirSync} = require("fs-extra/lib/mkdirs");
+const { ensureDirSync } = require('fs-extra/lib/mkdirs');
 
 const outDir = resolve(__dirname, '../src/css');
 const distDir = resolve(__dirname, '../dist/esm/css');
@@ -36,6 +36,20 @@ export default _default;
 `.trim()
   );
 
+function writeIndex(fileName) {
+  const indexPath = join(outDir, 'index.ts');
+  const fileNameNoExtension = fileName.replace('.css', '');
+  const fileExport = `export * from './${fileNameNoExtension}';\n`;
+
+  const indexFile = existsSync(indexPath) && readFileSync(indexPath);
+
+  if (indexFile && indexFile.includes(fileExport)) {
+    return;
+  } else {
+    appendFileSync(indexPath, fileExport);
+  }
+}
+
 /**
  * @param {any} classMaps Map of file names to classMaps
  */
@@ -43,6 +57,7 @@ function writeClassMaps(classMaps) {
   Object.entries(classMaps).forEach(([file, classMap]) => {
     const outPath = relative('src/css', file);
 
+    writeIndex(outPath);
     writeCJSExport(outPath, classMap);
     writeDTSExport(outPath, classMap);
     writeESMExport(outPath, classMap);
