@@ -10,7 +10,6 @@
   "scripts": {
     "build": "yarn workspace @patternfly/react-topology build",
     "build:docs": "yarn workspace @patternfly/react-topology docs:build",
-    "build:fed:packages": "yarn workspace @patternfly/react-topology build:fed:packages",
     "start": "yarn build && concurrently --kill-others \"yarn workspace @patternfly/react-topology docs:develop\"",
     "serve:docs": "yarn workspace @patternfly/react-topology docs:serve",
     "clean": "yarn workspace @patternfly/react-topology clean",

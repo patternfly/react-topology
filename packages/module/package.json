@@ -1,9 +1,10 @@
 {
-  "name": "@patternfly/react-topology",
-  "version": "1.0.0",
+  "name": "@patternfly/react-topology-2",
+  "version": "4.91.34",
   "description": "Provide patternfly components, styles, and utilities for displaying a topology view",
-  "main": "dist/esm/index.js",
+  "main": "dist/js/index.js",
   "module": "dist/esm/index.js",
+  "types": "dist/esm/index.d.ts",
   "scripts": {
     "build": "yarn generate && yarn build:esm && yarn build:cjs",
     "build:esm": "tsc --build --verbose ./tsconfig.json",
@@ -54,7 +55,7 @@
     "react-dom": "^16.8 || ^17 || ^18"
   },
   "devDependencies": {
-    "@patternfly/documentation-framework": "^1.4.13",
+    "@patternfly/documentation-framework": "1.8.0",
     "@patternfly/patternfly": "^4.217.1",
     "@patternfly/patternfly-a11y": "4.3.1",
     "@patternfly/react-code-editor": "^4.82.26",
