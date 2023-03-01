@@ -1,0 +1,76 @@
+{
+  "name": "@patternfly/react-topology-2",
+  "version": "4.91.34",
+  "description": "Provide patternfly components, styles, and utilities for displaying a topology view",
+  "main": "dist/js/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/esm/index.d.ts",
+  "scripts": {
+    "build": "yarn generate && yarn build:esm && yarn build:cjs",
+    "build:esm": "tsc --build --verbose ./tsconfig.json",
+    "build:cjs": "tsc --build --verbose ./tsconfig.cjs.json",
+    "clean": "rimraf dist css",
+    "docs:develop": "pf-docs-framework start",
+    "docs:build": "pf-docs-framework build all --output public",
+    "docs:serve": "pf-docs-framework serve public --port 5000",
+    "docs:screenshots": "pf-docs-framework screenshots --urlPrefix http://localhost:5000",
+    "generate": "rimraf css && node scripts/writeClassMaps.js",
+    "test:a11y": "patternfly-a11y --config patternfly-a11y.config",
+    "serve:a11y": "yarn serve coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/patternfly/react-topology.git"
+  },
+  "author": "Red Hat",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/patternfly/react-topology/issues"
+  },
+  "homepage": "https://github.com/patternfly/react-topology#readme",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@patternfly/react-core": "^4.276.6",
+    "@patternfly/react-icons": "^4.93.6",
+    "@patternfly/react-styles": "^4.92.6",
+    "@types/d3": "^5.7.2",
+    "@types/d3-force": "^1.2.1",
+    "@types/dagre": "0.7.42",
+    "@types/react-measure": "^2.0.6",
+    "d3": "^5.16.0",
+    "dagre": "0.8.2",
+    "lodash": "^4.17.19",
+    "mobx": "^5.15.4",
+    "mobx-react": "^6.2.0",
+    "point-in-svg-path": "^1.0.1",
+    "popper.js": "^1.16.1",
+    "react-measure": "^2.3.0",
+    "tslib": "^2.0.0",
+    "webcola": "3.4.0"
+  },
+  "peerDependencies": {
+    "react": "^16.8 || ^17 || ^18",
+    "react-dom": "^16.8 || ^17 || ^18"
+  },
+  "devDependencies": {
+    "@patternfly/documentation-framework": "1.8.0",
+    "@patternfly/patternfly": "^4.217.1",
+    "@patternfly/patternfly-a11y": "4.3.1",
+    "@patternfly/react-code-editor": "^4.82.26",
+    "@patternfly/react-table": "^4.112.39",
+    "@types/lodash": "^4.14.191",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "camel-case": "^3.0.0",
+    "css": "^2.2.3",
+    "fs-extra": "^6.0.1",
+    "glob": "^7.1.2",
+    "jsdom": "^15.1.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "rimraf": "^2.6.2",
+    "typescript": "^4.7.4"
+  }
+}
