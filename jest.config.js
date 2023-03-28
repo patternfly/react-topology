@@ -13,5 +13,8 @@ module.exports = {
   moduleNameMapper: {
     '\\.(css|less)$': '<rootDir>/styleMock.js'
   },
-  testEnvironment: 'jsdom'
+  testEnvironment: 'jsdom',
+  transformIgnorePatterns: ['node_modules/(?!@patternfly)'],
+  testPathIgnorePatterns: ['<rootDir>/packages/demo-app-ts/'],
+  setupFilesAfterEnv: ['<rootDir>/testSetup.ts'],
 };

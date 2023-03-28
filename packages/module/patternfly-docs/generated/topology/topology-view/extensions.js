@@ -33,6 +33,7 @@ const pageData = {
   "section": "topology",
   "subsection": "",
   "source": "extensions",
+  "tabName": null,
   "slug": "/topology/topology-view/extensions",
   "sourceLink": "https://github.com/patternfly/patternfly-org/blob/main/packages/module/patternfly-docs/content/examples/Topology.md",
   "relPath": "packages/module/patternfly-docs/content/examples/Topology.md",
