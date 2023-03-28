@@ -1,5 +1,5 @@
 {
-  "name": "@patternfly/react-topology-2",
+  "name": "@patternfly/react-topology",
   "version": "4.91.34",
   "description": "Provide patternfly components, styles, and utilities for displaying a topology view",
   "main": "dist/js/index.js",
@@ -29,7 +29,8 @@
   },
   "homepage": "https://github.com/patternfly/react-topology#readme",
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "tag": "prerelease"
   },
   "dependencies": {
     "@patternfly/react-core": "^4.276.6",

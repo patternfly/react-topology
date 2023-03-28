@@ -7,6 +7,7 @@ module.exports = {
     section: "topology",
     subsection: "",
     source: "extensions",
+    tabName: null,
     Component: () => import(/* webpackChunkName: "topology/topology-view/extensions/index" */ './topology/topology-view/extensions')
   }
 };
