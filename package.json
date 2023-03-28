@@ -36,6 +36,7 @@
     "eslint-plugin-promise": "^6.0.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-config-prettier": "8.5.0",
+    "eslint-plugin-patternfly-react": "^4.80.4",
     "@typescript-eslint/eslint-plugin": "^5.42.0",
     "@typescript-eslint/parser": "^5.42.0",
     "prettier": "2.7.1",
