@@ -28,7 +28,7 @@ async function typeDocGen(entryPoint, tsconfigLocation) {
   }
 }
 
-const packageBase = require.resolve('@patternfly/react-topology').replace('dist/esm/index.js', '')
+const packageBase = './packages/module'
 const entry = path.relative(process.cwd(), path.join(packageBase, 'src'))
 const configLocation = path.relative(process.cwd(), path.join(packageBase, 'tsconfig.json'))
 
