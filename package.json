@@ -48,7 +48,8 @@
     "@testing-library/user-event": "13.5.0",
     "@testing-library/jest-dom": "5.16.5",
     "jest-environment-jsdom": "^29.2.2",
-    "serve": "^14.1.2"
+    "serve": "^14.1.2",
+    "typedoc": "0.23"
   },
   "resolutions": {
     "@types/react": "17^"
