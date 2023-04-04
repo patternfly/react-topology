@@ -1,10 +1,4 @@
 import * as React from 'react';
-
-// eslint-disable-next-line patternfly-react/import-tokens-icons
-import { RegionsIcon as Icon1 } from '@patternfly/react-icons';
-// eslint-disable-next-line patternfly-react/import-tokens-icons
-import { FolderOpenIcon as Icon2 } from '@patternfly/react-icons';
-
 import {
   ColaLayout,
   ComponentFactory,
@@ -18,58 +12,14 @@ import {
   LayoutFactory,
   Model,
   ModelKind,
-  Node,
-  NodeModel,
   NodeShape,
-  NodeStatus,
   SELECTION_EVENT,
   Visualization,
   VisualizationProvider,
-  VisualizationSurface,
-  withPanZoom
+  VisualizationSurface
 } from '@patternfly/react-topology';
 
-interface CustomNodeProps {
-  element: Node;
-}
-
-const BadgeColors = [
-  {
-    name: 'A',
-    badgeColor: '#ace12e',
-    badgeTextColor: '#0f280d',
-    badgeBorderColor: '#486b00'
-  },
-  {
-    name: 'B',
-    badgeColor: '#F2F0FC',
-    badgeTextColor: '#5752d1',
-    badgeBorderColor: '#CBC1FF'
-  }
-];
-
-const CustomNode: React.FC<CustomNodeProps> = ({ element }) => {
-  const data = element.getData();
-  const Icon = data.isAlternate ? Icon2 : Icon1;
-  const badgeColors = BadgeColors.find(badgeColor => badgeColor.name === data.badge);
-
-  return (
-    <DefaultNode
-      element={element}
-      showStatusDecorator
-      badge={data.badge}
-      badgeColor={badgeColors?.badgeColor}
-      badgeTextColor={badgeColors?.badgeTextColor}
-      badgeBorderColor={badgeColors?.badgeBorderColor}
-    >
-      <g transform={`translate(25, 25)`}>
-        <Icon style={{ color: '#393F44' }} width={25} height={25} />
-      </g>
-    </DefaultNode>
-  );
-};
-
-const customLayoutFactory: LayoutFactory = (type: string, graph: Graph): Layout | undefined => {
+const baselineLayoutFactory: LayoutFactory = (type: string, graph: Graph): Layout | undefined => {
   switch (type) {
     case 'Cola':
       return new ColaLayout(graph);
@@ -78,16 +28,16 @@ const customLayoutFactory: LayoutFactory = (type: string, graph: Graph): Layout 
   }
 };
 
-const customComponentFactory: ComponentFactory = (kind: ModelKind, type: string) => {
+const baselineComponentFactory: ComponentFactory = (kind: ModelKind, type: string) => {
   switch (type) {
     case 'group':
       return DefaultGroup;
     default:
       switch (kind) {
         case ModelKind.graph:
-          return withPanZoom()(GraphComponent);
+          return GraphComponent;
         case ModelKind.node:
-          return CustomNode;
+          return DefaultNode;
         case ModelKind.edge:
           return DefaultEdge;
         default:
@@ -96,21 +46,17 @@ const customComponentFactory: ComponentFactory = (kind: ModelKind, type: string)
   }
 };
 
+const NODE_SHAPE = NodeShape.ellipse;
 const NODE_DIAMETER = 75;
 
-const NODES: NodeModel[] = [
+const NODES = [
   {
     id: 'node-0',
     type: 'node',
     label: 'Node 0',
     width: NODE_DIAMETER,
     height: NODE_DIAMETER,
-    shape: NodeShape.ellipse,
-    status: NodeStatus.danger,
-    data: {
-      badge: 'B',
-      isAlternate: false
-    }
+    shape: NODE_SHAPE
   },
   {
     id: 'node-1',
@@ -118,12 +64,7 @@ const NODES: NodeModel[] = [
     label: 'Node 1',
     width: NODE_DIAMETER,
     height: NODE_DIAMETER,
-    shape: NodeShape.hexagon,
-    status: NodeStatus.warning,
-    data: {
-      badge: 'B',
-      isAlternate: false
-    }
+    shape: NODE_SHAPE
   },
   {
     id: 'node-2',
@@ -131,12 +72,7 @@ const NODES: NodeModel[] = [
     label: 'Node 2',
     width: NODE_DIAMETER,
     height: NODE_DIAMETER,
-    shape: NodeShape.octagon,
-    status: NodeStatus.success,
-    data: {
-      badge: 'A',
-      isAlternate: true
-    }
+    shape: NODE_SHAPE
   },
   {
     id: 'node-3',
@@ -144,12 +80,7 @@ const NODES: NodeModel[] = [
     label: 'Node 3',
     width: NODE_DIAMETER,
     height: NODE_DIAMETER,
-    shape: NodeShape.rhombus,
-    status: NodeStatus.info,
-    data: {
-      badge: 'A',
-      isAlternate: false
-    }
+    shape: NODE_SHAPE
   },
   {
     id: 'node-4',
@@ -157,12 +88,7 @@ const NODES: NodeModel[] = [
     label: 'Node 4',
     width: NODE_DIAMETER,
     height: NODE_DIAMETER,
-    shape: NodeShape.hexagon,
-    status: NodeStatus.default,
-    data: {
-      badge: 'C',
-      isAlternate: false
-    }
+    shape: NODE_SHAPE
   },
   {
     id: 'node-5',
@@ -170,11 +96,7 @@ const NODES: NodeModel[] = [
     label: 'Node 5',
     width: NODE_DIAMETER,
     height: NODE_DIAMETER,
-    shape: NodeShape.rect,
-    data: {
-      badge: 'C',
-      isAlternate: true
-    }
+    shape: NODE_SHAPE
   },
   {
     id: 'Group-1',
@@ -205,7 +127,7 @@ const EDGES = [
   }
 ];
 
-export const TopologyPanZoomDemo: React.FC = () => {
+export const TopologyGettingStartedDemo: React.FC = () => {
   const [selectedIds, setSelectedIds] = React.useState<string[]>([]);
 
   const controller = React.useMemo(() => {
@@ -220,8 +142,8 @@ export const TopologyPanZoomDemo: React.FC = () => {
     };
 
     const newController = new Visualization();
-    newController.registerLayoutFactory(customLayoutFactory);
-    newController.registerComponentFactory(customComponentFactory);
+    newController.registerLayoutFactory(baselineLayoutFactory);
+    newController.registerComponentFactory(baselineComponentFactory);
 
     newController.addEventListener(SELECTION_EVENT, setSelectedIds);
 
