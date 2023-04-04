@@ -15,18 +15,16 @@ export const useSvgAnchor = (
     throw new Error('useSvgAnchor must be used within the scope of a Node');
   }
 
-  const setAnchorSvgRef = React.useCallback<SvgAnchorRef>(
-    action((node: SVGElement | null) => {
+  return React.useCallback<SvgAnchorRef>((node: SVGElement | null) => {
+    const actionFn = action((node: SVGElement | null) => {
       if (node) {
         const anchor = new SVGAnchor(element);
         anchor.setSVGElement(node);
         element.setAnchor(anchor, end, type);
       }
-    }),
-    [element, type, end]
-  );
-
-  return setAnchorSvgRef;
+    });
+    actionFn(node);
+  },[element, type, end]);
 };
 
 export interface WithSvgAnchorProps {
