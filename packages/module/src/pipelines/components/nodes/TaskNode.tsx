@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { TooltipProps } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import styles from '../../../css/topology-pipelines';
 import topologyStyles from '../../../css/topology-components';
@@ -85,6 +86,8 @@ export interface TaskNodeProps {
   disableTooltip?: boolean;
   /** Tooltip to show on node hover */
   toolTip?: React.ReactNode;
+  /** Tooltip properties to pass along to the node's tooltip */
+  toolTipProps?: Omit<TooltipProps, 'content'>;
   /** Flag if the node has a 'when expression' */
   hasWhenExpression?: boolean;
   /** Size of the when expression indicator */
@@ -134,6 +137,7 @@ const TaskNode: React.FC<TaskNodeProps & { innerRef: React.Ref<SVGGElement> }> =
   hover,
   truncateLength = 14,
   toolTip,
+  toolTipProps,
   disableTooltip = false,
   selected,
   onSelect,
@@ -475,7 +479,7 @@ const TaskNode: React.FC<TaskNodeProps & { innerRef: React.Ref<SVGGElement> }> =
       {!toolTip || disableTooltip ? (
         renderTask()
       ) : (
-        <Tooltip position="bottom" enableFlip={false} content={toolTip}>
+        <Tooltip position="bottom" enableFlip={false} {...(toolTipProps ?? {})} content={toolTip}>
           {renderTask()}
         </Tooltip>
       )}
