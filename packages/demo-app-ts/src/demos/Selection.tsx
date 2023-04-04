@@ -15,6 +15,7 @@ import {
 } from '@patternfly/react-topology';
 import defaultComponentFactory from '../components/defaultComponentFactory';
 import withTopologySetup from '../utils/withTopologySetup';
+import { Tab, Tabs, TabTitleText } from '@patternfly/react-core';
 
 const twoNodeModel: Model = {
   graph: {
@@ -159,3 +160,30 @@ export const Performance: React.FunctionComponent = withTopologySetup(() => {
   return null;
 });
 Performance.displayName = 'Performance';
+
+export const Selection: React.FunctionComponent = () => {
+  const [activeKey, setActiveKey] = React.useState<number>(0);
+
+  const handleTabClick = (_event: React.MouseEvent<HTMLElement, MouseEvent>, tabIndex: number) => {
+    setActiveKey(tabIndex);
+  };
+
+  return (
+    <div className="pf-ri__topology-demo">
+      <Tabs unmountOnExit activeKey={activeKey} onSelect={handleTabClick}>
+        <Tab eventKey={0} title={<TabTitleText>Uncontrolled</TabTitleText>}>
+          <UncontrolledSelection/>
+        </Tab>
+        <Tab eventKey={1} title={<TabTitleText>Controlled</TabTitleText>}>
+          <ControlledSelection/>
+        </Tab>
+        <Tab eventKey={2} title={<TabTitleText>Multi Select</TabTitleText>}>
+          <MultiSelect/>
+        </Tab>
+        <Tab eventKey={3} title={<TabTitleText>Performance</TabTitleText>}>
+          <Performance/>
+        </Tab>
+      </Tabs>
+    </div>
+  );
+};

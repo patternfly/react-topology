@@ -2,7 +2,7 @@
   "name": "@patternfly/react-topology-root",
   "private": true,
   "version": "0.0.0",
-  "description": "This library provides patternfly extensions",
+  "description": "This library provides the patternfly react topology extension",
   "license": "MIT",
   "workspaces": [
     "packages/*"

@@ -18,6 +18,7 @@ import DemoDefaultNode from '../components/DemoDefaultNode';
 import withTopologySetup from '../utils/withTopologySetup';
 import { generateDataModel } from '../data/generator';
 import stylesComponentFactory from '../components/stylesComponentFactory';
+import { Tab, Tabs, TabTitleText } from '@patternfly/react-core';
 
 const getModel = (layout: string): Model => {
   // create nodes from data
@@ -61,3 +62,27 @@ const layoutStory = (model: Model): React.FunctionComponent => () => {
 export const Force = withTopologySetup(layoutStory(getModel('Force')));
 export const Dagre = withTopologySetup(layoutStory(getModel('Dagre')));
 export const Cola = withTopologySetup(layoutStory(getModel('Cola')));
+
+export const Layouts: React.FunctionComponent = () => {
+  const [activeKey, setActiveKey] = React.useState<number>(0);
+
+  const handleTabClick = (_event: React.MouseEvent<HTMLElement, MouseEvent>, tabIndex: number) => {
+    setActiveKey(tabIndex);
+  };
+
+  return (
+    <div className="pf-ri__topology-demo">
+      <Tabs unmountOnExit activeKey={activeKey} onSelect={handleTabClick}>
+        <Tab eventKey={0} title={<TabTitleText>Force</TabTitleText>}>
+          <Force />
+        </Tab>
+        <Tab eventKey={1} title={<TabTitleText>Dagre</TabTitleText>}>
+          <Dagre />
+        </Tab>
+        <Tab eventKey={2} title={<TabTitleText>Cola</TabTitleText>}>
+          <Cola />
+        </Tab>
+      </Tabs>
+    </div>
+  );
+};
