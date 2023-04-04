@@ -33,7 +33,7 @@
     "tag": "prerelease"
   },
   "dependencies": {
-    "@patternfly/react-core": "^4.276.6",
+    "@patternfly/react-core": "^4.276.8",
     "@patternfly/react-icons": "^4.93.6",
     "@patternfly/react-styles": "^4.92.6",
     "@types/d3": "^5.7.2",
