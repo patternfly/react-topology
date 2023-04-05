@@ -5,7 +5,8 @@ import { useRef, useCallback } from 'react';
  */
 export default function useCallbackRef<T extends (...args: any[]) => any>(rawCallback: T) {
   const cleanupRef = useRef<(() => any) | null>(null);
-  const callback = useCallback<T>(
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  return useCallback<T>(
     (node => {
       if (cleanupRef.current) {
         cleanupRef.current();
@@ -17,6 +18,4 @@ export default function useCallbackRef<T extends (...args: any[]) => any>(rawCal
     }) as T,
     [rawCallback]
   );
-
-  return callback;
 }

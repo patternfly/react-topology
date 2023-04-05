@@ -16,6 +16,8 @@ import {
   NodeModel,
   NodeShape,
   SELECTION_EVENT,
+  TopologySideBar,
+  TopologyView,
   Visualization,
   VisualizationProvider,
   VisualizationSurface,
@@ -45,7 +47,7 @@ const BadgeColors = [
 
 const CustomNode: React.FC<CustomNodeProps & WithSelectionProps> = ({ element, onSelect, selected }) => {
   const data = element.getData();
-  const Icon = data.alternate ? Icon2 : Icon1;
+  const Icon = data.isAlternate ? Icon2 : Icon1;
   const badgeColors = BadgeColors.find(badgeColor => badgeColor.name === data.badge);
 
   return (
@@ -202,7 +204,7 @@ const EDGES = [
   }
 ];
 
-export const TopologySelectableDemo: React.FC = () => {
+export const TopologySidebarDemo: React.FC = () => {
   const [selectedIds, setSelectedIds] = React.useState<string[]>([]);
 
   const controller = React.useMemo(() => {
@@ -227,9 +229,21 @@ export const TopologySelectableDemo: React.FC = () => {
     return newController;
   }, []);
 
+  const topologySideBar = (
+    <TopologySideBar
+      className="topology-example-sidebar"
+      show={selectedIds.length > 0}
+      onClose={() => setSelectedIds([])}
+    >
+      <div style={{ marginTop: 27, marginLeft: 20, height: '800px' }}>{selectedIds[0]}</div>
+    </TopologySideBar>
+  );
+
   return (
-    <VisualizationProvider controller={controller}>
-      <VisualizationSurface state={{ selectedIds }} />
-    </VisualizationProvider>
+    <TopologyView sideBar={topologySideBar}>
+      <VisualizationProvider controller={controller}>
+        <VisualizationSurface state={{ selectedIds }} />
+      </VisualizationProvider>
+    </TopologyView>
   );
 };

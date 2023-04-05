@@ -34,6 +34,7 @@ import {
   STATUS_VALUES
 } from '../utils/styleUtils';
 import { DataTypes } from '../components/StyleNode';
+import { Tab, Tabs, TabTitleText } from '@patternfly/react-core';
 
 export const NodeStyles = withTopologySetup(() => {
   useComponentFactory(defaultComponentFactory);
@@ -848,3 +849,135 @@ export const EdgeTerminalTagStyles = withTopologySetup(() => {
   });
   return null;
 });
+
+export const StyleNodes: React.FunctionComponent = () => {
+  const [activeKey, setActiveKey] = React.useState<number>(0);
+
+  const handleTabClick = (_event: React.MouseEvent<HTMLElement, MouseEvent>, tabIndex: number) => {
+    setActiveKey(tabIndex);
+  };
+
+  return (
+    <div className="pf-ri__topology-demo">
+      <Tabs unmountOnExit activeKey={activeKey} onSelect={handleTabClick}>
+        <Tab eventKey={0} title={<TabTitleText>Nodes</TabTitleText>}>
+          <NodeStyles/>
+        </Tab>
+        <Tab eventKey={1} title={<TabTitleText>Hover Nodes</TabTitleText>}>
+          <NodeHoverStyles/>
+        </Tab>
+        <Tab eventKey={2} title={<TabTitleText>Selected Nodes</TabTitleText>}>
+          <NodeSelectedStyles/>
+        </Tab>
+        <Tab eventKey={3} title={<TabTitleText>Status Decorators</TabTitleText>}>
+          <NodeStatusDecoratorStyles/>
+        </Tab>
+        <Tab eventKey={4} title={<TabTitleText>Decorators</TabTitleText>}>
+          <NodeDecoratorStyles/>
+        </Tab>
+      </Tabs>
+    </div>
+  );
+};
+
+export const StyleLabels: React.FunctionComponent = () => {
+  const [activeKey, setActiveKey] = React.useState<number>(0);
+
+  const handleTabClick = (_event: React.MouseEvent<HTMLElement, MouseEvent>, tabIndex: number) => {
+    setActiveKey(tabIndex);
+  };
+
+  return (
+    <div className="pf-ri__topology-demo">
+      <Tabs unmountOnExit activeKey={activeKey} onSelect={handleTabClick}>
+        <Tab eventKey={0} title={<TabTitleText>Node Labels</TabTitleText>}>
+          <NodeLabelStyles/>
+        </Tab>
+        <Tab eventKey={1} title={<TabTitleText>Hover Labels</TabTitleText>}>
+          <NodeLabelHoverStyles/>
+        </Tab>
+        <Tab eventKey={2} title={<TabTitleText>Selected Labels</TabTitleText>}>
+          <NodeLabelSelectedStyles/>
+        </Tab>
+        <Tab eventKey={3} title={<TabTitleText>Horizontal Labels</TabTitleText>}>
+          <NodeHorizontalLabelStyles/>
+        </Tab>
+        <Tab eventKey={4} title={<TabTitleText>Badged Labels</TabTitleText>}>
+          <NodeBadgedLabelStyles/>
+        </Tab>
+        <Tab eventKey={5} title={<TabTitleText>Context Menu Labels</TabTitleText>}>
+          <NodeContextMenuLabelStyles/>
+        </Tab>
+        <Tab eventKey={6} title={<TabTitleText>Icon Labels</TabTitleText>}>
+          <NodeIconLabelStyles/>
+        </Tab>
+        <Tab eventKey={7} title={<TabTitleText>Secondary Labels</TabTitleText>}>
+          <NodeSecondaryLabelStyles/>
+        </Tab>
+      </Tabs>
+    </div>
+  );
+};
+
+export const StyleGroups: React.FunctionComponent = () => {
+  const [activeKey, setActiveKey] = React.useState<number>(0);
+
+  const handleTabClick = (_event: React.MouseEvent<HTMLElement, MouseEvent>, tabIndex: number) => {
+    setActiveKey(tabIndex);
+  };
+
+  return (
+    <div className="pf-ri__topology-demo">
+      <Tabs unmountOnExit activeKey={activeKey} onSelect={handleTabClick}>
+        <Tab eventKey={0} title={<TabTitleText>Group</TabTitleText>}>
+          <GroupStyles/>
+        </Tab>
+        <Tab eventKey={1} title={<TabTitleText>Hover Group</TabTitleText>}>
+          <GroupHoverStyles/>
+        </Tab>
+        <Tab eventKey={2} title={<TabTitleText>Selected Group</TabTitleText>}>
+          <GroupSelectedStyles/>
+        </Tab>
+        <Tab eventKey={3} title={<TabTitleText>Drop Target Group</TabTitleText>}>
+          <GroupDropTargetStyles/>
+        </Tab>
+        <Tab eventKey={4} title={<TabTitleText>Grouped Groups</TabTitleText>}>
+          <GroupedGroupsStyles/>
+        </Tab>
+        <Tab eventKey={5} title={<TabTitleText>Collapsible Groups</TabTitleText>}>
+          <CollapsibleGroupStyles/>
+        </Tab>
+      </Tabs>
+    </div>
+  );
+};
+
+export const StyleEdges: React.FunctionComponent = () => {
+  const [activeKey, setActiveKey] = React.useState<number>(0);
+
+  const handleTabClick = (_event: React.MouseEvent<HTMLElement, MouseEvent>, tabIndex: number) => {
+    setActiveKey(tabIndex);
+  };
+
+  return (
+    <div className="pf-ri__topology-demo">
+      <Tabs unmountOnExit activeKey={activeKey} onSelect={handleTabClick}>
+        <Tab eventKey={0} title={<TabTitleText>Edge Styles</TabTitleText>}>
+          <EdgeStyles/>
+        </Tab>
+        <Tab eventKey={1} title={<TabTitleText>Animated Edges</TabTitleText>}>
+          <EdgeAnimationStyles/>
+        </Tab>
+        <Tab eventKey={2} title={<TabTitleText>Edge Terminal Types</TabTitleText>}>
+          <EdgeTerminalStyles/>
+        </Tab>
+        <Tab eventKey={3} title={<TabTitleText>Edge Terminal Status</TabTitleText>}>
+          <EdgeTerminalStatusStyles/>
+        </Tab>
+        <Tab eventKey={4} title={<TabTitleText>Edge Terminal Tags</TabTitleText>}>
+          <EdgeTerminalTagStyles/>
+        </Tab>
+      </Tabs>
+    </div>
+  );
+};

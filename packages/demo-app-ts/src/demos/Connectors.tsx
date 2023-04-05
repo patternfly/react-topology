@@ -31,6 +31,7 @@ import DefaultEdge from '../components/DefaultEdge';
 import DemoDefaultNode from '../components/DemoDefaultNode';
 import withTopologySetup from '../utils/withTopologySetup';
 import NodeRect from '../components/NodeRect';
+import { Tab, Tabs, TabTitleText } from '@patternfly/react-core';
 
 interface NodeProps {
   element: Node;
@@ -356,3 +357,27 @@ export const Anchors = withTopologySetup(() => {
   );
   return null;
 });
+
+export const Connectors: React.FunctionComponent = () => {
+  const [activeKey, setActiveKey] = React.useState<number>(0);
+
+  const handleTabClick = (_event: React.MouseEvent<HTMLElement, MouseEvent>, tabIndex: number) => {
+    setActiveKey(tabIndex);
+  };
+
+  return (
+    <div className="pf-ri__topology-demo">
+      <Tabs unmountOnExit activeKey={activeKey} onSelect={handleTabClick}>
+        <Tab eventKey={0} title={<TabTitleText>Reconnect</TabTitleText>}>
+          <Reconnect />
+        </Tab>
+        <Tab eventKey={1} title={<TabTitleText>Create Connector</TabTitleText>}>
+          <CreateConnector />
+        </Tab>
+        <Tab eventKey={2} title={<TabTitleText>Anchors</TabTitleText>}>
+          <Anchors />
+        </Tab>
+      </Tabs>
+    </div>
+  );
+};

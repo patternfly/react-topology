@@ -1,13 +1,157 @@
 module.exports = {
-  '/topology/topology-view/extensions': {
-    id: "Topology view",
-    title: "Topology view",
-    toc: [{"text":"Basic Usage"},{"text":"Examples"},[{"text":"Baseline Topology"},{"text":"Custom Nodes"},{"text":"Custom Edges"},{"text":"Pan/Zoom"},{"text":"Selectable Topology"}]],
-    examples: ["Baseline Topology","Custom Nodes","Custom Edges","Pan/Zoom","Selectable Topology"],
+  '/topology/anchors/extensions': {
+    id: "Anchors",
+    title: "Anchors",
+    toc: [[{"text":"Using custom anchors"}]],
+    examples: ["Using custom anchors"],
     section: "topology",
     subsection: "",
     source: "extensions",
     tabName: null,
-    Component: () => import(/* webpackChunkName: "topology/topology-view/extensions/index" */ './topology/topology-view/extensions')
+    sortValue: 13,
+    Component: () => import(/* webpackChunkName: "topology/anchors/extensions/index" */ './topology/anchors/extensions')
+  },
+  '/topology/context-menu/extensions': {
+    id: "Context Menu",
+    title: "Context Menu",
+    toc: [[{"text":"Topology with context menus"}]],
+    examples: ["Topology with context menus"],
+    section: "topology",
+    subsection: "",
+    source: "extensions",
+    tabName: null,
+    sortValue: 23,
+    Component: () => import(/* webpackChunkName: "topology/context-menu/extensions/index" */ './topology/context-menu/extensions')
+  },
+  '/topology/control-bar/extensions': {
+    id: "Control Bar",
+    title: "Control Bar",
+    toc: [[{"text":"Topology with a control bar"}]],
+    examples: ["Topology with a control bar"],
+    section: "topology",
+    subsection: "",
+    source: "extensions",
+    tabName: null,
+    sortValue: 31,
+    Component: () => import(/* webpackChunkName: "topology/control-bar/extensions/index" */ './topology/control-bar/extensions')
+  },
+  '/topology/custom-edges/extensions': {
+    id: "Custom Edges",
+    title: "Custom Edges",
+    toc: [[{"text":"Using custom edges"}]],
+    examples: ["Using custom edges"],
+    section: "topology",
+    subsection: "",
+    source: "extensions",
+    tabName: null,
+    sortValue: 12,
+    Component: () => import(/* webpackChunkName: "topology/custom-edges/extensions/index" */ './topology/custom-edges/extensions')
+  },
+  '/topology/custom-nodes/extensions': {
+    id: "Custom Nodes",
+    title: "Custom Nodes",
+    toc: [[{"text":"Using custom nodes"}]],
+    examples: ["Using custom nodes"],
+    section: "topology",
+    subsection: "",
+    source: "extensions",
+    tabName: null,
+    sortValue: 11,
+    Component: () => import(/* webpackChunkName: "topology/custom-nodes/extensions/index" */ './topology/custom-nodes/extensions')
+  },
+  '/topology/drag-and-drop/extensions': {
+    id: "Drag and Drop",
+    title: "Drag and Drop",
+    toc: [[{"text":"Drag and Drop"}],{"text":"Functions"},[{"text":"withDragNode"},{"text":"withSourceDrag"},{"text":"withTargetDrag"},{"text":"withDndDrop"}]],
+    examples: ["Drag and Drop"],
+    section: "topology",
+    subsection: "",
+    source: "extensions",
+    tabName: null,
+    sortValue: 24,
+    Component: () => import(/* webpackChunkName: "topology/drag-and-drop/extensions/index" */ './topology/drag-and-drop/extensions')
+  },
+  '/topology/getting-started/extensions': {
+    id: "Getting started",
+    title: "Getting started",
+    toc: [[{"text":"Getting started with react-topology"}]],
+    examples: ["Getting started with react-topology"],
+    section: "topology",
+    subsection: "",
+    source: "extensions",
+    tabName: null,
+    sortValue: 1,
+    Component: () => import(/* webpackChunkName: "topology/getting-started/extensions/index" */ './topology/getting-started/extensions')
+  },
+  '/topology/layouts/extensions': {
+    id: "Layouts",
+    title: "Layouts",
+    toc: [[{"text":"Layouts"},{"text":"Examples"}]],
+    examples: ["Examples"],
+    section: "topology",
+    subsection: "",
+    source: "extensions",
+    tabName: null,
+    Component: () => import(/* webpackChunkName: "topology/layouts/extensions/index" */ './topology/layouts/extensions')
+  },
+  '/topology/panzoom/extensions': {
+    id: "Pan/Zoom",
+    title: "Pan/Zoom",
+    toc: [[{"text":"Providing pan and zoom on the graph"}]],
+    examples: ["Providing pan and zoom on the graph"],
+    section: "topology",
+    subsection: "",
+    source: "extensions",
+    tabName: null,
+    sortValue: 22,
+    Component: () => import(/* webpackChunkName: "topology/panzoom/extensions/index" */ './topology/panzoom/extensions')
+  },
+  '/topology/pipelines/extensions': {
+    id: "Pipelines",
+    title: "Pipelines",
+    toc: [[{"text":"Getting Started with Topology Pipelines"}],{"text":"Functions"},[{"text":"getSpacerNodes"},{"text":"getEdgesFromNodes"}]],
+    examples: ["Getting Started with Topology Pipelines"],
+    section: "topology",
+    subsection: "",
+    source: "extensions",
+    tabName: null,
+    sortValue: 71,
+    Component: () => import(/* webpackChunkName: "topology/pipelines/extensions/index" */ './topology/pipelines/extensions')
+  },
+  '/topology/selection/extensions': {
+    id: "Selection",
+    title: "Selection",
+    toc: [[{"text":"Using selection"}]],
+    examples: ["Using selection"],
+    section: "topology",
+    subsection: "",
+    source: "extensions",
+    tabName: null,
+    sortValue: 21,
+    Component: () => import(/* webpackChunkName: "topology/selection/extensions/index" */ './topology/selection/extensions')
+  },
+  '/topology/sidebar/extensions': {
+    id: "Sidebar",
+    title: "Sidebar",
+    toc: [[{"text":"Topology with a side bar"}]],
+    examples: ["Topology with a side bar"],
+    section: "topology",
+    subsection: "",
+    source: "extensions",
+    tabName: null,
+    sortValue: 33,
+    Component: () => import(/* webpackChunkName: "topology/sidebar/extensions/index" */ './topology/sidebar/extensions')
+  },
+  '/topology/toolbar/extensions': {
+    id: "Toolbar",
+    title: "Toolbar",
+    toc: [[{"text":"Topology with a toolbar"}]],
+    examples: ["Topology with a toolbar"],
+    section: "topology",
+    subsection: "",
+    source: "extensions",
+    tabName: null,
+    sortValue: 32,
+    Component: () => import(/* webpackChunkName: "topology/toolbar/extensions/index" */ './topology/toolbar/extensions')
   }
 };

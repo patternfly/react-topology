@@ -1,23 +1,24 @@
+/* eslint-disable no-console */
 import * as React from 'react';
 
 // eslint-disable-next-line patternfly-react/import-tokens-icons
 import { RegionsIcon as Icon1 } from '@patternfly/react-icons';
+// eslint-disable-next-line patternfly-react/import-tokens-icons
+import { FolderOpenIcon as Icon2 } from '@patternfly/react-icons';
 
 import {
   ColaLayout,
   ComponentFactory,
-  CREATE_CONNECTOR_DROP_TYPE,
   DefaultEdge,
   DefaultGroup,
   DefaultNode,
+  DragObjectWithType,
   Edge,
-  EdgeAnimationSpeed,
-  EdgeModel,
   EdgeStyle,
-  EdgeTerminalType,
   Graph,
   GraphComponent,
-  LabelPosition,
+  graphDropTargetSpec,
+  groupDropTargetSpec,
   Layout,
   LayoutFactory,
   Model,
@@ -27,52 +28,59 @@ import {
   nodeDropTargetSpec,
   NodeModel,
   NodeShape,
+  NodeStatus,
   SELECTION_EVENT,
   Visualization,
   VisualizationProvider,
   VisualizationSurface,
   withDndDrop,
   withDragNode,
+  WithDndDropProps,
   WithDragNodeProps,
+  withPanZoom,
   withSelection,
-  WithSelectionProps
+  WithSelectionProps,
+  withTargetDrag
 } from '@patternfly/react-topology';
 
 interface CustomNodeProps {
   element: Node;
 }
 
-interface DataEdgeProps {
-  element: Edge;
-}
+const BadgeColors = [
+  {
+    name: 'A',
+    badgeColor: '#ace12e',
+    badgeTextColor: '#0f280d',
+    badgeBorderColor: '#486b00'
+  },
+  {
+    name: 'B',
+    badgeColor: '#F2F0FC',
+    badgeTextColor: '#5752d1',
+    badgeBorderColor: '#CBC1FF'
+  }
+];
 
-const CONNECTOR_SOURCE_DROP = 'connector-src-drop';
-const CONNECTOR_TARGET_DROP = 'connector-target-drop';
-
-const DataEdge: React.FC<DataEdgeProps> = ({ element, ...rest }) => (
-  <DefaultEdge
-    element={element}
-    startTerminalType={EdgeTerminalType.cross}
-    endTerminalType={EdgeTerminalType.directionalAlt}
-    {...rest}
-  />
-);
-
-const CustomNode: React.FC<CustomNodeProps & WithSelectionProps & WithDragNodeProps> = ({
+const CustomNode: React.FC<CustomNodeProps & WithSelectionProps & WithDragNodeProps & WithDndDropProps> = ({
   element,
   selected,
   onSelect,
   ...rest
 }) => {
-  const Icon = Icon1;
-
+  const data = element.getData();
+  const Icon = data.icon;
+  const badgeColors = BadgeColors.find(badgeColor => badgeColor.name === data.badge);
   return (
     <DefaultNode
       element={element}
       showStatusDecorator
-      selected={selected}
+      badge={data.badge}
+      badgeColor={badgeColors?.badgeColor}
+      badgeTextColor={badgeColors?.badgeTextColor}
+      badgeBorderColor={badgeColors?.badgeBorderColor}
       onSelect={onSelect}
-      labelPosition={LabelPosition.right}
+      selected={selected}
       {...rest}
     >
       <g transform={`translate(25, 25)`}>
@@ -85,24 +93,47 @@ const CustomNode: React.FC<CustomNodeProps & WithSelectionProps & WithDragNodePr
 const customLayoutFactory: LayoutFactory = (type: string, graph: Graph): Layout | undefined =>
   new ColaLayout(graph, { layoutOnDrag: false });
 
-const customComponentFactory: ComponentFactory = (kind: ModelKind, type: string) => {
+const CONNECTOR_TARGET_DROP = 'connector-target-drop';
+
+const customComponentFactory: ComponentFactory = (kind: ModelKind, type: string): any => {
   switch (type) {
     case 'group':
-      return DefaultGroup;
-    case 'node':
-      return withDndDrop(
-        nodeDropTargetSpec([CONNECTOR_SOURCE_DROP, CONNECTOR_TARGET_DROP, CREATE_CONNECTOR_DROP_TYPE])
-      )(withDragNode(nodeDragSourceSpec('node', true, true))(withSelection()(CustomNode)));
-    case 'data-edge':
-      return DataEdge;
+      return withDndDrop(groupDropTargetSpec)(withDragNode(nodeDragSourceSpec('group'))(withSelection()(DefaultGroup)));
     default:
       switch (kind) {
         case ModelKind.graph:
-          return GraphComponent;
+          return withDndDrop(graphDropTargetSpec())(withPanZoom()(GraphComponent));
         case ModelKind.node:
-          return CustomNode;
+          return withDndDrop(nodeDropTargetSpec([CONNECTOR_TARGET_DROP]))(
+            withDragNode(nodeDragSourceSpec('node', true, true))(CustomNode)
+          );
         case ModelKind.edge:
-          return DefaultEdge;
+          return withTargetDrag<
+            DragObjectWithType,
+            Node,
+            { dragging?: boolean },
+            {
+              element: Edge;
+            }
+          >({
+            item: { type: CONNECTOR_TARGET_DROP },
+            begin: (monitor, props) => {
+              props.element.raise();
+              return props.element;
+            },
+            drag: (event, monitor, props) => {
+              props.element.setEndPoint(event.x, event.y);
+            },
+            end: (dropResult, monitor, props) => {
+              if (monitor.didDrop() && dropResult && props) {
+                props.element.setTarget(dropResult);
+              }
+              props.element.setEndPoint();
+            },
+            collect: monitor => ({
+              dragging: monitor.isDragging()
+            })
+          })(DefaultEdge);
         default:
           return undefined;
       }
@@ -116,67 +147,78 @@ const NODES: NodeModel[] = [
     id: 'node-0',
     type: 'node',
     label: 'Node 0',
-    labelPosition: LabelPosition.right,
     width: NODE_DIAMETER,
     height: NODE_DIAMETER,
     shape: NodeShape.ellipse,
-    x: 350,
-    y: 50
+    status: NodeStatus.danger,
+    data: {
+      badge: 'B',
+      icon: Icon1
+    }
   },
   {
     id: 'node-1',
     type: 'node',
     label: 'Node 1',
-    labelPosition: LabelPosition.right,
     width: NODE_DIAMETER,
     height: NODE_DIAMETER,
     shape: NodeShape.hexagon,
-    x: 150,
-    y: 150
+    status: NodeStatus.warning,
+    data: {
+      badge: 'B',
+      icon: Icon1
+    }
   },
   {
     id: 'node-2',
     type: 'node',
     label: 'Node 2',
-    labelPosition: LabelPosition.right,
     width: NODE_DIAMETER,
     height: NODE_DIAMETER,
     shape: NodeShape.octagon,
-    x: 150,
-    y: 350
+    status: NodeStatus.success,
+    data: {
+      badge: 'A',
+      icon: Icon1
+    }
   },
   {
     id: 'node-3',
     type: 'node',
     label: 'Node 3',
-    labelPosition: LabelPosition.right,
     width: NODE_DIAMETER,
     height: NODE_DIAMETER,
     shape: NodeShape.rhombus,
-    x: 350,
-    y: 450
+    status: NodeStatus.info,
+    data: {
+      badge: 'A',
+      icon: Icon1
+    }
   },
   {
     id: 'node-4',
     type: 'node',
     label: 'Node 4',
-    labelPosition: LabelPosition.right,
     width: NODE_DIAMETER,
     height: NODE_DIAMETER,
     shape: NodeShape.hexagon,
-    x: 550,
-    y: 350
+    status: NodeStatus.default,
+    data: {
+      badge: 'C',
+      icon: Icon2
+    }
   },
   {
     id: 'node-5',
     type: 'node',
     label: 'Node 5',
-    labelPosition: LabelPosition.right,
     width: NODE_DIAMETER,
     height: NODE_DIAMETER,
     shape: NodeShape.rect,
-    x: 550,
-    y: 150
+    data: {
+      badge: 'C',
+      icon: Icon1
+    }
   },
   {
     id: 'Group-1',
@@ -190,24 +232,24 @@ const NODES: NodeModel[] = [
   }
 ];
 
-const EDGES: EdgeModel[] = [
+const EDGES = [
   {
-    id: `edge-1`,
+    id: 'edge-node-4-node-5',
     type: 'edge',
     source: 'node-4',
-    target: 'node-5'
+    target: 'node-5',
+    edgeStyle: EdgeStyle.default
   },
   {
-    id: `edge-2`,
-    type: 'data-edge',
+    id: 'edge-node-0-node-2',
+    type: 'edge',
     source: 'node-0',
-    target: 'node-1',
-    edgeStyle: EdgeStyle.dashedMd,
-    animationSpeed: EdgeAnimationSpeed.medium
+    target: 'node-2',
+    edgeStyle: EdgeStyle.default
   }
 ];
 
-export const TopologyEdgeDemo: React.FC = () => {
+export const TopologyDragDropDemo: React.FC = () => {
   const [selectedIds, setSelectedIds] = React.useState<string[]>([]);
 
   const controller = React.useMemo(() => {

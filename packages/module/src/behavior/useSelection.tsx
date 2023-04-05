@@ -35,8 +35,8 @@ export const useSelection = ({ multiSelect, controlled, raiseOnSelect = true }: 
     [element]
   );
 
-  const onSelect = React.useCallback(
-    action((e: React.MouseEvent): void => {
+  const onSelect = React.useCallback((e: React.MouseEvent): void => {
+    const actionFn = action((e: React.MouseEvent): void => {
       e.stopPropagation();
       const id = elementRef.current.getId();
       const state = elementRef.current.getController().getState<SelectionHandlerState>();
@@ -69,7 +69,9 @@ export const useSelection = ({ multiSelect, controlled, raiseOnSelect = true }: 
       if (raiseOnSelect && raise) {
         elementRef.current.raise();
       }
-    }),
+    });
+    actionFn(e);
+  },
     [multiSelect, controlled, raiseOnSelect]
   );
   return [selected.get(), onSelect];

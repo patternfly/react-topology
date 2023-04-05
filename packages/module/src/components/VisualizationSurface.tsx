@@ -14,7 +14,9 @@ import Dimensions from '../geom/Dimensions';
 import useVisualizationController from '../hooks/useVisualizationController';
 
 interface VisualizationSurfaceProps {
+  /** State to be passed to the controller */
   state?: State;
+  /** Additional content rendered inside the surface */
   children?: React.ReactNode;
 }
 
@@ -23,7 +25,9 @@ const stopEvent = (e: React.MouseEvent): void => {
   e.stopPropagation();
 };
 
-const VisualizationSurface: React.FunctionComponent<VisualizationSurfaceProps> = ({ state }) => {
+const VisualizationSurface: React.FunctionComponent<VisualizationSurfaceProps> = ({
+  state
+}: VisualizationSurfaceProps) => {
   const controller = useVisualizationController();
 
   React.useEffect(() => {

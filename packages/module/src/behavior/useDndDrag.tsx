@@ -123,6 +123,7 @@ export const useDndDrag = <
         dndManager.endDrag();
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
 
@@ -249,7 +250,7 @@ export const useDndDrag = <
           }
         };
       },
-      [dndManager, monitor]
+      [dndManager, monitor, createKeyHandlerId]
     )
   );
 

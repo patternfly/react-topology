@@ -22,6 +22,7 @@ import defaultLayoutFactory from '../layouts/defaultLayoutFactory';
 import defaultComponentFactory from '../components/defaultComponentFactory';
 import { generateDataModel, generateEdge, generateNode } from '../data/generator';
 import { useTopologyOptions } from '../utils/useTopologyOptions';
+import { Tab, Tabs, TabTitleText } from '@patternfly/react-core';
 
 interface TopologyViewComponentProps {
   useSidebar: boolean;
@@ -190,3 +191,27 @@ export const WithResizableSideBar = React.memo(() => {
     </VisualizationProvider>
   );
 });
+
+export const TopologyPackage: React.FunctionComponent = () => {
+  const [activeKey, setActiveKey] = React.useState<number>(0);
+
+  const handleTabClick = (_event: React.MouseEvent<HTMLElement, MouseEvent>, tabIndex: number) => {
+    setActiveKey(tabIndex);
+  };
+
+  return (
+    <div className="pf-ri__topology-demo">
+      <Tabs unmountOnExit activeKey={activeKey} onSelect={handleTabClick}>
+        <Tab eventKey={0} title={<TabTitleText>Topology</TabTitleText>}>
+          <Topology />
+        </Tab>
+        <Tab eventKey={1} title={<TabTitleText>With Side Bar</TabTitleText>}>
+          <WithSideBar />
+        </Tab>
+        <Tab eventKey={2} title={<TabTitleText>With Resizeable Side Bar</TabTitleText>}>
+          <WithResizableSideBar />
+        </Tab>
+      </Tabs>
+    </div>
+  );
+};

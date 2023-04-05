@@ -18,6 +18,7 @@ import defaultComponentFactory from '../components/defaultComponentFactory';
 import DemoDefaultNode from '../components/DemoDefaultNode';
 import GroupHull from '../components/GroupHull';
 import withTopologySetup from '../utils/withTopologySetup';
+import { Tab, Tabs, TabTitleText } from '@patternfly/react-core';
 
 interface ElementProps {
   element: Node;
@@ -250,3 +251,24 @@ export const DndShiftRegroup = withTopologySetup(() => {
   );
   return null;
 });
+
+export const DragAndDrop: React.FunctionComponent = () => {
+  const [activeKey, setActiveKey] = React.useState<number>(0);
+
+  const handleTabClick = (_event: React.MouseEvent<HTMLElement, MouseEvent>, tabIndex: number) => {
+    setActiveKey(tabIndex);
+  };
+
+  return (
+    <div className="pf-ri__topology-demo">
+      <Tabs unmountOnExit activeKey={activeKey} onSelect={handleTabClick}>
+        <Tab eventKey={0} title={<TabTitleText>Dnd</TabTitleText>}>
+          <Dnd />
+        </Tab>
+        <Tab eventKey={1} title={<TabTitleText>Dnd Shift Regroup</TabTitleText>}>
+          <DndShiftRegroup />
+        </Tab>
+      </Tabs>
+    </div>
+  );
+};

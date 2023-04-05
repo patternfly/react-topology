@@ -5,6 +5,11 @@
   overflow: hidden;
 }
 
+.pf-ri__topology-demo .pf-topology-visualization-surface {
+  margin-top: var(--pf-global--spacer--md);
+  border: 1px solid var(--pf-global--BorderColor--100);
+}
+
 .pf-ri__topology-demo .pf-c-tab-content {
   display: flex;
   flex-direction: column;

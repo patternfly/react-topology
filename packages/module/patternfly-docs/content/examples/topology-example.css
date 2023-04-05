@@ -1,30 +1,52 @@
-.ws-react-t-topology-view {
+.ws-extensions-t-anchors,
+.ws-extensions-t-control-bar,
+.ws-extensions-t-context-menu,
+.ws-extensions-t-custom-edges,
+.ws-extensions-t-custom-nodes,
+.ws-extensions-t-drag-and-drop,
+.ws-extensions-t-getting-started,
+.ws-extensions-t-layouts,
+.ws-extensions-t-panzoom,
+.ws-extensions-t-selection,
+.ws-extensions-t-sidebar,
+.ws-extensions-t-toolbar {
   height: 600px;
   border: 1px solid var(--pf-global--palette--black-900);
   padding: 0;
   margin: var(--pf-global--spacer--md);
 }
-.ws-extensions-t-topology-view {
-  height: 600px;
-  border: 1px solid var(--pf-global--palette--black-900);
-  padding: 0;
-  margin: var(--pf-global--spacer--md);
+
+@media (min-width: 768px) {
+  .topology-example-sidebar.pf-topology-side-bar.shown {
+    max-width: 300px;
+  }
 }
-.pf-theme-dark .ws-react-t-topology-view {
+
+.pf-theme-dark .ws-extensions-t-anchors,
+.pf-theme-dark .ws-extensions-t-control-bar,
+.pf-theme-dark .ws-extensions-t-context-menu,
+.pf-theme-dark .ws-extensions-t-custom-edges,
+.pf-theme-dark .ws-extensions-t-custom-nodes,
+.pf-theme-dark .ws-extensions-t-getting-started,
+.pf-theme-dark .ws-extensions-t-layouts,
+.pf-theme-dark .ws-extensions-t-panzoom,
+.pf-theme-dark .ws-extensions-t-selection,
+.pf-theme-dark .ws-extensions-t-sidebar,
+.pf-theme-dark .ws-extensions-t-toolbar {
   border: 1px solid var(--pf-global--palette--black-100);
 }
 
-.ws-react-t-topology .pf-l-stack {
+.ws-extensions-t-topology .pf-l-stack {
   margin: -9px;
   width: calc(100% + 18px);
 }
 
-.ws-react-t-topology .pf-topology-view__project-toolbar .pf-c-dropdown > button {
+.ws-extensions-t-topology .pf-topology-view__project-toolbar .pf-c-dropdown>button {
   justify-content: space-between;
   width: 150px;
 }
 
-.ws-react-t-topology .topology-view-filter-dropdown > button {
+.ws-extensions-t-topology .topology-view-filter-dropdown>button {
   justify-content: space-between;
   width: 130px;
 }
