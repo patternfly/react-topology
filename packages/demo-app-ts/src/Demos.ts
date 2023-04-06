@@ -32,6 +32,7 @@ export const Demos: DemoInterface[] = [
     id: 'topology-package',
     name: 'Topology Package',
     componentType: TopologyPackage,
+    isDefault: true,
   },
   {
     id: 'topology-pipelines-demo',

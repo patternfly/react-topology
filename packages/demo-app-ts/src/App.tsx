@@ -23,21 +23,25 @@ import './App.css';
 
 interface AppState {
   activeItem: number | string;
-  activeGroup: number | string;
   isNavOpen: boolean;
   isDarkTheme: boolean;
 }
 
 class App extends React.Component<{}, AppState> {
   state: AppState = {
-    activeItem: '',
-    activeGroup: '',
+    activeItem: Demos.reduce((active, demo) =>
+      active ||
+        (demo.isDefault ?
+          demo.id :
+          demo.demos?.find(subDemo => subDemo.isDefault)?.id
+        ),
+      ''),
     isNavOpen: true,
     isDarkTheme: false
   };
 
   private onNavSelect = (selectedItem: { itemId: number | string; groupId: number | string }) => {
-    this.setState({ activeItem: selectedItem.itemId, activeGroup: selectedItem.groupId });
+    this.setState({ activeItem: selectedItem.itemId });
   };
 
   private onThemeSelect = (isDarkTheme: boolean) => {
@@ -53,7 +57,13 @@ class App extends React.Component<{}, AppState> {
   };
 
   private getPages = () => {
-    const defaultDemo = Demos.find(demo => demo.isDefault);
+    const defaultDemo = Demos.reduce((active, demo) =>
+        active ||
+        (demo.isDefault ?
+            demo :
+            demo.demos?.find(subDemo => subDemo.isDefault)
+        ),
+      undefined)
     return (
       <Switch>
         {Demos.reduce((acc, demo) => {
@@ -105,7 +115,7 @@ class App extends React.Component<{}, AppState> {
   private getSkipToContentLink = () => <SkipToContent href={`#${this.pageId}`}>Skip to Content</SkipToContent>;
 
   render() {
-    const { isNavOpen, activeItem, activeGroup, isDarkTheme } = this.state;
+    const { isNavOpen, activeItem, isDarkTheme } = this.state;
 
     const AppToolbar = (
       <PageHeaderTools>
@@ -148,10 +158,10 @@ class App extends React.Component<{}, AppState> {
     const nav = (
       <Nav onSelect={this.onNavSelect} aria-label="Nav">
         <NavList>
-          {Demos.map((demo, index) => {
+          {Demos.map((demo) => {
             if (demo.demos) {
               return (
-                <NavExpandable title={demo.name} groupId={demo.id} isActive={activeGroup === demo.id} isExpanded key={demo.id}>
+                <NavExpandable title={demo.name} groupId={demo.id} isExpanded key={demo.id}>
                   {demo.demos.map((subDemo) => (
                     <NavItem itemId={subDemo.id} isActive={activeItem === subDemo.id} key={subDemo.id}>
                       <Link id={`${subDemo.id}-nav-item-link`} to={`/${demo.id}-nav-link/${subDemo.id}-nav-link`}>
@@ -163,7 +173,7 @@ class App extends React.Component<{}, AppState> {
               )
             }
             return (
-              <NavItem itemId={index} isActive={activeItem === index} key={demo.id}>
+              <NavItem itemId={demo.id} isActive={activeItem === demo.id} key={demo.id}>
                 <Link id={`${demo.id}-nav-item-link`} to={`/${demo.id}-nav-link`}>
                   {demo.name}
                 </Link>

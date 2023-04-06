@@ -117,7 +117,7 @@ module.exports = (_env, argv) => {
               '../module/src/**/*.{ts,tsx}',
             ],
             options: {
-              ignorePath: '../../../.eslintignore'
+              ignorePath: '../../.eslintignore'
             }
           },
           issue: {

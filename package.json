@@ -54,6 +54,7 @@
     "react": "^18",
     "react-dom": "^18",
     "serve": "^14.1.2",
+    "surge": "^0.23.1",
     "typedoc": "0.23"
   },
   "resolutions": {
