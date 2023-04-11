@@ -354,7 +354,7 @@
 .pf-topology-pipelines__pill-status.pf-m-selected.pf-m-idle {
   --pf-topology-pipelines__pill-status--color: var(--pf-topology-pipelines__pill-status--m-selected--m-idle--color);
 }
-.pf-topology-pipelines__pill-status.pf-m-spin {
+.pf-topology-pipelines__pill-status.pf-m-spin, .pf-topology-pipelines__status-icon.pf-m-spin {
   filter: blur(0);
   -webkit-filter: blur(0);
   transform-box: fill-box;
