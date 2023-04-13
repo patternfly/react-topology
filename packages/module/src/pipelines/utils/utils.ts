@@ -95,7 +95,9 @@ export const getSpacerNodes = (
   Object.keys(multiParallelToParallelList).forEach(key => {
     spacerNodes.push({
       id: key,
-      type: spacerNodeType
+      type: spacerNodeType,
+      width: 1,
+      height: 1
     });
   });
 
