@@ -4,7 +4,7 @@ const { generateClassMaps } = require('./generateClassMaps');
 const { ensureDirSync } = require('fs-extra/lib/mkdirs');
 
 const outDir = resolve(__dirname, '../src/css');
-const distDir = resolve(__dirname, '../dist/esm/css');
+const distDir = resolve(__dirname, '../dist/css');
 
 const writeCJSExport = (file, classMap) =>
   outputFileSync(
