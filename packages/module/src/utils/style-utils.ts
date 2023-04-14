@@ -1,5 +1,5 @@
 import { EdgeAnimationSpeed, EdgeStyle, NodeStatus } from '../types';
-import styles from '@patternfly/react-topology/dist/esm/css/topology-components';
+import styles from '../css/topology-components';
 
 export const StatusModifier = {
   [NodeStatus.default]: '',
