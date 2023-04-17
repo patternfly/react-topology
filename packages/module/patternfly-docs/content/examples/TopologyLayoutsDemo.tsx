@@ -1,13 +1,15 @@
 import * as React from 'react';
 import {
-  Dropdown,
-  DropdownItem,
-  DropdownPosition,
-  DropdownToggle,
-  Split,
-  SplitItem,
-  ToolbarItem
+	Split,
+	SplitItem,
+	ToolbarItem
 } from '@patternfly/react-core';
+import {
+	Dropdown as DropdownDeprecated,
+	DropdownItem as DropdownItemDeprecated,
+	DropdownPosition as DropdownPositionDeprecated,
+	DropdownToggle as DropdownToggleDeprecated
+} from '@patternfly/react-core/deprecated';
 // eslint-disable-next-line patternfly-react/import-tokens-icons
 import { RegionsIcon as Icon1, FolderOpenIcon as Icon2 } from '@patternfly/react-icons';
 import {
@@ -261,55 +263,55 @@ export const LayoutsDemo: React.FC = () => {
         <label className="pf-u-display-inline-block pf-u-mr-md pf-u-mt-sm">Layout</label>
       </SplitItem>
       <SplitItem>
-        <Dropdown
-          position={DropdownPosition.right}
-          toggle={<DropdownToggle onToggle={() => setLayoutDropdownOpen(!layoutDropdownOpen)}>{layout}</DropdownToggle>}
+        <DropdownDeprecated
+          position={DropdownPositionDeprecated.right}
+          toggle={<DropdownToggleDeprecated onToggle={() => setLayoutDropdownOpen(!layoutDropdownOpen)}>{layout}</DropdownToggleDeprecated>}
           isOpen={layoutDropdownOpen}
           dropdownItems={[
-            <DropdownItem
+            <DropdownItemDeprecated
               key={1}
               onClick={() => {
                 updateLayout('Force');
               }}
             >
               Force
-            </DropdownItem>,
-            <DropdownItem
+            </DropdownItemDeprecated>,
+            <DropdownItemDeprecated
               key={2}
               onClick={() => {
                 updateLayout('Dagre');
               }}
             >
               Dagre
-            </DropdownItem>,
-            <DropdownItem
+            </DropdownItemDeprecated>,
+            <DropdownItemDeprecated
               key={3}
               onClick={() => {
                 updateLayout('Cola');
               }}
             >
               Cola
-            </DropdownItem>,
-            <DropdownItem
+            </DropdownItemDeprecated>,
+            <DropdownItemDeprecated
               key={8}
               onClick={() => {
                 updateLayout('ColaGroups');
               }}
             >
               ColaGroups
-            </DropdownItem>,
-            <DropdownItem key={4} onClick={() => updateLayout('ColaNoForce')}>
+            </DropdownItemDeprecated>,
+            <DropdownItemDeprecated key={4} onClick={() => updateLayout('ColaNoForce')}>
               ColaNoForce
-            </DropdownItem>,
-            <DropdownItem key={5} onClick={() => updateLayout('Grid')}>
+            </DropdownItemDeprecated>,
+            <DropdownItemDeprecated key={5} onClick={() => updateLayout('Grid')}>
               Grid
-            </DropdownItem>,
-            <DropdownItem key={6} onClick={() => updateLayout('Concentric')}>
+            </DropdownItemDeprecated>,
+            <DropdownItemDeprecated key={6} onClick={() => updateLayout('Concentric')}>
               Concentric
-            </DropdownItem>,
-            <DropdownItem key={7} onClick={() => updateLayout('BreadthFirst')}>
+            </DropdownItemDeprecated>,
+            <DropdownItemDeprecated key={7} onClick={() => updateLayout('BreadthFirst')}>
               BreadthFirst
-            </DropdownItem>
+            </DropdownItemDeprecated>
           ]}
         />
       </SplitItem>

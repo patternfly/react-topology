@@ -85,7 +85,7 @@ export const TopologyView: React.FunctionComponent<TopologyViewProps> = ({
               defaultSize={defaultSideBarSize}
               minSize={minSideBarSize}
               maxSize={maxSideBarSize}
-              onResize={onSideBarResize}
+              onResize={(_event, width, id) => onSideBarResize(width, id)}
             >
               {sideBar}
             </DrawerPanelContent>

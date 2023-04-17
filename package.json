@@ -58,6 +58,6 @@
     "typedoc": "0.23"
   },
   "resolutions": {
-    "@types/react": "17^"
+    "@types/react": "^18"
   }
 }
