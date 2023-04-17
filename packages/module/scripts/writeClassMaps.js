@@ -4,7 +4,8 @@ const { generateClassMaps } = require('./generateClassMaps');
 const { ensureDirSync } = require('fs-extra/lib/mkdirs');
 
 const outDir = resolve(__dirname, '../src/css');
-const distDir = resolve(__dirname, '../dist/esm/css');
+const esmDistDir = resolve(__dirname, '../dist/esm/css');
+const jsDistDir = resolve(__dirname, '../dist/js/css');
 
 const writeCJSExport = (file, classMap) =>
   outputFileSync(
@@ -63,8 +64,11 @@ function writeClassMaps(classMaps) {
     writeESMExport(outPath, classMap);
     copyFileSync(file, join(outDir, outPath));
 
-    ensureDirSync(distDir);
-    copySync(outDir, distDir);
+    ensureDirSync(esmDistDir);
+    copySync(outDir, esmDistDir);
+
+    ensureDirSync(jsDistDir);
+    copySync(outDir, jsDistDir);
   });
 
   // eslint-disable-next-line no-console
