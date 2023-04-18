@@ -80,7 +80,7 @@ export interface TopologyControlButtonsOptions {
 /* Default options for creating control buttons */
 export const defaultControlButtonsOptions: TopologyControlButtonsOptions = {
   zoomIn: true,
-  zoomInIcon: <SearchPlusIcon />,
+  zoomInIcon: <SearchPlusIcon width='1em' height='1em' />,
   zoomInTip: 'Zoom In',
   zoomInAriaLabel: 'Zoom In',
   zoomInCallback: null,
@@ -88,7 +88,7 @@ export const defaultControlButtonsOptions: TopologyControlButtonsOptions = {
   zoomInHidden: false,
 
   zoomOut: true,
-  zoomOutIcon: <SearchMinusIcon />,
+  zoomOutIcon: <SearchMinusIcon width='1em' height='1em' />,
   zoomOutTip: 'Zoom Out',
   zoomOutAriaLabel: 'Zoom Out',
   zoomOutCallback: null,
@@ -96,7 +96,7 @@ export const defaultControlButtonsOptions: TopologyControlButtonsOptions = {
   zoomOutHidden: false,
 
   fitToScreen: true,
-  fitToScreenIcon: <ExpandArrowsAltIcon />,
+  fitToScreenIcon: <ExpandArrowsAltIcon width='1em' height='1em' />,
   fitToScreenTip: 'Fit to Screen',
   fitToScreenAriaLabel: 'Fit to Screen',
   fitToScreenCallback: null,
@@ -104,7 +104,7 @@ export const defaultControlButtonsOptions: TopologyControlButtonsOptions = {
   fitToScreenHidden: false,
 
   resetView: true,
-  resetViewIcon: <ExpandIcon />,
+  resetViewIcon: <ExpandIcon width='1em' height='1em' />,
   resetViewTip: 'Reset View',
   resetViewAriaLabel: 'Reset View',
   resetViewCallback: null,

@@ -16,7 +16,7 @@ const LabelContextMenu = React.forwardRef<SVGRectElement, LabelContextMenuProps>
   ({ onContextMenu, className, x, y, paddingX, paddingY, height }, menuRef) => (
     <LabelActionIcon
       ref={menuRef}
-      icon={<EllipsisVIcon />}
+      icon={<EllipsisVIcon width='1em' height='1em' />}
       iconOffsetX={-6}
       className={className}
       onClick={onContextMenu}

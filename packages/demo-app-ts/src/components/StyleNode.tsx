@@ -170,7 +170,7 @@ const StyleNode: React.FunctionComponent<StyleNodeProps> = ({
           contextMenuOpen={contextMenuOpen}
           onShowCreateConnector={detailsLevel !== ScaleDetailsLevel.low ? onShowCreateConnector : undefined}
           onHideCreateConnector={onHideCreateConnector}
-          labelIcon={LabelIcon && <LabelIcon noVerticalAlign />}
+          labelIcon={LabelIcon && <LabelIcon noVerticalAlign width='1em' height='1em' />}
           attachments={
             (hover || detailsLevel === ScaleDetailsLevel.high) &&
             renderDecorators(element, passedData, rest.getShapeDecoratorCenter)

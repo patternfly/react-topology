@@ -57,7 +57,7 @@ export const TopologySideBar: React.FunctionComponent<TopologySideBarProps> = ({
               onClick={onClose as any}
               aria-label="Close"
             >
-              <TimesIcon />
+              <TimesIcon width='1em' height='1em' />
             </Button>
           )}
           {header && <div className={styles.topologySideBarHeader}>{header}</div>}

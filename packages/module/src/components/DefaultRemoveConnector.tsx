@@ -50,7 +50,7 @@ const DefaultRemoveConnector: React.FunctionComponent<DefaultRemoveConnectorProp
       >
         <circle className="topology-connector__remove-bg" cx={0} cy={0} r={size} />
         <g transform={`translate(-${size / 2}, -${size / 2})`}>
-          <TrashIcon className="topology-connector__remove-icon" style={{ fontSize: size }} />
+          <TrashIcon className="topology-connector__remove-icon" style={{ fontSize: size }} width='1em' height='1em' />
         </g>
       </g>
     </Tooltip>

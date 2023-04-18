@@ -17,35 +17,35 @@ interface StatusIconProps {
   width?: number;
 }
 
-const StatusIcon: React.FC<StatusIconProps> = ({ status, ...props }) => {
+const StatusIcon: React.FC<StatusIconProps> = ({ status, height, width, ...props }) => {
   switch (status) {
     case RunStatus.InProgress:
-      return <InProgressIcon {...props} />;
+      return <InProgressIcon {...props} width={width || '1em'} height={height || '1em'} />;
 
     case RunStatus.Running:
-      return <SyncAltIcon {...props} />;
+      return <SyncAltIcon {...props} width={width || '1em'} height={height || '1em'} />;
 
     case RunStatus.Succeeded:
-      return <CheckCircleIcon {...props} />;
+      return <CheckCircleIcon {...props} width={width || '1em'} height={height || '1em'} />;
 
     case RunStatus.Failed:
     case RunStatus.FailedToStart:
-      return <ExclamationCircleIcon {...props} />;
+      return <ExclamationCircleIcon {...props} width={width || '1em'} height={height || '1em'} />;
 
     case RunStatus.Idle:
-      return <NotStartedIcon {...props} />;
+      return <NotStartedIcon {...props} width={width || '1em'} height={height || '1em'} />;
 
     case RunStatus.Pending:
-      return <HourglassHalfIcon {...props} />;
+      return <HourglassHalfIcon {...props} width={width || '1em'} height={height || '1em'} />;
 
     case RunStatus.Cancelled:
-      return <ExclamationTriangleIcon {...props} />;
+      return <ExclamationTriangleIcon {...props} width={width || '1em'} height={height || '1em'} />;
 
     case RunStatus.Skipped:
-      return <AngleDoubleRightIcon {...props} />;
+      return <AngleDoubleRightIcon {...props} width={width || '1em'} height={height || '1em'} />;
 
     default:
-      return <CircleIcon {...props} />;
+      return <CircleIcon {...props} width={width || '1em'} height={height || '1em'} />;
   }
 };
 
