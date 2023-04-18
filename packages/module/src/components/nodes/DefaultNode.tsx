@@ -169,6 +169,7 @@ const DefaultNode: React.FunctionComponent<DefaultNodeProps> = ({
   const { width, height } = element.getDimensions();
   const isHover = hover !== undefined ? hover : hovered;
   const [nodeScale, setNodeScale] = React.useState<number>(1);
+  const decoratorRef = React.useRef();
 
   const statusDecorator = React.useMemo(() => {
     if (!status || !showStatusDecorator) {
@@ -193,12 +194,13 @@ const DefaultNode: React.FunctionComponent<DefaultNodeProps> = ({
         onClick={e => onStatusDecoratorClick(e, element)}
         icon={<g className={css(styles.topologyNodeDecoratorStatus)}>{icon}</g>}
         ariaLabel={status}
+        innerRef={decoratorRef}
       />
     );
 
     if (statusDecoratorTooltip) {
       return (
-        <Tooltip content={statusDecoratorTooltip} position={TooltipPosition.left}>
+        <Tooltip triggerRef={decoratorRef} content={statusDecoratorTooltip} position={TooltipPosition.left}>
           {decorator}
         </Tooltip>
       );

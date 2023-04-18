@@ -252,6 +252,7 @@ export const TopologyControlBar: React.FunctionComponent<TopologyControlBarProps
   controlButtons = [],
   onButtonClick = () => undefined
 }: TopologyControlBarProps) => {
+  const buttonRef = React.useRef();
   const handleButtonClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, button: TopologyControlButton) => {
     event.preventDefault();
     onButtonClick(button.id);
@@ -269,6 +270,7 @@ export const TopologyControlBar: React.FunctionComponent<TopologyControlBarProps
         disabled={button.disabled}
         aria-disabled={button.disabled}
         variant="tertiary"
+        ref={buttonRef}
       >
         {button.icon}
         {(button.ariaLabel || button.tooltip) && (
@@ -278,7 +280,7 @@ export const TopologyControlBar: React.FunctionComponent<TopologyControlBarProps
     );
 
     if (button.tooltip) {
-      return <Tooltip content={button.tooltip}>{renderedButton}</Tooltip>;
+      return <Tooltip triggerRef={buttonRef} content={button.tooltip}>{renderedButton}</Tooltip>;
     }
 
     return renderedButton;

@@ -18,10 +18,11 @@ interface LabelBadgeProps {
   badgeBorderColor?: string;
   badgeClassName?: string;
   badgeLocation?: BadgeLocation;
+  innerRef?: React.Ref<SVGGElement>;
 }
 
 const LabelBadge = React.forwardRef<SVGRectElement, LabelBadgeProps>(
-  ({ badge, badgeTextColor, badgeColor, badgeBorderColor, badgeClassName, className, x, y }, iconRef) => {
+  ({ badge, badgeTextColor, badgeColor, badgeBorderColor, badgeClassName, className, x, y, innerRef }, iconRef) => {
     const [textSize, textRef] = useSize([]);
     const classes = css(styles.topologyNodeLabelBadge, badgeClassName && badgeClassName, className && className);
 
@@ -51,7 +52,7 @@ const LabelBadge = React.forwardRef<SVGRectElement, LabelBadgeProps>(
       );
     }
     return (
-      <g className={classes} transform={`translate(${x}, ${y})`}>
+      <g className={classes} transform={`translate(${x}, ${y})`} ref={innerRef}>
         {rect}
         <text
           fill={badgeTextColor || badgeClassName ? badgeTextColor : defaultBadgeTextColor.value}

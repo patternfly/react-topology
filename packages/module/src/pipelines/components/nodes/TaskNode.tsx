@@ -153,12 +153,17 @@ const TaskNode: React.FC<TaskNodeProps & { innerRef: React.Ref<SVGGElement> }> =
 }: TaskNodeProps & { innerRef?: React.Ref<SVGGElement> }) => {
   const [hovered, innerHoverRef] = useHover();
   const hoverRef = useCombineRefs(innerRef, innerHoverRef);
+  const taskRef = React.useRef();
+  const taskIconComponentRef = React.useRef();
   const isHover = hover !== undefined ? hover : hovered;
   const { width } = element.getBounds();
   const label = truncateMiddle(element.getLabel(), { length: truncateLength, omission: '...' });
   const [textSize, textRef] = useSize([label, className]);
+  const nameLabelTriggerRef = React.useRef();
+  const nameLabelRef = useCombineRefs(textRef, nameLabelTriggerRef)
   const [statusSize, statusRef] = useSize([status, showStatusState, statusIconSize]);
   const [badgeSize, badgeRef] = useSize([badge]);
+  const badgeLabelTriggerRef = React.useRef();
   const [actionSize, actionRef] = useSize([actionIcon, paddingX]);
   const [contextSize, contextRef] = useSize([onContextMenu, paddingX]);
   const detailsLevel = useDetailsLevel();
@@ -281,7 +286,7 @@ const TaskNode: React.FC<TaskNodeProps & { innerRef: React.Ref<SVGGElement> }> =
   const { translateX, translateY } = getNodeScaleTranslation(element, nodeScale, scaleNode);
 
   const nameLabel = (
-    <text ref={textRef} className={css(styles.topologyPipelinesPillText)} dominantBaseline="middle">
+    <text ref={nameLabelRef} className={css(styles.topologyPipelinesPillText)} dominantBaseline="middle">
       {label}
     </text>
   );
@@ -312,12 +317,14 @@ const TaskNode: React.FC<TaskNodeProps & { innerRef: React.Ref<SVGGElement> }> =
       iconClass={taskIconClass}
       icon={taskIcon}
       padding={taskIconPadding}
+      innerRef={taskIconComponentRef}
     />
   );
 
   const badgeLabel = badge ? (
     <LabelBadge
       ref={badgeRef}
+      innerRef={badgeLabelTriggerRef}
       x={badgeStartX}
       y={(height - (badgeSize?.height ?? 0)) / 2}
       badge={badge}
@@ -330,11 +337,11 @@ const TaskNode: React.FC<TaskNodeProps & { innerRef: React.Ref<SVGGElement> }> =
 
   let badgeComponent: React.ReactNode;
   if (badgeLabel && badgeTooltip) {
-    badgeComponent = <Tooltip content={badgeTooltip}>{badgeLabel}</Tooltip>;
+    badgeComponent = <Tooltip triggerRef={badgeLabelTriggerRef} content={badgeTooltip}>{badgeLabel}</Tooltip>;
   } else if (badgeLabel && badgePopoverParams) {
     badgeComponent = (
       <g onClick={e => e.stopPropagation()}>
-        <Popover {...badgePopoverParams}>{badgeLabel}</Popover>
+        <Popover triggerRef={badgeLabelTriggerRef} {...badgePopoverParams}>{badgeLabel}</Popover>
       </g>
     );
   } else {
@@ -348,7 +355,7 @@ const TaskNode: React.FC<TaskNodeProps & { innerRef: React.Ref<SVGGElement> }> =
       const upScale = 1 / scale;
 
       return (
-        <g transform={`translate(0, ${(height - statusBackgroundRadius * 2 * upScale) / 2}) scale(${upScale})`}>
+        <g transform={`translate(0, ${(height - statusBackgroundRadius * 2 * upScale) / 2}) scale(${upScale})`} ref={taskRef}>
           <circle
             className={css(
               styles.topologyPipelinesStatusIconBackground,
@@ -383,6 +390,7 @@ const TaskNode: React.FC<TaskNodeProps & { innerRef: React.Ref<SVGGElement> }> =
         transform={`translate(${whenOffset + whenSize}, 0)`}
         onClick={onSelect}
         onContextMenu={onContextMenu}
+        ref={taskRef}
       >
         <NodeShadows />
         <rect
@@ -396,7 +404,7 @@ const TaskNode: React.FC<TaskNodeProps & { innerRef: React.Ref<SVGGElement> }> =
         />
         <g transform={`translate(${textStartX}, ${paddingY + textHeight / 2 + 1})`}>
           {element.getLabel() !== label && !disableTooltip ? (
-            <Tooltip content={element.getLabel()}>
+            <Tooltip triggerRef={nameLabelTriggerRef} content={element.getLabel()}>
               <g>{nameLabel}</g>
             </Tooltip>
           ) : (
@@ -418,7 +426,7 @@ const TaskNode: React.FC<TaskNodeProps & { innerRef: React.Ref<SVGGElement> }> =
           </g>
         )}
         {taskIconComponent &&
-          (taskIconTooltip ? <Tooltip content={taskIconTooltip}>{taskIconComponent}</Tooltip> : taskIconComponent)}
+          (taskIconTooltip ? <Tooltip triggerRef={taskIconComponentRef} content={taskIconTooltip}>{taskIconComponent}</Tooltip> : taskIconComponent)}
         {badgeComponent}
         {actionIcon && (
           <>
@@ -479,7 +487,7 @@ const TaskNode: React.FC<TaskNodeProps & { innerRef: React.Ref<SVGGElement> }> =
       {!toolTip || disableTooltip ? (
         renderTask()
       ) : (
-        <Tooltip position="bottom" enableFlip={false} {...(toolTipProps ?? {})} content={toolTip}>
+        <Tooltip triggerRef={taskRef} position="bottom" enableFlip={false} {...(toolTipProps ?? {})} content={toolTip}>
           {renderTask()}
         </Tooltip>
       )}

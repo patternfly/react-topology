@@ -4,6 +4,7 @@ import styles from '../../css/topology-components';
 import SvgDropShadowFilter from '../svg/SvgDropShadowFilter';
 import { createSvgIdUrl, useHover } from '../../utils';
 import { DEFAULT_DECORATOR_PADDING } from '../nodes';
+import useCombineRefs from '../../utils/useCombineRefs'
 
 interface DecoratorTypes {
   children?: React.ReactNode;
@@ -17,6 +18,7 @@ interface DecoratorTypes {
   onClick?(event: React.MouseEvent<SVGGElement, MouseEvent>): void;
   ariaLabel?: string;
   circleRef?: React.Ref<SVGCircleElement>;
+  innerRef?: React.Ref<SVGGElement>;
 }
 
 const HOVER_FILTER_ID = 'DecoratorDropShadowHoverFilterId';
@@ -32,14 +34,15 @@ const Decorator: React.FunctionComponent<DecoratorTypes> = ({
   icon,
   onClick,
   ariaLabel,
-  circleRef
+  circleRef,
+  innerRef
 }) => {
   const [hover, hoverRef] = useHover();
   const iconRadius = radius - padding;
 
   return (
     <g
-      ref={hoverRef}
+      ref={useCombineRefs(hoverRef, innerRef)}
       className={css(styles.topologyNodeDecorator, className)}
       {...(onClick
         ? {
