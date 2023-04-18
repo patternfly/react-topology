@@ -111,11 +111,11 @@ const renderDecorators = (
   return (
     <>
       {!nodeStatus || nodeStatus === NodeStatus.default
-        ? renderDecorator(element, TopologyQuadrant.upperLeft, <FolderOpenIcon />, getShapeDecoratorCenter)
+        ? renderDecorator(element, TopologyQuadrant.upperLeft, <FolderOpenIcon width='1em' height='1em' />, getShapeDecoratorCenter)
         : null}
-      {renderDecorator(element, TopologyQuadrant.upperRight, <BlueprintIcon />, getShapeDecoratorCenter)}
-      {renderDecorator(element, TopologyQuadrant.lowerLeft, <PauseCircle />, getShapeDecoratorCenter)}
-      {renderDecorator(element, TopologyQuadrant.lowerRight, <Thumbtack />, getShapeDecoratorCenter)}
+      {renderDecorator(element, TopologyQuadrant.upperRight, <BlueprintIcon width='1em' height='1em' />, getShapeDecoratorCenter)}
+      {renderDecorator(element, TopologyQuadrant.lowerLeft, <PauseCircle width='1em' height='1em' />, getShapeDecoratorCenter)}
+      {renderDecorator(element, TopologyQuadrant.lowerRight, <Thumbtack width='1em' height='1em' />, getShapeDecoratorCenter)}
     </>
   );
 };
