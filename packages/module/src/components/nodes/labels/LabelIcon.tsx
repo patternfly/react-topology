@@ -32,7 +32,6 @@ const LabelIcon = React.forwardRef<SVGCircleElement, LabelIconProps>(
             className={css(styles.topologyNodeLabelIcon)}
             x={innerX}
             y={innerY}
-            width={innerWidth}
             width={Math.max(innerWidth, 0)}
             height={Math.max(innerHeight, 0)}
           >
