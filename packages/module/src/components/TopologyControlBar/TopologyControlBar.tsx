@@ -246,64 +246,59 @@ export interface TopologyControlBarProps extends React.HTMLProps<HTMLDivElement>
   onButtonClick?: (id: any) => void;
 }
 
-export interface TopologyControlBarButtonProps extends React.HTMLProps<HTMLDivElement> {
-  button: TopologyControlButton;
-  onButtonClick?: (id: any) => void;
-}
-
-const TopologyControlBarButton: React.FunctionComponent<TopologyControlBarButtonProps> = ({ button, onButtonClick }) => {
-  const buttonRef = React.useRef();
-
-  const handleButtonClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    event.preventDefault();
-    onButtonClick && onButtonClick(button.id);
-    if (button.callback) {
-      button.callback(button.id);
-    }
-  };
-  const renderedButton = (
-    <Button
-      id={button.id}
-      className={`pf-topology-control-bar__button${button.disabled ? ' pf-m-disabled' : ''}`}
-      onClick={handleButtonClick}
-      disabled={button.disabled}
-      aria-disabled={button.disabled}
-      variant="tertiary"
-      ref={buttonRef}
-    >
-      {button.icon}
-      {(button.ariaLabel || button.tooltip) && (
-        <span className="pf-u-screen-reader">{button.ariaLabel || button.tooltip}</span>
-      )}
-    </Button>
-  );
-
-  if (button.tooltip) {
-    return <Tooltip triggerRef={buttonRef} content={button.tooltip}>{renderedButton}</Tooltip>;
-  }
-  return renderedButton;
-};
-TopologyControlBarButton.displayName = 'TopologyControlBarButton';
-
 export const TopologyControlBar: React.FunctionComponent<TopologyControlBarProps> = ({
   className = null,
   children = null,
   controlButtons = [],
   onButtonClick = () => undefined
-}: TopologyControlBarProps) => (
-  <GenerateId prefix="pf-topology-control-bar-">
-    {randomId => (
-      <Toolbar className={className} style={{ backgroundColor: 'transparent', padding: 0 }} id={randomId}>
-        <ToolbarContent>
-          <ToolbarGroup spaceItems={{ default: 'spaceItemsNone' }}>
-            {controlButtons.map((button: TopologyControlButton) =>
-              button.hidden ? null : <ToolbarItem key={button.id}><TopologyControlBarButton button={button} onButtonClick={onButtonClick} /></ToolbarItem>
-            )}
-            {children}
-          </ToolbarGroup>
-        </ToolbarContent>
-      </Toolbar>
-    )}
-  </GenerateId>
-);
+}: TopologyControlBarProps) => {
+  const handleButtonClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, button: TopologyControlButton) => {
+    event.preventDefault();
+    onButtonClick(button.id);
+    if (button.callback) {
+      button.callback(button.id);
+    }
+  };
+
+  const renderButton = (button: TopologyControlButton): React.ReactNode => {
+    const renderedButton = (
+      <Button
+        id={button.id}
+        className={`pf-topology-control-bar__button${button.disabled ? ' pf-m-disabled' : ''}`}
+        onClick={(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => handleButtonClick(event, button)}
+        disabled={button.disabled}
+        aria-disabled={button.disabled}
+        variant="tertiary"
+      >
+        {button.icon}
+        {(button.ariaLabel || button.tooltip) && (
+          <span className="pf-u-screen-reader">{button.ariaLabel || button.tooltip}</span>
+        )}
+      </Button>
+    );
+
+    if (button.tooltip) {
+      return <Tooltip content={button.tooltip}>{renderedButton}</Tooltip>;
+    }
+
+    return renderedButton;
+  };
+
+  return (
+    <GenerateId prefix="pf-topology-control-bar-">
+      {randomId => (
+        <Toolbar className={className} style={{ backgroundColor: 'transparent', padding: 0 }} id={randomId}>
+          <ToolbarContent>
+            <ToolbarGroup spaceItems={{ default: 'spaceItemsNone' }}>
+              {controlButtons.map((button: TopologyControlButton) =>
+                button.hidden ? null : <ToolbarItem key={button.id}>{renderButton(button)}</ToolbarItem>
+              )}
+              {children}
+            </ToolbarGroup>
+          </ToolbarContent>
+        </Toolbar>
+      )}
+    </GenerateId>
+  );
+};
 TopologyControlBar.displayName = 'TopologyControlBar';

@@ -63,8 +63,6 @@ export const useTopologyOptions = (
   const [creationCounts, setCreationCounts] = React.useState<{ numNodes: number; numEdges: number; numGroups: number }>(
     { numNodes, numEdges, numGroups }
   );
-  const buttonRef = React.useRef();
-
   const updateLayout = (newLayout: string) => {
     setLayout(newLayout);
     setLayoutDropdownOpen(false);
@@ -385,8 +383,8 @@ export const useTopologyOptions = (
     <>
       <ToolbarItem>{layoutDropdown}</ToolbarItem>
       <ToolbarItem>
-        <Tooltip triggerRef={buttonRef} content="Layout info saved" trigger="manual" isVisible={modelSaved}>
-          <Button variant="secondary" onClick={saveModel} ref={buttonRef}>
+        <Tooltip content="Layout info saved" trigger="manual" isVisible={modelSaved}>
+          <Button variant="secondary" onClick={saveModel}>
             Save Layout Info
           </Button>
         </Tooltip>
