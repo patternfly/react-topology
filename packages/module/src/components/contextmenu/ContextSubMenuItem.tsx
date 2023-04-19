@@ -48,7 +48,7 @@ const ContextSubMenuItem: React.FunctionComponent<ContextSubMenuItemProps> = ({ 
             }}
           >
             {label}
-            <AngleRightIcon className={css(topologyStyles.topologyContextSubMenuArrow)} width='1em' height='1em' />
+            <AngleRightIcon className={css(topologyStyles.topologyContextSubMenuArrow)} />
           </button>
         }
       />

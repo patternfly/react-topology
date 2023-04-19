@@ -19,11 +19,11 @@ const StatusQuadrant = TopologyQuadrant.upperLeft;
 const getStatusIcon = (status: NodeStatus) => {
   switch (status) {
     case NodeStatus.danger:
-      return <ExclamationCircleIcon className="pf-m-danger" width='1em' height='1em' />;
+      return <ExclamationCircleIcon className="pf-m-danger" />;
     case NodeStatus.warning:
-      return <ExclamationTriangleIcon className="pf-m-warning" width='1em' height='1em' />;
+      return <ExclamationTriangleIcon className="pf-m-warning" />;
     case NodeStatus.success:
-      return <CheckCircleIcon className="pf-m-success" width='1em' height='1em' />;
+      return <CheckCircleIcon className="pf-m-success" />;
     default:
       return null;
   }
