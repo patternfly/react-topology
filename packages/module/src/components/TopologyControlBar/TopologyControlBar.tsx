@@ -297,7 +297,7 @@ export const TopologyControlBar: React.FunctionComponent<TopologyControlBarProps
         <ToolbarContent>
           <ToolbarGroup spaceItems={{ default: 'spaceItemsNone' }}>
             {controlButtons.map((button: TopologyControlButton) =>
-              button.hidden ? null : <ToolbarItem key={button.id}><TopologyControlBarButton button={button} onClick={onButtonClick} /></ToolbarItem>
+              button.hidden ? null : <ToolbarItem key={button.id}><TopologyControlBarButton button={button} onButtonClick={onButtonClick} /></ToolbarItem>
             )}
             {children}
           </ToolbarGroup>
