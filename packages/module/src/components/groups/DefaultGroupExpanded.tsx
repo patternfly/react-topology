@@ -203,7 +203,7 @@ const DefaultGroupExpanded: React.FunctionComponent<DefaultGroupExpandedProps> =
           onContextMenu={onContextMenu}
           contextMenuOpen={contextMenuOpen}
           hover={isHover || labelHover}
-          actionIcon={collapsible ? <CollapseIcon width='1em' height='1em' /> : undefined}
+          actionIcon={collapsible ? <CollapseIcon /> : undefined}
           onActionIconClick={() => onCollapseChange(element, true)}
         >
           {label || element.getLabel()}
