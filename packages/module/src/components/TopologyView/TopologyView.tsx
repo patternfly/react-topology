@@ -56,7 +56,7 @@ export const TopologyView: React.FunctionComponent<TopologyViewProps> = ({
   defaultSideBarSize = '500px',
   minSideBarSize = '150px',
   maxSideBarSize = '100%',
-  onSideBarResize,
+  onSideBarResize = () => {},
   ...props
 }: TopologyViewProps) => {
   const topologyContent = !sideBarResizable ? (
