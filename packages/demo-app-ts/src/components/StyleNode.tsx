@@ -111,11 +111,11 @@ const renderDecorators = (
   return (
     <>
       {!nodeStatus || nodeStatus === NodeStatus.default
-        ? renderDecorator(element, TopologyQuadrant.upperLeft, <FolderOpenIcon width='1em' height='1em' />, getShapeDecoratorCenter)
+        ? renderDecorator(element, TopologyQuadrant.upperLeft, <FolderOpenIcon />, getShapeDecoratorCenter)
         : null}
-      {renderDecorator(element, TopologyQuadrant.upperRight, <BlueprintIcon width='1em' height='1em' />, getShapeDecoratorCenter)}
-      {renderDecorator(element, TopologyQuadrant.lowerLeft, <PauseCircle width='1em' height='1em' />, getShapeDecoratorCenter)}
-      {renderDecorator(element, TopologyQuadrant.lowerRight, <Thumbtack width='1em' height='1em' />, getShapeDecoratorCenter)}
+      {renderDecorator(element, TopologyQuadrant.upperRight, <BlueprintIcon />, getShapeDecoratorCenter)}
+      {renderDecorator(element, TopologyQuadrant.lowerLeft, <PauseCircle />, getShapeDecoratorCenter)}
+      {renderDecorator(element, TopologyQuadrant.lowerRight, <Thumbtack />, getShapeDecoratorCenter)}
     </>
   );
 };
@@ -166,11 +166,12 @@ const StyleNode: React.FunctionComponent<StyleNodeProps> = ({
           showLabel={hover || (detailsLevel !== ScaleDetailsLevel.low && showLabel)}
           showStatusBackground={!hover && detailsLevel === ScaleDetailsLevel.low}
           showStatusDecorator={detailsLevel === ScaleDetailsLevel.high && passedData.showStatusDecorator}
+          statusDecoratorTooltip={element.getNodeStatus()}
           onContextMenu={data.showContextMenu ? onContextMenu : undefined}
           contextMenuOpen={contextMenuOpen}
           onShowCreateConnector={detailsLevel !== ScaleDetailsLevel.low ? onShowCreateConnector : undefined}
           onHideCreateConnector={onHideCreateConnector}
-          labelIcon={LabelIcon && <LabelIcon noVerticalAlign width='1em' height='1em' />}
+          labelIcon={LabelIcon && <LabelIcon noVerticalAlign />}
           attachments={
             (hover || detailsLevel === ScaleDetailsLevel.high) &&
             renderDecorators(element, passedData, rest.getShapeDecoratorCenter)

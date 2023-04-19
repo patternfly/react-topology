@@ -171,7 +171,7 @@ const DefaultGroupCollapsed: React.FunctionComponent<DefaultGroupCollapsedProps>
           onContextMenu={onContextMenu}
           contextMenuOpen={contextMenuOpen}
           hover={isHover || labelHover}
-          actionIcon={collapsible ? <ExpandIcon width='1em' height='1em' /> : undefined}
+          actionIcon={collapsible ? <ExpandIcon /> : undefined}
           onActionIconClick={() => onCollapseChange(element, false)}
         >
           {label || element.getLabel()}
