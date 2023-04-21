@@ -27,6 +27,8 @@ export default class BaseEdge<E extends EdgeModel = EdgeModel, D = any> extends 
   @observable.ref
   private endPoint?: Point;
 
+  private aggregatedIds?: string[];
+
   @computed
   private get sourceAnchor(): Anchor {
     return this.getSourceAnchorNode().getAnchor(AnchorEnd.source, this.getType());
@@ -118,6 +120,24 @@ export default class BaseEdge<E extends EdgeModel = EdgeModel, D = any> extends 
     if (this.startPoint) {
       return this.startPoint;
     }
+
+    if (
+      this.getId().startsWith("aggregate_") &&
+      this.getSource().isGroup() && this.getSource().getChildren().includes(this.getTarget())
+    ) {
+      const relatedEdge = this.getGraph()
+        .getEdges().find(e => e !== this &&
+          (e.getSource() === this.source || e.getTarget() === this.source) &&
+          this.getAggregatedIds().every(c => e.getAggregatedIds().includes(c)));
+      if (relatedEdge) {
+        if (relatedEdge.getSource() === this.source) {
+          return relatedEdge.getStartPoint();
+        } else {
+          return relatedEdge.getEndPoint();
+        }
+      }
+    }
+
     const bendpoints = this.getBendpoints();
     let referencePoint: Point;
     if (bendpoints && bendpoints.length > 0) {
@@ -142,6 +162,24 @@ export default class BaseEdge<E extends EdgeModel = EdgeModel, D = any> extends 
     if (this.endPoint) {
       return this.endPoint;
     }
+
+    if (
+      this.getId().startsWith("aggregate_") &&
+      this.getTarget().isGroup() && this.getTarget().getChildren().includes(this.getSource())
+    ) {
+      const relatedEdge = this.getGraph()
+        .getEdges().find(e => e !== this &&
+          (e.getSource() === this.target || e.getTarget() === this.target) &&
+          this.getAggregatedIds().every(c => e.getAggregatedIds().includes(c)));
+      if (relatedEdge) {
+        if (relatedEdge.getSource() === this.target) {
+          return relatedEdge.getStartPoint();
+        } else {
+          return relatedEdge.getEndPoint();
+        }
+      }
+    }
+
     const bendpoints = this.getBendpoints();
     let referencePoint: Point;
     if (bendpoints && bendpoints.length > 0) {
@@ -160,6 +198,14 @@ export default class BaseEdge<E extends EdgeModel = EdgeModel, D = any> extends 
     } else {
       this.endPoint = new Point(x, y);
     }
+  }
+
+  getAggregatedIds = () => {
+    return this.aggregatedIds || [];
+  }
+
+  setAggregatedIds = (aggregatedIds: string[]) => {
+    this.aggregatedIds = aggregatedIds;
   }
 
   setModel(model: E): void {
@@ -186,6 +232,9 @@ export default class BaseEdge<E extends EdgeModel = EdgeModel, D = any> extends 
     }
     if ('bendpoints' in model) {
       this.bendpoints = model.bendpoints ? model.bendpoints.map(b => new Point(b[0], b[1])) : [];
+    }
+    if('aggregatedIds' in model) {
+      this.aggregatedIds = model.aggregatedIds;
     }
   }
 

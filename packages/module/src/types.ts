@@ -126,6 +126,7 @@ export interface EdgeModel extends ElementModel {
   target?: string;
   edgeStyle?: EdgeStyle;
   animationSpeed?: EdgeAnimationSpeed;
+  aggregatedIds?: string[];
   bendpoints?: PointTuple[];
 }
 
@@ -248,6 +249,8 @@ export interface Edge<E extends EdgeModel = EdgeModel, D = any> extends GraphEle
   setStartPoint(x?: number, y?: number): void;
   getEndPoint(): Point;
   setEndPoint(x?: number, y?: number): void;
+  getAggregatedIds(): string[];
+  setAggregatedIds(aggregatedIds: string[]): void;
   getBendpoints(): Point[];
   setBendpoints(points: Point[]): void;
   removeBendpoint(point: Point | number): void;
