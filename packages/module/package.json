@@ -1,6 +1,6 @@
 {
   "name": "@patternfly/react-topology",
-  "version": "4.92.0",
+  "version": "5.0.0-alpha.0",
   "description": "Provide patternfly components, styles, and utilities for displaying a topology view",
   "main": "dist/js/index.js",
   "module": "dist/esm/index.js",
@@ -30,12 +30,12 @@
   "homepage": "https://github.com/patternfly/react-topology#readme",
   "publishConfig": {
     "access": "public",
-    "tag": "prerelease"
+    "tag": "alpha"
   },
   "dependencies": {
-    "@patternfly/react-core": "^4.276.8",
-    "@patternfly/react-icons": "^4.93.6",
-    "@patternfly/react-styles": "^4.92.6",
+    "@patternfly/react-core": "5.0.0-alpha.51",
+    "@patternfly/react-icons": "5.0.0-alpha.7",
+    "@patternfly/react-styles": "5.0.0-alpha.5",
     "@types/d3": "^5.7.2",
     "@types/d3-force": "^1.2.1",
     "@types/dagre": "0.7.42",
@@ -56,11 +56,11 @@
     "react-dom": "^16.8 || ^17 || ^18"
   },
   "devDependencies": {
-    "@patternfly/documentation-framework": "1.8.0",
-    "@patternfly/patternfly": "^4.217.1",
-    "@patternfly/patternfly-a11y": "4.3.1",
-    "@patternfly/react-code-editor": "^4.82.26",
-    "@patternfly/react-table": "^4.112.39",
+    "@patternfly/documentation-framework": "2.0.0-alpha.22",
+    "@patternfly/patternfly": "5.0.0-alpha.33",
+    "@patternfly/patternfly-a11y": "^4.3.1",
+    "@patternfly/react-code-editor": "5.0.0-alpha.51",
+    "@patternfly/react-table": "5.0.0-alpha.51",
     "@types/lodash": "^4.14.191",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",

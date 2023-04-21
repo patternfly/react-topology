@@ -166,6 +166,7 @@ const StyleNode: React.FunctionComponent<StyleNodeProps> = ({
           showLabel={hover || (detailsLevel !== ScaleDetailsLevel.low && showLabel)}
           showStatusBackground={!hover && detailsLevel === ScaleDetailsLevel.low}
           showStatusDecorator={detailsLevel === ScaleDetailsLevel.high && passedData.showStatusDecorator}
+          statusDecoratorTooltip={element.getNodeStatus()}
           onContextMenu={data.showContextMenu ? onContextMenu : undefined}
           contextMenuOpen={contextMenuOpen}
           onShowCreateConnector={detailsLevel !== ScaleDetailsLevel.low ? onShowCreateConnector : undefined}

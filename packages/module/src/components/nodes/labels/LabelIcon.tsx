@@ -11,10 +11,11 @@ interface LabelIconProps {
   padding?: number;
   iconClass?: string;
   icon?: React.ReactNode;
+  innerRef?: React.Ref<SVGGElement>;
 }
 
 const LabelIcon = React.forwardRef<SVGCircleElement, LabelIconProps>(
-  ({ className, x, y, width, height, iconClass, icon, padding = 4 }, circleRef) => {
+  ({ className, x, y, width, height, iconClass, icon, padding = 4, innerRef }, circleRef) => {
     const radius = width / 2;
     const cx = x - radius;
     const cy = y + height / 2;
@@ -24,20 +25,20 @@ const LabelIcon = React.forwardRef<SVGCircleElement, LabelIconProps>(
     const innerHeight = height - padding * 2 - 2; // -2 for 1px border on each side
 
     return (
-      <g className={css(styles.topologyNodeLabelIcon, className)}>
+      <g className={css(styles.topologyNodeLabelIcon, className)} ref={innerRef}>
         <circle className={css(styles.topologyNodeLabelIconBackground)} ref={circleRef} cx={cx} cy={cy} r={radius} />
         {icon ? (
           <foreignObject
             className={css(styles.topologyNodeLabelIcon)}
             x={innerX}
             y={innerY}
-            width={innerWidth}
-            height={innerHeight}
+            width={Math.max(innerWidth, 0)}
+            height={Math.max(innerHeight, 0)}
           >
             {icon}
           </foreignObject>
         ) : (
-          <image x={innerX} y={innerY} width={innerWidth} height={innerHeight} xlinkHref={iconClass} />
+          <image x={innerX} y={innerY} width={Math.max(innerWidth, 0)} height={Math.max(innerHeight, 0)} xlinkHref={iconClass} />
         )}
       </g>
     );

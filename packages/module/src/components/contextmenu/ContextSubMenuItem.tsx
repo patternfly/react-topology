@@ -1,5 +1,8 @@
 import * as React from 'react';
-import { DropdownMenu, DropdownItem } from '@patternfly/react-core';
+import {
+	DropdownMenu as DropdownMenuDeprecated,
+	DropdownItem as DropdownItemDeprecated
+} from '@patternfly/react-core/deprecated';
 import { css } from '@patternfly/react-styles';
 import topologyStyles from '../../css/topology-components';
 // FIXME fully qualified due to the effect of long build times on storybook
@@ -19,7 +22,7 @@ const ContextSubMenuItem: React.FunctionComponent<ContextSubMenuItemProps> = ({ 
 
   return (
     <>
-      <DropdownItem
+      <DropdownItemDeprecated
         {...other}
         className={css(topologyStyles.topologyContextSubMenu)}
         component={
@@ -83,9 +86,9 @@ const ContextSubMenuItem: React.FunctionComponent<ContextSubMenuItemProps> = ({ 
             }
           }}
         >
-          <DropdownMenu className={css(topologyStyles.topologyContextMenuCDropdownMenu)} autoFocus>
+          <DropdownMenuDeprecated className={css(topologyStyles.topologyContextMenuCDropdownMenu)} autoFocus>
             {children}
-          </DropdownMenu>
+          </DropdownMenuDeprecated>
         </div>
       </Popper>
     </>

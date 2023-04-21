@@ -146,7 +146,7 @@ class App extends React.Component<{}, AppState> {
     );
 
     const AppHeader = (
-      <PageHeader
+      <PageHeader logoComponent="a"
         logo={<Brand src={imgBrand} alt="Patternfly Logo" />}
         headerTools={AppToolbar}
         showNavToggle

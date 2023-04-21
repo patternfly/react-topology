@@ -27,6 +27,7 @@ const DefaultCreateConnector: React.FunctionComponent<DefaultCreateConnectorProp
   tipContents,
   className
 }) => {
+  const iconRef = React.useRef();
   const classes = css(
     styles.topologyDefaultCreateConnector,
     className,
@@ -62,10 +63,12 @@ const DefaultCreateConnector: React.FunctionComponent<DefaultCreateConnectorProp
               animationDuration={0}
               entryDelay={0}
               exitDelay={0}
+              triggerRef={iconRef}
             >
               <AddCircleOIcon
                 className={css(styles.topologyDefaultCreateConnectorCreateCursor)}
                 style={{ fontSize: cursorSize }}
+                ref={iconRef}
               />
             </Tooltip>
           ) : (

@@ -30,22 +30,31 @@ const DefaultRemoveConnector: React.FunctionComponent<DefaultRemoveConnectorProp
   endPoint,
   onRemove,
   size = 14
-}) => (
-  <Tooltip content="Delete Connector" position={computeTooltipPosition(startPoint, endPoint)}>
-    <g
-      transform={`translate(${startPoint.x + (endPoint.x - startPoint.x) * 0.5}, ${startPoint.y +
-        (endPoint.y - startPoint.y) * 0.5})`}
-      onClick={e => {
-        e.stopPropagation();
-        onRemove();
-      }}
+}) => {
+  const DefaultRemoveConnectorRef = React.useRef();
+  return (
+    <Tooltip
+      triggerRef={DefaultRemoveConnectorRef}
+      content="Delete Connector"
+      position={computeTooltipPosition(startPoint, endPoint)}
     >
-      <circle className="topology-connector__remove-bg" cx={0} cy={0} r={size} />
-      <g transform={`translate(-${size / 2}, -${size / 2})`}>
-        <TrashIcon className="topology-connector__remove-icon" style={{ fontSize: size }} />
+      <g
+        transform={`translate(${startPoint.x + (endPoint.x - startPoint.x) * 0.5}, ${
+          startPoint.y + (endPoint.y - startPoint.y) * 0.5
+        })`}
+        onClick={(e) => {
+          e.stopPropagation();
+          onRemove();
+        }}
+        ref={DefaultRemoveConnectorRef}
+      >
+        <circle className="topology-connector__remove-bg" cx={0} cy={0} r={size} />
+        <g transform={`translate(-${size / 2}, -${size / 2})`}>
+          <TrashIcon className="topology-connector__remove-icon" style={{ fontSize: size }} />
+        </g>
       </g>
-    </g>
-  </Tooltip>
-);
+    </Tooltip>
+  );
+};
 
 export default DefaultRemoveConnector;

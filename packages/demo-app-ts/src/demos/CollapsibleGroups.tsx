@@ -138,7 +138,7 @@ const TopologyViewComponent: React.FunctionComponent<TopologyViewComponentProps>
             id="collapse-blue"
             label="Collapse Blue"
             isChecked={collapseBlue}
-            onChange={checked => setCollapseBlue(checked)}
+            onChange={(_event, checked) => setCollapseBlue(checked)}
           />
         </ToolbarItem>
       </ToolbarGroup>
@@ -148,7 +148,7 @@ const TopologyViewComponent: React.FunctionComponent<TopologyViewComponentProps>
             id="collapse-light-blue"
             label="Collapse Light Blue"
             isChecked={collapseLightBlue}
-            onChange={checked => setCollapseLightBlue(checked)}
+            onChange={(_event, checked) => setCollapseLightBlue(checked)}
           />
         </ToolbarItem>
       </ToolbarGroup>
@@ -158,7 +158,7 @@ const TopologyViewComponent: React.FunctionComponent<TopologyViewComponentProps>
             id="collapse-cyan"
             label="Collapse Cyan"
             isChecked={collapseCyan}
-            onChange={checked => setCollapseCyan(checked)}
+            onChange={(_event, checked) => setCollapseCyan(checked)}
           />
         </ToolbarItem>
       </ToolbarGroup>
@@ -168,7 +168,7 @@ const TopologyViewComponent: React.FunctionComponent<TopologyViewComponentProps>
             id="collapse-orange"
             label="Collapse Orange"
             isChecked={collapseOrange}
-            onChange={checked => setCollapseOrange(checked)}
+            onChange={(_event, checked) => setCollapseOrange(checked)}
           />
         </ToolbarItem>
       </ToolbarGroup>
@@ -178,7 +178,7 @@ const TopologyViewComponent: React.FunctionComponent<TopologyViewComponentProps>
             id="collapse-pink"
             label="Collapse Pink"
             isChecked={collapsePink}
-            onChange={checked => setCollapsePink(checked)}
+            onChange={(_event, checked) => setCollapsePink(checked)}
           />
         </ToolbarItem>
       </ToolbarGroup>

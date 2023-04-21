@@ -52,13 +52,14 @@ export const WhenDecorator: React.FC<WhenDecoratorProps> = ({
   toolTip,
   disableTooltip = false
 }: WhenDecoratorProps) => {
+  const diamondNodeRef = React.useRef();
   const { height: taskHeight } = element.getBounds();
   const y = taskHeight / 2 - height / 2;
   const startX = -width - leftOffset;
   const points = `${startX + width / 2} ${y} ${startX + width} ${y + height / 2} ${startX + width / 2} ${y +
     height} ${startX} ${y + height / 2}`;
   const diamondNode = (
-    <g className={className}>
+    <g className={className} ref={diamondNodeRef}>
       <line
         className={css(topologyStyles.topologyEdgeBackground)}
         x1={-leftOffset}
@@ -82,7 +83,7 @@ export const WhenDecorator: React.FC<WhenDecoratorProps> = ({
   );
 
   return toolTip && !disableTooltip ? (
-    <Tooltip position="bottom" enableFlip={false} content={<div data-test="when-expression-tooltip">{toolTip}</div>}>
+    <Tooltip triggerRef={diamondNodeRef} position="bottom" enableFlip={false} content={<div data-test="when-expression-tooltip">{toolTip}</div>}>
       {diamondNode}
     </Tooltip>
   ) : (

@@ -1,5 +1,8 @@
 import * as React from 'react';
-import { DropdownMenu, DropdownContext } from '@patternfly/react-core';
+import {
+	DropdownMenu as DropdownMenuDeprecated,
+	DropdownContext as DropdownContextDeprecated
+} from '@patternfly/react-core/deprecated';
 import { css } from '@patternfly/react-styles';
 import topologyStyles from '../../css/topology-components';
 import styles from '@patternfly/react-styles/css/components/Dropdown/dropdown';
@@ -28,7 +31,7 @@ const ContextMenu: React.FunctionComponent<ContextMenuProps> = ({
 
   return (
     <Popper {...other} closeOnEsc closeOnOutsideClick open={isOpen} onRequestClose={handleOnRequestClose}>
-      <DropdownContext.Provider
+      <DropdownContextDeprecated.Provider
         value={{
           onSelect: handleOnRequestClose,
           toggleTextClass: styles.dropdownToggleText,
@@ -47,11 +50,11 @@ const ContextMenu: React.FunctionComponent<ContextMenuProps> = ({
         }}
       >
         <div className={css(styles.dropdown, styles.modifiers.expanded)}>
-          <DropdownMenu className={css(topologyStyles.topologyContextMenuCDropdownMenu)} autoFocus>
+          <DropdownMenuDeprecated className={css(topologyStyles.topologyContextMenuCDropdownMenu)} autoFocus>
             {children}
-          </DropdownMenu>
+          </DropdownMenuDeprecated>
         </div>
-      </DropdownContext.Provider>
+      </DropdownContextDeprecated.Provider>
     </Popper>
   );
 };
