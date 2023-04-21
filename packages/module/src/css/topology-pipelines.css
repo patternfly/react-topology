@@ -135,11 +135,24 @@
   --pf-topology-pipelines__pill-text--m-selected--m-danger--Color: var(--pf-global--palette--black-900);
   --pf-topology-pipelines__pill-text--m-selected--m-success--Color: var(--pf-global--palette--black-900);
   --pf-topology-pipelines__pill-text--m-selected--m-warning--Color: var(--pf-global--palette--black-900);
-  --pf-topology-pipelines__pill-text--m-selected--m-skipped--Color: var(--pf-global--BackgroundColor--150);
+  --pf-topology-pipelines__pill-text--m-selected--m-skipped--Color: var(--pf-global--palette--black-900);
   --pf-topology-pipelines__pill-text--m-selected--m-in-progress--Color: var(--pf-global--palette--black-900);
-  --pf-topology-pipelines__pill-text--m-selected--m-pending--Color: var(--pf-global--Color--100);
+  --pf-topology-pipelines__pill-text--m-selected--m-pending--Color: var(--pf-global--palette--black-900);
   --pf-topology-pipelines__pill-text--m-selected--m-running--Color: var(--pf-global--palette--black-900);
-  --pf-topology-pipelines__pill-text--m-selected--m-idle--Color: var(--pf-global--Color--100);
+  --pf-topology-pipelines__pill-text--m-selected--m-idle--Color: var(--pf-global--palette--black-900);
+
+  /* pill status icon */
+  --pf-topology-pipelines__pill-status--m-skipped--color: var(--pf-global--Color--100);
+  --pf-topology-pipelines__pill-status--m-pending--color: var(--pf-global--Color--100);
+
+  /* selected pill with status */
+  --pf-topology-pipelines__pill-background--m-selected--m-skipped--Fill: var(--pf-global--palette--black-300);
+  --pf-topology-pipelines__pill-background--m-selected--m-idle--Fill: var(--pf-global--palette--black-300);
+
+   /* selected pill status icon */
+   --pf-topology-pipelines__pill-status--m-selected--m-pending--color: var(--pf-global--palette--black-900);
+   --pf-topology-pipelines__pill-status--m-selected--m-skipped--color: var(--pf-global--palette--black-900);
+   --pf-topology-pipelines__pill-status--m-selected--m-idle--color: var(--pf-global--palette--black-900);
 
   --pf-topology-pipelines__pill__label__icon--Color: var(--pf-global--palette--black-600);
 
