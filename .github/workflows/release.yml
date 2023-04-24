@@ -8,6 +8,7 @@ jobs:
   call-build-lint-test-workflow:
     uses: ./.github/workflows/build-lint-test.yml
   build-typedocs:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     needs: [call-build-lint-test-workflow]
     env:
@@ -73,6 +74,7 @@ jobs:
           retention-days: 1
           if-no-files-found: error
   deploy-typedocs:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     needs: [call-build-lint-test-workflow, build-typedocs]
     permissions:
