@@ -23,7 +23,6 @@ export const getRunStatusModifier = (status: RunStatus): string => {
     case RunStatus.Skipped:
       return styles.modifiers.skipped;
     case RunStatus.Running:
-      return styles.modifiers.running;
     case RunStatus.InProgress:
       return styles.modifiers.inProgress;
     case RunStatus.Pending:

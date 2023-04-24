@@ -7,7 +7,6 @@ import ExclamationCircleIcon from '@patternfly/react-icons/dist/esm/icons/exclam
 import NotStartedIcon from '@patternfly/react-icons/dist/esm/icons/not-started-icon';
 import HourglassHalfIcon from '@patternfly/react-icons/dist/esm/icons/hourglass-half-icon';
 import SyncAltIcon from '@patternfly/react-icons/dist/esm/icons/sync-alt-icon';
-import InProgressIcon from '@patternfly/react-icons/dist/esm/icons/in-progress-icon';
 import { RunStatus } from '../types';
 
 interface StatusIconProps {
@@ -20,8 +19,6 @@ interface StatusIconProps {
 const StatusIcon: React.FC<StatusIconProps> = ({ status, ...props }) => {
   switch (status) {
     case RunStatus.InProgress:
-      return <InProgressIcon {...props} />;
-
     case RunStatus.Running:
       return <SyncAltIcon {...props} />;
 
