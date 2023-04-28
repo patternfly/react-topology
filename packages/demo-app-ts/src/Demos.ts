@@ -11,6 +11,7 @@ import { ContextMenus } from './demos/ContextMenus';
 import { TopologyPackage } from './demos/TopologyPackage';
 import { ComplexGroup } from './demos/Groups';
 import { CollapsibleGroups } from './demos/CollapsibleGroups';
+import { StatusConnectors } from './demos/StatusConnectors';
 
 import './Demo.css';
 
@@ -38,6 +39,11 @@ export const Demos: DemoInterface[] = [
     id: 'topology-pipelines-demo',
     name: 'Topology Pipelines',
     componentType: TopologyPipelineDemo
+  },
+  {
+    id: 'status-connectors',
+    name: 'Status Connectors',
+    componentType: StatusConnectors,
   },
   {
     id: 'basic',

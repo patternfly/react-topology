@@ -6,8 +6,8 @@
 }
 
 .pf-ri__topology-demo .pf-topology-visualization-surface {
-  margin-top: var(--pf-global--spacer--md);
   border: 1px solid var(--pf-global--BorderColor--100);
+  border-top: none;
 }
 
 .pf-ri__topology-demo .pf-c-tab-content {
