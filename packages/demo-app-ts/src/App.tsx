@@ -6,7 +6,6 @@ import {
   NavList,
   NavItem,
   PageSection,
-  SkipToContent,
   PageSidebar,
   Avatar,
   Brand,
@@ -112,7 +111,6 @@ class App extends React.Component<{}, AppState> {
   };
 
   private pageId = 'ts-demo-app-page-id';
-  private getSkipToContentLink = () => <SkipToContent href={`#${this.pageId}`}>Skip to Content</SkipToContent>;
 
   render() {
     const { isNavOpen, activeItem, isDarkTheme } = this.state;
@@ -191,7 +189,6 @@ class App extends React.Component<{}, AppState> {
         <Page
           header={AppHeader}
           sidebar={AppSidebar}
-          skipToContent={this.getSkipToContentLink()}
           isManagedSidebar
           mainContainerId={this.pageId}
         >
