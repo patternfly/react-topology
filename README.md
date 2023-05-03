@@ -1,8 +1,8 @@
 # @patternfly/react-topology
 
-This package provides Topology View components based on [PatternFly 4][patternfly-4]
+This package provides Topology View components based on PatternFly from https://github.com/patternfly/patternfly-react
 
-Based from https://github.com/patternfly/patternfly-react version 4.91.40
+To use React Topology out-of-the-box, you will first need to transform your back-end data into a [Model](https://github.com/patternfly/patternfly-react/blob/main/packages/react-topology/src/types.ts#L16-L20). These model objects contain the information needed to display the nodes and edges. Each node and edge has a set of properties used by PF Topology as well as a data field which can be used to customize the nodes and edges by the application.
 
 ### Prerequisites
 
@@ -10,11 +10,11 @@ Based from https://github.com/patternfly/patternfly-react version 4.91.40
 
 This project currently supports Node [Active LTS](https://github.com/nodejs/Release#release-schedule) releases. Please stay current with Node Active LTS when developing patternfly-react.
 
-For example, to develop with Node 8, use the following:
+For example, to develop with Node 18, use the following:
 
 ```
-nvm install 8
-nvm use 8
+nvm install 18
+nvm use 18
 ```
 
 This project also requires a Yarn version of >=1.6.0. The latest version can be installed [here](https://yarnpkg.com/).
@@ -31,45 +31,82 @@ or
 npm install @patternfly/react-topology --save
 ```
 
-## Basic Usage
+## Getting started with react-topology
 
-To use React Topology out-of-the-box, you will first need to transform your back-end data into a [Model](https://github.com/patternfly/patternfly-react/blob/main/packages/react-topology/src/types.ts#L16-L20). These model objects contain the information needed to display the nodes and edges. Each node and edge has a set of properties used by PF Topology as well as a data field which can be used to customize the nodes and edges by the application.
+1. Create a new Controller which can be done using the default `Visualization` class.
 
-You will then need to declare a controller, which can be initialized via the `useVisualizationController()` method.
+  It is important to note that three `register` methods are accessed by the controller.
 
-The `fromModel` method must be called on the controller to create the nodes. `fromModel` will take your data model as a parameter. Your data model should include a `graph` object, on which you will need to set `id` , `type` and `layout`.
+  The following two must be declared explicitly:
 
-To create your topology view component, you can use `TopologyView` to Wrap `<VisualizationSurface>` which can accept `state` as a parameter. The state is application specific. It can be any data the application wants to store/retrieve from the controller. Adding state to the surface allows hooks to update when state changes. The state is useful to keep graph state such as selected elements.
+    - `registerLayoutFactory`: This method sets the layout of your topology view (e.g. Force, Dagre, Cola, etc.). If your application supports all layouts, use `defaultLayoutFactory` as a parameter. If you only want to support a subset of the available layout options, update `defaultLayout` to a custom implementation .
 
-Use a controller to wrap your topology view component. In the example below, this is done via the `VisualizationProvider` which consumes the `Controller` via context.
+    - `registerComponentFactory`: This method lets you customize the components in your topology view (e.g. nodes, groups, and edges). You can use `defaultComponentFactory` as a parameter.
 
-Three `register` methods are accessed by the controller.
+  The register method below is initialized in `Visualization.ts`. It doesn't need to be declared unless you support a custom implementation which modifies the types.
 
-The following two must be declared explicitly\:
+    - `registerElementFactory`: This method sets the types of the elements being used (e.g. graphs, nodes, edges). `defaultElementFactory` uses types from `ModelKind` and is exported in `index.ts`.
 
-- `registerLayoutFactory`\: This method sets the layout of your topology view (e.g. Force, Dagre, Cola, etc.). You can use `defaultLayoutFactory` as a parameter if your application supports all layouts. You can also update `defaultLayout` to a custom implementation if you only want to support a subset of the available layout options.
 
-- `registerComponentFactory`\: This method lets you customize the components in your topology view (e.g. nodes, groups, and edges). You can use `defaultComponentFactory` as a parameter.
+2. The `fromModel` method must be called on the controller to create the nodes. `fromModel` will take your data model as a parameter. Your data model should include a `graph` object, on which you will need to set `id` , `type` and `layout`.
 
-The register method below is initialized in `Visualization.ts`, therefore it doesn't need to be declared unless you want to support a custom implementation which modifies the types.
+3. To create your topology view component, add a `VisualizationProvider`, which is a useful context provider. It allows access to the created Controller and is required when using the `VisualizationSurface` component.
 
-- `registerElementFactory`\: This method sets the types of the elements being used (e.g. graphs, nodes, edges). `defaultElementFactory` uses types from `ModelKind` and is exported in `index.ts`.
+4. You can use the provided `VisualizationSurface` to provide the SVG component required for the topology components. The `VisualizationSurface` can take a state parameter that will allow you to pass your state settings along to the Controller.
+
+```ts file='./TopologyGettingStartedDemo.tsx'
+```
 
 #### Example Component Usage
 
 ```ts
 import * as React from 'react';
 import {
+  ColaLayout,
+  ComponentFactory,
+  DefaultEdge,
+  DefaultGroup,
+  DefaultNode,
   EdgeStyle,
+  Graph,
+  GraphComponent,
+  Layout,
+  LayoutFactory,
   Model,
+  ModelKind,
   NodeShape,
   SELECTION_EVENT,
   Visualization,
   VisualizationProvider,
   VisualizationSurface
 } from '@patternfly/react-topology';
-import defaultLayoutFactory from './layouts/defaultLayoutFactory';
-import defaultComponentFactory from './components/defaultComponentFactory';
+
+const baselineLayoutFactory: LayoutFactory = (type: string, graph: Graph): Layout | undefined => {
+  switch (type) {
+    case 'Cola':
+      return new ColaLayout(graph);
+    default:
+      return new ColaLayout(graph, { layoutOnDrag: false });
+  }
+};
+
+const baselineComponentFactory: ComponentFactory = (kind: ModelKind, type: string) => {
+  switch (type) {
+    case 'group':
+      return DefaultGroup;
+    default:
+      switch (kind) {
+        case ModelKind.graph:
+          return GraphComponent;
+        case ModelKind.node:
+          return DefaultNode;
+        case ModelKind.edge:
+          return DefaultEdge;
+        default:
+          return undefined;
+      }
+  }
+};
 
 const NODE_SHAPE = NodeShape.ellipse;
 const NODE_DIAMETER = 75;
@@ -125,12 +162,12 @@ const NODES = [
   },
   {
     id: 'Group-1',
-    children: ['node-0', 'node-1', 'node-2', 'node-3'],
-    type: 'group-hull',
+    children: ['node-0', 'node-1', 'node-2'],
+    type: 'group',
     group: true,
     label: 'Group-1',
     style: {
-      padding: 15
+      padding: 40
     }
   }
 ];
@@ -152,7 +189,7 @@ const EDGES = [
   }
 ];
 
-export const TopologyBaselineDemo = React.memo(() => {
+export const TopologyGettingStartedDemo: React.FC = () => {
   const [selectedIds, setSelectedIds] = React.useState<string[]>([]);
 
   const controller = React.useMemo(() => {
@@ -167,8 +204,8 @@ export const TopologyBaselineDemo = React.memo(() => {
     };
 
     const newController = new Visualization();
-    newController.registerLayoutFactory(defaultLayoutFactory);
-    newController.registerComponentFactory(defaultComponentFactory);
+    newController.registerLayoutFactory(baselineLayoutFactory);
+    newController.registerComponentFactory(baselineComponentFactory);
 
     newController.addEventListener(SELECTION_EVENT, setSelectedIds);
 
@@ -182,5 +219,8 @@ export const TopologyBaselineDemo = React.memo(() => {
       <VisualizationSurface state={{ selectedIds }} />
     </VisualizationProvider>
   );
-});
+};
 ```
+
+Live docs available on [patternfly.org](https://www.patternfly.org/v4/topology/getting-started/)
+
