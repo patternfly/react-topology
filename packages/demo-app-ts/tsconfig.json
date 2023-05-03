@@ -20,7 +20,8 @@
     "strictPropertyInitialization": false,
     "strictNullChecks": false,
     "strictFunctionTypes": false,
-    "sourceMap": true
+    "sourceMap": true,
+    "experimentalDecorators": true
   },
   "include": [
     "./src/*",

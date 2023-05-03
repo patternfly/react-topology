@@ -3,7 +3,7 @@ import { DrawDesign, NODE_SEPARATION_HORIZONTAL } from '../const';
 
 type SingleDraw = (p: Point) => string;
 type DoubleDraw = (p1: Point, p2: Point, startIndentX?: number, junctionOffset?: number) => string;
-type TripleDraw = (p1: Point, p2: Point, p3: Point) => string;
+type TripleDraw = (p1: Point, p2: Point, p3: Point, curveSize?: { x: number, y: number }) => string;
 type DetermineDirection = (p1: Point, p2: Point) => boolean;
 
 const join = (...segments: string[]) => segments.filter(seg => !!seg).join(' ');
@@ -20,21 +20,21 @@ const quadTo: DoubleDraw = (corner, end) => `Q ${point(corner)} ${point(end)}`;
 // TODO: Try to simplify
 // x should not be greater than (NODE_SEPARATION_HORIZONTAL / 2)
 const CURVE_SIZE = { x: 8, y: 10 };
-const curve: TripleDraw = (fromPoint, cornerPoint, toPoint) => {
+const curve: TripleDraw = (fromPoint, cornerPoint, toPoint, curveSize = CURVE_SIZE) => {
   const topToBottom = topDown(fromPoint, toPoint);
   if (topToBottom) {
     const rightAndDown = leftRight(fromPoint, cornerPoint) && topDown(cornerPoint, toPoint);
     const downAndRight = topDown(fromPoint, cornerPoint) && leftRight(cornerPoint, toPoint);
     if (rightAndDown) {
       return join(
-        lineTo(cornerPoint.clone().translate(-CURVE_SIZE.x, 0)),
-        quadTo(cornerPoint, cornerPoint.clone().translate(0, CURVE_SIZE.y))
+        lineTo(cornerPoint.clone().translate(-curveSize.x, 0)),
+        quadTo(cornerPoint, cornerPoint.clone().translate(0, curveSize.y))
       );
     }
     if (downAndRight) {
       return join(
-        lineTo(cornerPoint.clone().translate(0, -CURVE_SIZE.y)),
-        quadTo(cornerPoint, cornerPoint.clone().translate(CURVE_SIZE.x, 0))
+        lineTo(cornerPoint.clone().translate(0, -curveSize.y)),
+        quadTo(cornerPoint, cornerPoint.clone().translate(curveSize.x, 0))
       );
     }
   } else {
@@ -42,14 +42,14 @@ const curve: TripleDraw = (fromPoint, cornerPoint, toPoint) => {
     const upAndRight = bottomUp(fromPoint, cornerPoint) && leftRight(cornerPoint, toPoint);
     if (rightAndUp) {
       return join(
-        lineTo(cornerPoint.clone().translate(-CURVE_SIZE.x, 0)),
-        quadTo(cornerPoint, cornerPoint.clone().translate(0, -CURVE_SIZE.y))
+        lineTo(cornerPoint.clone().translate(-curveSize.x, 0)),
+        quadTo(cornerPoint, cornerPoint.clone().translate(0, -curveSize.y))
       );
     }
     if (upAndRight) {
       return join(
-        lineTo(cornerPoint.clone().translate(0, CURVE_SIZE.y)),
-        quadTo(cornerPoint, cornerPoint.clone().translate(CURVE_SIZE.x, 0))
+        lineTo(cornerPoint.clone().translate(0, curveSize.y)),
+        quadTo(cornerPoint, cornerPoint.clone().translate(curveSize.x, 0))
       );
     }
   }
@@ -74,8 +74,12 @@ export const integralShapePath: DoubleDraw = (
     const firstCorner = new Point(cornerX, start.y);
     const secondCorner = new Point(cornerX, finish.y);
 
-    firstCurve = curve(start, firstCorner, secondCorner);
-    secondCurve = curve(firstCorner, secondCorner, finish);
+    if (Math.abs(start.y - finish.y) > CURVE_SIZE.y) {
+      firstCurve = curve(start, firstCorner, secondCorner);
+      secondCurve = curve(firstCorner, secondCorner, finish);
+    } else {
+      firstCurve = curve(start, firstCorner, finish, {x: CURVE_SIZE.x, y: Math.abs(start.y - finish.y)});
+    }
   }
 
   const indentedStart = new Point(start.x - startIndentX, start.y);
