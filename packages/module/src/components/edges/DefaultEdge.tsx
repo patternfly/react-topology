@@ -89,7 +89,7 @@ const DefaultEdge: React.FunctionComponent<DefaultEdgeProps> = ({
   selected,
   onSelect,
   onContextMenu
-}) => {
+}: DefaultEdgeProps) => {
   const [hover, hoverRef] = useHover();
   const startPoint = element.getStartPoint();
   const endPoint = element.getEndPoint();

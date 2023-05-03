@@ -2,7 +2,7 @@
 id: Custom Edges
 section: topology
 sortValue: 12
-sourceLink: https://github.com/patternfly/patternfly-react/blob/main/packages/react-topology/src/components/TopologyView/examples/TopologyCustomEdgesDemo.tsx
+sourceLink: https://github.com/patternfly/react-topology/blob/main/packages/module/patternfly-docs/content/examples/TopologyCustomEdgesDemo.tsx
 propComponents: ['DefaultEdge']
 ---
 

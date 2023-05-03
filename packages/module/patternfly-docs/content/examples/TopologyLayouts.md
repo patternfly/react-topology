@@ -1,6 +1,7 @@
 ---
 id: Layouts
 section: topology
+sourceLink: https://github.com/patternfly/react-topology/blob/main/packages/module/patternfly-docs/content/examples/TopologyLayoutsDemo.tsx
 ---
 
 Note: Topology lives in its own package at [`@patternfly/react-topology`](https://www.npmjs.com/package/@patternfly/react-topology)
