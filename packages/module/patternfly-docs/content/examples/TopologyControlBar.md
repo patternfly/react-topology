@@ -2,7 +2,7 @@
 id: Control Bar
 section: topology
 sortValue: 31
-sourceLink: https://github.com/patternfly/patternfly-react/blob/main/packages/react-topology/src/components/TopologyView/examples/TopologyControlBarDemo.tsx
+sourceLink: https://github.com/patternfly/react-topology/blob/main/packages/module/patternfly-docs/content/examples/TopologyControlBarDemo.tsx
 propComponents: ['TopologyControlBar', 'TopologyView']
 
 ---
