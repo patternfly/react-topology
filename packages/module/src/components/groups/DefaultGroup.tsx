@@ -2,16 +2,15 @@ import * as React from 'react';
 import { observer } from 'mobx-react';
 import DefaultGroupExpanded from './DefaultGroupExpanded';
 import { OnSelect, WithDndDragProps, ConnectDragSource, ConnectDropTarget } from '../../behavior';
-import { BadgeLocation, LabelPosition, Node } from '../../types';
+import { BadgeLocation, GraphElement, isNode, LabelPosition, Node } from '../../types';
 import DefaultGroupCollapsed from './DefaultGroupCollapsed';
-import { CollapsibleGroupProps } from './types';
 import { ShapeProps } from '../nodes';
 
-type DefaultGroupProps = {
+interface DefaultGroupProps {
   /** Additional classes added to the group */
   className?: string;
   /** The graph group node element to represent */
-  element: Node;
+  element: GraphElement;
   /** Flag if the node accepts drop operations */
   droppable?: boolean;
   /** Flag if the current drag operation can be dropped on the node */
@@ -78,15 +77,16 @@ type DefaultGroupProps = {
   onContextMenu?: (e: React.MouseEvent) => void;
   /** Flag indicating that the context menu for the node is currently open  */
   contextMenuOpen?: boolean;
-} & CollapsibleGroupProps;
+}
 
+type DefaultGroupInnerProps = Omit<DefaultGroupProps, 'element'> & { element: Node };
 
-const DefaultGroup: React.FunctionComponent<DefaultGroupProps> = ({
+const DefaultGroupInner: React.FunctionComponent<DefaultGroupInnerProps> = observer(({
   className,
   element,
   onCollapseChange,
   ...rest
-}: DefaultGroupProps) => {
+}) => {
   const handleCollapse = (group: Node, collapsed: boolean): void => {
     if (collapsed && rest.collapsedWidth !== undefined && rest.collapsedHeight !== undefined) {
       group.setBounds(group.getBounds().setSize(rest.collapsedWidth, rest.collapsedHeight));
@@ -101,6 +101,14 @@ const DefaultGroup: React.FunctionComponent<DefaultGroupProps> = ({
     );
   }
   return <DefaultGroupExpanded className={className} element={element} onCollapseChange={handleCollapse} {...rest} />;
+});
+
+const DefaultGroup: React.FunctionComponent<DefaultGroupProps> = ({ element, ...rest }: DefaultGroupProps) => {
+  if (!isNode(element)) {
+    throw new Error('DefaultGroup must be used only on Node elements');
+  }
+
+  return <DefaultGroupInner element={element} {...rest} />;
 };
 
-export default observer(DefaultGroup);
+export default DefaultGroup;

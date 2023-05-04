@@ -19,7 +19,7 @@
     "strict": true,
     "strictPropertyInitialization": false,
     "strictNullChecks": false,
-    "strictFunctionTypes": false,
+    "strictFunctionTypes": true,
     "sourceMap": true,
     "experimentalDecorators": true
   },

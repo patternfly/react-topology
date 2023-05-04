@@ -10,12 +10,13 @@ import {
   WithDndDropProps,
   WithDndDragProps,
   useAnchor,
-  RectAnchor
+  RectAnchor,
+  GraphElement
 } from '@patternfly/react-topology';
 
 type GroupProps = {
   children?: React.ReactNode;
-  element: Node;
+  element: GraphElement;
   droppable?: boolean;
   hover?: boolean;
   canDrop?: boolean;
@@ -36,13 +37,14 @@ const DefaultGroup: React.FunctionComponent<GroupProps> = ({
   hover,
   canDrop
 }) => {
+  const nodeElement = element as Node;
   useAnchor(RectAnchor);
   const boxRef = React.useRef<Rect | null>(null);
   const refs = useCombineRefs<SVGRectElement>(dragNodeRef, dndDragRef, dndDropRef);
 
   if (!droppable || !boxRef.current) {
     // change the box only when not dragging
-    boxRef.current = element.getBounds();
+    boxRef.current = nodeElement.getBounds();
   }
   let fill = '#ededed';
   if (canDrop && hover) {
@@ -53,8 +55,8 @@ const DefaultGroup: React.FunctionComponent<GroupProps> = ({
     fill = element.getData().background;
   }
 
-  if (element.isCollapsed()) {
-    const { width, height } = element.getDimensions();
+  if (nodeElement.isCollapsed()) {
+    const { width, height } = nodeElement.getDimensions();
     return (
       <g>
         <rect

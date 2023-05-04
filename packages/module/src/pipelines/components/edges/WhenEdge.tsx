@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { Edge, EdgeTerminalType } from '../../../types';
+import { EdgeTerminalType, GraphElement } from '../../../types';
 import { DefaultEdge } from '../../../components';
 
-const WhenEdge: React.FC<{ element: Edge }> = ({ element }) => (
+const WhenEdge: React.FC<{ element: GraphElement }> = ({ element }) => (
   <DefaultEdge element={element} endTerminalType={EdgeTerminalType.none} />
 );
 

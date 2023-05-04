@@ -1,14 +1,15 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import { Edge, vecSum, vecScale, unitNormal } from '@patternfly/react-topology';
+import { Edge, vecSum, vecScale, unitNormal, GraphElement } from '@patternfly/react-topology';
 
 interface MultiEdgeProps {
-  element: Edge;
+  element: GraphElement;
   dragging?: boolean;
 }
 
 // TODO create utiles to support this
 const MultiEdge: React.FunctionComponent<MultiEdgeProps> = ({ element }) => {
+  const edgeElement = element as Edge;
   let idx = 0;
   let sum = 0;
   element
@@ -18,13 +19,13 @@ const MultiEdge: React.FunctionComponent<MultiEdgeProps> = ({ element }) => {
       if (e === element) {
         idx = sum;
         sum++;
-      } else if (e.getSource() === element.getSource() && e.getTarget() === element.getTarget()) {
+      } else if (e.getSource() === edgeElement.getSource() && e.getTarget() === edgeElement.getTarget()) {
         sum++;
       }
     });
   let d: string;
-  const startPoint = element.getStartPoint();
-  const endPoint = element.getEndPoint();
+  const startPoint = edgeElement.getStartPoint();
+  const endPoint = edgeElement.getEndPoint();
   if (idx === sum - 1 && sum % 2 === 1) {
     d = `M${startPoint.x} ${startPoint.y} L${endPoint.x} ${endPoint.y}`;
   } else {

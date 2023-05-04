@@ -304,7 +304,7 @@ export const useDndDrag = <
 };
 
 export interface WithDndDragProps {
-  dndDragRef: ConnectDragSource;
+  dndDragRef?: ConnectDragSource;
 }
 
 export const withDndDrag = <
@@ -314,7 +314,7 @@ export const withDndDrag = <
   Props extends {} = {}
 >(
   spec: DragSourceSpec<DragObject, DragSpecOperationType<DragOperationWithType>, DropResult, CollectedProps, Props>
-) => <P extends WithDndDragProps & CollectedProps & Props>(WrappedComponent: React.ComponentType<Partial<P>>) => {
+) => <P extends WithDndDragProps & CollectedProps & Props>(WrappedComponent: React.ComponentType<P>) => {
   const Component: React.FunctionComponent<Omit<P, keyof WithDndDragProps & CollectedProps>> = props => {
     // TODO fix cast to any
     const [dndDragProps, dndDragRef] = useDndDrag(spec, props as any);

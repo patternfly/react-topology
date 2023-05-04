@@ -32,5 +32,6 @@ const packageBase = './packages/module'
 const entry = path.relative(process.cwd(), path.join(packageBase, 'src'))
 const configLocation = path.relative(process.cwd(), path.join(packageBase, 'tsconfig.json'))
 
+// eslint-disable-next-line no-console
 typeDocGen(entry, configLocation).catch(console.error);
 

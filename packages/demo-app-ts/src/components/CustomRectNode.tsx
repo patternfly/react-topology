@@ -2,7 +2,6 @@ import * as React from 'react';
 import { observer } from 'mobx-react';
 import {
   WithCreateConnectorProps,
-  Node,
   WithContextMenuProps,
   WithDragNodeProps,
   WithSelectionProps,
@@ -10,12 +9,13 @@ import {
   WithDndDropProps,
   ShapeProps,
   useAnchor,
-  RectAnchor
+  RectAnchor,
+  GraphElement
 } from '@patternfly/react-topology';
 import DemoDefaultNode from './DemoDefaultNode';
 
 type CustomRectNodeProps = {
-  element: Node;
+  element: GraphElement;
   droppable?: boolean;
   canDrop?: boolean;
 } & WithSelectionProps &

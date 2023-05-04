@@ -71,7 +71,8 @@
 
     "experimentalDecorators": true,
     "suppressImplicitAnyIndexErrors": true,
-    "noImplicitReturns": true
+    "noImplicitReturns": true,
+    "strictFunctionTypes": true
   },
   "include": ["./src/*", "./src/**/*"],
   "exclude": [

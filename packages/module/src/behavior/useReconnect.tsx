@@ -10,7 +10,7 @@ import {
 } from './dnd-types';
 
 export interface WithSourceDragProps {
-  sourceDragRef: ConnectDragSource;
+  sourceDragRef?: ConnectDragSource;
 }
 
 export const withSourceDrag = <
@@ -31,7 +31,7 @@ export const withSourceDrag = <
 };
 
 export interface WithTargetDragProps {
-  targetDragRef: ConnectDragSource;
+  targetDragRef?: ConnectDragSource;
 }
 
 export const withTargetDrag = <

@@ -1,5 +1,5 @@
 import { action } from 'mobx';
-import { Edge, Graph, GraphElement, isEdge, Node } from '../../../types';
+import { Edge, Graph, GraphElement, isEdge, isNode, Node } from '../../../types';
 import {
   CREATE_CONNECTOR_DROP_TYPE,
   CREATE_CONNECTOR_OPERATION,
@@ -20,6 +20,10 @@ const EDGE_DRAG_TYPE = '#edge#';
 
 const MOVE_CONNECTOR_OPERATION = 'moveconnector';
 const REGROUP_OPERATION = 'regroup';
+
+export interface GraphElementProps {
+  element: GraphElement;
+}
 
 export interface GraphComponentProps {
   element: Graph;
@@ -91,12 +95,12 @@ const nodeDragSourceSpec = (
 ): DragSourceSpec<
   DragObjectWithType,
   DragSpecOperationType<EditableDragOperationType>,
-  Node,
+  GraphElement,
   {
     dragging?: boolean;
     regrouping?: boolean;
   },
-  NodeComponentProps & { canEdit?: boolean }
+  GraphElementProps & { canEdit?: boolean }
 > => ({
   item: { type: NODE_DRAG_TYPE },
   operation: (monitor, props) =>
@@ -167,29 +171,29 @@ const nodeDropTargetSpec = (
 ): DropTargetSpec<
   GraphElement,
   any,
-  { canDrop: boolean; dropTarget: boolean; edgeDragging: boolean },
-  NodeComponentProps
-> => ({
+  { canDrop?: boolean; dropTarget?: boolean; edgeDragging?: boolean },
+  GraphElementProps
+  > => ({
   accept: accept || [EDGE_DRAG_TYPE, CREATE_CONNECTOR_DROP_TYPE],
   canDrop: (item, monitor, props) => {
-    if (isEdge(item)) {
-      return canDropEdgeOnNode(monitor.getOperation()?.type, item as Edge, props.element);
+    if (isEdge(item) && isNode(props.element)) {
+      return canDropEdgeOnNode(monitor.getOperation()?.type, item as Edge, props.element as Node);
     }
-    if (item === props.element) {
+    if (item === props.element || !isNode(props.element)) {
       return false;
     }
     return !props.element.getTargetEdges().find(e => e.getSource() === item);
   },
   collect: (monitor, props) => ({
-    canDrop: highlightNode(monitor, props.element),
+    canDrop: highlightNode(monitor, props.element as Node),
     dropTarget: monitor.isOver({ shallow: true }),
-    edgeDragging: nodesEdgeIsDragging(monitor, props)
+    edgeDragging: nodesEdgeIsDragging(monitor, { ...props, element: props.element as Node })
   })
 });
 
 const graphDropTargetSpec = (
   accept?: TargetType
-): DropTargetSpec<DragNodeObject, any, { dragEditInProgress: boolean }, GraphComponentProps> => ({
+): DropTargetSpec<DragNodeObject, any, { dragEditInProgress?: boolean }, GraphElementProps> => ({
   accept: accept || [NODE_DRAG_TYPE, EDGE_DRAG_TYPE, CREATE_CONNECTOR_DROP_TYPE],
   hitTest: () => true,
   canDrop: (item, monitor, props) =>

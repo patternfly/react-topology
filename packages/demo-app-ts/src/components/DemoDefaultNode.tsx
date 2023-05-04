@@ -12,11 +12,12 @@ import {
   useCombineRefs,
   useHover,
   getShapeComponent,
-  ShapeProps
+  ShapeProps,
+  GraphElement
 } from '@patternfly/react-topology';
 
 type DemoDefaultNodeProps = {
-  element: Node;
+  element: GraphElement;
   droppable?: boolean;
   canDrop?: boolean;
   getCustomShape?: (node: Node) => React.FunctionComponent<ShapeProps>;
@@ -40,15 +41,16 @@ const DemoDefaultNode: React.FunctionComponent<DemoDefaultNodeProps> = ({
   onShowCreateConnector,
   onContextMenu
 }) => {
+  const nodeElement = element as Node;
   const [hover, hoverRef] = useHover();
   const refs = useCombineRefs(hoverRef, dragNodeRef, dndDragRef);
-  const { width, height } = element.getDimensions();
+  const { width, height } = nodeElement.getDimensions();
 
   const className = classNames('pf-ri-topology__node__background', {
     'pf-m-hover': canDrop && hover,
     'pf-m-selected': selected
   });
-  const ShapeComponent = (getCustomShape && getCustomShape(element)) || getShapeComponent(element);
+  const ShapeComponent = (getCustomShape && getCustomShape(nodeElement)) || getShapeComponent(nodeElement);
 
   React.useEffect(() => {
     if (hover) {
@@ -60,7 +62,7 @@ const DemoDefaultNode: React.FunctionComponent<DemoDefaultNodeProps> = ({
 
   return (
     <g ref={refs} onClick={onSelect} onContextMenu={onContextMenu}>
-      <ShapeComponent className={className} element={element} width={width} height={height} dndDropRef={dndDropRef} />
+      <ShapeComponent className={className} element={nodeElement} width={width} height={height} dndDropRef={dndDropRef} />
     </g>
   );
 };

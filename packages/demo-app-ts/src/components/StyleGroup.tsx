@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {
   DefaultGroup,
+  GraphElement,
   Node,
   observer,
   ScaleDetailsLevel,
@@ -21,8 +22,8 @@ export enum DataTypes {
 }
 
 type StyleGroupProps = {
-  element: Node;
-  collapsible: boolean;
+  element: GraphElement;
+  collapsible?: boolean;
   collapsedWidth?: number;
   collapsedHeight?: number;
   onCollapseChange?: (group: Node, collapsed: boolean) => void;
@@ -40,6 +41,7 @@ const StyleGroup: React.FunctionComponent<StyleGroupProps> = ({
   collapsedHeight = 75,
   ...rest
 }) => {
+  const groupElement = element as Node;
   const data = element.getData();
   const detailsLevel = useDetailsLevel();
 
@@ -85,7 +87,7 @@ const StyleGroup: React.FunctionComponent<StyleGroupProps> = ({
       {...rest}
       {...passedData}
     >
-      {element.isCollapsed() ? renderIcon() : null}
+      {groupElement.isCollapsed() ? renderIcon() : null}
     </DefaultGroup>
   );
 };

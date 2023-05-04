@@ -37,7 +37,7 @@ async function createPackage(file) {
     module: esmRelative,
   };
   const typings = glob.sync(`${root}/src/${fileName}/*.d.ts`);
-  let cmds = [];
+  const cmds = [];
   content.typings = 'index.d.ts';
   cmds.push(copyTypings(typings, `${root}/${fileName}`));
   cmds.push(fse.writeJSON(destFile, content));
@@ -56,6 +56,7 @@ async function run(files) {
       copyTypings(indexTypings, root);
     }
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error(error);
     process.exit(1);
   }

@@ -4,6 +4,7 @@ import {
   Edge,
   EdgeConnectorArrow,
   EdgeTerminalType,
+  GraphElement,
   Layer,
   Point,
   useBendpoint,
@@ -13,7 +14,7 @@ import {
 } from '@patternfly/react-topology';
 
 type EdgeProps = {
-  element: Edge;
+  element: GraphElement;
   dragging?: boolean;
 } & WithSourceDragProps &
   WithTargetDragProps &
@@ -48,9 +49,10 @@ const DefaultEdge: React.FunctionComponent<EdgeProps> = ({
   onShowRemoveConnector,
   onHideRemoveConnector
 }) => {
-  const startPoint = element.getStartPoint();
-  const endPoint = element.getEndPoint();
-  const bendpoints = element.getBendpoints();
+  const edgeElement = element as Edge;
+  const startPoint = edgeElement.getStartPoint();
+  const endPoint = edgeElement.getEndPoint();
+  const bendpoints = edgeElement.getBendpoints();
   const d = `M${startPoint.x} ${startPoint.y} ${bendpoints.map((b: Point) => `L${b.x} ${b.y} `).join('')}L${
     endPoint.x
   } ${endPoint.y}`;
@@ -67,7 +69,7 @@ const DefaultEdge: React.FunctionComponent<EdgeProps> = ({
           onMouseLeave={onHideRemoveConnector}
         />
         {sourceDragRef && <circle ref={sourceDragRef} r={8} cx={startPoint.x} cy={startPoint.y} fillOpacity={0} />}
-        <EdgeConnectorArrow dragRef={targetDragRef} edge={element} terminalType={EdgeTerminalType.directional} />
+        <EdgeConnectorArrow dragRef={targetDragRef} edge={edgeElement} terminalType={EdgeTerminalType.directional} />
       </Layer>
       {bendpoints && bendpoints.map((p, i) => <Bendpoint point={p} key={i.toString()} />)}
     </>

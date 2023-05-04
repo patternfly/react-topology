@@ -162,9 +162,9 @@ export const Performance: React.FunctionComponent = withTopologySetup(() => {
 Performance.displayName = 'Performance';
 
 export const Selection: React.FunctionComponent = () => {
-  const [activeKey, setActiveKey] = React.useState<number>(0);
+  const [activeKey, setActiveKey] = React.useState<string | number>(0);
 
-  const handleTabClick = (_event: React.MouseEvent<HTMLElement, MouseEvent>, tabIndex: number) => {
+  const handleTabClick = (_event: React.MouseEvent<HTMLElement, MouseEvent>, tabIndex: string | number) => {
     setActiveKey(tabIndex);
   };
 

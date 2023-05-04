@@ -2,19 +2,24 @@ import * as React from 'react';
 import { observer } from 'mobx-react';
 import { css } from '@patternfly/react-styles';
 import styles from '../../../css/topology-components';
-import { Edge } from '../../../types';
+import { Edge, GraphElement, isEdge } from '../../../types';
 import { integralShapePath } from '../../utils';
 
 interface TaskEdgeProps {
   /** The graph edge element to represent */
-  element: Edge;
+  element: GraphElement;
   /** Additional classes added to the edge */
   className?: string;
   /** Offset for integral shape path */
   nodeSeparation?: number;
 }
 
-const TaskEdge: React.FunctionComponent<TaskEdgeProps> = ({ element, className, nodeSeparation }: TaskEdgeProps) => {
+type TaskEdgeInnerProps = Omit<TaskEdgeProps, 'element'> & { element: Edge };
+
+const TaskEdgeInner: React.FunctionComponent<TaskEdgeInnerProps> = observer(({
+  element,
+  className,
+  nodeSeparation }) => {
   const startPoint = element.getStartPoint();
   const endPoint = element.getEndPoint();
   const groupClassName = css(styles.topologyEdge, className);
@@ -29,6 +34,13 @@ const TaskEdge: React.FunctionComponent<TaskEdgeProps> = ({ element, className, 
       />
     </g>
   );
+});
+
+const TaskEdge: React.FunctionComponent<TaskEdgeProps> = ({ element, ...rest }: TaskEdgeProps) => {
+  if (!isEdge(element)) {
+    throw new Error('TaskEdge must be used only on Edge elements');
+  }
+  return <TaskEdgeInner element={element as Edge} {...rest} />;
 };
 
-export default observer(TaskEdge);
+export default TaskEdge;

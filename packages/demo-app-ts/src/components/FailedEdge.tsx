@@ -1,15 +1,16 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import { Edge, integralShapePath } from '@patternfly/react-topology';
+import { Edge, GraphElement, integralShapePath } from '@patternfly/react-topology';
 import styles from '@patternfly/react-topology/src/css/topology-components';
 
 interface FailedEdgeProps {
-  element: Edge;
+  element: GraphElement;
 }
 
 const FailedEdge: React.FunctionComponent<FailedEdgeProps> = ({ element }) => {
-  const startPoint = element.getStartPoint();
-  const endPoint = element.getEndPoint();
+  const edgeElement = element as Edge;
+  const startPoint = edgeElement.getStartPoint();
+  const endPoint = edgeElement.getEndPoint();
   const startIndent: number = element.getData()?.indent || 0;
 
   const path = integralShapePath(startPoint, endPoint, startIndent, 10);

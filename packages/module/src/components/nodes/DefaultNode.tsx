@@ -6,7 +6,15 @@ import CheckCircleIcon from '@patternfly/react-icons/dist/esm/icons/check-circle
 import ExclamationCircleIcon from '@patternfly/react-icons/dist/esm/icons/exclamation-circle-icon';
 import ExclamationTriangleIcon from '@patternfly/react-icons/dist/esm/icons/exclamation-triangle-icon';
 import styles from '../../css/topology-components';
-import { BadgeLocation, GraphElement, LabelPosition, Node, NodeStatus, TopologyQuadrant } from '../../types';
+import {
+  BadgeLocation,
+  GraphElement,
+  isNode,
+  LabelPosition,
+  Node,
+  NodeStatus,
+  TopologyQuadrant
+} from '../../types';
 import { ConnectDragSource, ConnectDropTarget, OnSelect, WithDndDragProps } from '../../behavior';
 import Decorator from '../decorators/Decorator';
 import { createSvgIdUrl, StatusModifier, useCombineRefs, useHover } from '../../utils';
@@ -35,7 +43,7 @@ interface DefaultNodeProps {
   /** Additional classes added to the node */
   className?: string;
   /** The graph node element to represent */
-  element: Node;
+  element: GraphElement;
   /** Flag if the node accepts drop operations */
   droppable?: boolean;
   /** Flag if the user is hovering on the node */
@@ -120,7 +128,9 @@ interface DefaultNodeProps {
 
 const SCALE_UP_TIME = 200;
 
-const DefaultNode: React.FunctionComponent<DefaultNodeProps> = ({
+type DefaultNodeInnerProps = Omit<DefaultNodeProps, 'element'> & { element: Node };
+
+const DefaultNodeInner: React.FunctionComponent<DefaultNodeInnerProps> = observer(({
   className,
   element,
   selected,
@@ -162,7 +172,7 @@ const DefaultNode: React.FunctionComponent<DefaultNodeProps> = ({
   onShowCreateConnector,
   onContextMenu,
   contextMenuOpen
-}: DefaultNodeProps) => {
+}) => {
   const [hovered, hoverRef] = useHover();
   const status = nodeStatus || element.getNodeStatus();
   const refs = useCombineRefs<SVGEllipseElement>(hoverRef, dragNodeRef);
@@ -207,7 +217,7 @@ const DefaultNode: React.FunctionComponent<DefaultNodeProps> = ({
     }
 
     return decorator;
-  }, [showStatusDecorator, status, getShapeDecoratorCenter, element, statusDecoratorTooltip, onStatusDecoratorClick]);
+  }, [status, showStatusDecorator, getShapeDecoratorCenter, element, statusDecoratorTooltip, onStatusDecoratorClick]);
 
   React.useEffect(() => {
     if (isHover) {
@@ -364,6 +374,18 @@ const DefaultNode: React.FunctionComponent<DefaultNodeProps> = ({
       {attachments}
     </g>
   );
+});
+
+const DefaultNode: React.FunctionComponent<DefaultNodeProps> = ({
+  element,
+  showLabel = true,
+  showStatusDecorator = false,
+  ...rest
+}: DefaultNodeProps) => {
+  if (!isNode(element)) {
+    throw new Error('DefaultNode must be used only on Node elements');
+  }
+  return <DefaultNodeInner element={element as Node} showLabel={showLabel} showStatusDecorator={showStatusDecorator} {...rest} />;
 };
 
-export default observer(DefaultNode);
+export default DefaultNode;

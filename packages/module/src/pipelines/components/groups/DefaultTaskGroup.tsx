@@ -7,7 +7,15 @@ import NodeLabel from '../../../components/nodes/labels/NodeLabel';
 import { Layer } from '../../../components/layers';
 import { GROUPS_LAYER } from '../../../const';
 import { maxPadding, useCombineRefs, useHover } from '../../../utils';
-import { BadgeLocation, isGraph, LabelPosition, Node, NodeStyle } from '../../../types';
+import {
+  BadgeLocation,
+  GraphElement,
+  isGraph,
+  isNode,
+  LabelPosition,
+  Node,
+  NodeStyle
+} from '../../../types';
 import {
   useDragNode,
   WithContextMenuProps,
@@ -19,7 +27,7 @@ import { CollapsibleGroupProps } from '../../../components';
 
 type DefaultTaskGroupProps = {
   className?: string;
-  element: Node;
+  element: GraphElement;
   droppable?: boolean;
   canDrop?: boolean;
   dropTarget?: boolean;
@@ -41,7 +49,9 @@ type DefaultTaskGroupProps = {
   labelIconPadding?: number;
 } & Partial<CollapsibleGroupProps & WithDragNodeProps & WithSelectionProps & WithDndDropProps & WithContextMenuProps>;
 
-const DefaultTaskGroup: React.FunctionComponent<DefaultTaskGroupProps> = ({
+type DefaultTaskGroupInnerProps = Omit<DefaultTaskGroupProps, 'element'> & { element: Node };
+
+const DefaultTaskGroupInner: React.FunctionComponent<DefaultTaskGroupInnerProps> = observer(({
   className,
   element,
   collapsible,
@@ -177,6 +187,18 @@ const DefaultTaskGroup: React.FunctionComponent<DefaultTaskGroupProps> = ({
       )}
     </g>
   );
+});
+
+const DefaultTaskGroup: React.FunctionComponent<DefaultTaskGroupProps> = ({
+  element,
+  showLabel = true,
+  labelOffset = 17,
+  ...rest
+}: DefaultTaskGroupProps) => {
+  if (!isNode(element)) {
+    throw new Error('DefaultTaskGroup must be used only on Node elements');
+  }
+  return <DefaultTaskGroupInner element={element as Node} showLabel={showLabel} labelOffset={labelOffset} {...rest} />;
 };
 
-export default observer(DefaultTaskGroup);
+export default DefaultTaskGroup;

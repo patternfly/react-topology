@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as _ from 'lodash';
 import { observer } from 'mobx-react';
-import { Edge, EdgeTerminalType, isNode, NodeStatus } from '../../types';
+import { Edge, EdgeTerminalType, GraphElement, isEdge, isNode, NodeStatus } from '../../types';
 import { ConnectDragSource, OnSelect } from '../../behavior';
 import { getClosestVisibleParent, useHover } from '../../utils';
 import { Layer } from '../layers';
@@ -20,7 +20,7 @@ interface DefaultEdgeProps {
   /** Additional classes added to the edge */
   className?: string;
   /** The graph edge element to represent */
-  element: Edge;
+  element: GraphElement;
   /** Flag indicating if the user is dragging the edge */
   dragging?: boolean;
   /** The duration in seconds for the edge animation. Defaults to the animationSpeed set on the Edge's model */
@@ -65,7 +65,9 @@ interface DefaultEdgeProps {
   contextMenuOpen?: boolean;
 }
 
-const DefaultEdge: React.FunctionComponent<DefaultEdgeProps> = ({
+type DefaultEdgeInnerProps = Omit<DefaultEdgeProps, 'element'> & { element: Edge };
+
+const DefaultEdgeInner: React.FunctionComponent<DefaultEdgeInnerProps> = observer(({
   element,
   dragging,
   sourceDragRef,
@@ -89,7 +91,7 @@ const DefaultEdge: React.FunctionComponent<DefaultEdgeProps> = ({
   selected,
   onSelect,
   onContextMenu
-}: DefaultEdgeProps) => {
+}) => {
   const [hover, hoverRef] = useHover();
   const startPoint = element.getStartPoint();
   const endPoint = element.getEndPoint();
@@ -188,6 +190,29 @@ const DefaultEdge: React.FunctionComponent<DefaultEdgeProps> = ({
       </g>
     </Layer>
   );
+});
+
+const DefaultEdge: React.FunctionComponent<DefaultEdgeProps>= ({
+  element,
+  startTerminalType = EdgeTerminalType.none,
+  startTerminalSize = 14,
+  endTerminalType = EdgeTerminalType.directional,
+  endTerminalSize = 14,
+  ...rest
+}: DefaultEdgeProps) => {
+  if (!isEdge(element)) {
+    throw new Error('DefaultEdge must be used only on Edge elements');
+  }
+  return (
+    <DefaultEdgeInner
+      element={element}
+      startTerminalType={startTerminalType}
+      startTerminalSize={startTerminalSize}
+      endTerminalType={endTerminalType}
+      endTerminalSize={endTerminalSize}
+      {...rest}
+    />
+  );
 };
 
-export default observer(DefaultEdge);
+export default DefaultEdge;

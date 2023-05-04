@@ -11,7 +11,8 @@ import {
   useModel,
   useLayoutFactory,
   useComponentFactory,
-  ComponentFactory
+  ComponentFactory,
+  GraphElement
 } from '@patternfly/react-topology';
 import defaultComponentFactory from '../components/defaultComponentFactory';
 import DefaultGroup from '../components/DefaultGroup';
@@ -19,11 +20,11 @@ import DemoDefaultNode from '../components/DemoDefaultNode';
 import defaultLayoutFactory from '../layouts/defaultLayoutFactory';
 import withTopologySetup from '../utils/withTopologySetup';
 
-const GroupWithDecorator: React.FunctionComponent<{ element: Node } & WithDragNodeProps> = observer(props => {
+const GroupWithDecorator: React.FunctionComponent<{ element: GraphElement } & WithDragNodeProps> = observer(({ element, ...props }) => {
   const trafficSourceRef = useSvgAnchor(AnchorEnd.source, 'traffic');
-  const b = props.element.getBounds();
+  const b = (element as Node).getBounds();
   return (
-    <DefaultGroup {...(props as any)}>
+    <DefaultGroup element={element} {...(props as any)}>
       <circle
         ref={trafficSourceRef}
         cx={b.x + b.width}
