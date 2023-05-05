@@ -8,14 +8,14 @@ import {
   withDragNode,
   withSelection,
   ModelKind,
-  NodeComponentProps,
   DefaultNode,
   withPanZoom,
   GraphComponent,
   ContextSubMenuItem,
   withDndDrop,
   nodeDropTargetSpec,
-  nodeDragSourceSpec
+  nodeDragSourceSpec,
+  GraphElementProps
 } from '@patternfly/react-topology';
 import GroupHull from './GroupHull';
 import CustomPathNode from './CustomPathNode';
@@ -64,12 +64,12 @@ const actionsComponentFactory: ComponentFactory = (
     return withDragNode({ canCancel: false })(GroupHull);
   }
   if (type === 'default-node' || type === 'node') {
-    return withDndDrop<any, any, { droppable?: boolean; hover?: boolean; canDrop?: boolean }, NodeComponentProps>(
+    return withDndDrop<any, any, { droppable?: boolean; hover?: boolean; canDrop?: boolean }, GraphElementProps>(
       nodeDropTargetSpec()
     )(withDragNode(nodeDragSourceSpec(type))(withSelection()(withContextMenu(() => defaultMenu)(DefaultNode))));
   }
   if (type === 'custom-node') {
-    return withDndDrop<any, any, { droppable?: boolean; hover?: boolean; canDrop?: boolean }, NodeComponentProps>(
+    return withDndDrop<any, any, { droppable?: boolean; hover?: boolean; canDrop?: boolean }, GraphElementProps>(
       nodeDropTargetSpec()
     )(withDragNode(nodeDragSourceSpec(type))(withSelection()(withContextMenu(() => defaultMenu)(CustomPathNode))));
   }

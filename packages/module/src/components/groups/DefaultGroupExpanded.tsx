@@ -41,7 +41,7 @@ type DefaultGroupExpandedProps = {
   labelIconClass?: string; // Icon to show in label
   labelIcon?: string;
   labelIconPadding?: number;
-} & Partial<CollapsibleGroupProps & WithDragNodeProps & WithSelectionProps & WithDndDropProps & WithContextMenuProps>;
+} & CollapsibleGroupProps & WithDragNodeProps & WithSelectionProps & WithDndDropProps & WithContextMenuProps;
 
 type PointWithSize = [number, number, number];
 

@@ -6,7 +6,7 @@ import {
   GraphComponent,
   withPanZoom
 } from '@patternfly/react-topology';
-import Edge from './DefaultEdge';
+import DefaultEdge from './DefaultEdge';
 import StatusConnectorNode from './StatusConnectorNode';
 import SuccessEdge from './SuccessEdge';
 import FailedEdge from './FailedEdge';
@@ -27,7 +27,7 @@ const statusConnectorsComponentFactory: ComponentFactory = (
         case ModelKind.node:
           return StatusConnectorNode;
         case ModelKind.edge:
-          return Edge;
+          return DefaultEdge;
         default:
           return undefined;
       }

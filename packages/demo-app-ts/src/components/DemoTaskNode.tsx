@@ -3,6 +3,7 @@ import { observer } from 'mobx-react';
 import {
   DEFAULT_LAYER,
   DEFAULT_WHEN_OFFSET,
+  GraphElement,
   Layer,
   Node,
   ScaleDetailsLevel,
@@ -17,9 +18,8 @@ import {
 import { PopoverProps } from '@patternfly/react-core';
 
 type DemoTaskNodeProps = {
-  element: Node;
-} & WithContextMenuProps &
-  WithSelectionProps;
+  element: GraphElement;
+} & WithContextMenuProps & WithSelectionProps;
 
 const DEMO_TIP_TEXT =
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id feugiat augue, nec fringilla turpis.';
@@ -30,6 +30,7 @@ const DemoTaskNode: React.FunctionComponent<DemoTaskNodeProps> = ({
   contextMenuOpen,
   ...rest
 }) => {
+  const nodeElement = element as Node;
   const data = element.getData();
   const [hover, hoverRef] = useHover();
   const detailsLevel = useDetailsLevel();
@@ -49,7 +50,7 @@ const DemoTaskNode: React.FunctionComponent<DemoTaskNodeProps> = ({
     <WhenDecorator
       element={element}
       status={data.whenStatus}
-      leftOffset={hasTaskIcon ? DEFAULT_WHEN_OFFSET + (element.getBounds().height - 4) * 0.75 : DEFAULT_WHEN_OFFSET}
+      leftOffset={hasTaskIcon ? DEFAULT_WHEN_OFFSET + (nodeElement.getBounds().height - 4) * 0.75 : DEFAULT_WHEN_OFFSET}
     />
   ) : null;
 
@@ -62,20 +63,21 @@ const DemoTaskNode: React.FunctionComponent<DemoTaskNodeProps> = ({
 
   return (
     <Layer id={detailsLevel !== ScaleDetailsLevel.high && hover ? TOP_LAYER : DEFAULT_LAYER}>
-      <TaskNode
-        ref={hoverRef}
-        element={element}
-        onContextMenu={data.showContextMenu ? onContextMenu : undefined}
-        contextMenuOpen={contextMenuOpen}
-        scaleNode={(hover || contextMenuOpen) && detailsLevel !== ScaleDetailsLevel.high}
-        hideDetailsAtMedium
-        {...passedData}
-        {...rest}
-        badgePopoverParams={badgePopoverParams}
-        badgeTooltip={data.badgeTooltips && DEMO_TIP_TEXT}
-      >
-        {whenDecorator}
-      </TaskNode>
+      <g ref={hoverRef}>
+        <TaskNode
+          element={element}
+          onContextMenu={data.showContextMenu ? onContextMenu : undefined}
+          contextMenuOpen={contextMenuOpen}
+          scaleNode={(hover || contextMenuOpen) && detailsLevel !== ScaleDetailsLevel.high}
+          hideDetailsAtMedium
+          {...passedData}
+          {...rest}
+          badgePopoverParams={badgePopoverParams}
+          badgeTooltip={data.badgeTooltips && DEMO_TIP_TEXT}
+        >
+          {whenDecorator}
+        </TaskNode>
+      </g>
     </Layer>
   );
 };

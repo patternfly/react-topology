@@ -851,9 +851,9 @@ export const EdgeTerminalTagStyles = withTopologySetup(() => {
 });
 
 export const StyleNodes: React.FunctionComponent = () => {
-  const [activeKey, setActiveKey] = React.useState<number>(0);
+  const [activeKey, setActiveKey] = React.useState<string | number>(0);
 
-  const handleTabClick = (_event: React.MouseEvent<HTMLElement, MouseEvent>, tabIndex: number) => {
+  const handleTabClick = (_event: React.MouseEvent<HTMLElement, MouseEvent>, tabIndex: string | number) => {
     setActiveKey(tabIndex);
   };
 
@@ -881,9 +881,9 @@ export const StyleNodes: React.FunctionComponent = () => {
 };
 
 export const StyleLabels: React.FunctionComponent = () => {
-  const [activeKey, setActiveKey] = React.useState<number>(0);
+  const [activeKey, setActiveKey] = React.useState<string | number>(0);
 
-  const handleTabClick = (_event: React.MouseEvent<HTMLElement, MouseEvent>, tabIndex: number) => {
+  const handleTabClick = (_event: React.MouseEvent<HTMLElement, MouseEvent>, tabIndex: string | number) => {
     setActiveKey(tabIndex);
   };
 
@@ -920,9 +920,9 @@ export const StyleLabels: React.FunctionComponent = () => {
 };
 
 export const StyleGroups: React.FunctionComponent = () => {
-  const [activeKey, setActiveKey] = React.useState<number>(0);
+  const [activeKey, setActiveKey] = React.useState<string | number>(0);
 
-  const handleTabClick = (_event: React.MouseEvent<HTMLElement, MouseEvent>, tabIndex: number) => {
+  const handleTabClick = (_event: React.MouseEvent<HTMLElement, MouseEvent>, tabIndex: string | number) => {
     setActiveKey(tabIndex);
   };
 
@@ -953,9 +953,9 @@ export const StyleGroups: React.FunctionComponent = () => {
 };
 
 export const StyleEdges: React.FunctionComponent = () => {
-  const [activeKey, setActiveKey] = React.useState<number>(0);
+  const [activeKey, setActiveKey] = React.useState<string | number>(0);
 
-  const handleTabClick = (_event: React.MouseEvent<HTMLElement, MouseEvent>, tabIndex: number) => {
+  const handleTabClick = (_event: React.MouseEvent<HTMLElement, MouseEvent>, tabIndex: string | number) => {
     setActiveKey(tabIndex);
   };
 

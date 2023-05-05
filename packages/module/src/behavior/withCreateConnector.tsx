@@ -233,12 +233,12 @@ const CreateConnectorWidget: React.FunctionComponent<CreateConnectorWidgetProps>
 });
 
 interface ElementProps {
-  element: Node;
+  element: GraphElement;
 }
 
 export interface WithCreateConnectorProps {
-  onShowCreateConnector: () => void;
-  onHideCreateConnector: () => void;
+  onShowCreateConnector?: () => void;
+  onHideCreateConnector?: () => void;
 }
 
 export const withCreateConnector = <P extends WithCreateConnectorProps & ElementProps>(
@@ -246,7 +246,7 @@ export const withCreateConnector = <P extends WithCreateConnectorProps & Element
   ConnectorComponent: CreateConnectorRenderer = DefaultCreateConnector,
   contextMenuClass?: string,
   options?: CreateConnectorOptions
-) => (WrappedComponent: React.ComponentType<Partial<P>>) => {
+) => (WrappedComponent: React.ComponentType<P>) => {
   const Component: React.FunctionComponent<Omit<P, keyof WithCreateConnectorProps>> = props => {
     const [show, setShow] = React.useState(false);
     const [alive, setKeepAlive] = React.useState(false);
@@ -263,7 +263,7 @@ export const withCreateConnector = <P extends WithCreateConnectorProps & Element
         {(show || alive) && (
           <CreateConnectorWidget
             {...options}
-            element={props.element}
+            element={props.element as Node}
             onCreate={onCreate}
             onKeepAlive={onKeepAlive}
             ConnectorComponent={ConnectorComponent}

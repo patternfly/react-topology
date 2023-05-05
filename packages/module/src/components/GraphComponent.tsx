@@ -1,25 +1,22 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import { Graph } from '../types';
+import { Graph, isGraph } from '../types';
 import { WithPanZoomProps } from '../behavior/usePanZoom';
 import { WithDndDropProps } from '../behavior/useDndDrop';
 import { WithSelectionProps } from '../behavior/useSelection';
 import { WithContextMenuProps } from '../behavior/withContextMenu';
 import LayersProvider from './layers/LayersProvider';
 import ElementWrapper from './ElementWrapper';
+import { GraphElementProps } from './factories';
 
-interface ElementProps {
-  element: Graph;
-}
-
-type GraphComponentProps = ElementProps &
-  WithPanZoomProps &
-  WithDndDropProps &
-  WithSelectionProps &
-  WithContextMenuProps;
+type GraphComponentProps = GraphElementProps &
+    WithPanZoomProps &
+    WithDndDropProps &
+    WithSelectionProps &
+    WithContextMenuProps;
 
 // This inner Component will prevent the re-rendering of all children when the transform changes
-const ElementChildren: React.FunctionComponent<ElementProps> = observer(({ element }) => (
+const ElementChildren: React.FunctionComponent<{ element: Graph }> = observer(({ element }) => (
   <>
     {element.getEdges().map(e => (
       <ElementWrapper key={e.getId()} element={e} />
@@ -31,7 +28,7 @@ const ElementChildren: React.FunctionComponent<ElementProps> = observer(({ eleme
 ));
 
 // This inner Component will prevent re-rendering layers when the transform changes
-const Inner: React.FunctionComponent<ElementProps> = React.memo(
+const Inner: React.FunctionComponent<{ element: Graph }> = React.memo(
   observer(({ element }) => (
     <LayersProvider layers={element.getLayers()}>
       <ElementChildren element={element} />
@@ -46,7 +43,11 @@ const GraphComponent: React.FunctionComponent<GraphComponentProps> = ({
   onSelect,
   onContextMenu
 }) => {
-  const { x, y, width, height } = element.getBounds();
+  if (!isGraph(element)) {
+    return null;
+  }
+  const graphElement = element as Graph;
+  const { x, y, width, height } = graphElement.getBounds();
   return (
     <>
       <rect
@@ -59,8 +60,8 @@ const GraphComponent: React.FunctionComponent<GraphComponentProps> = ({
         onClick={onSelect}
         onContextMenu={onContextMenu}
       />
-      <g data-surface="true" ref={panZoomRef} transform={`translate(${x}, ${y}) scale(${element.getScale()})`}>
-        <Inner element={element} />
+      <g data-surface="true" ref={panZoomRef} transform={`translate(${x}, ${y}) scale(${graphElement.getScale()})`}>
+        <Inner element={graphElement} />
       </g>
     </>
   );

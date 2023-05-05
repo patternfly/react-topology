@@ -16,12 +16,13 @@ import {
   maxPadding,
   hullPath,
   useAnchor,
-  RectAnchor
+  RectAnchor,
+  GraphElement
 } from '@patternfly/react-topology';
 
 type GroupHullProps = {
   children?: React.ReactNode;
-  element: Node;
+  element: GraphElement;
   droppable?: boolean;
   hover?: boolean;
   canDrop?: boolean;
@@ -44,6 +45,7 @@ const GroupHull: React.FunctionComponent<GroupHullProps> = ({
   droppable,
   canDrop
 }) => {
+  const nodeElement = element as Node;
   const pathRef = React.useRef<string | null>(null);
   const refs = useCombineRefs<SVGPathElement | SVGRectElement>(dragNodeRef, dndDragRef, dndDropRef);
   useAnchor(RectAnchor);
@@ -57,8 +59,8 @@ const GroupHull: React.FunctionComponent<GroupHullProps> = ({
     fill = element.getData().background;
   }
 
-  if (element.isCollapsed()) {
-    const { width, height } = element.getBounds();
+  if (nodeElement.isCollapsed()) {
+    const { width, height } = nodeElement.getBounds();
     return (
       <g>
         <rect
@@ -78,7 +80,7 @@ const GroupHull: React.FunctionComponent<GroupHullProps> = ({
   }
 
   if (!droppable || !pathRef.current) {
-    const nodeChildren = element.getNodes();
+    const nodeChildren = nodeElement.getNodes();
     if (nodeChildren.length === 0) {
       return null;
     }

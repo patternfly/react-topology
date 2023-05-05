@@ -3,8 +3,8 @@ import { observer } from 'mobx-react';
 import {
   DEFAULT_LAYER,
   FinallyNode,
+  GraphElement,
   Layer,
-  Node,
   ScaleDetailsLevel,
   TOP_LAYER,
   useDetailsLevel,
@@ -14,9 +14,8 @@ import {
 } from '@patternfly/react-topology';
 
 type DemoFinallyNodeProps = {
-  element: Node;
-} & WithContextMenuProps &
-  WithSelectionProps;
+  element: GraphElement;
+} & WithContextMenuProps & WithSelectionProps;
 
 const DemoFinallyNode: React.FunctionComponent<DemoFinallyNodeProps> = ({ ...props }) => {
   const [hover, hoverRef] = useHover();

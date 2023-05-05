@@ -316,9 +316,9 @@ export const AutoSizeNode = withTopologySetup(() => {
 
 
 export const Basics: React.FunctionComponent = () => {
-  const [activeKey, setActiveKey] = React.useState<number>(0);
+  const [activeKey, setActiveKey] = React.useState<string | number>(0);
 
-  const handleTabClick = (_event: React.MouseEvent<HTMLElement, MouseEvent>, tabIndex: number) => {
+  const handleTabClick = (_event: React.MouseEvent<HTMLElement, MouseEvent>, tabIndex: string | number) => {
     setActiveKey(tabIndex);
   };
 

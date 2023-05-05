@@ -24,7 +24,9 @@ import {
   useModel,
   useComponentFactory,
   ComponentFactory,
-  useVisualizationController
+  useVisualizationController,
+  GraphElement,
+  GraphElementProps
 } from '@patternfly/react-topology';
 import defaultComponentFactory from '../components/defaultComponentFactory';
 import DefaultEdge from '../components/DefaultEdge';
@@ -32,14 +34,6 @@ import DemoDefaultNode from '../components/DemoDefaultNode';
 import withTopologySetup from '../utils/withTopologySetup';
 import NodeRect from '../components/NodeRect';
 import { Tab, Tabs, TabTitleText } from '@patternfly/react-core';
-
-interface NodeProps {
-  element: Node;
-}
-
-interface EdgeProps {
-  element: Edge;
-}
 
 export const Reconnect = withTopologySetup(() => {
   useComponentFactory(defaultComponentFactory);
@@ -49,7 +43,7 @@ export const Reconnect = withTopologySetup(() => {
         return withPanZoom()(GraphComponent);
       }
       if (kind === ModelKind.node) {
-        return withDndDrop<Edge, any, { droppable?: boolean; hover?: boolean; canDrop?: boolean }, NodeProps>({
+        return withDndDrop<Edge, any, { droppable?: boolean; hover?: boolean; canDrop?: boolean }, GraphElementProps>({
           accept: 'test',
           canDrop: (item, monitor, props) =>
             !props || (item.getSource() !== props.element && item.getTarget() !== props.element),
@@ -61,36 +55,36 @@ export const Reconnect = withTopologySetup(() => {
         })(DemoDefaultNode);
       }
       if (kind === ModelKind.edge) {
-        return withSourceDrag<DragObjectWithType, Node, any, EdgeProps>({
+        return withSourceDrag<DragObjectWithType, Node, any, GraphElementProps>({
           item: { type: 'test' },
           begin: (monitor, props) => {
             props.element.raise();
             return props.element;
           },
           drag: (event, monitor, props) => {
-            props.element.setStartPoint(event.x, event.y);
+            (props.element as Edge).setStartPoint(event.x, event.y);
           },
           end: (dropResult, monitor, props) => {
             if (monitor.didDrop() && dropResult && props) {
-              props.element.setSource(dropResult);
+              (props.element as Edge).setSource(dropResult);
             }
-            props.element.setStartPoint();
+            (props.element as Edge).setStartPoint();
           }
         })(
-          withTargetDrag<DragObjectWithType, Node, { dragging?: boolean }, EdgeProps>({
+          withTargetDrag<DragObjectWithType, Node, { dragging?: boolean }, GraphElementProps>({
             item: { type: 'test' },
             begin: (monitor, props) => {
               props.element.raise();
               return props.element;
             },
             drag: (event, monitor, props) => {
-              props.element.setEndPoint(event.x, event.y);
+              (props.element as Edge).setEndPoint(event.x, event.y);
             },
             end: (dropResult, monitor, props) => {
               if (monitor.didDrop() && dropResult && props) {
-                props.element.setTarget(dropResult);
+                (props.element as Edge).setTarget(dropResult);
               }
-              props.element.setEndPoint();
+              (props.element as Edge).setEndPoint();
             },
             collect: monitor => ({
               dragging: monitor.isDragging()
@@ -160,7 +154,7 @@ export const Reconnect = withTopologySetup(() => {
 });
 
 type ColorChoice = ConnectorChoice & {
-  color: string;
+  color?: string;
 };
 
 export const CreateConnector = withTopologySetup(() => {
@@ -259,7 +253,7 @@ export const CreateConnector = withTopologySetup(() => {
               controller.fromModel(model);
             }
           )(
-            withDndDrop<Node, any, { droppable?: boolean; hover?: boolean; canDrop?: boolean }, NodeProps>({
+            withDndDrop<Node, any, { droppable?: boolean; hover?: boolean; canDrop?: boolean }, GraphElementProps>({
               accept: CREATE_CONNECTOR_DROP_TYPE,
               canDrop: (item, monitor, props) => !props || item !== props.element,
               collect: monitor => ({
@@ -279,14 +273,15 @@ export const CreateConnector = withTopologySetup(() => {
   return null;
 });
 
-const NodeWithPointAnchor: React.FunctionComponent<{ element: Node } & WithDragNodeProps> = props => {
+const NodeWithPointAnchor: React.FunctionComponent<{ element: GraphElement } & WithDragNodeProps> = ({ element, ...props }) => {
+  const nodeElement = element as Node;
   const nodeRef = useSvgAnchor();
   const targetRef = useSvgAnchor(AnchorEnd.target, 'edge-point');
-  const { width, height } = props.element.getDimensions();
+  const { width, height } = nodeElement.getDimensions();
   return (
     <>
       <Layer id="bottom">
-        <NodeRect {...(props as any)} />
+        <NodeRect element={element} {...(props as any)} />
       </Layer>
       <circle ref={nodeRef} fill="lightgreen" r="5" cx={width * 0.25} cy={height * 0.25} />
       <circle ref={targetRef} fill="red" r="5" cx={width * 0.75} cy={height * 0.75} />
@@ -359,9 +354,9 @@ export const Anchors = withTopologySetup(() => {
 });
 
 export const Connectors: React.FunctionComponent = () => {
-  const [activeKey, setActiveKey] = React.useState<number>(0);
+  const [activeKey, setActiveKey] = React.useState<string | number>(0);
 
-  const handleTabClick = (_event: React.MouseEvent<HTMLElement, MouseEvent>, tabIndex: number) => {
+  const handleTabClick = (_event: React.MouseEvent<HTMLElement, MouseEvent>, tabIndex: string | number) => {
     setActiveKey(tabIndex);
   };
 

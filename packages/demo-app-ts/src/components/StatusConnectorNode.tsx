@@ -4,8 +4,10 @@ import { css } from '@patternfly/react-styles';
 import styles from '@patternfly/react-topology/dist/esm/css/topology-components';
 import {
   AnchorEnd,
+  GraphElement,
   Node,
-  Rectangle, useCombineRefs,
+  Rectangle,
+  useCombineRefs,
   useSize,
 } from '@patternfly/react-topology';
 import CheckCircleIcon from '@patternfly/react-icons/dist/esm/icons/check-circle-icon';
@@ -19,10 +21,11 @@ const STATUS_RADIUS = 8;
 const STATUS_PADDING = 2;
 
 interface StatusConnectorNodeProps {
-  element: Node;
+  element: GraphElement;
 }
 
 const StatusConnectorNode: React.FunctionComponent<StatusConnectorNodeProps> = ({ element }) => {
+  const nodeElement = element as Node;
   const label = element.getLabel();
   const [textSize, textRef] = useSize([label]);
   const [secondarySize, secondaryRef] = useSize([label]);
@@ -133,7 +136,7 @@ const StatusConnectorNode: React.FunctionComponent<StatusConnectorNodeProps> = (
     <g className={styles.topologyNode}>
       <Rectangle
         className={styles.topologyNodeBackground}
-        element={element}
+        element={nodeElement}
         width={width}
         height={height}
       />

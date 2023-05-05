@@ -17,6 +17,7 @@ import {
   EdgeStyle,
   Graph,
   GraphComponent,
+  GraphElement,
   graphDropTargetSpec,
   groupDropTargetSpec,
   Layout,
@@ -113,7 +114,7 @@ const customComponentFactory: ComponentFactory = (kind: ModelKind, type: string)
             Node,
             { dragging?: boolean },
             {
-              element: Edge;
+              element: GraphElement;
             }
           >({
             item: { type: CONNECTOR_TARGET_DROP },
@@ -122,13 +123,13 @@ const customComponentFactory: ComponentFactory = (kind: ModelKind, type: string)
               return props.element;
             },
             drag: (event, monitor, props) => {
-              props.element.setEndPoint(event.x, event.y);
+              (props.element as Edge).setEndPoint(event.x, event.y);
             },
             end: (dropResult, monitor, props) => {
               if (monitor.didDrop() && dropResult && props) {
-                props.element.setTarget(dropResult);
+                (props.element as Edge).setTarget(dropResult);
               }
-              props.element.setEndPoint();
+              (props.element as Edge).setEndPoint();
             },
             collect: monitor => ({
               dragging: monitor.isDragging()

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Tab, Tabs, TabTitleText } from '@patternfly/react-core';
 import {
   Model,
   Node,
@@ -12,16 +13,16 @@ import {
   withDragNode,
   useModel,
   useComponentFactory,
-  ComponentFactory
+  ComponentFactory,
+  GraphElement
 } from '@patternfly/react-topology';
 import defaultComponentFactory from '../components/defaultComponentFactory';
 import DemoDefaultNode from '../components/DemoDefaultNode';
 import GroupHull from '../components/GroupHull';
 import withTopologySetup from '../utils/withTopologySetup';
-import { Tab, Tabs, TabTitleText } from '@patternfly/react-core';
 
 interface ElementProps {
-  element: Node;
+  element: GraphElement;
 }
 
 export const Dnd = withTopologySetup(() => {
@@ -33,9 +34,9 @@ export const Dnd = withTopologySetup(() => {
         return withPanZoom()(GraphComponent);
       }
       if (type === 'group-drop') {
-        return withDndDrop<Node, any, { droppable?: boolean; hover?: boolean; canDrop?: boolean }, ElementProps>({
+        return withDndDrop<GraphElement, any, { droppable?: boolean; hover?: boolean; canDrop?: boolean }, ElementProps>({
           accept: 'test',
-          canDrop: (item, monitor, props) => !!props && item.getParent() !== props.element,
+          canDrop: (item, monitor, props) => !!props && (item as Node).getParent() !== props.element,
           collect: monitor => ({
             droppable: monitor.isDragging(),
             hover: monitor.isOver(),
@@ -51,8 +52,9 @@ export const Dnd = withTopologySetup(() => {
             return props.element;
           },
           drag: (event, monitor, props) => {
-            props.element.setPosition(
-              props.element
+            const nodeElement = props.element as Node;
+            nodeElement.setPosition(
+              nodeElement
                 .getPosition()
                 .clone()
                 .translate(event.dx, event.dy)
@@ -253,9 +255,9 @@ export const DndShiftRegroup = withTopologySetup(() => {
 });
 
 export const DragAndDrop: React.FunctionComponent = () => {
-  const [activeKey, setActiveKey] = React.useState<number>(0);
+  const [activeKey, setActiveKey] = React.useState<string | number>(0);
 
-  const handleTabClick = (_event: React.MouseEvent<HTMLElement, MouseEvent>, tabIndex: number) => {
+  const handleTabClick = (_event: React.MouseEvent<HTMLElement, MouseEvent>, tabIndex: string | number) => {
     setActiveKey(tabIndex);
   };
 

@@ -2,18 +2,18 @@ import * as React from 'react';
 import { observer } from 'mobx-react';
 import {
   WithCreateConnectorProps,
-  Node,
   WithContextMenuProps,
   WithDragNodeProps,
   WithSelectionProps,
   WithDndDragProps,
-  WithDndDropProps
+  WithDndDropProps,
+  GraphElement
 } from '@patternfly/react-topology';
 import Polygon from './shapes/Polygon';
 import DemoDefaultNode from './DemoDefaultNode';
 
 type CustomPolygonNodeProps = {
-  element: Node;
+  element: GraphElement;
   droppable?: boolean;
   canDrop?: boolean;
 } & WithSelectionProps &

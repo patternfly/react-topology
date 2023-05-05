@@ -1,15 +1,22 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import { Edge, integralShapePath, Layer, TOP_LAYER } from '@patternfly/react-topology';
+import {
+  Edge,
+  GraphElement,
+  integralShapePath,
+  Layer,
+  TOP_LAYER
+} from '@patternfly/react-topology';
 import styles from '@patternfly/react-topology/src/css/topology-components';
 
 interface SuccessEdgeProps {
-  element: Edge;
+  element: GraphElement;
 }
 
 const SuccessEdge: React.FunctionComponent<SuccessEdgeProps> = ({ element }) => {
-  const startPoint = element.getStartPoint();
-  const endPoint = element.getEndPoint();
+  const edgeElement = element as Edge;
+  const startPoint = edgeElement.getStartPoint();
+  const endPoint = edgeElement.getEndPoint();
   const startIndent: number = element.getData()?.indent || 0;
 
   return (

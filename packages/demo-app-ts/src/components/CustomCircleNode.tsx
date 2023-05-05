@@ -3,7 +3,6 @@ import { observer } from 'mobx-react';
 import {
   WithCreateConnectorProps,
   Dimensions,
-  Node,
   WithContextMenuProps,
   WithDragNodeProps,
   WithSelectionProps,
@@ -12,12 +11,13 @@ import {
   ShapeProps,
   useAnchor,
   EllipseAnchor,
-  action
+  action,
+  GraphElement
 } from '@patternfly/react-topology';
 import DemoDefaultNode from './DemoDefaultNode';
 
 type CustomCircleNodeProps = {
-  element: Node;
+  element: GraphElement;
   droppable?: boolean;
   canDrop?: boolean;
 } & WithSelectionProps &

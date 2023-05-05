@@ -4,7 +4,7 @@ import { css } from '@patternfly/react-styles';
 import styles from '../../css/topology-pipelines';
 import topologyStyles from '../../css/topology-components';
 import { observer } from '../../mobx-exports';
-import { Node } from '../../types';
+import { GraphElement, Node } from '../../types';
 import { WhenStatus } from '../types';
 import { OnSelect } from '../../behavior';
 import { getWhenStatusModifier } from '../utils';
@@ -16,7 +16,7 @@ interface WhenDecoratorProps {
   /** Additional classes added to the node */
   className?: string;
   /** The graph node element to represent */
-  element: Node;
+  element: GraphElement;
   /** Offest distance from the start of the node area */
   leftOffset?: number;
   /** Length of the edge between the when decorator and the node */
@@ -52,8 +52,9 @@ export const WhenDecorator: React.FC<WhenDecoratorProps> = ({
   toolTip,
   disableTooltip = false
 }: WhenDecoratorProps) => {
+  const nodeElement = element as Node;
   const diamondNodeRef = React.useRef();
-  const { height: taskHeight } = element.getBounds();
+  const { height: taskHeight } = nodeElement.getBounds();
   const y = taskHeight / 2 - height / 2;
   const startX = -width - leftOffset;
   const points = `${startX + width / 2} ${y} ${startX + width} ${y + height / 2} ${startX + width / 2} ${y +
