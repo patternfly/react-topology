@@ -223,4 +223,3 @@ export const TopologyGettingStartedDemo: React.FC = () => {
 ```
 
 Live docs available on [patternfly.org](https://www.patternfly.org/v4/topology/getting-started/)
-
