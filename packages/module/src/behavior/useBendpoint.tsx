@@ -60,9 +60,9 @@ export const useBendpoint = <DropResult, CollectedProps, Props = {}>(
     node => {
       d3.select(node).on(
         'click',
-        action(() => {
-          if (d3.event.shiftKey) {
-            d3.event.stopPropagation();
+        action((event: MouseEvent) => {
+          if (event.shiftKey) {
+            event.stopPropagation();
             elementRef.current.removeBendpoint(pointRef.current);
           }
         })

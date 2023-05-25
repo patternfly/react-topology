@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as d3 from 'd3';
 import { action, computed, comparer, runInAction } from 'mobx';
 import { observer } from 'mobx-react';
-import { canUseDOM } from '@patternfly/react-core/dist/esm/helpers/util';
+import { canUseDOM } from '@patternfly/react-core';
 import ElementContext from '../utils/ElementContext';
 import useCallbackRef from '../utils/useCallbackRef';
 import {
@@ -49,7 +49,8 @@ const getModifiers = (event: MouseEvent | TouchEvent | KeyboardEvent): number =>
 };
 
 const getOperation = (
-  operation: DragSpecOperationType<DragOperationWithType> | undefined
+  operation: DragSpecOperationType<DragOperationWithType> | undefined,
+  event: MouseEvent | TouchEvent | KeyboardEvent
 ): DragOperationWithType | undefined => {
   if (!operation) {
     return undefined;
@@ -57,7 +58,7 @@ const getOperation = (
   if (operation.hasOwnProperty('type')) {
     return operation as DragOperationWithType;
   }
-  return operation[getModifiers((d3.event && d3.event.sourceEvent) || d3.event)] || operation[Modifiers.DEFAULT];
+  return operation[getModifiers(event)] || operation[Modifiers.DEFAULT];
 };
 
 const hasOperation = (operation: DragSpecOperationType<DragOperationWithType> | undefined): boolean =>
@@ -156,14 +157,14 @@ export const useDndDrag = <
                   typeof specRef.current.operation === 'function'
                     ? specRef.current.operation(monitor, propsRef.current)
                     : specRef.current.operation;
-                const updateOperation = action(async () => {
+                const updateOperation = action(async (event: KeyboardEvent) => {
                   if (operation && idRef.current) {
-                    const op = getOperation(operation);
+                    const op = getOperation(operation, event);
                     if (dndManager.getOperation() !== op) {
                       // restart the drag with the new operation
                       if (dndManager.isDragging()) {
                         // copy the event otherwise it will be mutated by #cancel()
-                        const event = { ...(dndManager.getDragEvent() as DragEvent) };
+                        const event = { ...dndManager.getDragEvent() };
                         const cancelled = dndManager.cancel();
                         operationChangeEvents = {
                           begin: [
@@ -189,17 +190,16 @@ export const useDndDrag = <
                 d3.select(ownerDocument)
                   .on(
                     createKeyHandlerId('keydown'),
-                    action(() => {
-                      const e = d3.event as KeyboardEvent;
-                      if (e.key === 'Escape') {
+                    action((event: KeyboardEvent) => {
+                      if (event.key === 'Escape') {
                         if (dndManager.isDragging() && dndManager.cancel()) {
                           operationChangeEvents = undefined;
-                          d3.select(d3.event.view).on('.drag', null);
+                          d3.select(event.view).on('.drag', null);
                           d3.select(ownerDocument).on(createKeyHandlerId(), null);
                           dndManager.endDrag();
                         }
                       } else {
-                        updateOperation();
+                        updateOperation(event);
                       }
                     })
                   )
@@ -207,15 +207,16 @@ export const useDndDrag = <
               })
               .on(
                 'drag',
-                action(() => {
-                  const { pageX, pageY } = d3.event.sourceEvent;
-                  const { x, y } = d3.event;
+                action((event: d3.D3DragEvent<Element, any, any>) => {
+                  const { pageX, pageY } = event.sourceEvent instanceof MouseEvent ?
+                    event.sourceEvent : { pageX: 0, pageY: 0 };
+                  const { x, y } = event;
                   if (dndManager.isDragging()) {
                     dndManager.drag(x, y, pageX, pageY);
                   } else if (operationChangeEvents) {
                     operationChangeEvents.drag = [x, y, pageX, pageY];
                   } else {
-                    const op = getOperation(operation);
+                    const op = getOperation(operation, event.sourceEvent);
                     if (op || !hasOperation(operation)) {
                       if (idRef.current) {
                         dndManager.beginDrag(idRef.current, op, x, y, pageX, pageY);
@@ -241,7 +242,7 @@ export const useDndDrag = <
                   }
                 })
               )
-              .filter(() => !d3.event.ctrlKey && !d3.event.button && dndManager.canDragSource(idRef.current))
+              .filter((event: MouseEvent) => !event.ctrlKey && !event.button && dndManager.canDragSource(idRef.current))
           );
         }
         return () => {
