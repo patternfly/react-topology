@@ -92,6 +92,50 @@ export const ContextMenuOnNode = withTopologySetup(() => {
   return null;
 });
 
+const createDelayedMenu = (): Promise<React.ReactElement[]> => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(defaultMenu);
+    }, 2000);
+  });
+}
+export const ContextMenuPromise = withTopologySetup(() => {
+  useComponentFactory(defaultComponentFactory);
+  useComponentFactory(
+    React.useCallback<ComponentFactory>(kind => {
+      if (kind === ModelKind.graph) {
+        return withPanZoom()(GraphComponent);
+      }
+      if (kind === ModelKind.node) {
+        return withDragNode()(withContextMenu(createDelayedMenu)(DemoDefaultNode));
+      }
+      return undefined;
+    }, [])
+  );
+  useModel(
+    React.useMemo(
+      (): Model => ({
+        graph: {
+          id: 'g1',
+          type: 'graph'
+        },
+        nodes: [
+          {
+            id: 'n1',
+            type: 'node',
+            x: 50,
+            y: 50,
+            width: 20,
+            height: 20
+          }
+        ]
+      }),
+      []
+    )
+  );
+  return null;
+});
+
 export const ContextMenus: React.FunctionComponent = () => {
   const [activeKey, setActiveKey] = React.useState<string | number>(0);
 
@@ -110,6 +154,9 @@ export const ContextMenus: React.FunctionComponent = () => {
         </Tab>
         <Tab eventKey={2} title={<TabTitleText>Context Menu on Node</TabTitleText>}>
           <ContextMenuOnNode />
+        </Tab>
+        <Tab eventKey={3} title={<TabTitleText>Promise Context Menu on Node</TabTitleText>}>
+          <ContextMenuPromise />
         </Tab>
       </Tabs>
     </div>
