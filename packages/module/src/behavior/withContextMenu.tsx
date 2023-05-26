@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
+import { Spinner } from '@patternfly/react-core';
 import { GraphElement as TopologyElement } from '../types';
 import ElementContext from '../utils/ElementContext';
 import ContextMenu from '../components/contextmenu/ContextMenu';
@@ -12,14 +13,16 @@ export interface WithContextMenuProps {
 }
 
 export const withContextMenu = <E extends TopologyElement>(
-  actions: (element: E) => React.ReactElement[],
+  actions: (element: E) => React.ReactElement[] | Promise<React.ReactElement[]>,
   container?: Element | null | undefined | (() => Element),
   className?: string,
-  atPoint: boolean = true
+  atPoint: boolean = true,
+  waitElement: React.ReactElement = <Spinner className="pf-u-mx-md" size="md" />
 ) => <P extends WithContextMenuProps>(WrappedComponent: React.ComponentType<P>) => {
   const Component: React.FunctionComponent<Omit<P, keyof WithContextMenuProps>> = props => {
     const element = React.useContext(ElementContext);
     const [reference, setReference] = React.useState<Reference | null>(null);
+    const [elementActions, setElementActions] = React.useState<React.ReactElement[] | null>(null);
     const onContextMenu = React.useCallback((e: React.MouseEvent) => {
       e.preventDefault();
       e.stopPropagation();
@@ -33,6 +36,17 @@ export const withContextMenu = <E extends TopologyElement>(
       );
     }, []);
 
+    React.useEffect(() => {
+      if (reference) {
+        const actionsElements = actions(element as E);
+        Promise.resolve(actionsElements).then((resultActions) => {
+          setElementActions(resultActions);
+        });
+      } else {
+        setElementActions(null);
+      }
+    }, [element, reference]);
+
     return (
       <>
         <WrappedComponent {...(props as any)} onContextMenu={onContextMenu} contextMenuOpen={!!reference} />
@@ -44,7 +58,7 @@ export const withContextMenu = <E extends TopologyElement>(
             open
             onRequestClose={() => setReference(null)}
           >
-            {actions(element as E)}
+            {elementActions || waitElement}
           </ContextMenu>
         ) : null}
       </>
