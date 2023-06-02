@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { action } from 'mobx';
 import { observer } from 'mobx-react';
 import Dimensions from '../geom/Dimensions';
 import { Node } from '../types';
@@ -14,7 +13,7 @@ const ComputeElementDimensions: React.FunctionComponent<ComputeElementDimensions
   React.useEffect(() => {
     if (gRef.current && !element.isDimensionsInitialized()) {
       const { width, height } = gRef.current.getBBox();
-      action(() => element.setDimensions(new Dimensions(width, height)))();
+      element.setDimensions(new Dimensions(width, height));
     }
   }, [element]);
 

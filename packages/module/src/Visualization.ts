@@ -1,5 +1,5 @@
 import { ComponentType } from 'react';
-import { action, computed, observable } from 'mobx';
+import { action, computed, observable, makeObservable } from 'mobx';
 import * as _ from 'lodash';
 import {
   Controller,
@@ -25,21 +25,41 @@ import defaultElementFactory from './elements/defaultElementFactory';
 import Stateful from './utils/Stateful';
 
 export class Visualization extends Stateful implements Controller {
-  @observable.shallow
   elements: { [id: string]: GraphElement } = {};
 
-  @observable.ref
-  private graph?: Graph;
+  private graph?: Graph = undefined;
 
-  @observable
   private viewConstraintsEnabled: boolean = true;
 
-  @observable.ref
   private viewPaddingSettings: ViewPaddingSettings = {
     paddingPercentage: 50
   };
 
-  @computed
+  constructor() {
+    super();
+
+    makeObservable<
+      Visualization,
+      | 'elements'
+      | 'graph'
+      | 'viewConstraintsEnabled'
+      | 'viewPaddingSettings'
+      | 'viewPadding'
+      | 'store'
+      | 'fromModel'
+      | 'setGraph'
+    >(this, {
+      elements: observable.shallow,
+      graph: observable.ref,
+      viewConstraintsEnabled: observable,
+      viewPaddingSettings: observable.ref,
+      viewPadding: computed,
+      store: observable.shallow,
+      fromModel: action,
+      setGraph: action
+    });
+  }
+
   private get viewPadding(): number {
     const { padding, paddingPercentage } = this.viewPaddingSettings;
     if (paddingPercentage) {
@@ -63,14 +83,12 @@ export class Visualization extends Stateful implements Controller {
 
   private fitToScreenListener: GraphLayoutEndEventListener;
 
-  @observable.shallow
   private readonly store = {};
 
   getStore<S = {}>(): S {
     return this.store as S;
   }
 
-  @action
   fromModel(model: Model, merge: boolean = true): void {
     const oldGraph = this.graph;
 
@@ -156,7 +174,6 @@ export class Visualization extends Stateful implements Controller {
     return this.graph;
   }
 
-  @action
   setGraph(graph: Graph) {
     if (this.graph !== graph) {
       if (this.graph) {

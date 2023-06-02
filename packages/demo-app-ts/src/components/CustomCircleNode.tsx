@@ -11,7 +11,6 @@ import {
   ShapeProps,
   useAnchor,
   EllipseAnchor,
-  action,
   GraphElement
 } from '@patternfly/react-topology';
 import DemoDefaultNode from './DemoDefaultNode';
@@ -31,7 +30,7 @@ const CustomCircle: React.FunctionComponent<ShapeProps> = ({ element, className 
   useAnchor(EllipseAnchor);
   React.useEffect(() => {
     // init height
-    action(() => element.setDimensions(new Dimensions(40, 40)))();
+    element.setDimensions(new Dimensions(40, 40));
   }, [element]);
   const r = element.getDimensions().width / 2;
   return (
@@ -42,7 +41,7 @@ const CustomCircle: React.FunctionComponent<ShapeProps> = ({ element, className 
       r={r}
       onClick={() => {
         const size = element.getDimensions().width === 40 ? 80 : 40;
-        action(() => element.setDimensions(new Dimensions(size, size)))();
+        element.setDimensions(new Dimensions(size, size));
       }}
     />
   );

@@ -61,11 +61,16 @@ export const PanZoom: React.FunctionComponent = withTopologySetup(() => {
 
   React.useEffect(() => {
     reaction(
-      () => ({
-        x: controller.getGraph().getBounds().x,
-        y: controller.getGraph().getBounds().y,
-        k: controller.getGraph().getScale()
-      }),
+      () => {
+        if (!controller.hasGraph()) {
+          return {};
+        }
+        return {
+          x: controller.getGraph().getBounds().x,
+          y: controller.getGraph().getBounds().y,
+          k: controller.getGraph().getScale()
+        };
+      },
       transform => {
         // eslint-disable-next-line no-console
         console.log(`Pan zoom event`, transform);

@@ -1,4 +1,4 @@
-import { observable, computed } from 'mobx';
+import { observable, computed, makeObservable } from 'mobx';
 import * as _ from 'lodash';
 import {
   ElementModel,
@@ -19,33 +19,51 @@ export default abstract class BaseElement<E extends ElementModel = ElementModel,
   implements GraphElement<E, D> {
   private id: string = '';
 
-  @observable
   private type: string = '';
 
-  @observable.ref
-  private data?: D;
+  private data?: D = undefined;
 
-  @observable.ref
-  private parent?: GraphElement;
+  private parent?: GraphElement = undefined;
 
-  @observable
   private visible: boolean = true;
 
-  @observable.shallow
   private children: GraphElement[] = [];
 
-  @observable.ref
-  private controller?: Controller;
+  private controller?: Controller = undefined;
 
-  @observable
-  private label?: string;
+  private label?: string = undefined;
 
-  @observable
   private style: any = {};
 
   abstract getKind(): ModelKind;
 
-  @computed({ equals: _.isEqual })
+  constructor() {
+    super();
+
+    makeObservable<
+      BaseElement,
+      | 'type'
+      | 'data'
+      | 'parent'
+      | 'visible'
+      | 'children'
+      | 'controller'
+      | 'label'
+      | 'style'
+      | 'ordering'
+    >(this, {
+      type: observable,
+      data: observable.ref,
+      parent: observable.ref,
+      visible: observable,
+      children: observable.shallow,
+      controller: observable.ref,
+      label: observable,
+      style: observable,
+      ordering: computed({ equals: _.isEqual })
+    });
+  }
+
   private get ordering(): number[] {
     if (!this.parent) {
       return [];

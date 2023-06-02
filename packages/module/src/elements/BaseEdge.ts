@@ -1,4 +1,4 @@
-import { computed, observable } from 'mobx';
+import { computed, makeObservable, observable } from 'mobx';
 import Point from '../geom/Point';
 import { Anchor, AnchorEnd, Edge, EdgeAnimationSpeed, EdgeModel, EdgeStyle, ModelKind, Node } from '../types';
 import { getTopCollapsedParent } from '../utils';
@@ -6,33 +6,51 @@ import BaseElement from './BaseElement';
 
 export default class BaseEdge<E extends EdgeModel = EdgeModel, D = any> extends BaseElement<E, D>
   implements Edge<E, D> {
-  @observable.ref
-  private source?: Node;
+  private source?: Node = undefined;
 
-  @observable.ref
-  private target?: Node;
+  private target?: Node = undefined;
 
-  @observable.ref
-  private edgeStyle?: EdgeStyle;
+  private edgeStyle?: EdgeStyle = undefined;
 
-  @observable.ref
-  private animationSpeed?: EdgeAnimationSpeed;
+  private animationSpeed?: EdgeAnimationSpeed = undefined;
 
-  @observable.shallow
-  private bendpoints?: Point[];
+  private bendpoints?: Point[] = undefined;
 
-  @observable.ref
-  private startPoint?: Point;
+  private startPoint?: Point = undefined;
 
-  @observable.ref
-  private endPoint?: Point;
+  private endPoint?: Point = undefined;
 
-  @computed
+  constructor() {
+    super();
+
+    makeObservable<
+      BaseElement,
+      | 'source'
+      | 'target'
+      | 'edgeStyle'
+      | 'animationSpeed'
+      | 'bendpoints'
+      | 'startPoint'
+      | 'endPoint'
+      | 'sourceAnchor'
+      | 'targetAnchor'
+      >(this, {
+      source: observable.ref,
+      target: observable.ref,
+      edgeStyle: observable.ref,
+      animationSpeed: observable.ref,
+      bendpoints: observable.shallow,
+      startPoint: observable.ref,
+      endPoint: observable.ref,
+      sourceAnchor: computed,
+      targetAnchor: computed,
+    });
+  }
+
   private get sourceAnchor(): Anchor {
     return this.getSourceAnchorNode().getAnchor(AnchorEnd.source, this.getType());
   }
 
-  @computed
   private get targetAnchor(): Anchor {
     return this.getTargetAnchorNode().getAnchor(AnchorEnd.target, this.getType());
   }

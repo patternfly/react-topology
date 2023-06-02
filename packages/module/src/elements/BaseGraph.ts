@@ -1,4 +1,4 @@
-import { computed, observable } from 'mobx';
+import { computed, makeObservable, observable } from 'mobx';
 import Rect from '../geom/Rect';
 import Point from '../geom/Point';
 import Dimensions from '../geom/Dimensions';
@@ -22,27 +22,49 @@ import BaseElement from './BaseElement';
 
 export default class BaseGraph<E extends GraphModel = GraphModel, D = any> extends BaseElement<E, D>
   implements Graph<E, D> {
-  @observable.ref
   private layers = DEFAULT_LAYERS;
 
-  @observable
   private scale = 1;
 
-  @observable
-  private layoutType?: string;
+  private layoutType?: string = undefined;
 
-  @observable.ref
   private dimensions = new Dimensions();
 
-  @observable.ref
   private position = new Point();
 
-  private currentLayout?: Layout;
+  private currentLayout?: Layout = undefined;
 
-  @observable.ref
   private scaleExtent: ScaleExtent = [0.25, 4];
 
-  @computed
+  constructor() {
+    super();
+
+    makeObservable<
+      BaseGraph,
+      | 'layers'
+      | 'scale'
+      | 'layoutType'
+      | 'dimensions'
+      | 'position'
+      | 'scaleExtent'
+      | 'detailsLevel'
+      | 'edges'
+      | 'nodes'
+      | 'scaleDetailsThresholds'
+    >(this, {
+      layers: observable.ref,
+      scale: observable,
+      layoutType: observable,
+      dimensions: observable.ref,
+      position: observable.ref,
+      scaleExtent: observable.ref,
+      detailsLevel: computed,
+      edges: computed,
+      nodes: computed,
+      scaleDetailsThresholds: observable.ref
+    });
+  }
+
   private get detailsLevel(): ScaleDetailsLevel {
     if (!this.scaleDetailsThresholds) {
       return ScaleDetailsLevel.high;
@@ -55,17 +77,14 @@ export default class BaseGraph<E extends GraphModel = GraphModel, D = any> exten
     return ScaleDetailsLevel.high;
   }
 
-  @computed
   private get edges(): Edge[] {
     return this.getChildren().filter(isEdge);
   }
 
-  @computed
   private get nodes(): Node[] {
     return this.getChildren().filter(isNode);
   }
 
-  @observable.ref
   private scaleDetailsThresholds: ScaleDetailsThresholds = {
     low: 0.3,
     medium: 0.5
