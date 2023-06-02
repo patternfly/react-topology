@@ -37,20 +37,20 @@ export const usePanZoom = (): PanZoomRef => {
         .scaleExtent(elementRef.current.getScaleExtent())
         .on(
           'zoom',
-          action(() => {
-            elementRef.current.setPosition(new Point(d3.event.transform.x, d3.event.transform.y));
-            elementRef.current.setScale(d3.event.transform.k);
+          action((event: d3.D3ZoomEvent<any, any>) => {
+            elementRef.current.setPosition(new Point(event.transform.x, event.transform.y));
+            elementRef.current.setScale(event.transform.k);
           })
         )
-        .filter(() => {
-          if (d3.event.ctrlKey || d3.event.button) {
+        .filter((event: React.MouseEvent) => {
+          if (event.ctrlKey || event.button) {
             return false;
           }
           // only allow zoom from double clicking the graph directly
-          if (d3.event.type === 'dblclick') {
+          if (event.type === 'dblclick') {
             // check if target is not within a node or edge
             const svg = node.ownerSVGElement;
-            let p: Node | null = d3.event.target;
+            let p = event.target;
             while (p && p !== svg) {
               if (p instanceof Element) {
                 const kind = p.getAttribute(ATTR_DATA_KIND);
@@ -61,7 +61,7 @@ export const usePanZoom = (): PanZoomRef => {
                   break;
                 }
               }
-              p = p.parentNode;
+              p = p instanceof Node ? p.parentNode : undefined;
             }
           }
           return true;
