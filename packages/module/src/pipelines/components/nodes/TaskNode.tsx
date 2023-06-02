@@ -507,6 +507,7 @@ const TaskNode: React.FC<TaskNodeProps> = ({
   hasWhenExpression = false,
   whenSize = 0,
   whenOffset = 0,
+  ...rest
 }) => {
   if (!isNode(element)) {
     throw new Error('TaskNode must be used only on Node elements');
@@ -525,6 +526,7 @@ const TaskNode: React.FC<TaskNodeProps> = ({
     hasWhenExpression={hasWhenExpression}
     whenSize={whenSize}
     whenOffset={whenOffset}
+    {...rest}
   />;
 };
 

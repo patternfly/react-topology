@@ -1,15 +1,20 @@
-import { action, observable } from 'mobx';
+import { action, observable, makeObservable } from 'mobx';
 import { WithState, State } from '../types';
 
 export default class Stateful implements WithState {
-  @observable.shallow
   private state: State = {};
+
+  constructor() {
+    makeObservable<Stateful, 'state' | 'setState'>(this, {
+      state: observable.shallow,
+      setState: action
+    });
+  }
 
   getState<S = {}>(): S {
     return this.state as S;
   }
 
-  @action
   setState(state: State): void {
     if (state) {
       Object.assign(this.state, state);

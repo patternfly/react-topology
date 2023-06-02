@@ -21,7 +21,8 @@
     "strictNullChecks": false,
     "strictFunctionTypes": true,
     "sourceMap": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "useDefineForClassFields": true
   },
   "include": [
     "./src/*",

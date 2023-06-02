@@ -1,4 +1,4 @@
-import { observable } from 'mobx';
+import { observable, makeObservable } from 'mobx';
 import Point from '../geom/Point';
 import {
   getEllipseAnchorPoint,
@@ -7,10 +7,16 @@ import {
   getRectAnchorPoint
 } from '../utils/anchor-utils';
 import AbstractAnchor from './AbstractAnchor';
+import { Node } from '../types';
 
-export default class SVGAnchor extends AbstractAnchor {
-  @observable.ref
-  private svgElement?: SVGElement;
+export default class SVGAnchor<E extends Node = Node> extends AbstractAnchor {
+  private svgElement?: SVGElement = undefined;
+
+  constructor(owner: E, offset: number = 0) {
+    super(owner, offset);
+
+    makeObservable<SVGAnchor, "svgElement">(this, { svgElement: observable.ref });
+  }
 
   setSVGElement(svgElement: SVGElement) {
     this.svgElement = svgElement;

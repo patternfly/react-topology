@@ -1,13 +1,18 @@
-import { observable } from 'mobx';
+import { observable, makeObservable } from 'mobx';
 import Point from '../geom/Point';
 import { distanceToPoint, getLinesIntersection } from '../utils/anchor-utils';
 import AbstractAnchor from './AbstractAnchor';
 import { Rect } from '../geom';
-import { PointTuple } from '../types';
+import { Node, PointTuple } from '../types';
 
-export default class PolygonAnchor extends AbstractAnchor {
-  @observable.ref
-  private points: Point[];
+export default class PolygonAnchor<E extends Node = Node> extends AbstractAnchor {
+  private points: Point[] = [];
+
+  constructor(owner: E, offset: number = 0) {
+    super(owner, offset);
+
+    makeObservable<PolygonAnchor, "points">(this, { points: observable.ref });
+  }
 
   setPoints(points: PointTuple[]) {
     this.points = points?.map(p => new Point(p[0], p[1]));

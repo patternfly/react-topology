@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import { action } from 'mobx';
+import { action, makeObservable } from 'mobx';
 import {
   Edge,
   Graph,
@@ -62,6 +62,8 @@ export class BaseLayout implements Layout {
   protected nodesMap: { [id: string]: LayoutNode } = {};
 
   constructor(graph: Graph, options?: Partial<LayoutOptions>) {
+    makeObservable<BaseLayout, 'runLayout'>(this, { runLayout: action });
+
     this.graph = graph;
     this.options = {
       ...LAYOUT_DEFAULTS,
@@ -417,7 +419,6 @@ export class BaseLayout implements Layout {
     this.forceSimulation.alpha(0.2);
   }
 
-  @action
   private runLayout(initialRun: boolean, restart = true): void {
     const prevGroups = this.groups;
 
