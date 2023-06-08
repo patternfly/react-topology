@@ -9,7 +9,7 @@ import HourglassHalfIcon from '@patternfly/react-icons/dist/esm/icons/hourglass-
 import SyncAltIcon from '@patternfly/react-icons/dist/esm/icons/sync-alt-icon';
 import { RunStatus } from '../types';
 
-interface StatusIconProps {
+export interface StatusIconProps {
   className?: string;
   status: RunStatus;
   height?: number;

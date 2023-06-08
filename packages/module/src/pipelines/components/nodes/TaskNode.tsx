@@ -11,7 +11,7 @@ import { OnSelect, useAnchor } from '../../../behavior';
 import { truncateMiddle } from '../../../utils/truncate-middle';
 import { createSvgIdUrl, getNodeScaleTranslation, useCombineRefs, useHover, useSize } from '../../../utils';
 import { getRunStatusModifier, nonShadowModifiers } from '../../utils';
-import StatusIcon from '../../utils/StatusIcon';
+import StatusIcon, { StatusIconProps } from '../../utils/StatusIcon';
 import { TaskNodeSourceAnchor, TaskNodeTargetAnchor } from '../anchors';
 import LabelActionIcon from '../../../components/nodes/labels/LabelActionIcon';
 import LabelContextMenu from '../../../components/nodes/labels/LabelContextMenu';
@@ -108,6 +108,8 @@ export interface TaskNodeProps {
   onContextMenu?: (e: React.MouseEvent) => void;
   /** Flag indicating that the context menu for the node is currently open  */
   contextMenuOpen?: boolean;
+  /** Override the default StatusIcon component with custom conditions and icons */
+  StatusIconComponent?: React.FC<StatusIconProps>;
 }
 
 const TaskNode: React.FC<TaskNodeProps & { innerRef: React.Ref<SVGGElement> }> = ({
@@ -149,6 +151,7 @@ const TaskNode: React.FC<TaskNodeProps & { innerRef: React.Ref<SVGGElement> }> =
   actionIcon,
   actionIconClassName,
   onActionIconClick,
+  StatusIconComponent = StatusIcon,
   children
 }: TaskNodeProps & { innerRef?: React.Ref<SVGGElement> }) => {
   const [hovered, innerHoverRef] = useHover();
@@ -370,7 +373,7 @@ const TaskNode: React.FC<TaskNodeProps & { innerRef: React.Ref<SVGGElement> }> =
                   (status === RunStatus.Running || status === RunStatus.InProgress) && styles.modifiers.spin
                 )}
               >
-                <StatusIcon status={status} />
+                <StatusIconComponent status={status} />
               </g>
             </g>
           ) : null}
@@ -413,7 +416,7 @@ const TaskNode: React.FC<TaskNodeProps & { innerRef: React.Ref<SVGGElement> }> =
                 (status === RunStatus.Running || status === RunStatus.InProgress) && styles.modifiers.spin
               )}
             >
-              <StatusIcon status={status} />
+              <StatusIconComponent status={status} />
             </g>
           </g>
         )}
