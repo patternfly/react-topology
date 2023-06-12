@@ -34,12 +34,15 @@ import {
   withDragNode,
   withPanZoom
 } from '@patternfly/react-topology';
-import { Select, SelectOption, SelectVariant, ToolbarItem } from '@patternfly/react-core';
+import { ToolbarItem } from '@patternfly/react-core';
 import {
 	Dropdown as DropdownDeprecated,
 	DropdownItem as DropdownItemDeprecated,
 	DropdownPosition as DropdownPositionDeprecated,
-	DropdownToggle as DropdownToggleDeprecated
+	DropdownToggle as DropdownToggleDeprecated,
+  Select,
+	SelectOption,
+	SelectVariant
 } from '@patternfly/react-core/deprecated';
 import Icon1 from '@patternfly/react-icons/dist/esm/icons/regions-icon';
 import Icon2 from '@patternfly/react-icons/dist/esm/icons/folder-open-icon';

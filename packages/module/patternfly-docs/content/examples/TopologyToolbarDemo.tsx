@@ -1,5 +1,12 @@
 import * as React from 'react';
-import { Select, SelectOption, SelectVariant, ToolbarItem } from '@patternfly/react-core';
+import {
+	ToolbarItem
+} from '@patternfly/react-core';
+import {
+	Select as SelectDeprecated,
+	SelectOption as SelectOptionDeprecated,
+	SelectVariant as SelectVariantDeprecated
+} from '@patternfly/react-core/deprecated';
 // eslint-disable-next-line patternfly-react/import-tokens-icons
 import { RegionsIcon as Icon1, FolderOpenIcon as Icon2 } from '@patternfly/react-icons';
 import {
@@ -260,27 +267,27 @@ export const ToolbarDemo: React.FC = () => {
 
   const contextToolbar = (
     <ToolbarItem>
-      <Select
-        variant={SelectVariant.checkbox}
+      <SelectDeprecated
+        variant={SelectVariantDeprecated.checkbox}
         customContent={
           <div>
-            <SelectOption
+            <SelectOptionDeprecated
               value="Labels"
               isChecked={viewOptions.showLabels}
               onClick={() => setViewOptions(prev => ({ ...prev, showLabels: !prev.showLabels }))}
             />
-            <SelectOption
+            <SelectOptionDeprecated
               value="Badges"
               isDisabled={!viewOptions.showLabels}
               isChecked={viewOptions.showBadges}
               onClick={() => setViewOptions(prev => ({ ...prev, showBadges: !prev.showBadges }))}
             />
-            <SelectOption
+            <SelectOptionDeprecated
               value="Status background"
               isChecked={viewOptions.showStatusBackground}
               onClick={() => setViewOptions(prev => ({ ...prev, showStatusBackground: !prev.showStatusBackground }))}
             />
-            <SelectOption
+            <SelectOptionDeprecated
               value="Status decorators"
               isChecked={viewOptions.showDecorators}
               onClick={() => setViewOptions(prev => ({ ...prev, showDecorators: !prev.showDecorators }))}
