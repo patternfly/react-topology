@@ -1,20 +1,24 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import {
-  Page,
-  Nav,
-  NavList,
-  NavItem,
-  PageSection,
-  PageSidebar,
-  Avatar,
-  Brand,
-  PageHeader,
-  PageHeaderTools,
-  PageHeaderToolsItem,
-  PageHeaderToolsGroup,
-  Radio, NavExpandable
+	Page,
+	Nav,
+	NavList,
+	NavItem,
+	PageSection,
+	PageSidebar,
+	Avatar,
+	Brand,
+	Radio,
+	NavExpandable,
+  PageSidebarBody
 } from '@patternfly/react-core';
+import {
+	PageHeader,
+	PageHeaderTools,
+	PageHeaderToolsItem,
+	PageHeaderToolsGroup
+} from '@patternfly/react-core/deprecated';
 import imgBrand from './assets/images/imgBrand.svg';
 import imgAvatar from './assets/images/imgAvatar.svg';
 import Demos from './Demos';
@@ -39,7 +43,7 @@ class App extends React.Component<{}, AppState> {
     isDarkTheme: false
   };
 
-  private onNavSelect = (selectedItem: { itemId: number | string; groupId: number | string }) => {
+  private onNavSelect = (_event:any, selectedItem: { itemId: number | string; groupId: number | string }) => {
     this.setState({ activeItem: selectedItem.itemId });
   };
 
@@ -125,7 +129,7 @@ class App extends React.Component<{}, AppState> {
               label={`Light theme`}
               name="light-theme"
               isChecked={!isDarkTheme}
-              onChange={checked => checked && this.onThemeSelect(false)}
+              onChange={(_event: any, checked: boolean) => checked && this.onThemeSelect(false)}
             />
           </PageHeaderToolsItem>
           <PageHeaderToolsItem>
@@ -135,7 +139,7 @@ class App extends React.Component<{}, AppState> {
               aria-label="Dark theme"
               name="dark-theme"
               isChecked={isDarkTheme}
-              onChange={checked => checked && this.onThemeSelect(true)}
+              onChange={(_event: any, checked: boolean) => checked && this.onThemeSelect(true)}
             />
           </PageHeaderToolsItem>
         </PageHeaderToolsGroup>
@@ -182,7 +186,11 @@ class App extends React.Component<{}, AppState> {
       </Nav>
     );
 
-    const AppSidebar = <PageSidebar isNavOpen={isNavOpen} nav={nav} />;
+    const AppSidebar = (
+      <PageSidebar isSidebarOpen={isNavOpen}>
+        <PageSidebarBody>{nav}</PageSidebarBody>
+      </PageSidebar>
+    );
 
     return (
       <Router>

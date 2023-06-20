@@ -3,9 +3,6 @@ import * as _ from 'lodash';
 import {
 	Button,
 	Flex,
-	Select,
-	SelectOption,
-	SelectVariant,
 	Split,
 	SplitItem,
 	TextInput,
@@ -16,7 +13,10 @@ import {
 	Dropdown as DropdownDeprecated,
 	DropdownItem as DropdownItemDeprecated,
 	DropdownPosition as DropdownPositionDeprecated,
-	DropdownToggle as DropdownToggleDeprecated
+	DropdownToggle as DropdownToggleDeprecated,
+	Select,
+	SelectOption,
+	SelectVariant
 } from '@patternfly/react-core/deprecated';
 import { DefaultEdgeOptions, DefaultNodeOptions, GeneratorEdgeOptions, GeneratorNodeOptions } from '../data/generator';
 import {
@@ -71,7 +71,7 @@ export const useTopologyOptions = (
   const layoutDropdown = (
     <Split>
       <SplitItem>
-        <label className="pf-u-display-inline-block pf-u-mr-md pf-u-mt-sm">Layout</label>
+        <label className="pf-v5-u-display-inline-block pf-v5-u-mr-md pf-v5-u-mt-sm">Layout</label>
       </SplitItem>
       <SplitItem>
         <DropdownDeprecated
@@ -341,28 +341,28 @@ export const useTopologyOptions = (
             aria-label="nodes"
             type="number"
             value={numNodes || ''}
-            onChange={(val: string) => (val ? updateValue(parseInt(val), 0, 9999, setNumNodes) : setNumNodes(null))}
+            onChange={(_event, val: string) => (val ? updateValue(parseInt(val), 0, 9999, setNumNodes) : setNumNodes(null))}
           />
           <span>Edges:</span>
           <TextInput
             aria-label="edges"
             type="number"
             value={numEdges === null ? '' : numEdges}
-            onChange={(val: string) => (val ? updateValue(parseInt(val), 0, 200, setNumEdges) : setNumEdges(null))}
+            onChange={(_event, val: string) => (val ? updateValue(parseInt(val), 0, 200, setNumEdges) : setNumEdges(null))}
           />
           <span>Groups:</span>
           <TextInput
             aria-label="groups"
             type="number"
             value={numGroups === null ? '' : numGroups}
-            onChange={(val: string) => (val ? updateValue(parseInt(val), 0, 100, setNumGroups) : setNumGroups(null))}
+            onChange={(_event, val: string) => (val ? updateValue(parseInt(val), 0, 100, setNumGroups) : setNumGroups(null))}
           />
           <span>Nesting Depth:</span>
           <TextInput
             aria-label="nesting depth"
             type="number"
             value={nestedLevel === null ? '' : nestedLevel}
-            onChange={(val: string) => (val ? updateValue(parseInt(val), 0, 5, setNestedLevel) : setNestedLevel(null))}
+            onChange={(_event, val: string) => (val ? updateValue(parseInt(val), 0, 5, setNestedLevel) : setNestedLevel(null))}
           />
           <Button
             variant="link"
@@ -409,7 +409,7 @@ export const useTopologyOptions = (
             step={0.01}
             value={medScale}
             type="number"
-            onChange={val => {
+            onChange={(_event, val) => {
               const newValue = parseFloat(val);
               if (!Number.isNaN(newValue) && newValue > lowScale && newValue >= 0.01 && newValue <= 1.0) {
                 setMedScale(parseFloat(val));
@@ -424,7 +424,7 @@ export const useTopologyOptions = (
             step={0.01}
             value={lowScale}
             type="number"
-            onChange={val => {
+            onChange={(_event, val) => {
               const newValue = parseFloat(val);
               if (!Number.isNaN(newValue) && newValue < medScale && newValue >= 0.01 && newValue <= 1.0) {
                 setLowScale(parseFloat(val));

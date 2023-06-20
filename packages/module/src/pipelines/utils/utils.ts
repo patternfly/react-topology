@@ -59,6 +59,15 @@ const getSpacerId = (ids: string[]): string =>
       return ref;
     }, '');
 
+/**
+ * parameters:
+ *   nodes: PipelineNodeModel[] - List of task and finally nodes in the model
+ *   spacerNodeType: string     - Type to use for Spacer nodes
+ *   finallyNodeTypes: string[] - Types to consider as finally nodes on incoming nodes
+ *
+ * Returns:
+ *   PipelineNodeModel[]: a list of spacer nodes required to layout the pipeline view
+ **/
 export const getSpacerNodes = (
   nodes: PipelineNodeModel[],
   spacerNodeType = DEFAULT_SPACER_NODE_TYPE,

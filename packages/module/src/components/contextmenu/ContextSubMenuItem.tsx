@@ -71,7 +71,7 @@ const ContextSubMenuItem: React.FunctionComponent<ContextSubMenuItemProps> = ({ 
         <div
           ref={subMenuRef}
           role="presentation"
-          className="pf-c-dropdown pf-m-expanded"
+          className="pf-v5-c-dropdown pf-m-expanded"
           onMouseLeave={e => {
             // only close the sub menu if the mouse does not enter the item
             if (!nodeRef.current || !nodeRef.current.contains(e.relatedTarget as Node)) {
