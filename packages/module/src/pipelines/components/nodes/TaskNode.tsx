@@ -52,6 +52,8 @@ export interface TaskNodeProps {
   hideDetailsAtMedium?: boolean;
   /** Statuses to show at when details are hidden */
   hiddenDetailsShownStatuses?: RunStatus[];
+  /** Additional icon to be shown before the task label*/
+  leadIcon?: React.ReactNode;
   /** Text for the label's badge */
   badge?: string;
   /** Color to use for the label's badge background */
@@ -121,6 +123,7 @@ const TaskNodeInner: React.FC<TaskNodeInnerProps> = observer(({
   scaleNode,
   hideDetailsAtMedium,
   hiddenDetailsShownStatuses = [RunStatus.Failed, RunStatus.FailedToStart, RunStatus.Cancelled],
+  leadIcon,
   badge,
   badgeColor,
   badgeTextColor,
@@ -160,6 +163,7 @@ const TaskNodeInner: React.FC<TaskNodeInnerProps> = observer(({
   const nameLabelTriggerRef = React.useRef();
   const nameLabelRef = useCombineRefs(textRef, nameLabelTriggerRef)
   const [statusSize, statusRef] = useSize([status, showStatusState, statusIconSize]);
+  const [leadSize, leadIconRef] = useSize([leadIcon]);
   const [badgeSize, badgeRef] = useSize([badge]);
   const badgeLabelTriggerRef = React.useRef();
   const [actionSize, actionRef] = useSize([actionIcon, paddingX]);
@@ -201,7 +205,8 @@ const TaskNodeInner: React.FC<TaskNodeInnerProps> = observer(({
     pillWidth,
     badgeStartX,
     iconWidth,
-    iconStartX
+    iconStartX,
+    leadIconStartX
   } = React.useMemo(() => {
     if (!textSize) {
       return {
@@ -213,7 +218,8 @@ const TaskNodeInner: React.FC<TaskNodeInnerProps> = observer(({
         pillWidth: 0,
         badgeStartX: 0,
         iconWidth: 0,
-        iconStartX: 0
+        iconStartX: 0,
+        leadIconStartX: 0
       };
     }
     const height: number = textHeight + 2 * paddingY;
@@ -225,7 +231,10 @@ const TaskNodeInner: React.FC<TaskNodeInnerProps> = observer(({
     const statusStartX = startX - statusIconSize / 4; // Adjust for icon padding
     const statusSpace = status && showStatusState && statusSize ? statusSize.width + paddingX : 0;
 
-    const textStartX = startX + statusSpace;
+    const leadIconStartX = startX + statusSpace;
+    const leadIconSpace = leadIcon ? leadSize.width + paddingX : 0;
+
+    const textStartX = leadIconStartX + leadIconSpace;
     const textSpace = textWidth + paddingX;
 
     const badgeStartX = textStartX + textSpace;
@@ -248,6 +257,7 @@ const TaskNodeInner: React.FC<TaskNodeInnerProps> = observer(({
       badgeStartX,
       iconWidth,
       iconStartX,
+      leadIconStartX,
       pillWidth
     };
   }, [
@@ -262,6 +272,8 @@ const TaskNodeInner: React.FC<TaskNodeInnerProps> = observer(({
     statusIconSize,
     status,
     showStatusState,
+    leadSize,
+    leadIcon,
     statusSize,
     badgeSize,
     badge,
@@ -421,6 +433,11 @@ const TaskNodeInner: React.FC<TaskNodeInnerProps> = observer(({
             >
               <StatusIcon status={status} />
             </g>
+          </g>
+        )}
+        {leadIcon && (
+          <g transform={`translate(${leadIconStartX}, ${(height - leadSize?.height ?? 0) / 2})`} ref={leadIconRef}>
+            {leadIcon}
           </g>
         )}
         {taskIconComponent &&

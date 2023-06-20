@@ -8,7 +8,8 @@ import {
   RunStatus,
   WhenStatus,
 } from '@patternfly/react-topology';
-
+import { CubeIcon } from '@patternfly/react-icons/dist/esm/icons/cube-icon';
+import { ExternalLinkAltIcon } from '@patternfly/react-icons/dist/esm/icons/external-link-alt-icon';
 import { logos } from './logos';
 
 export const NODE_PADDING_VERTICAL = 45;
@@ -208,6 +209,70 @@ export const useDemoPipelineNodes = (
 
       tasks.push(...taskGroups);
     }
+
+    const iconTask1: PipelineNodeModel = {
+      id: `task-icon-1`,
+      type: DEFAULT_TASK_NODE_TYPE,
+      label: `Lead icon task`,
+      width: DEFAULT_TASK_WIDTH + (showContextMenu ? 10 : 0) + (showBadges ? 40 : 0),
+      height: DEFAULT_TASK_HEIGHT,
+      style: {
+        padding: [NODE_PADDING_VERTICAL, NODE_PADDING_HORIZONTAL + (showIcons ? 25 : 0)]
+      },
+      runAfterTasks: []
+    };
+
+    // put options in data, our DEMO task node will pass them along to the TaskNode
+    iconTask1.data = {
+      status: RunStatus.Failed,
+      badge: showBadges ? '3/4' : undefined,
+      badgeTooltips,
+      taskIconClass: showIcons ? logos.get('icon-java') : undefined,
+      taskIconTooltip: showIcons ? 'Environment' : undefined,
+      showContextMenu,
+      columnGroup: TASK_STATUSES.length % STATUS_PER_ROW + 1,
+      leadIcon: <CubeIcon width={16} height={16} />,
+    };
+
+    if (!layout) {
+      const row = Math.ceil((TASK_STATUSES.length + 1) / STATUS_PER_ROW) - 1;
+      const columnWidth = COLUMN_WIDTH + (showIcons ? 15 : 0) + (showBadges ? 32 : 0) + (showContextMenu ? 20 : 0);
+      iconTask1.x = (showIcons ? 28 : 0) + columnWidth;
+      iconTask1.y = GRAPH_MARGIN_TOP + row * ROW_HEIGHT;
+    }
+    tasks.push(iconTask1);
+
+    const iconTask2: PipelineNodeModel = {
+      id: `task-icon-2`,
+      type: DEFAULT_TASK_NODE_TYPE,
+      label: `Lead icon task`,
+      width: DEFAULT_TASK_WIDTH + (showContextMenu ? 10 : 0) + (showBadges ? 40 : 0),
+      height: DEFAULT_TASK_HEIGHT,
+      style: {
+        padding: [NODE_PADDING_VERTICAL, NODE_PADDING_HORIZONTAL + (showIcons ? 25 : 0)]
+      },
+      runAfterTasks: [iconTask1.id]
+    };
+
+    // put options in data, our DEMO task node will pass them along to the TaskNode
+    iconTask2.data = {
+      badge: showBadges ? '3/4' : undefined,
+      badgeTooltips,
+      taskIconClass: showIcons ? logos.get('icon-java') : undefined,
+      taskIconTooltip: showIcons ? 'Environment' : undefined,
+      showContextMenu,
+      columnGroup: TASK_STATUSES.length % STATUS_PER_ROW + 1,
+      showStatusState: false,
+      leadIcon: <ExternalLinkAltIcon width={16} height={16} />,
+    };
+
+    if (!layout) {
+      const row = Math.ceil((TASK_STATUSES.length + 1) / STATUS_PER_ROW) - 1;
+      const columnWidth = COLUMN_WIDTH + (showIcons ? 15 : 0) + (showBadges ? 32 : 0) + (showContextMenu ? 20 : 0);
+      iconTask2.x = (showIcons ? 28 : 0) + 2 * columnWidth;
+      iconTask2.y = GRAPH_MARGIN_TOP + row * ROW_HEIGHT;
+    }
+    tasks.push(iconTask2);
 
     return [...tasks, ...finallyNodes, finallyGroup];
   }, [badgeTooltips, layout, showBadges, showContextMenu, showGroups, showIcons]);
