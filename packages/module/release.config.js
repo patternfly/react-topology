@@ -1,5 +1,9 @@
 module.exports = {
-  branches: [{ name: 'main', channel: 'prerelease' }, { name: 'v5', channel: 'alpha', prerelease: 'alpha' }],
+  branches: [
+    'do-not-delete',
+    { name: 'main', channel: 'prerelease-v4', range: '4.x' },
+    { name: 'v5', channel: 'prerelease', prerelease: 'prerelease' }
+  ],
   analyzeCommits: {
     preset: 'angular'
   },
@@ -9,7 +13,8 @@ module.exports = {
       {
         preset: 'angular',
         releaseRules: [
-          { type: 'chore', scope: 'deps', release: 'patch' }
+          { type: 'chore', scope: 'deps', release: 'patch' },
+          { type: 'chore', scope: 'ci-release', release: 'patch' }
         ],
       },
     ],
