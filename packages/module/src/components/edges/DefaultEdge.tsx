@@ -7,7 +7,7 @@ import { getClosestVisibleParent, useHover } from '../../utils';
 import { Layer } from '../layers';
 import { css } from '@patternfly/react-styles';
 import styles from '../../css/topology-components';
-import { getEdgeAnimationDuration, getEdgeStyleClassModifier } from '../../utils/style-utils';
+import { getEdgeAnimationDuration, getEdgeStyleClassModifier, StatusModifier } from '../../utils/style-utils';
 import DefaultConnectorTerminal from './terminals/DefaultConnectorTerminal';
 import { TOP_LAYER } from '../../const';
 import DefaultConnectorTag from './DefaultConnectorTag';
@@ -117,7 +117,8 @@ const DefaultEdgeInner: React.FunctionComponent<DefaultEdgeInnerProps> = observe
     className,
     dragging && 'pf-m-dragging',
     hover && !dragging && 'pf-m-hover',
-    selected && !dragging && 'pf-m-selected'
+    selected && !dragging && 'pf-m-selected',
+    StatusModifier[endTerminalStatus]
   );
 
   const edgeAnimationDuration = animationDuration ?? getEdgeAnimationDuration(element.getEdgeAnimationSpeed());

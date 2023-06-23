@@ -294,11 +294,11 @@ export const NodeIconLabelStyles = withTopologySetup(() => {
 export const NodeSecondaryLabelStyles = withTopologySetup(() => {
   useComponentFactory(defaultComponentFactory);
   useComponentFactory(stylesComponentFactory);
-  const nodes = Object.values(NodeShape).reduce((nodes: NodeModel[], shape: string | NodeShape, index) => {
+  const nodes = Object.values(NodeStatus).reduce((nodes: NodeModel[], status: NodeStatus, index) => {
     nodes.push(
       createNode({
-        id: `${shape}-secondary`,
-        shape: shape as NodeShape,
+        id: `${status}-secondary`,
+        status,
         label: 'Primary Label',
         secondaryLabel: 'Secondary Label',
         labelPosition: LabelPosition.bottom,
@@ -310,28 +310,40 @@ export const NodeSecondaryLabelStyles = withTopologySetup(() => {
     );
     nodes.push(
       createNode({
-        id: `${shape}-secondary-long`,
-        shape: shape as NodeShape,
+        id: `${status}-secondary-selected`,
+        status,
         label: 'Primary Label',
-        secondaryLabel: 'Very Long Secondary Label',
+        selected: true,
+        secondaryLabel: 'Selected Label',
         labelPosition: LabelPosition.bottom,
         row: 2,
         column: index + 1,
         x: index * RIGHT_LABEL_COLUMN_WIDTH,
-        y: 165,
         truncateLength: 13
       })
     );
     nodes.push(
       createNode({
-        id: `${shape}-secondary-long-badged`,
-        label: 'Label Bottom',
+        id: `${status}-secondary-long`,
+        status,
+        label: 'Primary Label',
         secondaryLabel: 'Very Long Secondary Label',
-        shape: shape as NodeShape,
+        labelPosition: LabelPosition.bottom,
         row: 3,
         column: index + 1,
+        x: index * RIGHT_LABEL_COLUMN_WIDTH,
+        truncateLength: 13
+      })
+    );
+    nodes.push(
+      createNode({
+        id: `${status}-secondary-long-badged`,
+        label: 'Label Bottom',
+        secondaryLabel: 'Very Long Secondary Label',
+        status,
+        row: 4,
+        column: index + 1,
         x: index * (RIGHT_LABEL_COLUMN_WIDTH + 45),
-        y: 330,
         labelIconClass: logos.get('icon-java'),
         truncateLength: 13,
         badge: 'CS',

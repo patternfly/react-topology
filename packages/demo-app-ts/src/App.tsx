@@ -52,9 +52,9 @@ class App extends React.Component<{}, AppState> {
     const htmlElement = document.getElementsByTagName('html')[0];
     if (htmlElement) {
       if (isDarkTheme) {
-        htmlElement.classList.add('pf-theme-dark');
+        htmlElement.classList.add('pf-v5-theme-dark');
       } else {
-        htmlElement.classList.remove('pf-theme-dark');
+        htmlElement.classList.remove('pf-v5-theme-dark');
       }
     }
   };

@@ -66,8 +66,8 @@ export const EDGE_TERMINAL_TYPES = [
   EdgeTerminalType.circle,
   EdgeTerminalType.square,
   EdgeTerminalType.cross,
+  EdgeTerminalType.directional,
   EdgeTerminalType.none,
-  EdgeTerminalType.directional
 ];
 export const EDGE_TERMINAL_TYPES_COUNT = EDGE_TERMINAL_TYPES.length;
 
