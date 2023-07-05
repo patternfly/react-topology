@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { action } from 'mobx';
 import { TooltipProps } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import styles from '../../../css/topology-pipelines';
@@ -284,11 +285,13 @@ const TaskNodeInner: React.FC<TaskNodeInnerProps> = observer(({
   ]);
 
   React.useEffect(() => {
-    const sourceEdges = element.getSourceEdges();
-    sourceEdges.forEach(edge => {
-      const data = edge.getData();
-      edge.setData({ ...(data || {}), indent: detailsLevel === ScaleDetailsLevel.high ? width - pillWidth : 0 });
-    });
+    action(() => {
+      const sourceEdges = element.getSourceEdges();
+      sourceEdges.forEach(edge => {
+        const data = edge.getData();
+        edge.setData({ ...(data || {}), indent: detailsLevel === ScaleDetailsLevel.high ? width - pillWidth : 0 });
+      });
+    })();
   }, [detailsLevel, element, pillWidth, width]);
 
   const scale = element.getGraph().getScale();
