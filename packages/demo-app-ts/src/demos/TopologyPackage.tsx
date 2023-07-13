@@ -2,11 +2,15 @@ import * as React from 'react';
 import { action } from 'mobx';
 import * as _ from 'lodash';
 import {
+  Controller,
   createTopologyControlButtons,
   defaultControlButtonsOptions,
   EdgeModel,
   EventListener,
   GRAPH_POSITION_CHANGE_EVENT,
+  GRAPH_LAYOUT_END_EVENT,
+  isNode,
+  Node,
   NodeModel,
   SELECTION_EVENT,
   SelectionEventListener,
@@ -67,6 +71,14 @@ const graphPositionChangeListener: EventListener = ({ graph }): void => {
   }, 1000);
 };
 
+const layoutEndListener: EventListener = ({ graph }): void => {
+  const controller: Controller = graph.getController();
+  const positions = controller.getElements().filter(e => isNode(e)).map((node) => `Node: ${node.getLabel()}: ${Math.round((node as Node).getPosition().x)},${Math.round((node as Node).getPosition().y)}`);
+
+  // eslint-disable-next-line no-console
+  console.log(`Layout Complete:\n${positions.join('\n')}`);
+};
+
 
 const TopologyViewComponent: React.FunctionComponent<TopologyViewComponentProps> = ({
   useSidebar,
@@ -118,9 +130,12 @@ const TopologyViewComponent: React.FunctionComponent<TopologyViewComponentProps>
   React.useEffect(() => {
 
     controller.addEventListener(GRAPH_POSITION_CHANGE_EVENT, graphPositionChangeListener);
+    controller.addEventListener(GRAPH_LAYOUT_END_EVENT, layoutEndListener);
+
     return () => {
       controller.removeEventListener(GRAPH_POSITION_CHANGE_EVENT, graphPositionChangeListener);
-    }
+      controller.removeEventListener(GRAPH_LAYOUT_END_EVENT, layoutEndListener);
+    };
   }, [controller]);
 
   React.useEffect(() => {

@@ -477,10 +477,11 @@ export class BaseLayout implements Layout {
       // Reset the force simulation
       this.stopSimulation();
 
-      this.startLayout(this.graph, initialRun, addingNodes);
+      this.startLayout(this.graph, initialRun, addingNodes, () => {
+        this.graph.getController().fireEvent(GRAPH_LAYOUT_END_EVENT, { graph: this.graph });
+      });
     } else if (restart && this.options.layoutOnDrag) {
       this.updateLayout();
     }
-    this.graph.getController().fireEvent(GRAPH_LAYOUT_END_EVENT, { graph: this.graph });
   }
 }

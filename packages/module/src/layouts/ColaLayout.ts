@@ -10,6 +10,7 @@ import { LayoutNode } from './LayoutNode';
 import { ColaNode } from './ColaNode';
 import { ColaGroup } from './ColaGroup';
 import { ColaLink } from './ColaLink';
+import { ForceSimulation } from './ForceSimulation';
 
 export interface ColaLayoutOptions {
   maxTicks: number;
@@ -52,6 +53,10 @@ class ColaLayout extends BaseLayout implements Layout {
       ...COLA_LAYOUT_DEFAULTS,
       ...options
     };
+    this.forceSimulation = new ForceSimulation({
+      ...this.options,
+      onSimulationEnd: options?.onSimulationEnd ?? this.onSimulationEnd
+    });
     this.initializeLayout();
   }
 
@@ -74,7 +79,7 @@ class ColaLayout extends BaseLayout implements Layout {
       this.simulationRunning = false;
       action(() => {
         if (this.destroyed) {
-          this.onEnd && this.onEnd();
+          this.handleLayoutEnd();
           return;
         }
         this.nodes.forEach(d => {
@@ -91,15 +96,26 @@ class ColaLayout extends BaseLayout implements Layout {
           if (this.restartOnEnd !== undefined) {
             this.startColaLayout(false, this.restartOnEnd);
             delete this.restartOnEnd;
+          } else {
+            this.handleLayoutEnd();
           }
         } else if (this.addingNodes) {
           // One round of simulation to adjust for new nodes
           this.forceSimulation.useForceSimulation(this.nodes, this.edges, this.getFixedNodeDistance);
           this.forceSimulation.restart();
+        } else {
+          this.handleLayoutEnd();
         }
-        this.onEnd && this.onEnd();
       })();
     });
+  }
+
+  protected handleLayoutEnd = () => {
+    if (this.onEnd) {
+      // Only call on end once, then clear it so that it doesn't get called again on simulations
+      this.onEnd();
+      this.onEnd = undefined;
+    }
   }
 
   protected onSimulationEnd = () => {
@@ -109,6 +125,7 @@ class ColaLayout extends BaseLayout implements Layout {
       }
       this.addingNodes = false;
     }
+    this.handleLayoutEnd();
   };
 
   destroy(): void {

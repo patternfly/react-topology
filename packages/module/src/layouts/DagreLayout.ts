@@ -1,6 +1,6 @@
 import * as dagre from 'dagre';
 import * as _ from 'lodash';
-import { Edge, Graph, Layout, Node } from '../types';
+import { Edge, Graph, GRAPH_LAYOUT_END_EVENT, Layout, Node } from '../types';
 import { BaseLayout, LAYOUT_DEFAULTS } from './BaseLayout';
 import { LayoutOptions } from './LayoutOptions';
 import { LayoutLink } from './LayoutLink';
@@ -88,6 +88,8 @@ export class DagreLayout extends BaseLayout implements Layout {
 
     if (this.dagreOptions.layoutOnDrag) {
       this.forceSimulation.useForceSimulation(this.nodes, this.edges, this.getFixedNodeDistance);
+    } else {
+      this.graph.getController().fireEvent(GRAPH_LAYOUT_END_EVENT, { graph: this.graph });
     }
   }
 }
