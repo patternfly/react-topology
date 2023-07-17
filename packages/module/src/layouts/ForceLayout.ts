@@ -1,4 +1,4 @@
-import { Graph, Layout } from '../types';
+import { Graph, GRAPH_LAYOUT_END_EVENT, Layout } from '../types';
 import { getGroupPadding } from '../utils/element-utils';
 import { ForceSimulationNode } from './ForceSimulation';
 import { BaseLayout } from '.';
@@ -12,6 +12,7 @@ export class ForceLayout extends BaseLayout implements Layout {
       layoutOnDrag: true,
       onSimulationEnd: () => {
         this.nodes.forEach(n => n.setFixed(false));
+        this.graph.getController().fireEvent(GRAPH_LAYOUT_END_EVENT, { graph: this.graph });
       }
     });
   }

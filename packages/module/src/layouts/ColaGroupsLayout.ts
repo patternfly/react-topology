@@ -52,7 +52,7 @@ class ColaGroupsLayout extends ColaLayout implements Layout {
       this.simulationRunning = false;
       action(() => {
         if (this.destroyed) {
-          this.onEnd && this.onEnd();
+          this.handleLayoutEnd();
           return;
         }
         this.layoutNodes.forEach(d => {
@@ -68,15 +68,18 @@ class ColaGroupsLayout extends ColaLayout implements Layout {
           this.simulationStopped = false;
           if (this.restartOnEnd !== undefined) {
             this.startColaLayout(false, this.restartOnEnd);
-            this.startLayout(graph, false, this.restartOnEnd, this.onEnd);
+            this.startLayout(graph, false, this.restartOnEnd, this.handleLayoutEnd);
             delete this.restartOnEnd;
+          } else {
+            this.handleLayoutEnd();
           }
         } else if (this.addingNodes) {
           // One round of simulation to adjust for new nodes
           this.forceSimulation.useForceSimulation(this.nodes, this.edges, this.getFixedNodeDistance);
           this.forceSimulation.restart();
+        } else {
+          this.handleLayoutEnd();
         }
-        this.onEnd && this.onEnd();
       })();
     });
   }
@@ -124,7 +127,7 @@ class ColaGroupsLayout extends ColaLayout implements Layout {
     edges: LayoutLink[],
     groups: LayoutGroup[]
   ): BaseLayout {
-    const layout = new ColaGroupsLayout(graph, { ...this.options, listenForChanges: false });
+    const layout = new ColaGroupsLayout(graph, { ...this.options, onSimulationEnd: undefined, listenForChanges: false });
     layout.setupLayout(graph, nodes, edges, groups);
     return layout;
   }

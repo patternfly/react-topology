@@ -1,4 +1,4 @@
-import { Edge, Graph, Layout, Node } from '../types';
+import { Edge, Graph, GRAPH_LAYOUT_END_EVENT, Layout, Node } from '../types';
 import { BaseLayout } from './BaseLayout';
 import { LayoutOptions } from './LayoutOptions';
 import { LayoutNode } from './LayoutNode';
@@ -103,5 +103,6 @@ export class ConcentricLayout extends BaseLayout implements Layout {
         r += maxWH + padding;
       }
     }
+    this.graph.getController().fireEvent(GRAPH_LAYOUT_END_EVENT, { graph: this.graph });
   }
 }

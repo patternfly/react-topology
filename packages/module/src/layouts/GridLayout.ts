@@ -1,4 +1,4 @@
-import { Edge, Graph, Layout, Node } from '../types';
+import { Edge, Graph, GRAPH_LAYOUT_END_EVENT, Layout, Node } from '../types';
 import { BaseLayout } from './BaseLayout';
 import { LayoutOptions } from './LayoutOptions';
 import { LayoutNode } from './LayoutNode';
@@ -67,5 +67,6 @@ export class GridLayout extends BaseLayout implements Layout {
         }
       }
     }
+    this.graph.getController().fireEvent(GRAPH_LAYOUT_END_EVENT, { graph: this.graph });
   }
 }
