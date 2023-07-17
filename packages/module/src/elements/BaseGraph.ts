@@ -107,11 +107,10 @@ export default class BaseGraph<E extends GraphModel = GraphModel, D = any> exten
   }
 
   setScaleExtent(scaleExtent: ScaleExtent): void {
-    try {
-      this.getController().fireEvent(GRAPH_POSITION_CHANGE_EVENT, { graph: this });
-      // eslint-disable-next-line no-empty
-    } catch (e) {}
     this.scaleExtent = scaleExtent;
+    if (this.hasController()) {
+      this.getController().fireEvent(GRAPH_POSITION_CHANGE_EVENT, { graph: this });
+    }
   }
 
   getDetailsLevelThresholds(): ScaleDetailsThresholds | undefined {
@@ -150,11 +149,10 @@ export default class BaseGraph<E extends GraphModel = GraphModel, D = any> exten
   }
 
   setPosition(point: Point): void {
-    try {
-      this.getController().fireEvent(GRAPH_POSITION_CHANGE_EVENT, { graph: this });
-      // eslint-disable-next-line no-empty
-    } catch (e) {}
     this.position = point;
+    if (this.hasController()) {
+      this.getController().fireEvent(GRAPH_POSITION_CHANGE_EVENT, { graph: this });
+    }
   }
 
   getDimensions(): Dimensions {
@@ -201,11 +199,10 @@ export default class BaseGraph<E extends GraphModel = GraphModel, D = any> exten
   }
 
   setScale(scale: number): void {
-    try {
-      this.getController().fireEvent(GRAPH_POSITION_CHANGE_EVENT, { graph: this });
-      // eslint-disable-next-line no-empty
-    } catch (e) {}
     this.scale = scale;
+    if (this.hasController()) {
+      this.getController().fireEvent(GRAPH_POSITION_CHANGE_EVENT, { graph: this });
+    }
   }
 
   reset(): void {
