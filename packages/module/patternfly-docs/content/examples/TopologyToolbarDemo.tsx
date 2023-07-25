@@ -1,12 +1,14 @@
 import * as React from 'react';
 import {
+  Select,
+  SelectOption,
 	ToolbarItem
 } from '@patternfly/react-core';
-import {
-	Select as SelectDeprecated,
-	SelectOption as SelectOptionDeprecated,
-	SelectVariant as SelectVariantDeprecated
-} from '@patternfly/react-core/deprecated';
+// import {
+// 	Select as SelectDeprecated,
+// 	SelectOption as SelectOptionDeprecated,
+// 	SelectVariant as SelectVariantDeprecated
+// } from '@patternfly/react-core/deprecated';
 // eslint-disable-next-line patternfly-react/import-tokens-icons
 import { RegionsIcon as Icon1, FolderOpenIcon as Icon2 } from '@patternfly/react-icons';
 import {
@@ -267,29 +269,30 @@ export const ToolbarDemo: React.FC = () => {
 
   const contextToolbar = (
     <ToolbarItem>
-      <SelectDeprecated
-        variant={SelectVariantDeprecated.checkbox}
+      <Select
         customContent={
           <div>
-            <SelectOptionDeprecated
+            <SelectOption
               value="Labels"
-              isChecked={viewOptions.showLabels}
+              hasCheckbox
+              isSelected={viewOptions.showLabels}
               onClick={() => setViewOptions(prev => ({ ...prev, showLabels: !prev.showLabels }))}
             />
-            <SelectOptionDeprecated
+            <SelectOption
               value="Badges"
+              hasCheckbox
               isDisabled={!viewOptions.showLabels}
-              isChecked={viewOptions.showBadges}
+              isSelected={viewOptions.showBadges}
               onClick={() => setViewOptions(prev => ({ ...prev, showBadges: !prev.showBadges }))}
             />
-            <SelectOptionDeprecated
+            <SelectOption
               value="Status background"
-              isChecked={viewOptions.showStatusBackground}
+              isSelected={viewOptions.showStatusBackground}
               onClick={() => setViewOptions(prev => ({ ...prev, showStatusBackground: !prev.showStatusBackground }))}
             />
-            <SelectOptionDeprecated
+            <SelectOption
               value="Status decorators"
-              isChecked={viewOptions.showDecorators}
+              isSelected={viewOptions.showDecorators}
               onClick={() => setViewOptions(prev => ({ ...prev, showDecorators: !prev.showDecorators }))}
             />
           </div>
