@@ -1,15 +1,12 @@
 import * as React from 'react';
 import {
+  MenuToggle,
+  MenuToggleElement,
   Select,
+  SelectList,
   SelectOption,
-	ToolbarItem
+  ToolbarItem
 } from '@patternfly/react-core';
-// import {
-// 	Select as SelectDeprecated,
-// 	SelectOption as SelectOptionDeprecated,
-// 	SelectVariant as SelectVariantDeprecated
-// } from '@patternfly/react-core/deprecated';
-// eslint-disable-next-line patternfly-react/import-tokens-icons
 import { RegionsIcon as Icon1, FolderOpenIcon as Icon2 } from '@patternfly/react-icons';
 import {
   ColaLayout,
@@ -189,7 +186,7 @@ interface CustomNodeProps {
 const CustomNode: React.FC<CustomNodeProps> = observer(({ element }) => {
   const data = element.getData();
   const Icon = data.isAlternate ? Icon2 : Icon1;
-  const badgeColors = BadgeColors.find(badgeColor => badgeColor.name === data.badge);
+  const badgeColors = BadgeColors.find((badgeColor) => badgeColor.name === data.badge);
   const { viewOptions } = element.getController().getState<ControllerState>();
 
   return (
@@ -270,39 +267,49 @@ export const ToolbarDemo: React.FC = () => {
   const contextToolbar = (
     <ToolbarItem>
       <Select
-        customContent={
-          <div>
-            <SelectOption
-              value="Labels"
-              hasCheckbox
-              isSelected={viewOptions.showLabels}
-              onClick={() => setViewOptions(prev => ({ ...prev, showLabels: !prev.showLabels }))}
-            />
-            <SelectOption
-              value="Badges"
-              hasCheckbox
-              isDisabled={!viewOptions.showLabels}
-              isSelected={viewOptions.showBadges}
-              onClick={() => setViewOptions(prev => ({ ...prev, showBadges: !prev.showBadges }))}
-            />
-            <SelectOption
-              value="Status background"
-              isSelected={viewOptions.showStatusBackground}
-              onClick={() => setViewOptions(prev => ({ ...prev, showStatusBackground: !prev.showStatusBackground }))}
-            />
-            <SelectOption
-              value="Status decorators"
-              isSelected={viewOptions.showDecorators}
-              onClick={() => setViewOptions(prev => ({ ...prev, showDecorators: !prev.showDecorators }))}
-            />
-          </div>
-        }
-        onToggle={() => setViewOptionsOpen(prev => !prev)}
-        onSelect={() => {}}
-        isCheckboxSelectionBadgeHidden
         isOpen={viewOptionsOpen}
-        placeholderText="Node options"
-      />
+        toggle={(toggleRef: React.Ref<MenuToggleElement>) => (
+          <MenuToggle ref={toggleRef} onClick={() => setViewOptionsOpen((prev) => !prev)}>
+            Node Options
+          </MenuToggle>
+        )}
+      >
+        <SelectList>
+          <SelectOption
+            value="Labels"
+            hasCheckbox
+            isSelected={viewOptions.showLabels}
+            onClick={() => setViewOptions((prev) => ({ ...prev, showLabels: !prev.showLabels }))}
+          >
+            Labels
+          </SelectOption>
+          <SelectOption
+            value="Badges"
+            hasCheckbox
+            isDisabled={!viewOptions.showLabels}
+            isSelected={viewOptions.showBadges}
+            onClick={() => setViewOptions((prev) => ({ ...prev, showBadges: !prev.showBadges }))}
+          >
+            Badges
+          </SelectOption>
+          <SelectOption
+            value="Status background"
+            hasCheckbox
+            isSelected={viewOptions.showStatusBackground}
+            onClick={() => setViewOptions((prev) => ({ ...prev, showStatusBackground: !prev.showStatusBackground }))}
+          >
+            Status background
+          </SelectOption>
+          <SelectOption
+            value="Status decorators"
+            hasCheckbox
+            isSelected={viewOptions.showDecorators}
+            onClick={() => setViewOptions((prev) => ({ ...prev, showDecorators: !prev.showDecorators }))}
+          >
+            Status decorators
+          </SelectOption>
+        </SelectList>
+      </Select>
     </ToolbarItem>
   );
 

@@ -1,15 +1,14 @@
 import * as React from 'react';
 import {
-	Split,
-	SplitItem,
-	ToolbarItem
+  Dropdown,
+  DropdownItem,
+  DropdownList,
+  MenuToggle,
+  MenuToggleElement,
+  Split,
+  SplitItem,
+  ToolbarItem
 } from '@patternfly/react-core';
-import {
-	Dropdown as DropdownDeprecated,
-	DropdownItem as DropdownItemDeprecated,
-	DropdownPosition as DropdownPositionDeprecated,
-	DropdownToggle as DropdownToggleDeprecated
-} from '@patternfly/react-core/deprecated';
 // eslint-disable-next-line patternfly-react/import-tokens-icons
 import { RegionsIcon as Icon1, FolderOpenIcon as Icon2 } from '@patternfly/react-icons';
 import {
@@ -263,57 +262,61 @@ export const LayoutsDemo: React.FC = () => {
         <label className="pf-v5-u-display-inline-block pf-v5-u-mr-md pf-v5-u-mt-sm">Layout</label>
       </SplitItem>
       <SplitItem>
-        <DropdownDeprecated
-          position={DropdownPositionDeprecated.right}
-          toggle={<DropdownToggleDeprecated onToggle={() => setLayoutDropdownOpen(!layoutDropdownOpen)}>{layout}</DropdownToggleDeprecated>}
+        <Dropdown
+          toggle={(toggleRef: React.Ref<MenuToggleElement>) => (
+            <MenuToggle ref={toggleRef} onClick={() => setLayoutDropdownOpen(!layoutDropdownOpen)}>
+              {layout}
+            </MenuToggle>
+          )}
           isOpen={layoutDropdownOpen}
-          dropdownItems={[
-            <DropdownItemDeprecated
+        >
+          <DropdownList>
+            <DropdownItem
               key={1}
               onClick={() => {
                 updateLayout('Force');
               }}
             >
               Force
-            </DropdownItemDeprecated>,
-            <DropdownItemDeprecated
+            </DropdownItem>
+            <DropdownItem
               key={2}
               onClick={() => {
                 updateLayout('Dagre');
               }}
             >
               Dagre
-            </DropdownItemDeprecated>,
-            <DropdownItemDeprecated
+            </DropdownItem>
+            <DropdownItem
               key={3}
               onClick={() => {
                 updateLayout('Cola');
               }}
             >
               Cola
-            </DropdownItemDeprecated>,
-            <DropdownItemDeprecated
+            </DropdownItem>
+            <DropdownItem
               key={8}
               onClick={() => {
                 updateLayout('ColaGroups');
               }}
             >
               ColaGroups
-            </DropdownItemDeprecated>,
-            <DropdownItemDeprecated key={4} onClick={() => updateLayout('ColaNoForce')}>
+            </DropdownItem>
+            <DropdownItem key={4} onClick={() => updateLayout('ColaNoForce')}>
               ColaNoForce
-            </DropdownItemDeprecated>,
-            <DropdownItemDeprecated key={5} onClick={() => updateLayout('Grid')}>
+            </DropdownItem>
+            <DropdownItem key={5} onClick={() => updateLayout('Grid')}>
               Grid
-            </DropdownItemDeprecated>,
-            <DropdownItemDeprecated key={6} onClick={() => updateLayout('Concentric')}>
+            </DropdownItem>
+            <DropdownItem key={6} onClick={() => updateLayout('Concentric')}>
               Concentric
-            </DropdownItemDeprecated>,
-            <DropdownItemDeprecated key={7} onClick={() => updateLayout('BreadthFirst')}>
+            </DropdownItem>
+            <DropdownItem key={7} onClick={() => updateLayout('BreadthFirst')}>
               BreadthFirst
-            </DropdownItemDeprecated>
-          ]}
-        />
+            </DropdownItem>
+          </DropdownList>
+        </Dropdown>
       </SplitItem>
     </Split>
   );
