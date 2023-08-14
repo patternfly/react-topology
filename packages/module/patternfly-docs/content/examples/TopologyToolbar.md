@@ -27,12 +27,13 @@ import {
   VisualizationProvider,
   VisualizationSurface
 } from '@patternfly/react-topology';
-import { ToolbarItem } from '@patternfly/react-core';
 import {
-	Select as SelectDeprecated,
-	SelectOption as SelectOptionDeprecated,
-	SelectVariant as SelectVariantDeprecated
-} from '@patternfly/react-core/deprecated';
+  MenuToggle,
+  Select,
+  SelectList,
+  SelectOption,
+  ToolbarItem
+} from '@patternfly/react-core';
 import Icon1 from '@patternfly/react-icons/dist/esm/icons/regions-icon';
 import Icon2 from '@patternfly/react-icons/dist/esm/icons/folder-open-icon';
 

@@ -1,28 +1,33 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import {
-	Page,
-	Nav,
-	NavList,
-	NavItem,
-	PageSection,
-	PageSidebar,
-	Avatar,
-	Brand,
-	Radio,
-	NavExpandable,
-  PageSidebarBody
+  Page,
+  Nav,
+  NavList,
+  NavItem,
+  PageSection,
+  PageSidebar,
+  Avatar,
+  Brand,
+  Radio,
+  Masthead,
+  MastheadMain,
+  MastheadToggle,
+  MastheadBrand,
+  NavExpandable,
+  PageSidebarBody,
+  MastheadContent,
+  PageToggleButton,
+  Toolbar,
+  ToolbarContent,
+  ToolbarGroup,
+  ToolbarItem
 } from '@patternfly/react-core';
-import {
-	PageHeader,
-	PageHeaderTools,
-	PageHeaderToolsItem,
-	PageHeaderToolsGroup
-} from '@patternfly/react-core/deprecated';
 import imgBrand from './assets/images/imgBrand.svg';
 import imgAvatar from './assets/images/imgAvatar.svg';
 import Demos from './Demos';
 import './App.css';
+import { BarsIcon } from '@patternfly/react-icons';
 
 interface AppState {
   activeItem: number | string;
@@ -32,18 +37,15 @@ interface AppState {
 
 class App extends React.Component<{}, AppState> {
   state: AppState = {
-    activeItem: Demos.reduce((active, demo) =>
-      active ||
-        (demo.isDefault ?
-          demo.id :
-          demo.demos?.find(subDemo => subDemo.isDefault)?.id
-        ),
-      ''),
+    activeItem: Demos.reduce(
+      (active, demo) => active || (demo.isDefault ? demo.id : demo.demos?.find((subDemo) => subDemo.isDefault)?.id),
+      ''
+    ),
     isNavOpen: true,
     isDarkTheme: false
   };
 
-  private onNavSelect = (_event:any, selectedItem: { itemId: number | string; groupId: number | string }) => {
+  private onNavSelect = (_event: any, selectedItem: { itemId: number | string; groupId: number | string }) => {
     this.setState({ activeItem: selectedItem.itemId });
   };
 
@@ -60,13 +62,10 @@ class App extends React.Component<{}, AppState> {
   };
 
   private getPages = () => {
-    const defaultDemo = Demos.reduce((active, demo) =>
-        active ||
-        (demo.isDefault ?
-            demo :
-            demo.demos?.find(subDemo => subDemo.isDefault)
-        ),
-      undefined)
+    const defaultDemo = Demos.reduce(
+      (active, demo) => active || (demo.isDefault ? demo : demo.demos?.find((subDemo) => subDemo.isDefault)),
+      undefined
+    );
     return (
       <Switch>
         {Demos.reduce((acc, demo) => {
@@ -82,14 +81,14 @@ class App extends React.Component<{}, AppState> {
                   )}
                   key={demo.id}
                 />
-              )
-            })
+              );
+            });
           } else {
             acc.push(
               <Route
                 path={`/${demo.id}-nav-link`}
                 render={() => (
-                  <PageSection style={{zIndex: 2}} id={`/${demo.id}-page-section`}>
+                  <PageSection style={{ zIndex: 2 }} id={`/${demo.id}-page-section`}>
                     {React.createElement(demo.componentType)}
                   </PageSection>
                 )}
@@ -120,41 +119,51 @@ class App extends React.Component<{}, AppState> {
     const { isNavOpen, activeItem, isDarkTheme } = this.state;
 
     const AppToolbar = (
-      <PageHeaderTools>
-        <PageHeaderToolsGroup>
-          <PageHeaderToolsItem style={{ marginRight: '10px' }}>
-            <Radio
-              id="light-theme"
-              aria-label="Light theme"
-              label={`Light theme`}
-              name="light-theme"
-              isChecked={!isDarkTheme}
-              onChange={(_event: any, checked: boolean) => checked && this.onThemeSelect(false)}
-            />
-          </PageHeaderToolsItem>
-          <PageHeaderToolsItem>
-            <Radio
-              id="dark-theme"
-              label="Dark theme"
-              aria-label="Dark theme"
-              name="dark-theme"
-              isChecked={isDarkTheme}
-              onChange={(_event: any, checked: boolean) => checked && this.onThemeSelect(true)}
-            />
-          </PageHeaderToolsItem>
-        </PageHeaderToolsGroup>
-        <Avatar src={imgAvatar} alt="Avatar image" />
-      </PageHeaderTools>
+      <Toolbar id="toolbar" isFullHeight isStatic>
+        <ToolbarContent>
+          <ToolbarGroup align={{ default: 'alignRight' }}>
+            <ToolbarItem style={{ marginRight: '10px' }}>
+              <Radio
+                id="light-theme"
+                aria-label="Light theme"
+                label={`Light theme`}
+                name="light-theme"
+                isChecked={!isDarkTheme}
+                onChange={(_event: any, checked: boolean) => checked && this.onThemeSelect(false)}
+              />
+            </ToolbarItem>
+            <ToolbarItem>
+              <Radio
+                id="dark-theme"
+                label="Dark theme"
+                aria-label="Dark theme"
+                name="dark-theme"
+                isChecked={isDarkTheme}
+                onChange={(_event: any, checked: boolean) => checked && this.onThemeSelect(true)}
+              />
+            </ToolbarItem>
+          </ToolbarGroup>
+          <ToolbarItem>
+            <Avatar src={imgAvatar} alt="Avatar image" />
+          </ToolbarItem>
+        </ToolbarContent>
+      </Toolbar>
     );
 
     const AppHeader = (
-      <PageHeader logoComponent="a"
-        logo={<Brand src={imgBrand} alt="Patternfly Logo" />}
-        headerTools={AppToolbar}
-        showNavToggle
-        isNavOpen={isNavOpen}
-        onNavToggle={() => this.setState({ isNavOpen: !isNavOpen })}
-      />
+      <Masthead>
+        <MastheadToggle>
+          <PageToggleButton variant="plain" aria-label="Global navigation">
+            <BarsIcon />
+          </PageToggleButton>
+        </MastheadToggle>
+        <MastheadMain>
+          <MastheadBrand>
+            <Brand src={imgBrand} alt="PatternFly" heights={{ default: '36px' }} />
+          </MastheadBrand>
+        </MastheadMain>
+        <MastheadContent>{AppToolbar}</MastheadContent>
+      </Masthead>
     );
 
     const nav = (
@@ -172,7 +181,7 @@ class App extends React.Component<{}, AppState> {
                     </NavItem>
                   ))}
                 </NavExpandable>
-              )
+              );
             }
             return (
               <NavItem itemId={demo.id} isActive={activeItem === demo.id} key={demo.id}>
@@ -194,12 +203,7 @@ class App extends React.Component<{}, AppState> {
 
     return (
       <Router>
-        <Page
-          header={AppHeader}
-          sidebar={AppSidebar}
-          isManagedSidebar
-          mainContainerId={this.pageId}
-        >
+        <Page header={AppHeader} sidebar={AppSidebar} isManagedSidebar mainContainerId={this.pageId}>
           {this.getPages()}
         </Page>
       </Router>
