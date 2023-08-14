@@ -39,7 +39,6 @@ import {
  Dropdown,
  DropdownItem,
  DropdownList,
- MenuToggleElement
 } from '@patternfly/react-core';
 import Icon1 from '@patternfly/react-icons/dist/esm/icons/regions-icon';
 import Icon2 from '@patternfly/react-icons/dist/esm/icons/folder-open-icon';

@@ -29,7 +29,6 @@ import {
 } from '@patternfly/react-topology';
 import {
   MenuToggle,
-  MenuToggleElement,
   Select,
   SelectList,
   SelectOption,
