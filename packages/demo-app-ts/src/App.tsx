@@ -10,25 +10,24 @@ import {
   Avatar,
   Brand,
   Radio,
-  Masthead,
-  MastheadMain,
-  MastheadToggle,
-  MastheadBrand,
   NavExpandable,
   PageSidebarBody,
-  MastheadContent,
-  PageToggleButton,
   Toolbar,
-  ToolbarContent,
   ToolbarGroup,
-  ToolbarItem
+  ToolbarItem,
+  Masthead,
+  MastheadToggle,
+  PageToggleButton,
+  MastheadContent,
+  MastheadBrand,
+  MastheadMain,
+  ToolbarContent
 } from '@patternfly/react-core';
+import { BarsIcon } from '@patternfly/react-icons/dist/esm/icons/bars-icon';
 import imgBrand from './assets/images/imgBrand.svg';
 import imgAvatar from './assets/images/imgAvatar.svg';
 import Demos from './Demos';
 import './App.css';
-import { BarsIcon } from '@patternfly/react-icons';
-
 interface AppState {
   activeItem: number | string;
   isNavOpen: boolean;
@@ -153,13 +152,18 @@ class App extends React.Component<{}, AppState> {
     const AppHeader = (
       <Masthead>
         <MastheadToggle>
-          <PageToggleButton variant="plain" aria-label="Global navigation">
+          <PageToggleButton
+            variant="plain"
+            aria-label="Global navigation"
+            isSidebarOpen={isNavOpen}
+            onSidebarToggle={() => this.setState({ isNavOpen: !isNavOpen })}
+          >
             <BarsIcon />
           </PageToggleButton>
         </MastheadToggle>
         <MastheadMain>
-          <MastheadBrand>
-            <Brand src={imgBrand} alt="PatternFly" heights={{ default: '36px' }} />
+          <MastheadBrand component="a">
+            <Brand src={imgBrand} alt="Patternfly Logo" heights={{ default: '36px' }} />
           </MastheadBrand>
         </MastheadMain>
         <MastheadContent>{AppToolbar}</MastheadContent>
