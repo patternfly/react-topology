@@ -29,8 +29,7 @@
   },
   "homepage": "https://github.com/patternfly/react-topology#readme",
   "publishConfig": {
-    "access": "public",
-    "tag": "prerelease"
+    "access": "public"
   },
   "dependencies": {
     "@patternfly/react-core": "^4.276.8",
