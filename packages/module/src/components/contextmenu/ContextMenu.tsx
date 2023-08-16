@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { MenuToggle, MenuToggleElement } from '@patternfly/react-core';
 import { DropdownContext as DropdownContextDeprecated } from '@patternfly/react-core/deprecated';
 import { Dropdown } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
