@@ -1,8 +1,6 @@
 import * as React from 'react';
-import {
-	DropdownMenu as DropdownMenuDeprecated,
-	DropdownContext as DropdownContextDeprecated
-} from '@patternfly/react-core/deprecated';
+import { DropdownContext as DropdownContextDeprecated } from '@patternfly/react-core/deprecated';
+import { Dropdown } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import topologyStyles from '../../css/topology-components';
 import styles from '@patternfly/react-styles/css/components/Dropdown/dropdown';
@@ -50,9 +48,12 @@ const ContextMenu: React.FunctionComponent<ContextMenuProps> = ({
         }}
       >
         <div className={css(styles.dropdown, styles.modifiers.expanded)}>
-          <DropdownMenuDeprecated className={css(topologyStyles.topologyContextMenuCDropdownMenu)} autoFocus>
+          <Dropdown
+            toggle={(toggleRef: React.Ref<MenuToggleElement>) => <MenuToggle ref={toggleRef} />}
+            className={css(topologyStyles.topologyContextMenuCDropdownMenu)}
+          >
             {children}
-          </DropdownMenuDeprecated>
+          </Dropdown>
         </div>
       </DropdownContextDeprecated.Provider>
     </Popper>
