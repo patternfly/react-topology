@@ -53,7 +53,7 @@ const contextMenuItem = (label: string, i: number): React.ReactElement => {
 
 const createContextMenuItems = (...labels: string[]): React.ReactElement[] => labels.map(contextMenuItem);
 
-const defaultMenu = createContextMenuItems('First', 'Second', 'Third', '-', 'Sub Menu-> Child1, Child2, Child3, -, Child4');
+const defaultMenu = createContextMenuItems('First', 'Second', 'Third', '-', 'Fourth');
 
 const stylesComponentFactory: ComponentFactory = (
   kind: ModelKind,
