@@ -49,10 +49,7 @@ const ContextMenu: React.FunctionComponent<ContextMenuProps> = ({
         }}
       >
         <div className={css(styles.dropdown, styles.modifiers.expanded)}>
-          <Dropdown
-            toggle={(toggleRef: React.Ref<MenuToggleElement>) => <MenuToggle ref={toggleRef} />}
-            className={css(topologyStyles.topologyContextMenuCDropdownMenu)}
-          >
+          <Dropdown toggle={() => <></>} className={css(topologyStyles.topologyContextMenuCDropdownMenu)}>
             {children}
           </Dropdown>
         </div>

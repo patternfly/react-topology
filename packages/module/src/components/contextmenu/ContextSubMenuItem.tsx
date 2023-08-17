@@ -78,10 +78,7 @@ const ContextSubMenuItem: React.FunctionComponent<ContextSubMenuItemProps> = ({ 
             }
           }}
         >
-          <Dropdown
-            toggle={(toggleRef: React.Ref<MenuToggleElement>) => <MenuToggle ref={toggleRef} />}
-            className={css(topologyStyles.topologyContextMenuCDropdownMenu)}
-          >
+          <Dropdown toggle={() => <></>} className={css(topologyStyles.topologyContextMenuCDropdownMenu)}>
             {children}
           </Dropdown>
         </div>
