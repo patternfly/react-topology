@@ -1,6 +1,4 @@
 import * as React from 'react';
-import { MenuToggle, MenuToggleElement } from '@patternfly/react-core';
-import { DropdownContext as DropdownContextDeprecated } from '@patternfly/react-core/deprecated';
 import { Dropdown } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import topologyStyles from '../../css/topology-components';
@@ -30,30 +28,11 @@ const ContextMenu: React.FunctionComponent<ContextMenuProps> = ({
 
   return (
     <Popper {...other} closeOnEsc closeOnOutsideClick open={isOpen} onRequestClose={handleOnRequestClose}>
-      <DropdownContextDeprecated.Provider
-        value={{
-          onSelect: handleOnRequestClose,
-          toggleTextClass: styles.dropdownToggleText,
-          toggleIconClass: styles.dropdownToggleIcon,
-          menuClass: styles.dropdownMenu,
-          itemClass: styles.dropdownMenuItem,
-          toggleClass: styles.dropdownToggle,
-          baseClass: styles.dropdown,
-          baseComponent: 'div',
-          sectionClass: styles.dropdownGroup,
-          sectionTitleClass: styles.dropdownGroupTitle,
-          sectionComponent: 'section',
-          disabledClass: styles.modifiers.disabled
-          // hoverClass: styles.modifiers.hover,
-          // separatorClass: styles.dropdownSeparator,
-        }}
-      >
-        <div className={css(styles.dropdown, styles.modifiers.expanded)}>
-          <Dropdown toggle={() => <></>} className={css(topologyStyles.topologyContextMenuCDropdownMenu)}>
-            {children}
-          </Dropdown>
-        </div>
-      </DropdownContextDeprecated.Provider>
+      <div className={css(styles.dropdown, styles.modifiers.expanded)}>
+        <Dropdown toggle={() => <></>} className={css(topologyStyles.topologyContextMenuCDropdownMenu)}>
+          {children}
+        </Dropdown>
+      </div>
     </Popper>
   );
 };
