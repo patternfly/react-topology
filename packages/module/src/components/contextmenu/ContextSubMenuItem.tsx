@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Dropdown, DropdownItem, MenuToggle, MenuToggleElement } from '@patternfly/react-core';
+import { Dropdown, DropdownItem } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import topologyStyles from '../../css/topology-components';
 // FIXME fully qualified due to the effect of long build times on storybook
