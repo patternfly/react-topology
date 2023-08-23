@@ -74,6 +74,7 @@ export const useTopologyOptions = (
             </MenuToggle>
           )}
           isOpen={layoutDropdownOpen}
+          onOpenChange={(isOpen) => setLayoutDropdownOpen(isOpen)}
         >
           <DropdownList>
             <DropdownItem key={1} onClick={() => updateLayout('Force')}>
@@ -108,7 +109,7 @@ export const useTopologyOptions = (
 
   const renderNodeOptionsDropdown = () => {
     const selectContent = (
-      <SelectList>
+      <SelectList onChange={(isOpen) => setLayoutDropdownOpen(isOpen)}>
         <SelectOption
           hasCheckbox
           value="Labels"
@@ -195,7 +196,13 @@ export const useTopologyOptions = (
     );
 
     return (
-      <Select onSelect={() => {}} isOpen={nodeOptionsOpen} placeholder="Node options" toggle={nodeOptionsToggle}>
+      <Select
+        onOpenChange={(isOpen) => setNodeOptionsOpen(isOpen)}
+        onSelect={() => {}}
+        isOpen={nodeOptionsOpen}
+        placeholder="Node options"
+        toggle={nodeOptionsToggle}
+      >
         {selectContent}
       </Select>
     );
@@ -249,7 +256,12 @@ export const useTopologyOptions = (
     );
 
     return (
-      <Select onSelect={() => {}} isOpen={nodeShapesOpen} toggle={nodeShapesToggle}>
+      <Select
+        onOpenChange={(isOpen) => setNodeShapesOpen(isOpen)}
+        onSelect={() => {}}
+        isOpen={nodeShapesOpen}
+        toggle={nodeShapesToggle}
+      >
         {selectContent}
       </Select>
     );
@@ -336,7 +348,12 @@ export const useTopologyOptions = (
     );
 
     return (
-      <Select onSelect={() => {}} isOpen={edgeOptionsOpen} toggle={edgeOptionsToggle}>
+      <Select
+        onOpenChange={(isOpen) => setEdgeOptionsOpen(isOpen)}
+        onSelect={() => {}}
+        isOpen={edgeOptionsOpen}
+        toggle={edgeOptionsToggle}
+      >
         {selectContent}
       </Select>
     );
