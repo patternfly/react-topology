@@ -109,7 +109,7 @@ export const useTopologyOptions = (
 
   const renderNodeOptionsDropdown = () => {
     const selectContent = (
-      <SelectList onChange={(isOpen) => setLayoutDropdownOpen(isOpen)}>
+      <SelectList>
         <SelectOption
           hasCheckbox
           value="Labels"
