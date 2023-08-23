@@ -94,10 +94,11 @@ zoomOutCallback: action(() => {
 ```noLive
 /**
  * Parameters:
- *  padding: The padding to give the topology view such that it fits the screen
+ *  padding: The padding to give the topology view such that it fits the screen and shows all the nodes
  * Returns:
- *  function that fits the topology view to the screen.
- *  Scale changes are not saved on reload. Fit to screen will not scale up higher than the current scale or 1 *  whichever is greater. So, it does not do a zoom in. Idea being 'Fit’ is used to show all nodes when they * don’t all fit on the screen.
+ *  function that fits the topology view to the screen. Scale changes are not saved on reload.
+ *  Fit to screen will not scale up higher than the current scale or 1, whichever is greater.
+ *  Therefore it does not zoom in.
  **/
 fitToScreenCallback: action(() => {
   controller.getGraph().fit(80);
