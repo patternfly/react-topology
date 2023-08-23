@@ -50,7 +50,69 @@ Pass the `TopologyControlBar` component to the `controlBar` prop, and pass the `
 
     You can override these defaults by passing in any of the `defaultControlButtonsOptions` as a parameter, with your updated boolean value of the default option.
 
+    Note: 
+
 2. For each button, pass in each action callback method as parameter.
 
 ```ts file="./TopologyControlBarDemo.tsx"
+```
+
+## Action callback methods
+
+### zoomInCallback
+
+```noLive
+/**
+ * Parameters:
+ *  scale: The interview by which to scale up the topology view
+ * Returns:
+ *  function that zooms in the topology view by the provided scale value.
+ *  Scale changes are not saved on reload.
+ **/
+zoomInCallback: action(() => {
+  controller.getGraph().scaleBy(4 / 3);
+})
+```
+
+### zoomOutCallback
+
+```noLive
+/**
+ * Parameters:
+ *  scale: The interview by which to scale down the topology view
+ * Returns:
+ *  function that zooms out the topology view by the provided scale value.
+ *  Scale changes are not saved on reload.
+ **/
+zoomOutCallback: action(() => {
+  controller.getGraph().scaleBy(0.75);
+}),
+```
+
+### fitToScreenCallback
+
+```noLive
+/**
+ * Parameters:
+ *  padding: The padding to give the topology view such that it fits the screen
+ * Returns:
+ *  function that fits the topology view to the screen.
+ *  Scale changes are not saved on reload. Fit to screen will not scale up higher than the current scale or 1 *  whichever is greater. So, it does not do a zoom in. Idea being 'Fit’ is used to show all nodes when they * don’t all fit on the screen.
+ **/
+fitToScreenCallback: action(() => {
+  controller.getGraph().fit(80);
+}),
+```
+
+### resetViewCallback
+
+```noLive
+/**
+ * Returns:
+ *  function that resets the topology view to its initial placement on load.
+ **/
+resetViewCallback: action(() => {
+  controller.getGraph().reset();
+  controller.getGraph().layout();
+}),
 ```

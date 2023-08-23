@@ -26,7 +26,7 @@ module.exports = {
   '/topology/control-bar/extensions': {
     id: "Control Bar",
     title: "Control Bar",
-    toc: [[{"text":"Topology with a control bar"}]],
+    toc: [[{"text":"Topology with a control bar"}],{"text":"Action callback methods"},[{"text":"zoomInCallback"},{"text":"zoomOutCallback"},{"text":"fitToScreenCallback"},{"text":"resetViewCallback"}]],
     examples: ["Topology with a control bar"],
     section: "topology",
     subsection: "",
