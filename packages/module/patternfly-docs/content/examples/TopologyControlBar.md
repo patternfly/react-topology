@@ -120,7 +120,7 @@ zoomInCallback: action(() => {
 ```noLive
 /**
  * Parameters:
- *  scale: The interview by which to scale down the topology view
+ *  scale: The interval by which to scale down the topology view
  * Returns:
  *  function that zooms out the topology view by the provided scale value.
  *  Scale changes are not saved on reload.
