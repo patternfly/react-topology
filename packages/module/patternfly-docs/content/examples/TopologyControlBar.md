@@ -50,8 +50,6 @@ Pass the `TopologyControlBar` component to the `controlBar` prop, and pass the `
 
     You can override these defaults by passing in any of the `defaultControlButtonsOptions` as a parameter, with your updated boolean value of the default option.
 
-    Note: 
-
 2. For each button, pass in each action callback method as parameter.
 
 ```ts file="./TopologyControlBarDemo.tsx"
