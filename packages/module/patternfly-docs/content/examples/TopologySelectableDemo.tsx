@@ -52,7 +52,7 @@ const BadgeColors = [
 const CustomNode: React.FC<CustomNodeProps & WithSelectionProps> = ({ element, onSelect, selected }) => {
   const data = element.getData();
   const Icon = data.isAlternate ? Icon2 : Icon1;
-  const badgeColors = BadgeColors.find((badgeColor) => badgeColor.name === data.badge);
+  const badgeColors = BadgeColors.find(badgeColor => badgeColor.name === data.badge);
 
   return (
     <DefaultNode
