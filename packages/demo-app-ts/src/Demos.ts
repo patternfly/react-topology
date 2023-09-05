@@ -11,6 +11,7 @@ import { ContextMenus } from './demos/ContextMenus';
 import { TopologyPackage } from './demos/TopologyPackage';
 import { ComplexGroup } from './demos/Groups';
 import { CollapsibleGroups } from './demos/CollapsibleGroups';
+import { AggregateEdges } from './demos/AggregateEdges';
 
 import './Demo.css';
 
@@ -69,6 +70,11 @@ export const Demos: DemoInterface[] = [
         componentType: StyleEdges,
       },
     ]
+  },
+  {
+    id: 'aggregate-edges',
+    name: 'Aggregate Edges',
+    componentType: AggregateEdges,
   },
   {
     id: 'selection',
