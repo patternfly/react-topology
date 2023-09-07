@@ -50,7 +50,50 @@ Pass the `TopologyControlBar` component to the `controlBar` prop, and pass the `
 
     You can override these defaults by passing in any of the `defaultControlButtonsOptions` as a parameter, with your updated boolean value of the default option.
 
-2. For each button, pass in each action callback method as parameter.
+2. For each button, pass in each action callback method as parameter:
+
+   - zoomInCallback: Handle the click on the zoom in button. Eg:
+       ```noLive
+         action(() => {
+           // Zoom in by desired amount
+           controller.getGraph().scaleBy(4 / 3);
+         })
+        ```
+   - zoomOutCallback: Handle the click on the zoom out button. Eg:
+       ```noLive
+         action(() => {
+           // Zoom in out desired amount
+           controller.getGraph().scaleBy(0.75);
+         })
+        ```
+    - fitToScreenCallback: Handle click on fit to screen button. Eg:
+       ```noLive
+         action(() => {
+           // Note: The default BaseGraph's fit implementation will not scale to greater
+           // than 1 so it will not zoom in to enlarge the graph to take up the entire
+           // viewable area.
+
+           // Fit entire graph in the viewable area with an 80px margin
+           controller.getGraph().fit(80);
+         })
+        ```
+    - resetViewCallback: Handle the click on the reset view button. Eg:
+       ```noLive
+         action(() => {
+           // BaseGraph's reset implementation will scale back to 1, and re-center
+           // the graph
+           controller.getGraph().reset();
+
+          // re-run the layout
+           controller.getGraph().layout();
+         })
+        ```
+    - legendCallback: Handle the click on the legend. Eg:
+       ```noLive
+         action(() => {
+           // application specific code to show a legend (no default support)
+         })
+       ```
 
 ```ts file="./TopologyControlBarDemo.tsx"
 ```
