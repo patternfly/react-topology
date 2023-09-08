@@ -1,31 +1,24 @@
 import React from 'react';
 import * as _ from 'lodash';
 import {
-	Button,
-	Flex,
-	Split,
-	SplitItem,
-	TextInput,
-	ToolbarItem,
-	Tooltip
+  Button,
+  Dropdown,
+  DropdownItem,
+  DropdownList,
+  Flex,
+  MenuToggle,
+  MenuToggleElement,
+  Select,
+  SelectList,
+  SelectOption,
+  Split,
+  SplitItem,
+  TextInput,
+  ToolbarItem,
+  Tooltip
 } from '@patternfly/react-core';
-import {
-	Dropdown as DropdownDeprecated,
-	DropdownItem as DropdownItemDeprecated,
-	DropdownPosition as DropdownPositionDeprecated,
-	DropdownToggle as DropdownToggleDeprecated,
-	Select,
-	SelectOption,
-	SelectVariant
-} from '@patternfly/react-core/deprecated';
 import { DefaultEdgeOptions, DefaultNodeOptions, GeneratorEdgeOptions, GeneratorNodeOptions } from '../data/generator';
-import {
-  EDGE_ANIMATION_SPEEDS,
-  EDGE_STYLES,
-  EDGE_TERMINAL_TYPES,
-  NODE_SHAPES,
-  NODE_STATUSES
-} from './styleUtils';
+import { EDGE_ANIMATION_SPEEDS, EDGE_STYLES, EDGE_TERMINAL_TYPES, NODE_SHAPES, NODE_STATUSES } from './styleUtils';
 import { Controller, Model, NodeShape } from '@patternfly/react-topology';
 
 const GRAPH_LAYOUT_OPTIONS = ['x', 'y', 'visible', 'style', 'layout', 'scale', 'scaleExtent', 'layers'];
@@ -74,115 +67,156 @@ export const useTopologyOptions = (
         <label className="pf-v5-u-display-inline-block pf-v5-u-mr-md pf-v5-u-mt-sm">Layout</label>
       </SplitItem>
       <SplitItem>
-        <DropdownDeprecated
-          position={DropdownPositionDeprecated.right}
-          toggle={<DropdownToggleDeprecated onToggle={() => setLayoutDropdownOpen(!layoutDropdownOpen)}>{layout}</DropdownToggleDeprecated>}
+        <Dropdown
+          toggle={(toggleRef: React.Ref<MenuToggleElement>) => (
+            <MenuToggle ref={toggleRef} onClick={() => setLayoutDropdownOpen(!layoutDropdownOpen)}>
+              {layout}
+            </MenuToggle>
+          )}
           isOpen={layoutDropdownOpen}
-          dropdownItems={[
-            <DropdownItemDeprecated key={1} onClick={() => updateLayout('Force')}>
+          onOpenChange={(isOpen) => setLayoutDropdownOpen(isOpen)}
+        >
+          <DropdownList>
+            <DropdownItem key={1} onClick={() => updateLayout('Force')}>
               Force
-            </DropdownItemDeprecated>,
-            <DropdownItemDeprecated key={2} onClick={() => updateLayout('Dagre')}>
+            </DropdownItem>
+            <DropdownItem key={2} onClick={() => updateLayout('Dagre')}>
               Dagre
-            </DropdownItemDeprecated>,
-            <DropdownItemDeprecated key={3} onClick={() => updateLayout('Cola')}>
+            </DropdownItem>
+            <DropdownItem key={3} onClick={() => updateLayout('Cola')}>
               Cola
-            </DropdownItemDeprecated>,
-            <DropdownItemDeprecated key={8} onClick={() => updateLayout('ColaGroups')}>
+            </DropdownItem>
+            <DropdownItem key={8} onClick={() => updateLayout('ColaGroups')}>
               ColaGroups
-            </DropdownItemDeprecated>,
-            <DropdownItemDeprecated key={4} onClick={() => updateLayout('ColaNoForce')}>
+            </DropdownItem>
+            <DropdownItem key={4} onClick={() => updateLayout('ColaNoForce')}>
               ColaNoForce
-            </DropdownItemDeprecated>,
-            <DropdownItemDeprecated key={5} onClick={() => updateLayout('Grid')}>
+            </DropdownItem>
+            <DropdownItem key={5} onClick={() => updateLayout('Grid')}>
               Grid
-            </DropdownItemDeprecated>,
-            <DropdownItemDeprecated key={6} onClick={() => updateLayout('Concentric')}>
+            </DropdownItem>
+            <DropdownItem key={6} onClick={() => updateLayout('Concentric')}>
               Concentric
-            </DropdownItemDeprecated>,
-            <DropdownItemDeprecated key={7} onClick={() => updateLayout('BreadthFirst')}>
+            </DropdownItem>
+            <DropdownItem key={7} onClick={() => updateLayout('BreadthFirst')}>
               BreadthFirst
-            </DropdownItemDeprecated>
-          ]}
-        />
+            </DropdownItem>
+          </DropdownList>
+        </Dropdown>
       </SplitItem>
     </Split>
   );
 
   const renderNodeOptionsDropdown = () => {
     const selectContent = (
-      <div>
+      <SelectList>
         <SelectOption
+          hasCheckbox
           value="Labels"
-          isChecked={nodeOptions.nodeLabels}
-          onClick={() => setNodeOptions(prev => ({ ...prev, nodeLabels: !prev.nodeLabels }))}
-        />
+          isSelected={nodeOptions.nodeLabels}
+          onClick={() => setNodeOptions((prev) => ({ ...prev, nodeLabels: !prev.nodeLabels }))}
+        >
+          Labels
+        </SelectOption>
         <SelectOption
+          hasCheckbox
           value="Secondary Labels"
-          isChecked={nodeOptions.nodeSecondaryLabels}
-          onClick={() => setNodeOptions(prev => ({ ...prev, nodeSecondaryLabels: !prev.nodeSecondaryLabels }))}
-        />
+          isSelected={nodeOptions.nodeSecondaryLabels}
+          onClick={() => setNodeOptions((prev) => ({ ...prev, nodeSecondaryLabels: !prev.nodeSecondaryLabels }))}
+        >
+          Secondary Labels
+        </SelectOption>
         <SelectOption
+          hasCheckbox
           value="Status"
-          isChecked={nodeOptions.statuses.length > 1}
+          isSelected={nodeOptions.statuses.length > 1}
           onClick={() =>
-            setNodeOptions(prev => ({
+            setNodeOptions((prev) => ({
               ...prev,
               statuses: prev.statuses.length > 1 ? DefaultNodeOptions.statuses : NODE_STATUSES
             }))
           }
-        />
+        >
+          Status
+        </SelectOption>
         <SelectOption
+          hasCheckbox
           value="Decorators"
-          isChecked={nodeOptions.statusDecorators}
+          isSelected={nodeOptions.statusDecorators}
           onClick={() =>
-            setNodeOptions(prev => ({
+            setNodeOptions((prev) => ({
               ...prev,
               statusDecorators: !prev.statusDecorators,
               showDecorators: !prev.showDecorators
             }))
           }
-        />
+        >
+          Decorators
+        </SelectOption>
         <SelectOption
+          hasCheckbox
           value="Badges"
-          isChecked={nodeOptions.nodeBadges}
-          onClick={() => setNodeOptions(prev => ({ ...prev, nodeBadges: !prev.nodeBadges }))}
-        />
+          isSelected={nodeOptions.nodeBadges}
+          onClick={() => setNodeOptions((prev) => ({ ...prev, nodeBadges: !prev.nodeBadges }))}
+        >
+          Badges
+        </SelectOption>
         <SelectOption
+          hasCheckbox
           value="Icons"
-          isChecked={nodeOptions.nodeIcons}
-          onClick={() => setNodeOptions(prev => ({ ...prev, nodeIcons: !prev.nodeIcons }))}
-        />
+          isSelected={nodeOptions.nodeIcons}
+          onClick={() => setNodeOptions((prev) => ({ ...prev, nodeIcons: !prev.nodeIcons }))}
+        >
+          Icons
+        </SelectOption>
         <SelectOption
+          hasCheckbox
           value="Context Menus"
-          isChecked={nodeOptions.contextMenus}
-          onClick={() => setNodeOptions(prev => ({ ...prev, contextMenus: !prev.contextMenus }))}
-        />
-      </div>
+          isSelected={nodeOptions.contextMenus}
+          onClick={() => setNodeOptions((prev) => ({ ...prev, contextMenus: !prev.contextMenus }))}
+        >
+          Context Menus
+        </SelectOption>
+      </SelectList>
+    );
+
+    const nodeOptionsToggle = (toggleRef: React.Ref<MenuToggleElement>) => (
+      <MenuToggle
+        ref={toggleRef}
+        onClick={() => setNodeOptionsOpen((prev) => !prev)}
+        isExpanded={nodeOptionsOpen}
+        style={
+          {
+            width: '250px'
+          } as React.CSSProperties
+        }
+      >
+        Node options
+      </MenuToggle>
     );
 
     return (
       <Select
-        variant={SelectVariant.checkbox}
-        customContent={selectContent}
-        onToggle={() => setNodeOptionsOpen(prev => !prev)}
+        onOpenChange={(isOpen) => setNodeOptionsOpen(isOpen)}
         onSelect={() => {}}
-        isCheckboxSelectionBadgeHidden
         isOpen={nodeOptionsOpen}
-        placeholderText="Node options"
-      />
+        placeholder="Node options"
+        toggle={nodeOptionsToggle}
+      >
+        {selectContent}
+      </Select>
     );
   };
 
   const toggleNodeShape = (shape: NodeShape): void => {
     const index = nodeOptions.shapes.indexOf(shape);
     if (index >= 0) {
-      setNodeOptions(prev => ({
+      setNodeOptions((prev) => ({
         ...prev,
         shapes: [...prev.shapes.slice(0, index), ...prev.shapes.slice(index + 1)]
       }));
     } else {
-      setNodeOptions(prev => ({
+      setNodeOptions((prev) => ({
         ...prev,
         shapes: [...prev.shapes, shape]
       }));
@@ -191,92 +225,137 @@ export const useTopologyOptions = (
 
   const renderNodeShapesDropdown = () => {
     const selectContent = (
-      <div>
-        {NODE_SHAPES.map(shape => (
+      <SelectList>
+        {NODE_SHAPES.map((shape) => (
           <SelectOption
             key={shape}
             value={shape}
-            isChecked={nodeOptions.shapes.includes(shape)}
+            hasCheckbox
+            isSelected={nodeOptions.shapes.includes(shape)}
             onClick={() => toggleNodeShape(shape)}
-          />
+          >
+            {shape}
+          </SelectOption>
         ))}
-      </div>
+      </SelectList>
+    );
+
+    const nodeShapesToggle = (toggleRef: React.Ref<MenuToggleElement>) => (
+      <MenuToggle
+        ref={toggleRef}
+        onClick={() => setNodeShapesOpen((prev) => !prev)}
+        isExpanded={nodeShapesOpen}
+        style={
+          {
+            width: '250px'
+          } as React.CSSProperties
+        }
+      >
+        Node shapes
+      </MenuToggle>
     );
 
     return (
       <Select
-        variant={SelectVariant.checkbox}
-        customContent={selectContent}
-        onToggle={() => setNodeShapesOpen(prev => !prev)}
+        onOpenChange={(isOpen) => setNodeShapesOpen(isOpen)}
         onSelect={() => {}}
-        isCheckboxSelectionBadgeHidden
         isOpen={nodeShapesOpen}
-        placeholderText="Node shapes"
-      />
+        toggle={nodeShapesToggle}
+      >
+        {selectContent}
+      </Select>
     );
   };
 
   const renderEdgeOptionsDropdown = () => {
     const selectContent = (
-      <div>
+      <SelectList>
         <SelectOption
           value="Status"
-          isChecked={edgeOptions.edgeStatuses.length > 1}
+          hasCheckbox
+          isSelected={edgeOptions.edgeStatuses.length > 1}
           onClick={() =>
-            setEdgeOptions(prev => ({
+            setEdgeOptions((prev) => ({
               ...prev,
               edgeStatuses: prev.edgeStatuses.length > 1 ? DefaultEdgeOptions.edgeStatuses : NODE_STATUSES
             }))
           }
-        />
+        >
+          Status
+        </SelectOption>
         <SelectOption
           value="Styles"
-          isChecked={edgeOptions.edgeStyles.length > 1}
+          hasCheckbox
+          isSelected={edgeOptions.edgeStyles.length > 1}
           onClick={() =>
-            setEdgeOptions(prev => ({
+            setEdgeOptions((prev) => ({
               ...prev,
               edgeStyles: prev.edgeStyles.length > 1 ? DefaultEdgeOptions.edgeStyles : EDGE_STYLES
             }))
           }
-        />
+        >
+          Styles
+        </SelectOption>
         <SelectOption
           value="Animations"
-          isChecked={edgeOptions.edgeAnimations.length > 1}
+          hasCheckbox
+          isSelected={edgeOptions.edgeAnimations.length > 1}
           onClick={() =>
-            setEdgeOptions(prev => ({
+            setEdgeOptions((prev) => ({
               ...prev,
               edgeAnimations: prev.edgeAnimations.length > 1 ? DefaultEdgeOptions.edgeAnimations : EDGE_ANIMATION_SPEEDS
             }))
           }
-        />
+        >
+          Animations
+        </SelectOption>
         <SelectOption
           value="Terminal types"
-          isChecked={edgeOptions.terminalTypes.length > 1}
+          hasCheckbox
+          isSelected={edgeOptions.terminalTypes.length > 1}
           onClick={() =>
-            setEdgeOptions(prev => ({
+            setEdgeOptions((prev) => ({
               ...prev,
               terminalTypes: prev.terminalTypes.length > 1 ? DefaultEdgeOptions.terminalTypes : EDGE_TERMINAL_TYPES
             }))
           }
-        />
+        >
+          Terminal type
+        </SelectOption>
         <SelectOption
           value="Tags"
-          isChecked={edgeOptions.edgeTags}
-          onClick={() => setEdgeOptions(prev => ({ ...prev, edgeTags: !prev.edgeTags }))}
-        />
-      </div>
+          hasCheckbox
+          isSelected={edgeOptions.edgeTags}
+          onClick={() => setEdgeOptions((prev) => ({ ...prev, edgeTags: !prev.edgeTags }))}
+        >
+          Tags
+        </SelectOption>
+      </SelectList>
+    );
+    const edgeOptionsToggle = (toggleRef: React.Ref<MenuToggleElement>) => (
+      <MenuToggle
+        ref={toggleRef}
+        onClick={() => setEdgeOptionsOpen((prev) => !prev)}
+        isExpanded={edgeOptionsOpen}
+        style={
+          {
+            width: '250px'
+          } as React.CSSProperties
+        }
+      >
+        Edge options
+      </MenuToggle>
     );
 
     return (
       <Select
-        variant={SelectVariant.checkbox}
-        customContent={selectContent}
-        onToggle={() => setEdgeOptionsOpen(prev => !prev)}
+        onOpenChange={(isOpen) => setEdgeOptionsOpen(isOpen)}
         onSelect={() => {}}
-        isCheckboxSelectionBadgeHidden
         isOpen={edgeOptionsOpen}
-        placeholderText="Edge options"
-      />
+        toggle={edgeOptionsToggle}
+      >
+        {selectContent}
+      </Select>
     );
   };
 
@@ -295,8 +374,8 @@ export const useTopologyOptions = (
         ...currentModel.graph,
         ..._.pick(savedModel.graph, GRAPH_LAYOUT_OPTIONS)
       };
-      currentModel.nodes = currentModel.nodes.map(n => {
-        const savedNode = savedModel.nodes.find(sn => sn.id === n.id);
+      currentModel.nodes = currentModel.nodes.map((n) => {
+        const savedNode = savedModel.nodes.find((sn) => sn.id === n.id);
         if (!savedNode) {
           return n;
         }
@@ -341,28 +420,36 @@ export const useTopologyOptions = (
             aria-label="nodes"
             type="number"
             value={numNodes || ''}
-            onChange={(_event, val: string) => (val ? updateValue(parseInt(val), 0, 9999, setNumNodes) : setNumNodes(null))}
+            onChange={(_event, val: string) =>
+              val ? updateValue(parseInt(val), 0, 9999, setNumNodes) : setNumNodes(null)
+            }
           />
           <span>Edges:</span>
           <TextInput
             aria-label="edges"
             type="number"
             value={numEdges === null ? '' : numEdges}
-            onChange={(_event, val: string) => (val ? updateValue(parseInt(val), 0, 200, setNumEdges) : setNumEdges(null))}
+            onChange={(_event, val: string) =>
+              val ? updateValue(parseInt(val), 0, 200, setNumEdges) : setNumEdges(null)
+            }
           />
           <span>Groups:</span>
           <TextInput
             aria-label="groups"
             type="number"
             value={numGroups === null ? '' : numGroups}
-            onChange={(_event, val: string) => (val ? updateValue(parseInt(val), 0, 100, setNumGroups) : setNumGroups(null))}
+            onChange={(_event, val: string) =>
+              val ? updateValue(parseInt(val), 0, 100, setNumGroups) : setNumGroups(null)
+            }
           />
           <span>Nesting Depth:</span>
           <TextInput
             aria-label="nesting depth"
             type="number"
             value={nestedLevel === null ? '' : nestedLevel}
-            onChange={(_event, val: string) => (val ? updateValue(parseInt(val), 0, 5, setNestedLevel) : setNestedLevel(null))}
+            onChange={(_event, val: string) =>
+              val ? updateValue(parseInt(val), 0, 5, setNestedLevel) : setNestedLevel(null)
+            }
           />
           <Button
             variant="link"

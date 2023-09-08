@@ -20,7 +20,7 @@ import { Tab, Tabs, TabTitleText } from '@patternfly/react-core';
 
 const contextMenuItem = (label: string, i: number): React.ReactElement => {
   if (label === '-') {
-    return <ContextMenuSeparator key={`separator:${i.toString()}`} />;
+    return <ContextMenuSeparator component="li" key={`separator:${i.toString()}`} />;
   }
   return (
     // eslint-disable-next-line no-alert

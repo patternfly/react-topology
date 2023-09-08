@@ -22,7 +22,7 @@ import CustomPathNode from './CustomPathNode';
 
 const contextMenuItem = (label: string, i: number): React.ReactElement => {
   if (label === '-') {
-    return <ContextMenuSeparator key={`separator:${i.toString()}`} />;
+    return <ContextMenuSeparator component="li" key={`separator:${i.toString()}`} />;
   }
   if (label.includes('->')) {
     const parent = label.slice(0, label.indexOf('->'));

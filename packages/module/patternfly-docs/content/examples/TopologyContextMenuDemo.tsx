@@ -56,7 +56,7 @@ const customLayoutFactory: LayoutFactory = (type: string, graph: Graph): Layout 
 const customComponentFactory: ComponentFactory = (kind: ModelKind, type: string) => {
   const contextMenuItem = (label: string, i: number): React.ReactElement => {
     if (label === '-') {
-      return <ContextMenuSeparator key={`separator:${i.toString()}`} />;
+      return <ContextMenuSeparator component="li" key={`separator:${i.toString()}`} />;
     }
     return (
       // eslint-disable-next-line no-alert
