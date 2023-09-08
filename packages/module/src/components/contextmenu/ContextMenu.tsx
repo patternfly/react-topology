@@ -29,7 +29,11 @@ const ContextMenu: React.FunctionComponent<ContextMenuProps> = ({
   return (
     <Popper {...other} closeOnEsc closeOnOutsideClick open={isOpen} onRequestClose={handleOnRequestClose}>
       <div className={css(styles.dropdown, styles.modifiers.expanded)}>
-        <Dropdown toggle={() => <></>} className={css(topologyStyles.topologyContextMenuCDropdownMenu)}>
+        <Dropdown
+          onSelect={handleOnRequestClose}
+          toggle={() => <></>}
+          className={css(topologyStyles.topologyContextMenuCDropdownMenu)}
+        >
           {children}
         </Dropdown>
       </div>
