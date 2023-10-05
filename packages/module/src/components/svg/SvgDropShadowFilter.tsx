@@ -22,7 +22,7 @@ const SvgDropShadowFilter: React.FunctionComponent<SvgDropShadowFilterProps> = (
   floodColor = globalBlack1000.value,
   floodOpacity = 0.2
 }) => {
-  if (window.navigator.userAgent.includes('Edge')) {
+  if (navigator.userAgent.includes('Edge')) {
     // feDropShadow is not supported by Edge
     return (
       <SVGDefs id={id}>

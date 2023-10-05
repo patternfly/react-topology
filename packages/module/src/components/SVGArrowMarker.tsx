@@ -1,13 +1,6 @@
 import * as React from 'react';
 import SVGDefs from './defs/SVGDefs';
 
-declare const global: any;
-
-// workaround to pass docs building
-if (!global.SVGElement) {
-  global.SVGElement = global.Element;
-}
-
 interface SVGArrowMarkerProps {
   id: string;
   nodeSize: number;
