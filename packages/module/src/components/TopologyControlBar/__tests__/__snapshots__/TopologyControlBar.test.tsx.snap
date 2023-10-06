@@ -26,6 +26,7 @@ exports[`TopologyControlBar should accept button options correctly 1`] = `
               style="display: contents;"
             >
               <button
+                aria-describedby="pf-tooltip-11"
                 aria-disabled="false"
                 class="pf-v5-c-button pf-m-tertiary pf-topology-control-bar__button"
                 data-ouia-component-id="OUIA-Generated-Button-tertiary-6"
@@ -119,14 +120,6 @@ exports[`TopologyControlBar should accept button options correctly 1`] = `
           </div>
         </div>
       </div>
-      <div
-        class="pf-v5-c-toolbar__expandable-content"
-        id="pf-topology-control-bar-1-expandable-content-1"
-      >
-        <div
-          class="pf-v5-c-toolbar__group"
-        />
-      </div>
     </div>
     <div
       class="pf-v5-c-toolbar__content pf-m-hidden"
@@ -166,6 +159,7 @@ exports[`TopologyControlBar should display the default controls correctly 1`] = 
               style="display: contents;"
             >
               <button
+                aria-describedby="pf-tooltip-5"
                 aria-disabled="false"
                 class="pf-v5-c-button pf-m-tertiary pf-topology-control-bar__button"
                 data-ouia-component-id="OUIA-Generated-Button-tertiary-1"
@@ -319,14 +313,6 @@ exports[`TopologyControlBar should display the default controls correctly 1`] = 
             </button>
           </div>
         </div>
-      </div>
-      <div
-        class="pf-v5-c-toolbar__expandable-content"
-        id="pf-topology-control-bar-0-expandable-content-0"
-      >
-        <div
-          class="pf-v5-c-toolbar__group"
-        />
       </div>
     </div>
     <div
