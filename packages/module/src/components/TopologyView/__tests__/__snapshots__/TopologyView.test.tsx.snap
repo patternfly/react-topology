@@ -47,14 +47,6 @@ exports[`TopologyView should display topology correctly 1`] = `
               />
             </div>
           </div>
-          <div
-            class="pf-v5-c-toolbar__expandable-content"
-            id="pf-topology-view-0-expandable-content-0"
-          >
-            <div
-              class="pf-v5-c-toolbar__group"
-            />
-          </div>
         </div>
         <div
           class="pf-v5-c-toolbar__content"
@@ -69,14 +61,6 @@ exports[`TopologyView should display topology correctly 1`] = `
                 id="test-view-bar"
               />
             </div>
-          </div>
-          <div
-            class="pf-v5-c-toolbar__expandable-content"
-            id="pf-topology-view-0-expandable-content-1"
-          >
-            <div
-              class="pf-v5-c-toolbar__group"
-            />
           </div>
         </div>
         <hr
