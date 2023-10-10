@@ -4,7 +4,7 @@ import { PointTuple } from '../types';
  * @param id
  */
 export function createSvgIdUrl(id: string): string {
-  return `url(${`${window.location.pathname}${window.location.search}`}#${id})`;
+  return `url(${`${location.pathname}${location.search}`}#${id})`;
 }
 
 export type HullPaddingGetter = (point: PointTuple) => number;

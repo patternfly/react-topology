@@ -192,7 +192,7 @@ export class BaseLayout implements Layout {
   private stopListening(): void {
     const controller = this.graph.getController();
     if (this.scheduleHandle) {
-      window.cancelAnimationFrame(this.scheduleHandle);
+      cancelAnimationFrame(this.scheduleHandle);
     }
     if (controller) {
       controller.removeEventListener(ADD_CHILD_EVENT, this.handleChildAdded);
@@ -234,7 +234,7 @@ export class BaseLayout implements Layout {
 
   private scheduleLayout = (): void => {
     if (!this.scheduleHandle) {
-      this.scheduleHandle = window.requestAnimationFrame(() => {
+      this.scheduleHandle = requestAnimationFrame(() => {
         delete this.scheduleHandle;
         try {
           this.runLayout(false, this.scheduleRestart);

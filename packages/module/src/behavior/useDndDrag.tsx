@@ -118,7 +118,7 @@ export const useDndDrag = <
   React.useEffect(
     () => () => {
       if (canUseDOM) {
-        d3.select(window.document).on(createKeyHandlerId(), null);
+        d3.select(document).on(createKeyHandlerId(), null);
       }
       if (dndManager.isDragging() && dndManager.getSourceId() === monitor.getHandlerId()) {
         dndManager.endDrag();

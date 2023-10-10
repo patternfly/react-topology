@@ -362,7 +362,7 @@ export const useTopologyOptions = (
   const saveModel = () => {
     setSavedModel(controller.toModel());
     setModelSaved(true);
-    window.setTimeout(() => {
+    setTimeout(() => {
       setModelSaved(false);
     }, 2000);
   };
