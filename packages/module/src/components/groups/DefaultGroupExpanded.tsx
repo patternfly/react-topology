@@ -19,6 +19,7 @@ import {
   WithSelectionProps
 } from '../../behavior';
 import { CollapsibleGroupProps } from './types';
+import Rect from '../../geom/Rect';
 
 type DefaultGroupExpandedProps = {
   className?: string;
@@ -41,6 +42,7 @@ type DefaultGroupExpandedProps = {
   labelIconClass?: string; // Icon to show in label
   labelIcon?: string;
   labelIconPadding?: number;
+  hulledOutline?: boolean;
 } & CollapsibleGroupProps & WithDragNodeProps & WithSelectionProps & WithDndDropProps & WithContextMenuProps;
 
 type PointWithSize = [number, number, number];
@@ -96,7 +98,8 @@ const DefaultGroupExpanded: React.FunctionComponent<DefaultGroupExpandedProps> =
   labelIconClass,
   labelIcon,
   labelIconPadding,
-  onCollapseChange
+  onCollapseChange,
+  hulledOutline,
 }) => {
   const [hovered, hoverRef] = useHover();
   const [labelHover, labelHoverRef] = useHover();
@@ -107,6 +110,8 @@ const DefaultGroupExpanded: React.FunctionComponent<DefaultGroupExpandedProps> =
   const outlineRef = useCombineRefs(dndDropRef, anchorRef);
   const labelLocation = React.useRef<PointWithSize>();
   const pathRef = React.useRef<string>();
+  const boxRef = React.useRef<Rect | null>(null);
+  const nodeElement = element as Node;
 
   let parent = element.getParent();
   let altGroup = false;
@@ -118,40 +123,47 @@ const DefaultGroupExpanded: React.FunctionComponent<DefaultGroupExpandedProps> =
   // cast to number and coerce
   const padding = maxPadding(element.getStyle<NodeStyle>().padding ?? 17);
   const hullPadding = (point: PointWithSize | PointTuple) => (point[2] || 0) + padding;
-
-  if (!droppable || !pathRef.current || !labelLocation.current) {
-    const children = element.getNodes().filter(c => c.isVisible());
-    if (children.length === 0) {
-      return null;
-    }
-    const points: (PointWithSize | PointTuple)[] = [];
-    _.forEach(children, c => {
-      if (c.getNodeShape() === NodeShape.circle) {
-        const bounds = c.getBounds();
-        const { width, height } = bounds;
-        const { x, y } = bounds.getCenter();
-        const radius = Math.max(width, height) / 2;
-        points.push([x, y, radius] as PointWithSize);
-      } else {
-        // add all 4 corners
-        const { width, height, x, y } = c.getBounds();
-        points.push([x, y, 0] as PointWithSize);
-        points.push([x + width, y, 0] as PointWithSize);
-        points.push([x, y + height, 0] as PointWithSize);
-        points.push([x + width, y + height, 0] as PointWithSize);
+ 
+  if (hulledOutline) {
+    if (!droppable || !pathRef.current || !labelLocation.current) {
+      const children = element.getNodes().filter(c => c.isVisible());
+      if (children.length === 0) {
+        return null;
       }
-    });
-    const hullPoints: (PointWithSize | PointTuple)[] =
-      points.length > 2 ? polygonHull(points as PointTuple[]) : (points as PointTuple[]);
-    if (!hullPoints) {
-      return null;
+      const points: (PointWithSize | PointTuple)[] = [];
+      _.forEach(children, c => {
+        if (c.getNodeShape() === NodeShape.circle) {
+          const bounds = c.getBounds();
+          const { width, height } = bounds;
+          const { x, y } = bounds.getCenter();
+          const radius = Math.max(width, height) / 2;
+          points.push([x, y, radius] as PointWithSize);
+        } else {
+          // add all 4 corners
+          const { width, height, x, y } = c.getBounds();
+          points.push([x, y, 0] as PointWithSize);
+          points.push([x + width, y, 0] as PointWithSize);
+          points.push([x, y + height, 0] as PointWithSize);
+          points.push([x + width, y + height, 0] as PointWithSize);
+        }
+      });
+      const hullPoints: (PointWithSize | PointTuple)[] =
+        points.length > 2 ? polygonHull(points as PointTuple[]) : (points as PointTuple[]);
+      if (!hullPoints) {
+        return null;
+      }
+
+      // change the box only when not dragging
+      pathRef.current = hullPath(hullPoints as PointTuple[], hullPadding);
+
+      // Compute the location of the group label.
+      labelLocation.current = computeLabelLocation(hullPoints as PointWithSize[]);
     }
-
-    // change the box only when not dragging
-    pathRef.current = hullPath(hullPoints as PointTuple[], hullPadding);
-
-    // Compute the location of the group label.
-    labelLocation.current = computeLabelLocation(hullPoints as PointWithSize[]);
+  } else {
+    if (!droppable || !boxRef.current) {
+      // change the box only when not dragging
+      boxRef.current = nodeElement.getBounds();
+    }
   }
 
   const groupClassName = css(
@@ -177,7 +189,8 @@ const DefaultGroupExpanded: React.FunctionComponent<DefaultGroupExpandedProps> =
     <g ref={labelHoverRef} onContextMenu={onContextMenu} onClick={onSelect} className={groupClassName}>
       <Layer id={GROUPS_LAYER}>
         <g ref={refs} onContextMenu={onContextMenu} onClick={onSelect} className={innerGroupClassName}>
-          <path ref={outlineRef} className={styles.topologyGroupBackground} d={pathRef.current} />
+          {hulledOutline && <path ref={outlineRef} className={styles.topologyGroupBackground} d={pathRef.current} />}
+          {!hulledOutline && <rect ref={outlineRef} className={styles.topologyGroupBackground} x={boxRef.current.x} y={boxRef.current.y} width={boxRef.current.width} height={boxRef.current.height}/>}
         </g>
       </Layer>
       {showLabel && (label || element.getLabel()) && (
