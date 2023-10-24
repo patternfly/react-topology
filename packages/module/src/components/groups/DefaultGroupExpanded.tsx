@@ -123,30 +123,31 @@ const DefaultGroupExpanded: React.FunctionComponent<DefaultGroupExpandedProps> =
   // cast to number and coerce
   const padding = maxPadding(element.getStyle<NodeStyle>().padding ?? 17);
   const hullPadding = (point: PointWithSize | PointTuple) => (point[2] || 0) + padding;
- 
-  if (hulledOutline) {
-    if (!droppable || !pathRef.current || !labelLocation.current) {
-      const children = element.getNodes().filter(c => c.isVisible());
-      if (children.length === 0) {
-        return null;
+
+  if (!droppable || !pathRef.current || !labelLocation.current) {
+    const children = element.getNodes().filter(c => c.isVisible());
+    if (children.length === 0) {
+      return null;
+    }
+    const points: (PointWithSize | PointTuple)[] = [];
+    _.forEach(children, c => {
+      if (c.getNodeShape() === NodeShape.circle) {
+        const bounds = c.getBounds();
+        const { width, height } = bounds;
+        const { x, y } = bounds.getCenter();
+        const radius = Math.max(width, height) / 2;
+        points.push([x, y, radius] as PointWithSize);
+      } else {
+        // add all 4 corners
+        const { width, height, x, y } = c.getBounds();
+        points.push([x, y, 0] as PointWithSize);
+        points.push([x + width, y, 0] as PointWithSize);
+        points.push([x, y + height, 0] as PointWithSize);
+        points.push([x + width, y + height, 0] as PointWithSize);
       }
-      const points: (PointWithSize | PointTuple)[] = [];
-      _.forEach(children, c => {
-        if (c.getNodeShape() === NodeShape.circle) {
-          const bounds = c.getBounds();
-          const { width, height } = bounds;
-          const { x, y } = bounds.getCenter();
-          const radius = Math.max(width, height) / 2;
-          points.push([x, y, radius] as PointWithSize);
-        } else {
-          // add all 4 corners
-          const { width, height, x, y } = c.getBounds();
-          points.push([x, y, 0] as PointWithSize);
-          points.push([x + width, y, 0] as PointWithSize);
-          points.push([x, y + height, 0] as PointWithSize);
-          points.push([x + width, y + height, 0] as PointWithSize);
-        }
-      });
+    });
+
+    if (hulledOutline) {
       const hullPoints: (PointWithSize | PointTuple)[] =
         points.length > 2 ? polygonHull(points as PointTuple[]) : (points as PointTuple[]);
       if (!hullPoints) {
@@ -158,11 +159,9 @@ const DefaultGroupExpanded: React.FunctionComponent<DefaultGroupExpandedProps> =
 
       // Compute the location of the group label.
       labelLocation.current = computeLabelLocation(hullPoints as PointWithSize[]);
-    }
-  } else {
-    if (!droppable || !boxRef.current) {
-      // change the box only when not dragging
+    } else {
       boxRef.current = nodeElement.getBounds();
+      labelLocation.current = [boxRef.current.x + boxRef.current.width / 2, boxRef.current.y + boxRef.current.height, 0];
     }
   }
 
@@ -189,15 +188,18 @@ const DefaultGroupExpanded: React.FunctionComponent<DefaultGroupExpandedProps> =
     <g ref={labelHoverRef} onContextMenu={onContextMenu} onClick={onSelect} className={groupClassName}>
       <Layer id={GROUPS_LAYER}>
         <g ref={refs} onContextMenu={onContextMenu} onClick={onSelect} className={innerGroupClassName}>
-          {hulledOutline && <path ref={outlineRef} className={styles.topologyGroupBackground} d={pathRef.current} />}
-          {!hulledOutline && <rect ref={outlineRef} className={styles.topologyGroupBackground} x={boxRef.current.x} y={boxRef.current.y} width={boxRef.current.width} height={boxRef.current.height}/>}
+          {hulledOutline ? (
+            <path ref={outlineRef} className={styles.topologyGroupBackground} d={pathRef.current} />
+          ) : (
+            <rect ref={outlineRef} className={styles.topologyGroupBackground} x={boxRef.current.x} y={boxRef.current.y} width={boxRef.current.width} height={boxRef.current.height}/>
+          )}
         </g>
       </Layer>
       {showLabel && (label || element.getLabel()) && (
         <NodeLabel
           className={styles.topologyGroupLabel}
           x={labelLocation.current[0]}
-          y={labelLocation.current[1] + hullPadding(labelLocation.current) + 24}
+          y={labelLocation.current[1] + (hulledOutline ? hullPadding(labelLocation.current) : 0) + 24}
           paddingX={8}
           paddingY={5}
           dragRef={dragNodeRef ? dragLabelRef : undefined}
