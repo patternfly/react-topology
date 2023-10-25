@@ -99,7 +99,7 @@ const DefaultGroupExpanded: React.FunctionComponent<DefaultGroupExpandedProps> =
   labelIcon,
   labelIconPadding,
   onCollapseChange,
-  hulledOutline,
+  hulledOutline = true,
 }) => {
   const [hovered, hoverRef] = useHover();
   const [labelHover, labelHoverRef] = useHover();
@@ -111,7 +111,6 @@ const DefaultGroupExpanded: React.FunctionComponent<DefaultGroupExpandedProps> =
   const labelLocation = React.useRef<PointWithSize>();
   const pathRef = React.useRef<string>();
   const boxRef = React.useRef<Rect | null>(null);
-  const nodeElement = element as Node;
 
   let parent = element.getParent();
   let altGroup = false;
@@ -160,7 +159,7 @@ const DefaultGroupExpanded: React.FunctionComponent<DefaultGroupExpandedProps> =
       // Compute the location of the group label.
       labelLocation.current = computeLabelLocation(hullPoints as PointWithSize[]);
     } else {
-      boxRef.current = nodeElement.getBounds();
+      boxRef.current = element.getBounds();
       labelLocation.current = [boxRef.current.x + boxRef.current.width / 2, boxRef.current.y + boxRef.current.height, 0];
     }
   }
