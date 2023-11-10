@@ -26,7 +26,7 @@ import {
 import stylesComponentFactory from '../components/stylesComponentFactory';
 import defaultLayoutFactory from '../layouts/defaultLayoutFactory';
 import defaultComponentFactory from '../components/defaultComponentFactory';
-import { generateDataModel, generateEdge, generateNode } from '../data/generator';
+import { generateDataModel, generateEdge, generateNode, updateGroup } from '../data/generator';
 import { useTopologyOptions } from '../utils/useTopologyOptions';
 import { Tab, Tabs, TabTitleText } from '@patternfly/react-core';
 
@@ -157,7 +157,7 @@ const TopologyViewComponent: React.FunctionComponent<TopologyViewComponentProps>
     if (nodes.length) {
       const updatedNodes: NodeModel[] = nodes.map((node, index) => {
         if (node.group) {
-          return node;
+          return updateGroup(node, nodeOptions);
         }
         return {
           ...node,

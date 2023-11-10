@@ -123,7 +123,7 @@ const DefaultGroupExpanded: React.FunctionComponent<DefaultGroupExpandedProps> =
   const padding = maxPadding(element.getStyle<NodeStyle>().padding ?? 17);
   const hullPadding = (point: PointWithSize | PointTuple) => (point[2] || 0) + padding;
 
-  if (!droppable || !pathRef.current || !labelLocation.current) {
+  if (!droppable || (hulledOutline && !pathRef.current) || (!hulledOutline && !boxRef.current) || !labelLocation.current) {
     const children = element.getNodes().filter(c => c.isVisible());
     if (children.length === 0) {
       return null;

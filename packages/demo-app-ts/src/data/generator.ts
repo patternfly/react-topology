@@ -33,6 +33,7 @@ export interface GeneratorNodeOptions {
   nodeIcons?: boolean;
   smallNodes?: boolean;
   contextMenus?: boolean;
+  hulledOutline?: boolean;
 }
 
 export interface GeneratorEdgeOptions {
@@ -53,7 +54,8 @@ export const DefaultNodeOptions: GeneratorNodeOptions = {
   nodeBadges: false,
   nodeIcons: false,
   smallNodes: false,
-  contextMenus: false
+  contextMenus: false,
+  hulledOutline: true
 };
 
 export const DefaultEdgeOptions: GeneratorEdgeOptions = {
@@ -76,6 +78,7 @@ export const getNodeOptions = (
   showStatusDecorator?: boolean;
   showDecorators?: boolean;
   showContextMenu?: boolean;
+  hulledOutline?: boolean;
   labelIconClass?: string;
   labelIcon?: React.ComponentClass<SVGIconProps>;
 } => {
@@ -91,6 +94,7 @@ export const getNodeOptions = (
     showStatusDecorator: nodeCreationOptions.statusDecorators,
     showDecorators: nodeCreationOptions.showDecorators,
     showContextMenu: nodeCreationOptions.contextMenus,
+    hulledOutline: nodeCreationOptions.hulledOutline,
     labelIconClass,
     labelIcon
   };
@@ -128,6 +132,23 @@ export const generateEdge = (
     tag: options.edgeTags ? '250kbs' : undefined,
     tagStatus: options.edgeStatuses[index % options.edgeStatuses.length]
   });
+
+export const updateGroup = (group: NodeModel, nodeCreationOptions: GeneratorNodeOptions): NodeModel => {
+  return {
+    ...group,
+    data: {
+      badge: nodeCreationOptions.nodeBadges ? 'GN' : undefined,
+      badgeColor: '#F2F0FC',
+      badgeTextColor: '#5752d1',
+      badgeBorderColor: '#CBC1FF',
+      collapsedWidth: 75,
+      collapsedHeight: 75,
+      showContextMenu: nodeCreationOptions.contextMenus,
+      collapsible: true,
+      hulledOutline: nodeCreationOptions.hulledOutline
+    }
+  };
+};
 
 export const generateDataModel = (
   numNodes: number,
@@ -167,7 +188,8 @@ export const generateDataModel = (
         collapsedWidth: 75,
         collapsedHeight: 75,
         showContextMenu: nodeCreationOptions.contextMenus,
-        collapsible: true
+        collapsible: true,
+        hulledOutline: nodeOptions.hulledOutline
       }
     };
     if (level === groupDepth) {
