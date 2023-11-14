@@ -177,6 +177,14 @@ export const useTopologyOptions = (
         >
           Context Menus
         </SelectOption>
+        <SelectOption
+          hasCheckbox
+          value="Rectangle Groups"
+          isSelected={!nodeOptions.hulledOutline}
+          onClick={() => setNodeOptions((prev) => ({ ...prev, hulledOutline: !prev.hulledOutline }))}
+        >
+          Rectangle Groups
+        </SelectOption>
       </SelectList>
     );
 

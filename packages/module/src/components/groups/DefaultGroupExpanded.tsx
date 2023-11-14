@@ -19,6 +19,7 @@ import {
   WithSelectionProps
 } from '../../behavior';
 import { CollapsibleGroupProps } from './types';
+import Rect from '../../geom/Rect';
 
 type DefaultGroupExpandedProps = {
   className?: string;
@@ -41,6 +42,7 @@ type DefaultGroupExpandedProps = {
   labelIconClass?: string; // Icon to show in label
   labelIcon?: string;
   labelIconPadding?: number;
+  hulledOutline?: boolean;
 } & CollapsibleGroupProps & WithDragNodeProps & WithSelectionProps & WithDndDropProps & WithContextMenuProps;
 
 type PointWithSize = [number, number, number];
@@ -96,7 +98,8 @@ const DefaultGroupExpanded: React.FunctionComponent<DefaultGroupExpandedProps> =
   labelIconClass,
   labelIcon,
   labelIconPadding,
-  onCollapseChange
+  onCollapseChange,
+  hulledOutline = true,
 }) => {
   const [hovered, hoverRef] = useHover();
   const [labelHover, labelHoverRef] = useHover();
@@ -107,6 +110,7 @@ const DefaultGroupExpanded: React.FunctionComponent<DefaultGroupExpandedProps> =
   const outlineRef = useCombineRefs(dndDropRef, anchorRef);
   const labelLocation = React.useRef<PointWithSize>();
   const pathRef = React.useRef<string>();
+  const boxRef = React.useRef<Rect | null>(null);
 
   let parent = element.getParent();
   let altGroup = false;
@@ -119,7 +123,7 @@ const DefaultGroupExpanded: React.FunctionComponent<DefaultGroupExpandedProps> =
   const padding = maxPadding(element.getStyle<NodeStyle>().padding ?? 17);
   const hullPadding = (point: PointWithSize | PointTuple) => (point[2] || 0) + padding;
 
-  if (!droppable || !pathRef.current || !labelLocation.current) {
+  if (!droppable || (hulledOutline && !pathRef.current) || (!hulledOutline && !boxRef.current) || !labelLocation.current) {
     const children = element.getNodes().filter(c => c.isVisible());
     if (children.length === 0) {
       return null;
@@ -141,17 +145,23 @@ const DefaultGroupExpanded: React.FunctionComponent<DefaultGroupExpandedProps> =
         points.push([x + width, y + height, 0] as PointWithSize);
       }
     });
-    const hullPoints: (PointWithSize | PointTuple)[] =
-      points.length > 2 ? polygonHull(points as PointTuple[]) : (points as PointTuple[]);
-    if (!hullPoints) {
-      return null;
+
+    if (hulledOutline) {
+      const hullPoints: (PointWithSize | PointTuple)[] =
+        points.length > 2 ? polygonHull(points as PointTuple[]) : (points as PointTuple[]);
+      if (!hullPoints) {
+        return null;
+      }
+
+      // change the box only when not dragging
+      pathRef.current = hullPath(hullPoints as PointTuple[], hullPadding);
+
+      // Compute the location of the group label.
+      labelLocation.current = computeLabelLocation(hullPoints as PointWithSize[]);
+    } else {
+      boxRef.current = element.getBounds();
+      labelLocation.current = [boxRef.current.x + boxRef.current.width / 2, boxRef.current.y + boxRef.current.height, 0];
     }
-
-    // change the box only when not dragging
-    pathRef.current = hullPath(hullPoints as PointTuple[], hullPadding);
-
-    // Compute the location of the group label.
-    labelLocation.current = computeLabelLocation(hullPoints as PointWithSize[]);
   }
 
   const groupClassName = css(
@@ -177,14 +187,18 @@ const DefaultGroupExpanded: React.FunctionComponent<DefaultGroupExpandedProps> =
     <g ref={labelHoverRef} onContextMenu={onContextMenu} onClick={onSelect} className={groupClassName}>
       <Layer id={GROUPS_LAYER}>
         <g ref={refs} onContextMenu={onContextMenu} onClick={onSelect} className={innerGroupClassName}>
-          <path ref={outlineRef} className={styles.topologyGroupBackground} d={pathRef.current} />
+          {hulledOutline ? (
+            <path ref={outlineRef} className={styles.topologyGroupBackground} d={pathRef.current} />
+          ) : (
+            <rect ref={outlineRef} className={styles.topologyGroupBackground} x={boxRef.current.x} y={boxRef.current.y} width={boxRef.current.width} height={boxRef.current.height}/>
+          )}
         </g>
       </Layer>
       {showLabel && (label || element.getLabel()) && (
         <NodeLabel
           className={styles.topologyGroupLabel}
           x={labelLocation.current[0]}
-          y={labelLocation.current[1] + hullPadding(labelLocation.current) + 24}
+          y={labelLocation.current[1] + (hulledOutline ? hullPadding(labelLocation.current) : 0) + 24}
           paddingX={8}
           paddingY={5}
           dragRef={dragNodeRef ? dragLabelRef : undefined}
