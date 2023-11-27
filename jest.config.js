@@ -8,7 +8,8 @@ module.exports = {
   ],
   roots: ['<rootDir>/packages'],
   transform: {
-    '^.+\\.[jt]sx?$': 'babel-jest'
+    '^.+\\.[jt]sx?$': 'babel-jest',
+    '^.+\\.svg$': 'jest-transform-stub'
   },
   moduleNameMapper: {
     '\\.(css|less)$': '<rootDir>/styleMock.js'
