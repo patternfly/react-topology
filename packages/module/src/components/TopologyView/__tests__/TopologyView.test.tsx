@@ -82,8 +82,8 @@ describe('TopologyView', () => {
 
     const topologyViewHtml = screen.getByTestId('test-id').outerHTML;
 
-    expect(topologyViewHtml).toContain('pf-v5-c-drawer');
-    expect(topologyViewHtml).not.toContain('pf-v5-c-drawer pf-m-expanded');
+    expect(topologyViewHtml).toContain('pf-v6-c-drawer');
+    expect(topologyViewHtml).not.toContain('pf-v6-c-drawer pf-m-expanded');
   });
   test('should display topology w/ open resizable sidebar correctly', () => {
     render(
@@ -104,7 +104,7 @@ describe('TopologyView', () => {
 
     const topologyViewHtml = screen.getByTestId('test-id').outerHTML;
 
-    expect(topologyViewHtml).toContain('pf-v5-c-drawer');
-    expect(topologyViewHtml).toContain('pf-v5-c-drawer pf-m-expanded');
+    expect(topologyViewHtml).toContain('pf-v6-c-drawer');
+    expect(topologyViewHtml).toContain('pf-v6-c-drawer pf-m-expanded');
   });
 });
