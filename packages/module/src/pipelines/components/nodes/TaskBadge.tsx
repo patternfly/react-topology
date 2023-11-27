@@ -1,9 +1,9 @@
 /* eslint patternfly-react/import-tokens-icons: 0 */
 import * as React from 'react';
 import { css } from '@patternfly/react-styles';
-import { global_palette_blue_50 as defaultBadgeFill } from '@patternfly/react-tokens/dist/js/global_palette_blue_50';
-import { global_palette_blue_300 as defaultBadgeBorder } from '@patternfly/react-tokens/dist/js/global_palette_blue_300';
-import { global_palette_blue_300 as defaultBadgeTextColor } from '@patternfly/react-tokens/dist/js/global_palette_blue_300';
+import { color_blue_10 as defaultBadgeFill } from '@patternfly/react-tokens/dist/js/color_blue_10';
+import { color_blue_30 as defaultBadgeBorder } from '@patternfly/react-tokens/dist/js/color_blue_30';
+import { color_blue_30 as defaultBadgeTextColor } from '@patternfly/react-tokens/dist/js/color_blue_30';
 import styles from '../../../css/topology-components';
 import { useSize } from '../../../utils';
 import { BadgeLocation } from '../../../types';
