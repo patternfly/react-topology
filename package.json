@@ -51,6 +51,7 @@
     "eslint-plugin-patternfly-react": "^4.80.4",
     "jest": "^29.2.2",
     "jest-environment-jsdom": "^29.2.2",
+    "jest-transform-stub": "^2.0.0",
     "prettier": "2.7.1",
     "react": "^18",
     "react-dom": "^18",

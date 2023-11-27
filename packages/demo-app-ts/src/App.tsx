@@ -120,7 +120,7 @@ class App extends React.Component<{}, AppState> {
     const AppToolbar = (
       <Toolbar id="toolbar" isFullHeight isStatic>
         <ToolbarContent>
-          <ToolbarGroup align={{ default: 'alignRight' }}>
+          <ToolbarGroup align={{ default: 'alignEnd' }}>
             <ToolbarItem style={{ marginRight: '10px' }}>
               <Radio
                 id="light-theme"
