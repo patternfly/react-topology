@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as _ from 'lodash';
 import { observer } from 'mobx-react';
-import { Edge, EdgeTerminalType, GraphElement, isEdge, isNode, NodeStatus } from '../../types';
+import { Edge, EdgeTerminalType, GraphElement, isEdge, isNode, NodeStatus, ScaleDetailsLevel } from '../../types';
 import { ConnectDragSource, OnSelect } from '../../behavior';
 import { getClosestVisibleParent, useHover } from '../../utils';
 import { Layer } from '../layers';
@@ -13,6 +13,7 @@ import { TOP_LAYER } from '../../const';
 import DefaultConnectorTag from './DefaultConnectorTag';
 import { Point } from '../../geom';
 import { getConnectorStartPoint } from './terminals/terminalUtils';
+import { useDetailsLevel } from '../../hooks';
 
 interface DefaultEdgeProps {
   /** Additional content added to the edge */
@@ -112,6 +113,8 @@ const DefaultEdgeInner: React.FunctionComponent<DefaultEdgeInnerProps> = observe
     return null;
   }
 
+  const detailsLevel = useDetailsLevel();
+
   const groupClassName = css(
     styles.topologyEdge,
     className,
@@ -126,9 +129,8 @@ const DefaultEdgeInner: React.FunctionComponent<DefaultEdgeInnerProps> = observe
 
   const bendpoints = element.getBendpoints();
 
-  const d = `M${startPoint.x} ${startPoint.y} ${bendpoints.map((b: Point) => `L${b.x} ${b.y} `).join('')}L${
-    endPoint.x
-  } ${endPoint.y}`;
+  const d = `M${startPoint.x} ${startPoint.y} ${bendpoints.map((b: Point) => `L${b.x} ${b.y} `).join('')}L${endPoint.x
+    } ${endPoint.y}`;
 
   const bgStartPoint =
     !startTerminalType || startTerminalType === EdgeTerminalType.none
@@ -141,6 +143,11 @@ const DefaultEdgeInner: React.FunctionComponent<DefaultEdgeInnerProps> = observe
   const backgroundPath = `M${bgStartPoint[0]} ${bgStartPoint[1]} ${bendpoints
     .map((b: Point) => `L${b.x} ${b.y} `)
     .join('')}L${bgEndPoint[0]} ${bgEndPoint[1]}`;
+  
+  const showTag = tag && (detailsLevel === ScaleDetailsLevel.high || hover);
+  const scale = element.getGraph().getScale();
+  const tagScale = hover && !(detailsLevel === ScaleDetailsLevel.high) ? Math.max(1, 1 / scale) : 1;
+  const tagPositionScale = hover && !(detailsLevel === ScaleDetailsLevel.high) ? Math.min(1, scale) : 1;
 
   return (
     <Layer id={dragging || hover ? TOP_LAYER : undefined}>
@@ -158,14 +165,16 @@ const DefaultEdgeInner: React.FunctionComponent<DefaultEdgeInnerProps> = observe
           onMouseLeave={onHideRemoveConnector}
         />
         <path className={linkClassName} d={d} style={{ animationDuration: `${edgeAnimationDuration}s` }} />
-        {tag && (
-          <DefaultConnectorTag
-            className={tagClass}
-            startPoint={element.getStartPoint()}
-            endPoint={element.getEndPoint()}
-            tag={tag}
-            status={tagStatus}
-          />
+        {showTag && (
+          <g transform={`scale(${hover ? tagScale : 1})`}>
+            <DefaultConnectorTag
+              className={tagClass}
+              startPoint={element.getStartPoint().scale(tagPositionScale)}
+              endPoint={element.getEndPoint().scale(tagPositionScale)}
+              tag={tag}
+              status={tagStatus}
+            />
+          </g>
         )}
         <DefaultConnectorTerminal
           className={startTerminalClass}
@@ -193,7 +202,7 @@ const DefaultEdgeInner: React.FunctionComponent<DefaultEdgeInnerProps> = observe
   );
 });
 
-const DefaultEdge: React.FunctionComponent<DefaultEdgeProps>= ({
+const DefaultEdge: React.FunctionComponent<DefaultEdgeProps> = ({
   element,
   startTerminalType = EdgeTerminalType.none,
   startTerminalSize = 14,
