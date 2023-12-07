@@ -113,7 +113,7 @@ const DefaultEdgeInner: React.FunctionComponent<DefaultEdgeInnerProps> = observe
     return null;
   }
 
-  const detailsLevel = useDetailsLevel();
+  const detailsLevel = element.getGraph().getDetailsLevel();
 
   const groupClassName = css(
     styles.topologyEdge,
