@@ -13,7 +13,6 @@ import { TOP_LAYER } from '../../const';
 import DefaultConnectorTag from './DefaultConnectorTag';
 import { Point } from '../../geom';
 import { getConnectorStartPoint } from './terminals/terminalUtils';
-import { useDetailsLevel } from '../../hooks';
 
 interface DefaultEdgeProps {
   /** Additional content added to the edge */
