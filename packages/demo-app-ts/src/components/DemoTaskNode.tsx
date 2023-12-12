@@ -9,7 +9,6 @@ import {
   ScaleDetailsLevel,
   TaskNode,
   TOP_LAYER,
-  useDetailsLevel,
   useHover,
   WhenDecorator,
   WithContextMenuProps,
@@ -33,7 +32,7 @@ const DemoTaskNode: React.FunctionComponent<DemoTaskNodeProps> = ({
   const nodeElement = element as Node;
   const data = element.getData();
   const [hover, hoverRef] = useHover();
-  const detailsLevel = useDetailsLevel();
+  const detailsLevel = element.getGraph().getDetailsLevel();
 
   const passedData = React.useMemo(() => {
     const newData = { ...data };

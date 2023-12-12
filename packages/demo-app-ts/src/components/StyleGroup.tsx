@@ -12,7 +12,6 @@ import {
 } from '@patternfly/react-topology';
 import AlternateIcon from '@patternfly/react-icons/dist/esm/icons/regions-icon';
 import DefaultIcon from '@patternfly/react-icons/dist/esm/icons/builder-image-icon';
-import useDetailsLevel from '@patternfly/react-topology/dist/esm/hooks/useDetailsLevel';
 
 const ICON_PADDING = 20;
 
@@ -43,7 +42,7 @@ const StyleGroup: React.FunctionComponent<StyleGroupProps> = ({
 }) => {
   const groupElement = element as Node;
   const data = element.getData();
-  const detailsLevel = useDetailsLevel();
+  const detailsLevel = element.getGraph().getDetailsLevel();
 
   const getTypeIcon = (dataType?: DataTypes): any => {
     switch (dataType) {

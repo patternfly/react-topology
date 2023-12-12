@@ -22,7 +22,6 @@ import NodeShadows, {
 } from '../../../components/nodes/NodeShadows';
 import LabelBadge from '../../../components/nodes/labels/LabelBadge';
 import LabelIcon from '../../../components/nodes/labels/LabelIcon';
-import useDetailsLevel from '../../../hooks/useDetailsLevel';
 import { useScaleNode } from '../../../hooks';
 
 const STATUS_ICON_SIZE = 16;
@@ -169,7 +168,7 @@ const TaskNodeInner: React.FC<TaskNodeInnerProps> = observer(({
   const badgeLabelTriggerRef = React.useRef();
   const [actionSize, actionRef] = useSize([actionIcon, paddingX]);
   const [contextSize, contextRef] = useSize([onContextMenu, paddingX]);
-  const detailsLevel = useDetailsLevel();
+  const detailsLevel = element.getGraph().getDetailsLevel();
 
   if (badgePopoverProps) {
     // eslint-disable-next-line no-console
