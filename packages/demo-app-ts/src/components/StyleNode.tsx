@@ -27,7 +27,6 @@ import FolderOpenIcon from '@patternfly/react-icons/dist/esm/icons/folder-open-i
 import BlueprintIcon from '@patternfly/react-icons/dist/esm/icons/blueprint-icon';
 import PauseCircle from '@patternfly/react-icons/dist/esm/icons/pause-circle-icon';
 import Thumbtack from '@patternfly/react-icons/dist/esm/icons/thumbtack-icon';
-import useDetailsLevel from '@patternfly/react-topology/dist/esm/hooks/useDetailsLevel';
 import { SVGIconProps } from '@patternfly/react-icons/dist/esm/createIcon';
 
 export enum DataTypes {
@@ -134,7 +133,7 @@ const StyleNode: React.FunctionComponent<StyleNodeProps> = ({
 }) => {
   const nodeElement = element as Node;
   const data = element.getData();
-  const detailsLevel = useDetailsLevel();
+  const detailsLevel = element.getGraph().getDetailsLevel();
   const [hover, hoverRef] = useHover();
 
   const passedData = React.useMemo(() => {

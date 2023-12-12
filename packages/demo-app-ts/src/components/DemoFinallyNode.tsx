@@ -7,7 +7,6 @@ import {
   Layer,
   ScaleDetailsLevel,
   TOP_LAYER,
-  useDetailsLevel,
   useHover,
   WithContextMenuProps,
   WithSelectionProps
@@ -19,7 +18,7 @@ type DemoFinallyNodeProps = {
 
 const DemoFinallyNode: React.FunctionComponent<DemoFinallyNodeProps> = ({ ...props }) => {
   const [hover, hoverRef] = useHover();
-  const detailsLevel = useDetailsLevel();
+  const detailsLevel = props.element.getGraph().getDetailsLevel();
 
   return (
     <Layer id={detailsLevel !== ScaleDetailsLevel.high && hover ? TOP_LAYER : DEFAULT_LAYER}>
