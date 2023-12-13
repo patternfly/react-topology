@@ -262,7 +262,7 @@ export const useDemoPipelineNodes = (
       taskIconTooltip: showIcons ? 'Environment' : undefined,
       showContextMenu,
       columnGroup: TASK_STATUSES.length % STATUS_PER_ROW + 1,
-      showStatusState: false,
+      showStatusState: true,
       leadIcon: <ExternalLinkAltIcon width={16} height={16} />,
     };
 
