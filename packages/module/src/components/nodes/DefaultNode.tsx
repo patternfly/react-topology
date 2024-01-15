@@ -17,6 +17,8 @@ import {
 } from '../../types';
 import { ConnectDragSource, ConnectDropTarget, OnSelect, WithDndDragProps } from '../../behavior';
 import Decorator from '../decorators/Decorator';
+import { Layer } from '../layers';
+import { TOP_LAYER } from '../../const';
 import { createSvgIdUrl, StatusModifier, useCombineRefs, useHover } from '../../utils';
 import NodeLabel from './labels/NodeLabel';
 import NodeShadows, { NODE_SHADOW_FILTER_ID_DANGER, NODE_SHADOW_FILTER_ID_HOVER } from './NodeShadows';
@@ -340,33 +342,35 @@ const DefaultNodeInner: React.FunctionComponent<DefaultNodeInnerProps> = observe
           />
         )}
         {showLabel && (label || element.getLabel()) && (
-          <g transform={`scale(${labelScale})`}>
-            <NodeLabel
-              className={css(styles.topologyNodeLabel, labelClassName)}
-              x={(nodeLabelPosition === LabelPosition.right ? width + 8 : width / 2) * labelPositionScale}
-              y={(nodeLabelPosition === LabelPosition.right ? height / 2 : height + 6) * labelPositionScale}
-              position={nodeLabelPosition}
-              paddingX={8}
-              paddingY={4}
-              secondaryLabel={secondaryLabel}
-              truncateLength={truncateLength}
-              status={status}
-              badge={badge}
-              badgeColor={badgeColor}
-              badgeTextColor={badgeTextColor}
-              badgeBorderColor={badgeBorderColor}
-              badgeClassName={badgeClassName}
-              badgeLocation={badgeLocation}
-              onContextMenu={onContextMenu}
-              contextMenuOpen={contextMenuOpen}
-              hover={isHover}
-              labelIconClass={labelIconClass}
-              labelIcon={labelIcon}
-              labelIconPadding={labelIconPadding}
-            >
-              {label || element.getLabel()}
-            </NodeLabel>
-          </g>
+          <Layer id={isHover ? TOP_LAYER : undefined}>
+            <g transform={`scale(${labelScale})`}>
+              <NodeLabel
+                className={css(styles.topologyNodeLabel, labelClassName)}
+                x={(nodeLabelPosition === LabelPosition.right ? width + 8 : width / 2) * labelPositionScale}
+                y={(nodeLabelPosition === LabelPosition.right ? height / 2 : height + 6) * labelPositionScale}
+                position={nodeLabelPosition}
+                paddingX={8}
+                paddingY={4}
+                secondaryLabel={secondaryLabel}
+                truncateLength={truncateLength}
+                status={status}
+                badge={badge}
+                badgeColor={badgeColor}
+                badgeTextColor={badgeTextColor}
+                badgeBorderColor={badgeBorderColor}
+                badgeClassName={badgeClassName}
+                badgeLocation={badgeLocation}
+                onContextMenu={onContextMenu}
+                contextMenuOpen={contextMenuOpen}
+                hover={isHover}
+                labelIconClass={labelIconClass}
+                labelIcon={labelIcon}
+                labelIconPadding={labelIconPadding}
+              >
+                {label || element.getLabel()}
+              </NodeLabel>
+            </g>
+          </Layer>
         )}
         {children}
       </g>
