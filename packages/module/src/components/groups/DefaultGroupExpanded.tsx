@@ -7,7 +7,7 @@ import styles from '../../css/topology-components';
 import CollapseIcon from '@patternfly/react-icons/dist/esm/icons/compress-alt-icon';
 import NodeLabel from '../nodes/labels/NodeLabel';
 import { Layer } from '../layers';
-import { GROUPS_LAYER } from '../../const';
+import { GROUPS_LAYER, TOP_LAYER } from '../../const';
 import { hullPath, maxPadding, useCombineRefs, useHover } from '../../utils';
 import { BadgeLocation, isGraph, Node, NodeShape, NodeStyle, PointTuple } from '../../types';
 import {
@@ -195,33 +195,35 @@ const DefaultGroupExpanded: React.FunctionComponent<DefaultGroupExpandedProps> =
         </g>
       </Layer>
       {showLabel && (label || element.getLabel()) && (
-        <NodeLabel
-          className={styles.topologyGroupLabel}
-          x={labelLocation.current[0]}
-          y={labelLocation.current[1] + (hulledOutline ? hullPadding(labelLocation.current) : 0) + 24}
-          paddingX={8}
-          paddingY={5}
-          dragRef={dragNodeRef ? dragLabelRef : undefined}
-          status={element.getNodeStatus()}
-          secondaryLabel={secondaryLabel}
-          truncateLength={truncateLength}
-          badge={badge}
-          badgeColor={badgeColor}
-          badgeTextColor={badgeTextColor}
-          badgeBorderColor={badgeBorderColor}
-          badgeClassName={badgeClassName}
-          badgeLocation={badgeLocation}
-          labelIconClass={labelIconClass}
-          labelIcon={labelIcon}
-          labelIconPadding={labelIconPadding}
-          onContextMenu={onContextMenu}
-          contextMenuOpen={contextMenuOpen}
-          hover={isHover || labelHover}
-          actionIcon={collapsible ? <CollapseIcon /> : undefined}
-          onActionIconClick={() => onCollapseChange(element, true)}
-        >
-          {label || element.getLabel()}
-        </NodeLabel>
+        <Layer id={isHover ? TOP_LAYER : undefined}>
+          <NodeLabel
+            className={styles.topologyGroupLabel}
+            x={labelLocation.current[0]}
+            y={labelLocation.current[1] + (hulledOutline ? hullPadding(labelLocation.current) : 0) + 24}
+            paddingX={8}
+            paddingY={5}
+            dragRef={dragNodeRef ? dragLabelRef : undefined}
+            status={element.getNodeStatus()}
+            secondaryLabel={secondaryLabel}
+            truncateLength={truncateLength}
+            badge={badge}
+            badgeColor={badgeColor}
+            badgeTextColor={badgeTextColor}
+            badgeBorderColor={badgeBorderColor}
+            badgeClassName={badgeClassName}
+            badgeLocation={badgeLocation}
+            labelIconClass={labelIconClass}
+            labelIcon={labelIcon}
+            labelIconPadding={labelIconPadding}
+            onContextMenu={onContextMenu}
+            contextMenuOpen={contextMenuOpen}
+            hover={isHover || labelHover}
+            actionIcon={collapsible ? <CollapseIcon /> : undefined}
+            onActionIconClick={() => onCollapseChange(element, true)}
+          >
+            {label || element.getLabel()}
+          </NodeLabel>
+        </Layer>
       )}
     </g>
   );
