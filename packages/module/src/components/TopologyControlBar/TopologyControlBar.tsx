@@ -272,7 +272,7 @@ export const TopologyControlBar: React.FunctionComponent<TopologyControlBarProps
       >
         {button.icon}
         {(button.ariaLabel || button.tooltip) && (
-          <span className="pf-v5-u-screen-reader">{button.ariaLabel || button.tooltip}</span>
+          <span className="pf-v5-screen-reader">{button.ariaLabel || button.tooltip}</span>
         )}
       </Button>
     );
