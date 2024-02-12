@@ -1,5 +1,5 @@
 import { ComponentType } from 'react';
-import { action, computed, observable, makeObservable } from 'mobx';
+import { action, computed, observable, makeObservable, configure } from 'mobx';
 import * as _ from 'lodash';
 import {
   Controller,
@@ -23,6 +23,9 @@ import {
 } from './types';
 import defaultElementFactory from './elements/defaultElementFactory';
 import Stateful from './utils/Stateful';
+
+// Configure MobX to isolate state, this allows for applications to use different versions of MobX
+configure({ isolateGlobalState: true });
 
 export class Visualization extends Stateful implements Controller {
   elements: { [id: string]: GraphElement } = {};
