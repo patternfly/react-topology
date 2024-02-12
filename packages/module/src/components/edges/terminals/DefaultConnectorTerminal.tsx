@@ -59,10 +59,15 @@ const DefaultConnectorTerminal: React.FunctionComponent<EdgeConnectorArrowProps>
     return null;
   }
   const bendPoints = edge.getBendpoints();
+<<<<<<< HEAD
   const defaultStartPoint = isTarget
     ? bendPoints[bendPoints.length - 1] || edge.getStartPoint()
     : bendPoints[0] || edge.getEndPoint();
   const defaultEndPoint = isTarget ? edge.getEndPoint() : edge.getStartPoint();
+=======
+  const startPoint = isTarget ? bendPoints[bendPoints.length - 1] || edge.getStartPoint() : bendPoints[0] || edge.getEndPoint();
+  const endPoint = isTarget ? edge.getEndPoint() : edge.getStartPoint();
+>>>>>>> 2d74dec (fix(lodash): Remove dependency on lodash)
   const classes = css(styles.topologyEdge, className, StatusModifier[status]);
 
   return (
