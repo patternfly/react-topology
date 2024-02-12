@@ -1,12 +1,11 @@
-import * as _ from 'lodash';
 import { GraphElement, Node, isNode, isGraph, NodeStyle } from '../types';
 
 const groupNodeElements = (nodes: GraphElement[]): Node[] => {
-  if (!_.size(nodes)) {
+  if (!nodes.length) {
     return [];
   }
   const groupNodes: Node[] = [];
-  _.forEach(nodes, nextNode => {
+  nodes.forEach(nextNode => {
     if (isNode(nextNode) && nextNode.isGroup() && !nextNode.isCollapsed()) {
       groupNodes.push(nextNode);
       groupNodes.push(...groupNodeElements(nextNode.getChildren()));
@@ -23,7 +22,7 @@ const leafNodeElements = (nodeElements: Node | Node[] | null): Node[] => {
   }
 
   if (Array.isArray(nodeElements)) {
-    _.forEach(nodeElements, (nodeElement: Node) => {
+    nodeElements.forEach((nodeElement: Node) => {
       nodes.push(...leafNodeElements(nodeElement));
     });
     return nodes;
@@ -31,15 +30,8 @@ const leafNodeElements = (nodeElements: Node | Node[] | null): Node[] => {
 
   if (nodeElements.isGroup() && !nodeElements.isCollapsed()) {
     const leafNodes: Node[] = [];
-    const children: GraphElement[] = nodeElements.getChildren();
-    if (_.size(children)) {
-      _.forEach(
-        children.filter(e => isNode(e)),
-        element => {
-          leafNodes.push(...leafNodeElements(element as Node));
-        }
-      );
-    }
+    const children: GraphElement[] = nodeElements.getChildren().filter(e => isNode(e));
+    children.forEach(element => leafNodes.push(...leafNodeElements(element as Node)));
     return leafNodes;
   }
 

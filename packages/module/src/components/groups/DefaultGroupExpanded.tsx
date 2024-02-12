@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
 import { polygonHull } from 'd3-polygon';
-import * as _ from 'lodash';
 import { css } from '@patternfly/react-styles';
 import styles from '../../css/topology-components';
 import CollapseIcon from '@patternfly/react-icons/dist/esm/icons/compress-alt-icon';
@@ -89,7 +88,7 @@ export function computeLabelLocation(points: PointWithSize[], labelPosition?: La
     ];
   }
 
-  _.forEach(points, p => {
+  points.forEach(p => {
     const delta = !lowPoints ? Infinity : Math.round(p[1]) - Math.round(lowPoints[0][1]);
     if (delta > threshold) {
       lowPoints = [p];
@@ -98,11 +97,19 @@ export function computeLabelLocation(points: PointWithSize[], labelPosition?: La
     }
   });
 
+  const minX = lowPoints.reduce((acc, point) => {
+    return Math.min(acc, point[0]);
+  }, Number.POSITIVE_INFINITY);
+  const maxX = lowPoints.reduce((acc, point) => {
+    return Math.max(acc, point[0]);
+  }, Number.NEGATIVE_INFINITY);
+  const maxSize = lowPoints.reduce((acc, point) => {
+    return Math.max(acc, point[2]);
+  }, Number.NEGATIVE_INFINITY);
   return [
-    (_.minBy(lowPoints, p => p[0])[0] + _.maxBy(lowPoints, p => p[0])[0]) / 2,
+    (minX + maxX) / 2,
     lowPoints[0][1],
-    // use the max size value
-    _.maxBy(lowPoints, p => p[2])[2]
+    maxSize,
   ];
 }
 
@@ -166,7 +173,7 @@ const DefaultGroupExpanded: React.FunctionComponent<DefaultGroupExpandedProps> =
       return null;
     }
     const points: (PointWithSize | PointTuple)[] = [];
-    _.forEach(children, c => {
+    children.forEach(c => {
       if (c.getNodeShape() === NodeShape.circle) {
         const bounds = c.getBounds();
         const { width, height } = bounds;

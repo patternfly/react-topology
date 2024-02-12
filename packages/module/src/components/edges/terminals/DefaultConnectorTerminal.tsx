@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import * as _ from 'lodash';
 import { css } from '@patternfly/react-styles';
 import styles from '../../../css/topology-components';
 import { Edge, EdgeTerminalType, NodeStatus } from '../../../types';
@@ -55,7 +54,7 @@ const DefaultConnectorTerminal: React.FunctionComponent<EdgeConnectorArrowProps>
     return null;
   }
   const bendPoints = edge.getBendpoints();
-  const startPoint = isTarget ? _.last(bendPoints) || edge.getStartPoint() : _.head(bendPoints) || edge.getEndPoint();
+  const startPoint = isTarget ? bendPoints[bendPoints.length - 1] || edge.getStartPoint() : bendPoints[0] || edge.getEndPoint();
   const endPoint = isTarget ? edge.getEndPoint() : edge.getStartPoint();
   const classes = css(styles.topologyEdge, className, StatusModifier[status]);
 

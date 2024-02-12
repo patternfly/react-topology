@@ -1,4 +1,3 @@
-import * as _ from 'lodash';
 import { action, makeObservable } from 'mobx';
 import {
   Edge,
@@ -253,9 +252,10 @@ export class BaseLayout implements Layout {
       return undefined;
     }
 
-    let layoutNode = _.find(nodes, { id: node.getId() });
-    if (!layoutNode && _.size(node.getNodes())) {
-      layoutNode = _.find(nodes, { id: node.getChildren()[0].getId() });
+    let layoutNode = nodes.find(n =>  n.id === node.getId());
+    if (!layoutNode && node.getNodes().length) {
+      const id = node.getChildren()[0].getId();
+      layoutNode = nodes.find(n => n.id === id);
     }
     if (!layoutNode) {
       layoutNode = this.getLayoutNode(nodes, getClosestVisibleParent(node));
