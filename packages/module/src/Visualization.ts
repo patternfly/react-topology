@@ -1,6 +1,5 @@
 import { ComponentType } from 'react';
 import { action, computed, observable, makeObservable, configure } from 'mobx';
-import * as _ from 'lodash';
 import {
   Controller,
   Graph,
@@ -97,7 +96,7 @@ export class Visualization extends Stateful implements Controller {
 
     // If not merging, clear out the old elements
     if (!merge) {
-      _.forIn(this.elements, element => this.removeElement(element));
+      Object.keys(this.elements).forEach(element => this.removeElement(this.elements[element]));
     }
 
     // Create the graph if given in the model
@@ -150,7 +149,8 @@ export class Visualization extends Stateful implements Controller {
 
     // remove all stale elements
     if (merge) {
-      _.forIn(this.elements, element => {
+      Object.keys(this.elements).forEach(key => {
+        const element = this.elements[key];
         if (!validIds.includes(element.getId())) {
           this.removeElement(element);
         }
@@ -189,7 +189,7 @@ export class Visualization extends Stateful implements Controller {
   }
 
   getElements(): GraphElement[] {
-    return _.values(this.elements);
+    return Object.values(this.elements);
   }
 
   toModel(): Model {

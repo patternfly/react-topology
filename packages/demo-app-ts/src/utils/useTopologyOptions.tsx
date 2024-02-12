@@ -1,5 +1,4 @@
 import React from 'react';
-import * as _ from 'lodash';
 import {
   Button,
   Dropdown,
@@ -20,9 +19,6 @@ import {
 import { DefaultEdgeOptions, DefaultNodeOptions, GeneratorEdgeOptions, GeneratorNodeOptions } from '../data/generator';
 import { EDGE_ANIMATION_SPEEDS, EDGE_STYLES, EDGE_TERMINAL_TYPES, NODE_SHAPES, NODE_STATUSES } from './styleUtils';
 import { Controller, Model, NodeShape } from '@patternfly/react-topology';
-
-const GRAPH_LAYOUT_OPTIONS = ['x', 'y', 'visible', 'style', 'layout', 'scale', 'scaleExtent', 'layers'];
-const NODE_LAYOUT_OPTIONS = ['x', 'y', 'visible', 'style', 'collapsed', 'width', 'height', 'shape'];
 
 export const useTopologyOptions = (
   controller: Controller
@@ -380,7 +376,14 @@ export const useTopologyOptions = (
       const currentModel = controller.toModel();
       currentModel.graph = {
         ...currentModel.graph,
-        ..._.pick(savedModel.graph, GRAPH_LAYOUT_OPTIONS)
+        x: savedModel.graph.x,
+        y: savedModel.graph.y,
+        visible: savedModel.graph.visible,
+        style: savedModel.graph.style,
+        layout: savedModel.graph.layout,
+        scale: savedModel.graph.scale,
+        scaleExtent: savedModel.graph.scaleExtent,
+        layers: savedModel.graph.layers,
       };
       currentModel.nodes = currentModel.nodes.map((n) => {
         const savedNode = savedModel.nodes.find((sn) => sn.id === n.id);
@@ -389,7 +392,14 @@ export const useTopologyOptions = (
         }
         return {
           ...n,
-          ..._.pick(savedNode, NODE_LAYOUT_OPTIONS)
+          x: savedNode.x,
+          y: savedNode.y,
+          visible: savedNode.visible,
+          style: savedNode.style,
+          collapsed: savedNode.collapsed,
+          width: savedNode.width,
+          height: savedNode.height,
+          shape: savedNode.shape,
         };
       });
       controller.fromModel(currentModel, false);

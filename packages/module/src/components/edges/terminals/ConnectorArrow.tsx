@@ -1,5 +1,4 @@
 import * as React from 'react';
-import * as _ from 'lodash';
 import { css } from '@patternfly/react-styles';
 import styles from '../../../css/topology-components';
 import Point from '../../../geom/Point';
@@ -15,8 +14,8 @@ interface ConnectorArrowProps {
   dragRef?: ConnectDragSource;
 }
 
-const pointsStringFromPoints = (points: [number, number][]): string =>
-  _.reduce(points, (result: string, nextPoint: [number, number]) => `${result} ${nextPoint[0]},${nextPoint[1]}`, '');
+const pointsStringFromPoints = (points?: [number, number][]): string =>
+  points?.reduce((result: string, nextPoint: [number, number]) => `${result} ${nextPoint[0]},${nextPoint[1]}`, '') ?? '';
 
 const ConnectorArrow: React.FunctionComponent<ConnectorArrowProps> = ({
   startPoint,
