@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Tab, Tabs, TabTitleText } from '@patternfly/react-core';
 import {
   BadgeLocation,
   EdgeModel,
@@ -12,10 +13,10 @@ import {
   useComponentFactory,
   useModel
 } from '@patternfly/react-topology';
-import withTopologySetup from '../utils/withTopologySetup';
-import defaultComponentFactory from '../components/defaultComponentFactory';
-import stylesComponentFactory from '../components/stylesComponentFactory';
-import { logos } from '../utils/logos';
+import withTopologySetup from '../../utils/withTopologySetup';
+import defaultComponentFactory from '../../components/defaultComponentFactory';
+import stylesComponentFactory from './stylesComponentFactory';
+import { logos } from '../../utils/logos';
 import {
   AlternateTerminalTypes,
   createBadgeNodes,
@@ -32,9 +33,8 @@ import {
   EDGE_TERMINAL_TYPES_COUNT,
   RIGHT_LABEL_COLUMN_WIDTH,
   STATUS_VALUES
-} from '../utils/styleUtils';
-import { DataTypes } from '../components/StyleNode';
-import { Tab, Tabs, TabTitleText } from '@patternfly/react-core';
+} from './styleUtils';
+import { DataTypes } from './StyleNode';
 
 export const NodeStyles = withTopologySetup(() => {
   useComponentFactory(defaultComponentFactory);

@@ -26,11 +26,11 @@ import {
   NODE_DRAG_TYPE,
   CREATE_CONNECTOR_DROP_TYPE
 } from '@patternfly/react-topology';
-import StyleNode from './StyleNode';
-import StyleGroup from './StyleGroup';
-import StyleEdge from './StyleEdge';
-import CustomPathNode from './CustomPathNode';
-import CustomPolygonNode from './CustomPolygonNode';
+import CustomPathNode from '../../components/CustomPathNode';
+import CustomPolygonNode from '../../components/CustomPolygonNode';
+import DemoGroup from './DemoGroup';
+import DemoNode from './DemoNode';
+import DemoEdge from './DemoEdge';
 
 const CONNECTOR_SOURCE_DROP = 'connector-src-drop';
 const CONNECTOR_TARGET_DROP = 'connector-target-drop';
@@ -55,7 +55,7 @@ const createContextMenuItems = (...labels: string[]): React.ReactElement[] => la
 
 const defaultMenu = createContextMenuItems('First', 'Second', 'Third', '-', 'Fourth');
 
-const stylesComponentFactory: ComponentFactory = (
+const demoComponentFactory: ComponentFactory = (
   kind: ModelKind,
   type: string
 ): React.ComponentType<{ element: GraphElement }> | undefined => {
@@ -86,7 +86,7 @@ const stylesComponentFactory: ComponentFactory = (
       })(
         withDndDrop(nodeDropTargetSpec([CONNECTOR_SOURCE_DROP, CONNECTOR_TARGET_DROP, CREATE_CONNECTOR_DROP_TYPE]))(
           withContextMenu(() => defaultMenu)(
-            withDragNode(nodeDragSourceSpec('node', true, true))(withSelection()(StyleNode))
+            withDragNode(nodeDragSourceSpec('node', true, true))(withSelection()(DemoNode))
           )
         )
       );
@@ -96,7 +96,7 @@ const stylesComponentFactory: ComponentFactory = (
       return CustomPolygonNode;
     case 'group':
       return withDndDrop(groupDropTargetSpec)(
-        withContextMenu(() => defaultMenu)(withDragNode(nodeDragSourceSpec('group'))(withSelection()(StyleGroup)))
+        withContextMenu(() => defaultMenu)(withDragNode(nodeDragSourceSpec('group'))(withSelection()(DemoGroup)))
       );
     case 'edge':
       return withSourceDrag<DragObjectWithType, Node, any, EdgeProps>({
@@ -133,11 +133,11 @@ const stylesComponentFactory: ComponentFactory = (
           collect: monitor => ({
             dragging: monitor.isDragging()
           })
-        })(withContextMenu(() => defaultMenu)(withSelection()(StyleEdge)))
+        })(withContextMenu(() => defaultMenu)(withSelection()(DemoEdge)))
       );
     default:
       return undefined;
   }
 };
 
-export default stylesComponentFactory;
+export default demoComponentFactory;

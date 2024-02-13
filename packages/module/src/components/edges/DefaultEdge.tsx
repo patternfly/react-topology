@@ -1,6 +1,15 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import { Edge, EdgeTerminalType, GraphElement, isEdge, isNode, NodeStatus, ScaleDetailsLevel } from '../../types';
+import {
+  Edge,
+  EdgeStyle,
+  EdgeTerminalType,
+  GraphElement,
+  isEdge,
+  isNode,
+  NodeStatus,
+  ScaleDetailsLevel
+} from '../../types';
 import { ConnectDragSource, OnSelect } from '../../behavior';
 import { getClosestVisibleParent, useHover } from '../../utils';
 import { Layer } from '../layers';
@@ -22,6 +31,8 @@ interface DefaultEdgeProps {
   element: GraphElement;
   /** Flag indicating if the user is dragging the edge */
   dragging?: boolean;
+  /** The style of the edge. Defaults to the style set on the Edge's model */
+  edgeStyle?: EdgeStyle;
   /** The duration in seconds for the edge animation. Defaults to the animationSpeed set on the Edge's model */
   animationDuration?: number;
   /** The terminal type to use for the edge start */
@@ -71,6 +82,7 @@ const DefaultEdgeInner: React.FunctionComponent<DefaultEdgeInnerProps> = observe
   dragging,
   sourceDragRef,
   targetDragRef,
+  edgeStyle,
   animationDuration,
   onShowRemoveConnector,
   onHideRemoveConnector,
@@ -123,7 +135,7 @@ const DefaultEdgeInner: React.FunctionComponent<DefaultEdgeInnerProps> = observe
   );
 
   const edgeAnimationDuration = animationDuration ?? getEdgeAnimationDuration(element.getEdgeAnimationSpeed());
-  const linkClassName = css(styles.topologyEdgeLink, getEdgeStyleClassModifier(element.getEdgeStyle()));
+  const linkClassName = css(styles.topologyEdgeLink, getEdgeStyleClassModifier(edgeStyle || element.getEdgeStyle()));
 
   const bendpoints = element.getBendpoints();
 

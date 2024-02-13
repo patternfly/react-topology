@@ -19,12 +19,14 @@ import {
   DEFAULT_SPACER_NODE_TYPE,
   DEFAULT_FINALLY_NODE_TYPE,
   TOP_TO_BOTTOM,
-  LEFT_TO_RIGHT
+  LEFT_TO_RIGHT,
+  observer
 } from '@patternfly/react-topology';
-import pipelineComponentFactory, { GROUPED_EDGE_TYPE } from '../components/pipelineComponentFactory';
-import { usePipelineOptions } from '../utils/usePipelineOptions';
-import { useDemoPipelineNodes } from '../utils/useDemoPipelineNodes';
-import { GROUPED_PIPELINE_NODE_SEPARATION_HORIZONTAL } from '../components/DemoTaskGroupEdge';
+import pipelineComponentFactory, { GROUPED_EDGE_TYPE } from './pipelineComponentFactory';
+import { useDemoPipelineNodes } from './useDemoPipelineNodes';
+import { GROUPED_PIPELINE_NODE_SEPARATION_HORIZONTAL } from './DemoTaskGroupEdge';
+import { PipelineDemoContext, PipelineDemoModel } from './PipelineDemoContext';
+import PipelineOptionsBar from './PipelineOptionsBar';
 
 export const PIPELINE_NODE_SEPARATION_VERTICAL = 65;
 
@@ -34,26 +36,23 @@ const GROUP_PREFIX = 'Grouped_';
 const VERTICAL_SUFFIX = '_Vertical';
 const PIPELINE_LAYOUT = 'PipelineLayout';
 
-const TopologyPipelineLayout: React.FC = () => {
+const TopologyPipelineLayout: React.FC = observer(() => {
   const [selectedIds, setSelectedIds] = React.useState<string[]>();
 
   const controller = useVisualizationController();
-  const { contextToolbar, showContextMenu, showBadges, showIcons, showGroups, badgeTooltips, verticalLayout } = usePipelineOptions(
-    true
-  );
+  const pipelineOptions = React.useContext(PipelineDemoContext);
   const pipelineNodes = useDemoPipelineNodes(
-    showContextMenu,
-    showBadges,
-    showIcons,
-    badgeTooltips,
-    controller.getGraph().getLayout(),
-    showGroups
+    pipelineOptions.showContextMenus,
+    pipelineOptions.showBadges,
+    pipelineOptions.showIcons,
+    'PipelineDagreLayout',
+    pipelineOptions.showGroups
   );
 
   React.useEffect(() => {
     const spacerNodes = getSpacerNodes(pipelineNodes);
     const nodes = [...pipelineNodes, ...spacerNodes];
-    const edgeType = showGroups ? GROUPED_EDGE_TYPE : DEFAULT_EDGE_TYPE;
+    const edgeType = pipelineOptions.showGroups ? GROUPED_EDGE_TYPE : DEFAULT_EDGE_TYPE;
     const edges = getEdgesFromNodes(
       nodes.filter(n => !n.group),
       DEFAULT_SPACER_NODE_TYPE,
@@ -70,7 +69,7 @@ const TopologyPipelineLayout: React.FC = () => {
           type: 'graph',
           x: 25,
           y: 25,
-          layout: `${showGroups ? GROUP_PREFIX : ''}${PIPELINE_LAYOUT}${verticalLayout ? VERTICAL_SUFFIX : ''}`
+          layout: `${pipelineOptions.showGroups ? GROUP_PREFIX : ''}${PIPELINE_LAYOUT}${pipelineOptions.verticalLayout ? VERTICAL_SUFFIX : ''}`
         },
         nodes,
         edges
@@ -78,18 +77,18 @@ const TopologyPipelineLayout: React.FC = () => {
       true
     );
     controller.getGraph().layout();
-  }, [controller, pipelineNodes, showGroups, verticalLayout]);
+  }, [controller, pipelineNodes, pipelineOptions.showGroups, pipelineOptions.verticalLayout]);
 
   useEventListener<SelectionEventListener>(SELECTION_EVENT, ids => {
     setSelectedIds(ids);
   });
 
   return (
-    <TopologyView contextToolbar={contextToolbar}>
+    <TopologyView contextToolbar={<PipelineOptionsBar isLayout />}>
       <VisualizationSurface state={{ selectedIds }} />
     </TopologyView>
   );
-};
+});
 
 TopologyPipelineLayout.displayName = 'TopologyPipelineLayout';
 
@@ -125,7 +124,9 @@ export const PipelineLayout = React.memo(() => {
 
   return (
     <VisualizationProvider controller={controller}>
-      <TopologyPipelineLayout />
+      <PipelineDemoContext.Provider value={new PipelineDemoModel()}>
+        <TopologyPipelineLayout />
+      </PipelineDemoContext.Provider>
     </VisualizationProvider>
   );
 });
