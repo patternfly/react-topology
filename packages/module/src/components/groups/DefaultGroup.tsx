@@ -8,6 +8,8 @@ import { Dimensions } from '../../geom';
 import DefaultGroupCollapsed from './DefaultGroupCollapsed';
 
 interface DefaultGroupProps {
+  /** Additional content added to the node */
+  children?: React.ReactNode;
   /** Additional classes added to the group */
   className?: string;
   /** The graph group node element to represent */

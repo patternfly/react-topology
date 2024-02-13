@@ -10,6 +10,7 @@ import {
   LayoutFactory,
   LEFT_TO_RIGHT,
   NODE_SEPARATION_HORIZONTAL,
+  NodeModel,
   NodeShape,
   SELECTION_EVENT,
   TopologyControlBar,
@@ -19,13 +20,11 @@ import {
   VisualizationProvider,
   VisualizationSurface
 } from '@patternfly/react-topology';
-import statusConnectorsComponentFactory from '../components/statusConnectorsComponentFactory';
-import {
-  createNode,
-} from '../utils/styleUtils';
-import defaultComponentFactory from '../components/defaultComponentFactory';
+import defaultComponentFactory from '../../components/defaultComponentFactory';
+import statusConnectorsComponentFactory from './statusConnectorsComponentFactory';
 
 const DEFAULT_CHAR_WIDTH = 8;
+const DEFAULT_NODE_SIZE = 75;
 
 const getTextWidth = (text: string, font: string = '1rem RedHatText'): number => {
   if (!text || text.length === 0) {
@@ -64,42 +63,62 @@ export const StatusConnectorsDemo: React.FunctionComponent= () => {
   const [selectedIds, setSelectedIds] = React.useState<string[]>([]);
 
   React.useEffect(() => {
-    const nodes = [
-      createNode({
+    const nodes: NodeModel[] = [
+      {
         id: '1',
+        type: 'node',
         shape: NodeShape.rect,
+        width: DEFAULT_NODE_SIZE,
+        height: DEFAULT_NODE_SIZE,
         label: 'Demo Job Template',
-        secondaryLabel: 'Job template',
-        setLocation: false,
-      }),
-      createNode({
+        data: {
+          secondaryLabel: 'Job template',
+        },
+      },
+      {
         id: '2',
+        type: 'node',
         shape: NodeShape.rect,
+        width: DEFAULT_NODE_SIZE,
+        height: DEFAULT_NODE_SIZE,
         label: 'Demo Job Template @ 05:02:15:215PM',
-        secondaryLabel: 'Job template',
-        setLocation: false,
-      }),
-      createNode({
+        data: {
+          secondaryLabel: 'Job template',
+        }
+      },
+      {
         id: '3',
+        type: 'node',
         shape: NodeShape.rect,
+        width: DEFAULT_NODE_SIZE,
+        height: DEFAULT_NODE_SIZE,
         label: 'Approval',
-        secondaryLabel: 'Approval',
-        setLocation: false,
-      }),
-      createNode({
+        data: {
+          secondaryLabel: 'Approval',
+        }
+      },
+      {
         id: '4',
+        type: 'node',
         shape: NodeShape.rect,
+        width: DEFAULT_NODE_SIZE,
+        height: DEFAULT_NODE_SIZE,
         label: 'Demo Project',
-        secondaryLabel: 'Project',
-        setLocation: false,
-      }),
-      createNode({
+        data: {
+          secondaryLabel: 'Project',
+        }
+      },
+      {
         id: '5',
+        type: 'node',
         shape: NodeShape.rect,
+        width: DEFAULT_NODE_SIZE,
+        height: DEFAULT_NODE_SIZE,
         label: 'Cleanup Activity Stream',
-        secondaryLabel: 'System job',
-        setLocation: false,
-      }),
+        data: {
+          secondaryLabel: 'System job',
+        }
+      },
     ];
 
     const edges: EdgeModel[] = [
@@ -161,7 +180,6 @@ export const StatusConnectorsDemo: React.FunctionComponent= () => {
 
     nodes.forEach((node) => {
       node.width = getTextWidth(node.label);
-      node.height = 75;
     });
     nodes[1].width = Math.max(nodes[1].width, nodes[2].width);
     nodes[2].width = nodes[1].width;

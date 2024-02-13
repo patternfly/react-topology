@@ -1,6 +1,6 @@
-import { TopologyPipelineDemo } from './demos/TopologyPipelineDemo';
+import { TopologyPipelineDemo } from './demos/pipelinesDemo/TopologyPipelineDemo';
 import { Basics } from './demos/Basics';
-import { StyleEdges, StyleGroups, StyleLabels, StyleNodes } from './demos/Styles';
+import { StyleEdges, StyleGroups, StyleLabels, StyleNodes } from './demos/stylesDemo/Styles';
 import { Selection } from './demos/Selection';
 import { PanZoom } from './demos/PanZoom';
 import { Layouts } from './demos/Layouts';
@@ -8,10 +8,10 @@ import { Connectors } from './demos/Connectors';
 import { DragAndDrop } from './demos/DragDrop';
 import { Shapes } from './demos/Shapes';
 import { ContextMenus } from './demos/ContextMenus';
-import { TopologyPackage } from './demos/TopologyPackage';
+import { TopologyPackage } from './demos/topologyPackageDemo/TopologyPackage';
 import { ComplexGroup } from './demos/Groups';
 import { CollapsibleGroups } from './demos/CollapsibleGroups';
-import { StatusConnectors } from './demos/StatusConnectors';
+import { StatusConnectors } from './demos/statusConnectorsDemo/StatusConnectors';
 
 import './Demo.css';
 

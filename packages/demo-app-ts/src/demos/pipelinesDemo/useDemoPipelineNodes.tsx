@@ -8,9 +8,6 @@ import {
   RunStatus,
   WhenStatus,
 } from '@patternfly/react-topology';
-import { CubeIcon } from '@patternfly/react-icons/dist/esm/icons/cube-icon';
-import { ExternalLinkAltIcon } from '@patternfly/react-icons/dist/esm/icons/external-link-alt-icon';
-import { logos } from './logos';
 
 export const NODE_PADDING_VERTICAL = 45;
 export const NODE_PADDING_HORIZONTAL = 15;
@@ -45,7 +42,6 @@ export const useDemoPipelineNodes = (
   showContextMenu: boolean,
   showBadges: boolean,
   showIcons: boolean,
-  badgeTooltips: boolean,
   layout?: string,
   showGroups = false
 ): PipelineNodeModel[] =>
@@ -68,11 +64,9 @@ export const useDemoPipelineNodes = (
       // put options in data, our DEMO task node will pass them along to the TaskNode
       task.data = {
         status,
-        badge: showBadges ? '3/4' : undefined,
-        badgeTooltips,
-        taskIconClass: showIcons ? logos.get('icon-java') : undefined,
-        taskIconTooltip: showIcons ? 'Environment' : undefined,
-        showContextMenu,
+        taskProgress: '3/4',
+        taskType: 'java',
+        taskTopic: 'Environment',
         columnGroup: index % STATUS_PER_ROW
       };
 
@@ -94,8 +88,6 @@ export const useDemoPipelineNodes = (
     );
     whenTasks.forEach((task, index) => {
       task.data.whenStatus = index % 2 === 0 ? WhenStatus.Met : WhenStatus.Unmet;
-      task.data.whenOffset = DEFAULT_WHEN_OFFSET;
-      task.data.whenSize = DEFAULT_WHEN_SIZE;
     });
 
     // Connect the tasks in each row by setting the `runAfterTasks` value for each task
@@ -225,13 +217,12 @@ export const useDemoPipelineNodes = (
     // put options in data, our DEMO task node will pass them along to the TaskNode
     iconTask1.data = {
       status: RunStatus.Failed,
-      badge: showBadges ? '3/4' : undefined,
-      badgeTooltips,
-      taskIconClass: showIcons ? logos.get('icon-java') : undefined,
-      taskIconTooltip: showIcons ? 'Environment' : undefined,
-      showContextMenu,
+
+      taskProgress: '3/4',
+      taskType: 'java',
+      taskTopic: 'Environment',
       columnGroup: TASK_STATUSES.length % STATUS_PER_ROW + 1,
-      leadIcon: <CubeIcon width={16} height={16} />,
+      taskJobType: 'cubes',
     };
 
     if (!layout) {
@@ -256,14 +247,11 @@ export const useDemoPipelineNodes = (
 
     // put options in data, our DEMO task node will pass them along to the TaskNode
     iconTask2.data = {
-      badge: showBadges ? '3/4' : undefined,
-      badgeTooltips,
-      taskIconClass: showIcons ? logos.get('icon-java') : undefined,
-      taskIconTooltip: showIcons ? 'Environment' : undefined,
-      showContextMenu,
+      taskProgress: '3/4',
+      taskType: 'java',
+      taskTopic: 'Environment',
       columnGroup: TASK_STATUSES.length % STATUS_PER_ROW + 1,
-      showStatusState: true,
-      leadIcon: <ExternalLinkAltIcon width={16} height={16} />,
+      taskJobType: 'link',
     };
 
     if (!layout) {
@@ -275,4 +263,4 @@ export const useDemoPipelineNodes = (
     tasks.push(iconTask2);
 
     return [...tasks, ...finallyNodes, finallyGroup];
-  }, [badgeTooltips, layout, showBadges, showContextMenu, showGroups, showIcons]);
+  }, [layout, showBadges, showContextMenu, showGroups, showIcons]);

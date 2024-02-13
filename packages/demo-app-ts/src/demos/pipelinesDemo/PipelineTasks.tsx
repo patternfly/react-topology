@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  observer,
   TopologyView,
   Visualization,
   VisualizationProvider,
@@ -9,18 +10,23 @@ import {
   SELECTION_EVENT,
   useVisualizationController
 } from '@patternfly/react-topology';
-import pipelineComponentFactory from '../components/pipelineComponentFactory';
-import { usePipelineOptions } from '../utils/usePipelineOptions';
-import { useDemoPipelineNodes } from '../utils/useDemoPipelineNodes';
+import pipelineComponentFactory from './pipelineComponentFactory';
+import { useDemoPipelineNodes } from './useDemoPipelineNodes';
+import { PipelineDemoContext, PipelineDemoModel } from './PipelineDemoContext';
+import PipelineOptionsBar from './PipelineOptionsBar';
 
 export const TASKS_TITLE = 'Tasks';
 
-export const PipelineTasks: React.FC = () => {
+export const PipelineTasks: React.FC = observer(() => {
   const [selectedIds, setSelectedIds] = React.useState<string[]>();
 
   const controller = useVisualizationController();
-  const { contextToolbar, showContextMenu, showBadges, showIcons, badgeTooltips } = usePipelineOptions();
-  const pipelineNodes = useDemoPipelineNodes(showContextMenu, showBadges, showIcons, badgeTooltips);
+  const pipelineOptions = React.useContext(PipelineDemoContext);
+  const pipelineNodes = useDemoPipelineNodes(
+    pipelineOptions.showContextMenus,
+    pipelineOptions.showBadges,
+    pipelineOptions.showIcons,
+  );
 
   React.useEffect(() => {
     controller.fromModel(
@@ -42,11 +48,11 @@ export const PipelineTasks: React.FC = () => {
   });
 
   return (
-    <TopologyView contextToolbar={contextToolbar}>
+    <TopologyView contextToolbar={<PipelineOptionsBar />}>
       <VisualizationSurface state={{ selectedIds }} />
     </TopologyView>
   );
-};
+});
 
 PipelineTasks.displayName = 'PipelineTasks';
 
@@ -55,7 +61,9 @@ export const TopologyPipelineTasks = React.memo(() => {
   controller.registerComponentFactory(pipelineComponentFactory);
   return (
     <VisualizationProvider controller={controller}>
-      <PipelineTasks />
+      <PipelineDemoContext.Provider value={new PipelineDemoModel()}>
+        <PipelineTasks />
+      </PipelineDemoContext.Provider>
     </VisualizationProvider>
   );
 });

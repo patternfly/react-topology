@@ -25,7 +25,7 @@ type GroupProps = {
   WithDndDragProps &
   WithDndDropProps;
 
-const DefaultGroup: React.FunctionComponent<GroupProps> = ({
+const DemoDefaultGroup: React.FunctionComponent<GroupProps> = ({
   element,
   children,
   selected,
@@ -93,4 +93,4 @@ const DefaultGroup: React.FunctionComponent<GroupProps> = ({
   );
 };
 
-export default observer(DefaultGroup);
+export default observer(DemoDefaultGroup);

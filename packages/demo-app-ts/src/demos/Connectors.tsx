@@ -29,7 +29,7 @@ import {
   GraphElementProps
 } from '@patternfly/react-topology';
 import defaultComponentFactory from '../components/defaultComponentFactory';
-import DefaultEdge from '../components/DefaultEdge';
+import DefaultEdge from '../components/DemoDefaultEdge';
 import DemoDefaultNode from '../components/DemoDefaultNode';
 import withTopologySetup from '../utils/withTopologySetup';
 import NodeRect from '../components/NodeRect';
