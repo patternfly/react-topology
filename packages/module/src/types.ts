@@ -84,6 +84,8 @@ export enum EdgeTerminalType {
 }
 
 export enum LabelPosition {
+  top,
+  left,
   right,
   bottom
 }
