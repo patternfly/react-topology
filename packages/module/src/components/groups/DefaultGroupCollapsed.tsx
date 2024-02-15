@@ -151,8 +151,8 @@ const DefaultGroupCollapsed: React.FunctionComponent<DefaultGroupCollapsedProps>
       {showLabel && (
         <NodeLabel
           className={styles.topologyGroupLabel}
-          x={labelPosition === LabelPosition.right ? collapsedWidth + 8 : collapsedWidth / 2}
-          y={labelPosition === LabelPosition.right ? collapsedHeight / 2 : collapsedHeight + 6}
+          x={collapsedWidth / 2}
+          y={labelPosition === LabelPosition.top ? collapsedHeight / 2 - collapsedHeight : collapsedHeight + 6}
           paddingX={8}
           paddingY={5}
           dragRef={dragNodeRef ? dragLabelRef : undefined}
