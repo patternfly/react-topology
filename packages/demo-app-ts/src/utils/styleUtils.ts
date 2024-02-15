@@ -137,15 +137,18 @@ export const createNode = (options: {
       (options.marginX || 60) +
       (options.x ??
         (options.column - 1) *
-          (options.label && options.labelPosition === LabelPosition.right ? RIGHT_LABEL_COLUMN_WIDTH : COLUMN_WIDTH));
+          (options.label && [LabelPosition.right, LabelPosition.left].includes(options.labelPosition)
+            ? RIGHT_LABEL_COLUMN_WIDTH
+            : COLUMN_WIDTH));
     nodeModel.y =
       20 +
       (width - height) / 2 +
       (options.y ??
         (options.row - 1) *
-          (!options.label || options.labelPosition === LabelPosition.right ? ROW_HEIGHT : BOTTOM_LABEL_ROW_HEIGHT));
+          (!options.label || [LabelPosition.right, LabelPosition.left].includes(options.labelPosition)
+            ? ROW_HEIGHT
+            : BOTTOM_LABEL_ROW_HEIGHT));
   }
-
   return nodeModel;
 };
 

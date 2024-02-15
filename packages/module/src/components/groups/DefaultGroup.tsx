@@ -29,7 +29,7 @@ interface DefaultGroupProps {
   secondaryLabel?: string;
   /** Flag to show the label */
   showLabel?: boolean; // Defaults to true
-  /** Position of the label, bottom or left. Defaults to element.getLabelPosition() or bottom */
+  /** Position of the label, top or bottom. Defaults to element.getLabelPosition() or bottom */
   labelPosition?: LabelPosition;
   /** The maximum length of the label before truncation */
   truncateLength?: number;

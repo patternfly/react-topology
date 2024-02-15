@@ -9,7 +9,7 @@ import NodeLabel from '../nodes/labels/NodeLabel';
 import { Layer } from '../layers';
 import { GROUPS_LAYER, TOP_LAYER } from '../../const';
 import { hullPath, maxPadding, useCombineRefs, useHover } from '../../utils';
-import { BadgeLocation, isGraph, Node, NodeShape, NodeStyle, PointTuple } from '../../types';
+import { BadgeLocation, isGraph, LabelPosition, Node, NodeShape, NodeStyle, PointTuple } from '../../types';
 import {
   useDragNode,
   useSvgAnchor,
@@ -41,18 +41,53 @@ type DefaultGroupExpandedProps = {
   badgeLocation?: BadgeLocation;
   labelIconClass?: string; // Icon to show in label
   labelIcon?: string;
+  labelPosition?: LabelPosition;
   labelIconPadding?: number;
   hulledOutline?: boolean;
-} & CollapsibleGroupProps & WithDragNodeProps & WithSelectionProps & WithDndDropProps & WithContextMenuProps;
+} & CollapsibleGroupProps &
+  WithDragNodeProps &
+  WithSelectionProps &
+  WithDndDropProps &
+  WithContextMenuProps;
 
 type PointWithSize = [number, number, number];
 
-// Return the point whose Y is the largest value.
+// Return the point whose Y is the largest or smallest based on the labelPosition value.
 // If multiple points are found, compute the center X between them
 // export for testing only
-export function computeLabelLocation(points: PointWithSize[]): PointWithSize {
+export function computeLabelLocation(points: PointWithSize[], labelPosition?: LabelPosition): PointWithSize {
   let lowPoints: PointWithSize[];
+  let highPoints: PointWithSize[];
   const threshold = 5;
+
+  if (labelPosition === LabelPosition.top) {
+    points.forEach((p) => {
+      const delta = !highPoints ? -Infinity : Math.round(p[1]) - Math.round(highPoints[0][1]);
+      // If the difference is greater than the threshold, update the highest point
+      if (delta < -threshold) {
+        highPoints = [p];
+      } else if (Math.abs(delta) <= threshold) {
+        if (!highPoints) {
+          highPoints = [];
+        }
+        highPoints.push(p);
+      }
+    });
+
+    // find min and max by x and y coordinates
+    const minX = highPoints.reduce((min, p) => Math.min(min, p[0]), Infinity);
+    const maxX = highPoints.reduce((max, p) => Math.max(max, p[0]), -Infinity);
+    const minY = highPoints.reduce((min, p) => Math.min(min, p[1]), Infinity);
+    // find max by size value
+    const maxSize = highPoints.reduce((max, p) => Math.max(max, p[2]), -Infinity);
+
+    return [
+      (minX + maxX) / 2,
+      minY,
+      // use the max size value
+      maxSize
+    ];
+  }
 
   _.forEach(points, p => {
     const delta = !lowPoints ? Infinity : Math.round(p[1]) - Math.round(lowPoints[0][1]);
@@ -62,6 +97,7 @@ export function computeLabelLocation(points: PointWithSize[]): PointWithSize {
       lowPoints.push(p);
     }
   });
+
   return [
     (_.minBy(lowPoints, p => p[0])[0] + _.maxBy(lowPoints, p => p[0])[0]) / 2,
     lowPoints[0][1],
@@ -97,6 +133,7 @@ const DefaultGroupExpanded: React.FunctionComponent<DefaultGroupExpandedProps> =
   badgeLocation,
   labelIconClass,
   labelIcon,
+  labelPosition,
   labelIconPadding,
   onCollapseChange,
   hulledOutline = true,
@@ -157,10 +194,13 @@ const DefaultGroupExpanded: React.FunctionComponent<DefaultGroupExpandedProps> =
       pathRef.current = hullPath(hullPoints as PointTuple[], hullPadding);
 
       // Compute the location of the group label.
-      labelLocation.current = computeLabelLocation(hullPoints as PointWithSize[]);
+      labelLocation.current = computeLabelLocation(hullPoints as PointWithSize[], labelPosition);
     } else {
       boxRef.current = element.getBounds();
-      labelLocation.current = [boxRef.current.x + boxRef.current.width / 2, boxRef.current.y + boxRef.current.height, 0];
+      labelLocation.current =
+        labelPosition === LabelPosition.top
+          ? [boxRef.current.x + boxRef.current.width / 2, boxRef.current.y, 0]
+          : [boxRef.current.x + boxRef.current.width / 2, boxRef.current.y + boxRef.current.height, 0];
     }
   }
 
@@ -183,6 +223,14 @@ const DefaultGroupExpanded: React.FunctionComponent<DefaultGroupExpandedProps> =
     canDrop && dropTarget && 'pf-m-drop-target'
   );
 
+  const outlinePadding = hulledOutline ? hullPadding(labelLocation.current) : 0;
+  const labelGap = 24;
+  const startX = labelLocation.current[0];
+  const startY =
+    labelPosition === LabelPosition.top
+      ? labelLocation.current[1] - outlinePadding - labelGap * 2
+      : labelLocation.current[1] + outlinePadding + labelGap;
+
   return (
     <g ref={labelHoverRef} onContextMenu={onContextMenu} onClick={onSelect} className={groupClassName}>
       <Layer id={GROUPS_LAYER}>
@@ -198,8 +246,8 @@ const DefaultGroupExpanded: React.FunctionComponent<DefaultGroupExpandedProps> =
         <Layer id={isHover ? TOP_LAYER : undefined}>
           <NodeLabel
             className={styles.topologyGroupLabel}
-            x={labelLocation.current[0]}
-            y={labelLocation.current[1] + (hulledOutline ? hullPadding(labelLocation.current) : 0) + 24}
+            x={startX}
+            y={startY}
             paddingX={8}
             paddingY={5}
             dragRef={dragNodeRef ? dragLabelRef : undefined}

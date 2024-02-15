@@ -117,6 +117,8 @@ const DefaultTaskGroupInner: React.FunctionComponent<DefaultTaskGroupInnerProps>
       return [0, 0];
     }
     switch (labelPosition) {
+      case LabelPosition.top:
+        return [minX + (maxX - minX) / 2, -minY + labelOffset];
       case LabelPosition.right:
         return [maxX + labelOffset, minY + (maxY - minY) / 2];
       case LabelPosition.bottom:

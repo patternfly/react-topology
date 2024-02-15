@@ -324,6 +324,23 @@ const DefaultNodeInner: React.FunctionComponent<DefaultNodeInnerProps> = observe
     return { translateX, translateY };
   }, [element, nodeScale, scaleNode]);
 
+  let labelX;
+  let labelY;
+  const labelPaddingX = 8;
+  const labelPaddingY = 4;
+  if(nodeLabelPosition === LabelPosition.right) {
+     labelX = (width + labelPaddingX) * labelPositionScale;
+     labelY = height / 2;
+  } else if (nodeLabelPosition === LabelPosition.left) {
+    labelX = 0;
+    labelY = height / 2 - labelPaddingY;
+  } else if(nodeLabelPosition === LabelPosition.top) {
+      labelX = width / 2;
+      labelY = labelPaddingY + labelPaddingY/2;
+  } else {
+    labelX = width / 2 * labelPositionScale;
+    labelY = height + labelPaddingY + labelPaddingY / 2 ;
+  }
   return (
     <g
       className={groupClassName}
@@ -346,8 +363,8 @@ const DefaultNodeInner: React.FunctionComponent<DefaultNodeInnerProps> = observe
             <g transform={`scale(${labelScale})`}>
               <NodeLabel
                 className={css(styles.topologyNodeLabel, labelClassName)}
-                x={(nodeLabelPosition === LabelPosition.right ? width + 8 : width / 2) * labelPositionScale}
-                y={(nodeLabelPosition === LabelPosition.right ? height / 2 : height + 6) * labelPositionScale}
+                x={labelX}
+                y={labelY * labelPositionScale}
                 position={nodeLabelPosition}
                 paddingX={8}
                 paddingY={4}
