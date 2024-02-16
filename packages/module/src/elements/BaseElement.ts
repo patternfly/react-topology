@@ -1,5 +1,4 @@
 import { observable, computed, makeObservable } from 'mobx';
-import * as _ from 'lodash';
 import {
   ElementModel,
   Graph,
@@ -60,7 +59,10 @@ export default abstract class BaseElement<E extends ElementModel = ElementModel,
       controller: observable.ref,
       label: observable,
       style: observable,
-      ordering: computed({ equals: _.isEqual })
+      ordering: computed({
+        equals: (a: number[], b: number[]) =>
+          a.length === b.length && a.every((val, i) => val === b[i])
+      })
     });
   }
 
@@ -255,10 +257,10 @@ export default abstract class BaseElement<E extends ElementModel = ElementModel,
       });
 
       // remove children
-      _.difference(this.children, childElements).forEach(child => this.removeChild(child));
+      this.children.filter(c => !childElements.includes(c)).forEach(child => this.removeChild(child));
 
       // add children
-      const toAdd = _.difference(childElements, this.children);
+      const toAdd = childElements.filter(c => !this.children.includes(c));
       toAdd.reverse().forEach(child => this.insertChild(child, 0));
     }
     if ('data' in model) {
@@ -268,7 +270,7 @@ export default abstract class BaseElement<E extends ElementModel = ElementModel,
       this.label = model.label;
     }
     if ('style' in model) {
-      _.merge(this.style, model.style);
+      this.style = { ...this.style, ...model.style };
     }
   }
 

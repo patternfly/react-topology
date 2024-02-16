@@ -1,5 +1,4 @@
 import * as React from 'react';
-import * as _ from 'lodash';
 import { observer } from 'mobx-react';
 import { Edge, EdgeTerminalType, GraphElement, isEdge, isNode, NodeStatus, ScaleDetailsLevel } from '../../types';
 import { ConnectDragSource, OnSelect } from '../../behavior';
@@ -134,15 +133,15 @@ const DefaultEdgeInner: React.FunctionComponent<DefaultEdgeInnerProps> = observe
   const bgStartPoint =
     !startTerminalType || startTerminalType === EdgeTerminalType.none
       ? [startPoint.x, startPoint.y]
-      : getConnectorStartPoint(_.head(bendpoints) || endPoint, startPoint, startTerminalSize);
+      : getConnectorStartPoint(bendpoints?.[0] || endPoint, startPoint, startTerminalSize);
   const bgEndPoint =
     !endTerminalType || endTerminalType === EdgeTerminalType.none
       ? [endPoint.x, endPoint.y]
-      : getConnectorStartPoint(_.last(bendpoints) || startPoint, endPoint, endTerminalSize);
+      : getConnectorStartPoint(bendpoints?.[bendpoints.length - 1] || startPoint, endPoint, endTerminalSize);
   const backgroundPath = `M${bgStartPoint[0]} ${bgStartPoint[1]} ${bendpoints
     .map((b: Point) => `L${b.x} ${b.y} `)
     .join('')}L${bgEndPoint[0]} ${bgEndPoint[1]}`;
-  
+
   const showTag = tag && (detailsLevel === ScaleDetailsLevel.high || hover);
   const scale = element.getGraph().getScale();
   const tagScale = hover && !(detailsLevel === ScaleDetailsLevel.high) ? Math.max(1, 1 / scale) : 1;

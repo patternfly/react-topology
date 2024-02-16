@@ -1,10 +1,9 @@
 import * as React from 'react';
-import * as _ from 'lodash';
 import { action } from 'mobx';
 // https://github.com/mobxjs/mobx-react#observer-batching
 import 'mobx-react/batchingForReactDom';
 import { observer } from 'mobx-react';
-import ReactMeasure from 'react-measure';
+import ReactMeasure, { ContentRect } from 'react-measure';
 import { css } from '@patternfly/react-styles';
 import styles from '../css/topology-components';
 import { State } from '../types';
@@ -29,6 +28,18 @@ const VisualizationSurface: React.FunctionComponent<VisualizationSurfaceProps> =
   state
 }: VisualizationSurfaceProps) => {
   const controller = useVisualizationController();
+  const timerId = React.useRef<NodeJS.Timer>();
+
+  const debounceMeasure = React.useCallback((func: (contentRect: ContentRect) => void, delay?: number) => {
+    return (contentRect: ContentRect) => {
+      if (!timerId.current) {
+        func(contentRect)
+      }
+      clearTimeout(timerId.current)
+
+      timerId.current = setTimeout(() => func(contentRect), delay)
+    }
+  }, []);
 
   React.useEffect(() => {
     state && controller.setState(state);
@@ -36,18 +47,17 @@ const VisualizationSurface: React.FunctionComponent<VisualizationSurfaceProps> =
 
   const onMeasure = React.useMemo(
     () =>
-      _.debounce<any>(
-        action((contentRect: { client: { width: number; height: number } }) => {
+      debounceMeasure(
+        action((contentRect: ContentRect) => {
           controller.getGraph().setDimensions(new Dimensions(contentRect.client.width, contentRect.client.height));
         }),
         100,
-        { leading: true, trailing: true }
       ),
-    [controller]
+    [controller, debounceMeasure]
   );
 
   // dispose of onMeasure
-  React.useEffect(() => () => onMeasure.cancel(), [onMeasure]);
+  React.useEffect(() => () => clearTimeout(timerId.current), [onMeasure]);
 
   if (!controller.hasGraph()) {
     return null;

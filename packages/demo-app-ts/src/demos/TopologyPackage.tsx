@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { action } from 'mobx';
-import * as _ from 'lodash';
 import {
   Controller,
   createTopologyControlButtons,
@@ -146,8 +145,8 @@ const TopologyViewComponent: React.FunctionComponent<TopologyViewComponentProps>
   }, [controller, lowScale, medScale]);
 
   const topologySideBar = (
-    <TopologySideBar show={_.size(selectedIds) > 0} resizable={sideBarResizable} onClose={() => setSelectedIds([])}>
-      <div style={{ marginTop: 27, marginLeft: 20, height: '800px' }}>{_.head(selectedIds)}</div>
+    <TopologySideBar show={!!selectedIds?.length} resizable={sideBarResizable} onClose={() => setSelectedIds([])}>
+      <div style={{ marginTop: 27, marginLeft: 20, height: '800px' }}>{selectedIds?.[0]}</div>
     </TopologySideBar>
   );
 
@@ -208,7 +207,7 @@ const TopologyViewComponent: React.FunctionComponent<TopologyViewComponentProps>
       contextToolbar={contextToolbar}
       viewToolbar={viewToolbar}
       sideBar={useSidebar && topologySideBar}
-      sideBarOpen={useSidebar && _.size(selectedIds) > 0}
+      sideBarOpen={useSidebar && !!selectedIds?.length}
       sideBarResizable={sideBarResizable}
     >
       <VisualizationSurface state={{ selectedIds }} />

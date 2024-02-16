@@ -13,7 +13,7 @@ export const getConnectorStartPoint = (startPoint: Point, endPoint: Point, size:
 export const getConnectorRotationAngle = (startPoint: Point, endPoint: Point): number =>
   180 - (Math.atan2(endPoint.y - startPoint.y, startPoint.x - endPoint.x) * 180) / Math.PI;
 
-export const getConnectorBoundingBox = (startPoint: Point, endPoint: Point, size: number): [number, number][] => {
+export const getConnectorBoundingBox = (startPoint: Point, endPoint: Point, size: number): [number, number][] | null => {
   const length = Math.sqrt((endPoint.x - startPoint.x) ** 2 + (endPoint.y - startPoint.y) ** 2);
   if (!length) {
     return null;

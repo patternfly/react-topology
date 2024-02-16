@@ -1,4 +1,3 @@
-import * as lodash from 'lodash';
 import { EdgeModel, NodeModel } from '../types';
 
 const getNodeParent = (nodeId: string, nodes: NodeModel[]): NodeModel | undefined =>
@@ -25,10 +24,12 @@ const createAggregateEdges = (
   edges: EdgeModel[] | undefined,
   nodes: NodeModel[] | undefined
 ): EdgeModel[] => {
+  if (!edges) {
+    return [];
+  }
   const aggregateEdges: EdgeModel[] = [];
 
-  return lodash.reduce(
-    edges,
+  return edges.reduce(
     (newEdges: EdgeModel[], edge: EdgeModel) => {
       const source = getDisplayedNodeForNode(edge.source, nodes);
       const target = getDisplayedNodeForNode(edge.target, nodes);
@@ -50,7 +51,7 @@ const createAggregateEdges = (
             edge.visible = false;
 
             // Hide edges that are depicted by this aggregate edge
-            lodash.forEach(existing.children, existingChild => {
+            existing.children?.forEach(existingChild => {
               const updateEdge = newEdges.find(newEdge => newEdge.id === existingChild);
               if (updateEdge) {
                 updateEdge.visible = false;
