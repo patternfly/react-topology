@@ -82,6 +82,10 @@ export class BaseLayout implements Layout {
     this.startListening();
   }
 
+  getLayoutOptions(): LayoutOptions {
+    return this.options;
+  }
+
   protected onSimulationEnd = () => {};
 
   destroy(): void {

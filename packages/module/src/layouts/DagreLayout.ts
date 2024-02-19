@@ -8,6 +8,9 @@ import { DagreNode } from './DagreNode';
 import { DagreGroup } from './DagreGroup';
 import { DagreLink } from './DagreLink';
 
+export const TOP_TO_BOTTOM = 'TB';
+export const LEFT_TO_RIGHT = 'LR';
+
 export type DagreLayoutOptions = LayoutOptions & dagre.GraphLabel & { ignoreGroups?: boolean };
 
 export class DagreLayout extends BaseLayout implements Layout {
@@ -23,7 +26,7 @@ export class DagreLayout extends BaseLayout implements Layout {
       nodesep: this.options.nodeDistance,
       edgesep: this.options.linkDistance,
       ranker: 'tight-tree',
-      rankdir: 'TB',
+      rankdir: TOP_TO_BOTTOM,
       ...options
     };
   }

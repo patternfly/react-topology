@@ -8,6 +8,7 @@ import {
   Graph,
   Layout,
   LayoutFactory,
+  LEFT_TO_RIGHT,
   NODE_SEPARATION_HORIZONTAL,
   NodeShape,
   SELECTION_EVENT,
@@ -52,7 +53,7 @@ const defaultLayoutFactory: LayoutFactory = (type: string, graph: Graph): Layout
     ranksep: NODE_SEPARATION_HORIZONTAL,
     edgesep: 100,
     ranker: 'longest-path',
-    rankdir: 'LR',
+    rankdir: LEFT_TO_RIGHT,
     marginx: 20,
     marginy: 20,
   });
