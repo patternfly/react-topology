@@ -4,6 +4,7 @@ import { css } from '@patternfly/react-styles';
 import styles from '../../../css/topology-components';
 import { Edge, GraphElement, isEdge } from '../../../types';
 import { integralShapePath } from '../../utils';
+import { DagreLayoutOptions, TOP_TO_BOTTOM } from '../../../layouts';
 
 interface TaskEdgeProps {
   /** The graph edge element to represent */
@@ -24,11 +25,12 @@ const TaskEdgeInner: React.FunctionComponent<TaskEdgeInnerProps> = observer(({
   const endPoint = element.getEndPoint();
   const groupClassName = css(styles.topologyEdge, className);
   const startIndent: number = element.getData()?.indent || 0;
+  const verticalLayout = (element.getGraph().getLayoutOptions?.() as DagreLayoutOptions)?.rankdir === TOP_TO_BOTTOM;
 
   return (
     <g data-test-id="task-handler" className={groupClassName} fillOpacity={0}>
       <path
-        d={integralShapePath(startPoint, endPoint, startIndent, nodeSeparation)}
+        d={integralShapePath(startPoint, endPoint, startIndent, nodeSeparation, verticalLayout)}
         transform="translate(0.5,0.5)"
         shapeRendering="geometricPrecision"
       />

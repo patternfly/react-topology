@@ -23,6 +23,7 @@ import NodeShadows, {
 import LabelBadge from '../../../components/nodes/labels/LabelBadge';
 import LabelIcon from '../../../components/nodes/labels/LabelIcon';
 import { useScaleNode } from '../../../hooks';
+import { DagreLayoutOptions, TOP_TO_BOTTOM } from '../../../layouts';
 
 const STATUS_ICON_SIZE = 16;
 const SCALE_UP_TIME = 200;
@@ -88,7 +89,7 @@ export interface TaskNodeProps {
   toolTip?: React.ReactNode;
   /** Tooltip properties to pass along to the node's tooltip */
   toolTipProps?: Omit<TooltipProps, 'content'>;
-  /** Flag if the node has a 'when expression' */
+  /** @deprecated Flag if the node has a 'when expression' */
   hasWhenExpression?: boolean;
   /** Size of the when expression indicator */
   whenSize?: number;
@@ -170,30 +171,35 @@ const TaskNodeInner: React.FC<TaskNodeInnerProps> = observer(({
   const [actionSize, actionRef] = useSize([actionIcon, paddingX]);
   const [contextSize, contextRef] = useSize([onContextMenu, paddingX]);
   const detailsLevel = element.getGraph().getDetailsLevel();
+  const verticalLayout = (element.getGraph().getLayoutOptions?.() as DagreLayoutOptions)?.rankdir === TOP_TO_BOTTOM;
 
   if (badgePopoverProps) {
     // eslint-disable-next-line no-console
     console.warn('badgePopoverProps is deprecated. Use badgePopoverParams instead.');
   }
+  if (hasWhenExpression) {
+    // eslint-disable-next-line no-console
+    console.warn('hasWhenExpression is deprecated. Set whenSize and whenOffset only when showing the when expression.');
+  }
 
   const textWidth = textSize?.width ?? 0;
   const textHeight = textSize?.height ?? 0;
   useAnchor(
-    // Include scaleNode to cause an update when it changes
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    React.useCallback((node: Node) => new TaskNodeSourceAnchor(node, detailsLevel, statusIconSize + 4), [
-      detailsLevel,
-      statusIconSize,
-      scaleNode
-    ]),
+    React.useCallback((node: Node) =>
+        new TaskNodeSourceAnchor(node, detailsLevel, statusIconSize + 4, verticalLayout),
+      // Include scaleNode to cause an update when it changes
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [detailsLevel, statusIconSize, scaleNode, verticalLayout]
+    ),
     AnchorEnd.source
   );
   useAnchor(
-    React.useCallback((node: Node) => new TaskNodeTargetAnchor(node, hasWhenExpression ? 0 : whenSize + whenOffset), [
-      hasWhenExpression,
-      whenSize,
-      whenOffset
-    ]),
+    React.useCallback((node: Node) =>
+        new TaskNodeTargetAnchor(node, whenSize + whenOffset, detailsLevel, statusIconSize + 4, verticalLayout),
+      // Include scaleNode to cause an update when it changes
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [whenSize, whenOffset, detailsLevel, statusIconSize, scaleNode, verticalLayout]
+    ),
     AnchorEnd.target
   );
 
@@ -207,7 +213,8 @@ const TaskNodeInner: React.FC<TaskNodeInnerProps> = observer(({
     badgeStartX,
     iconWidth,
     iconStartX,
-    leadIconStartX
+    leadIconStartX,
+    offsetX
   } = React.useMemo(() => {
     if (!textSize) {
       return {
@@ -249,6 +256,8 @@ const TaskNodeInner: React.FC<TaskNodeInnerProps> = observer(({
 
     const pillWidth = contextStartX + contextSpace + paddingX / 2;
 
+    const offsetX = verticalLayout ? (width - pillWidth) / 2 : 0;
+
     return {
       height,
       statusStartX,
@@ -259,7 +268,8 @@ const TaskNodeInner: React.FC<TaskNodeInnerProps> = observer(({
       iconWidth,
       iconStartX,
       leadIconStartX,
-      pillWidth
+      pillWidth,
+      offsetX,
     };
   }, [
     textSize,
@@ -281,7 +291,9 @@ const TaskNodeInner: React.FC<TaskNodeInnerProps> = observer(({
     actionIcon,
     actionSize,
     onContextMenu,
-    contextSize
+    contextSize,
+    verticalLayout,
+    width
   ]);
 
   React.useEffect(() => {
@@ -289,10 +301,13 @@ const TaskNodeInner: React.FC<TaskNodeInnerProps> = observer(({
       const sourceEdges = element.getSourceEdges();
       sourceEdges.forEach(edge => {
         const data = edge.getData();
-        edge.setData({ ...(data || {}), indent: detailsLevel === ScaleDetailsLevel.high ? width - pillWidth : 0 });
+        edge.setData({
+          ...(data || {}),
+          indent: detailsLevel === ScaleDetailsLevel.high && !verticalLayout ? width - pillWidth : 0
+        });
       });
     })();
-  }, [detailsLevel, element, pillWidth, width]);
+  }, [detailsLevel, element, pillWidth, verticalLayout, width]);
 
   const scale = element.getGraph().getScale();
   const nodeScale = useScaleNode(scaleNode, scale, SCALE_UP_TIME);
@@ -300,6 +315,7 @@ const TaskNodeInner: React.FC<TaskNodeInnerProps> = observer(({
 
   const nameLabel = (
     <text
+      x={offsetX}
       ref={nameLabelRef}
       className={css(nameLabelClass, styles.topologyPipelinesPillText)}
       dominantBaseline="middle"
@@ -327,7 +343,7 @@ const TaskNodeInner: React.FC<TaskNodeInnerProps> = observer(({
 
   const taskIconComponent = (taskIconClass || taskIcon) && (
     <LabelIcon
-      x={iconStartX + iconWidth}
+      x={offsetX + iconStartX + iconWidth}
       y={(height - iconWidth) / 2}
       width={iconWidth}
       height={iconWidth}
@@ -342,7 +358,7 @@ const TaskNodeInner: React.FC<TaskNodeInnerProps> = observer(({
     <LabelBadge
       ref={badgeRef}
       innerRef={badgeLabelTriggerRef}
-      x={badgeStartX}
+      x={offsetX + badgeStartX}
       y={(height - (badgeSize?.height ?? 0)) / 2}
       badge={badge}
       badgeClassName={badgeClassName}
@@ -404,14 +420,14 @@ const TaskNodeInner: React.FC<TaskNodeInnerProps> = observer(({
     return (
       <g
         className={pillClasses}
-        transform={`translate(${whenOffset + whenSize}, 0)`}
+        transform={`translate(${verticalLayout ? 0 : whenOffset + whenSize}, 0)`}
         onClick={onSelect}
         onContextMenu={onContextMenu}
         ref={taskRef}
       >
         <NodeShadows />
         <rect
-          x={0}
+          x={offsetX}
           y={0}
           width={pillWidth}
           height={height}
@@ -429,7 +445,7 @@ const TaskNodeInner: React.FC<TaskNodeInnerProps> = observer(({
           )}
         </g>
         {status && showStatusState && (
-          <g transform={`translate(${statusStartX + paddingX / 2}, ${(height - statusIconSize) / 2})`} ref={statusRef}>
+          <g transform={`translate(${offsetX + statusStartX + paddingX / 2}, ${(height - statusIconSize) / 2})`} ref={statusRef}>
             <g
               className={css(
                 styles.topologyPipelinesPillStatus,
@@ -443,7 +459,7 @@ const TaskNodeInner: React.FC<TaskNodeInnerProps> = observer(({
           </g>
         )}
         {leadIcon && (
-          <g transform={`translate(${leadIconStartX}, ${(height - leadSize?.height ?? 0) / 2})`} ref={leadIconRef}>
+          <g transform={`translate(${offsetX + leadIconStartX}, ${(height - leadSize?.height ?? 0) / 2})`} ref={leadIconRef}>
             {leadIcon}
           </g>
         )}
@@ -454,15 +470,15 @@ const TaskNodeInner: React.FC<TaskNodeInnerProps> = observer(({
           <>
             <line
               className={css(topologyStyles.topologyNodeSeparator)}
-              x1={actionStartX}
+              x1={offsetX + actionStartX}
               y1={0}
-              x2={actionStartX}
+              x2={offsetX + actionStartX}
               y2={height}
               shapeRendering="crispEdges"
             />
             <LabelActionIcon
               ref={actionRef}
-              x={actionStartX}
+              x={offsetX + actionStartX}
               y={0}
               height={height}
               paddingX={paddingX}
@@ -477,15 +493,15 @@ const TaskNodeInner: React.FC<TaskNodeInnerProps> = observer(({
           <>
             <line
               className={css(topologyStyles.topologyNodeSeparator)}
-              x1={contextStartX}
+              x1={offsetX + contextStartX}
               y1={0}
-              x2={contextStartX}
+              x2={offsetX + contextStartX}
               y2={height}
               shapeRendering="crispEdges"
             />
             <LabelContextMenu
               ref={contextRef}
-              x={contextStartX}
+              x={offsetX + contextStartX}
               y={0}
               height={height}
               paddingX={paddingX}

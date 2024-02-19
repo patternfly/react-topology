@@ -17,7 +17,9 @@ import {
   getEdgesFromNodes,
   DEFAULT_EDGE_TYPE,
   DEFAULT_SPACER_NODE_TYPE,
-  DEFAULT_FINALLY_NODE_TYPE
+  DEFAULT_FINALLY_NODE_TYPE,
+  TOP_TO_BOTTOM,
+  LEFT_TO_RIGHT
 } from '@patternfly/react-topology';
 import pipelineComponentFactory, { GROUPED_EDGE_TYPE } from '../components/pipelineComponentFactory';
 import { usePipelineOptions } from '../utils/usePipelineOptions';
@@ -28,14 +30,15 @@ export const PIPELINE_NODE_SEPARATION_VERTICAL = 65;
 
 export const LAYOUT_TITLE = 'Layout';
 
+const GROUP_PREFIX = 'Grouped_';
+const VERTICAL_SUFFIX = '_Vertical';
 const PIPELINE_LAYOUT = 'PipelineLayout';
-const GROUPED_PIPELINE_LAYOUT = 'GroupedPipelineLayout';
 
 const TopologyPipelineLayout: React.FC = () => {
   const [selectedIds, setSelectedIds] = React.useState<string[]>();
 
   const controller = useVisualizationController();
-  const { contextToolbar, showContextMenu, showBadges, showIcons, showGroups, badgeTooltips } = usePipelineOptions(
+  const { contextToolbar, showContextMenu, showBadges, showIcons, showGroups, badgeTooltips, verticalLayout } = usePipelineOptions(
     true
   );
   const pipelineNodes = useDemoPipelineNodes(
@@ -43,7 +46,7 @@ const TopologyPipelineLayout: React.FC = () => {
     showBadges,
     showIcons,
     badgeTooltips,
-    'PipelineDagreLayout',
+    controller.getGraph().getLayout(),
     showGroups
   );
 
@@ -67,7 +70,7 @@ const TopologyPipelineLayout: React.FC = () => {
           type: 'graph',
           x: 25,
           y: 25,
-          layout: showGroups ? GROUPED_PIPELINE_LAYOUT : PIPELINE_LAYOUT
+          layout: `${showGroups ? GROUP_PREFIX : ''}${PIPELINE_LAYOUT}${verticalLayout ? VERTICAL_SUFFIX : ''}`
         },
         nodes,
         edges
@@ -75,7 +78,7 @@ const TopologyPipelineLayout: React.FC = () => {
       true
     );
     controller.getGraph().layout();
-  }, [controller, pipelineNodes, showGroups]);
+  }, [controller, pipelineNodes, showGroups, verticalLayout]);
 
   useEventListener<SelectionEventListener>(SELECTION_EVENT, ids => {
     setSelectedIds(ids);
@@ -98,8 +101,9 @@ export const PipelineLayout = React.memo(() => {
     (type: string, graph: Graph): Layout | undefined =>
       new PipelineDagreLayout(graph, {
         nodesep: PIPELINE_NODE_SEPARATION_VERTICAL,
+        rankdir: type.endsWith(VERTICAL_SUFFIX) ? TOP_TO_BOTTOM : LEFT_TO_RIGHT,
         ranksep:
-          type === GROUPED_PIPELINE_LAYOUT ? GROUPED_PIPELINE_NODE_SEPARATION_HORIZONTAL : NODE_SEPARATION_HORIZONTAL,
+          type.startsWith(GROUP_PREFIX) ? GROUPED_PIPELINE_NODE_SEPARATION_HORIZONTAL : NODE_SEPARATION_HORIZONTAL,
         ignoreGroups: true
       })
   );
