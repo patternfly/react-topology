@@ -199,7 +199,7 @@ export default class BaseNode<E extends NodeModel = NodeModel, D = any> extends 
   updateChildrenPositions(point: Point, prevLocation: Point): void {
     const xOffset = point.x - prevLocation.x;
     const yOffset = point.y - prevLocation.y;
-    this.getChildren().forEach(child => {
+    this.getAllNodeChildren().forEach(child => {
       if (isNode(child)) {
         const node = child as Node;
         const position = node.getPosition();
