@@ -17,7 +17,7 @@ exports[`TopologyControlBar should accept button options correctly 1`] = `
         class="pf-v5-c-toolbar__content-section"
       >
         <div
-          class="pf-v5-c-toolbar__group pf-m-space-items-none"
+          class="pf-v5-c-toolbar__group"
         >
           <div
             class="pf-v5-c-toolbar__item"
@@ -150,7 +150,7 @@ exports[`TopologyControlBar should display the default controls correctly 1`] = 
         class="pf-v5-c-toolbar__content-section"
       >
         <div
-          class="pf-v5-c-toolbar__group pf-m-space-items-none"
+          class="pf-v5-c-toolbar__group"
         >
           <div
             class="pf-v5-c-toolbar__item"
