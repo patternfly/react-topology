@@ -25,7 +25,7 @@ interface WhenDecoratorProps {
   width?: number;
   /** Height of the when decorator */
   height?: number;
-  /** Additional classes added to the label */
+  /** @deprecated Additional classes added to the label */
   nameLabelClass?: string;
   /** WhenStatus to depict */
   status?: WhenStatus;
