@@ -132,6 +132,7 @@ const TaskNodeInner: React.FC<TaskNodeInnerProps> = observer(({
   badgeTooltip,
   badgePopoverProps,
   badgePopoverParams,
+  nameLabelClass,
   taskIconClass,
   taskIcon,
   taskIconTooltip,
@@ -298,7 +299,11 @@ const TaskNodeInner: React.FC<TaskNodeInnerProps> = observer(({
   const { translateX, translateY } = getNodeScaleTranslation(element, nodeScale, scaleNode);
 
   const nameLabel = (
-    <text ref={nameLabelRef} className={css(styles.topologyPipelinesPillText)} dominantBaseline="middle">
+    <text
+      ref={nameLabelRef}
+      className={css(nameLabelClass, styles.topologyPipelinesPillText)}
+      dominantBaseline="middle"
+    >
       {label}
     </text>
   );
