@@ -3,6 +3,7 @@ import Point from './geom/Point';
 import Dimensions from './geom/Dimensions';
 import Rect from './geom/Rect';
 import { Padding, Translatable } from './geom/types';
+import { LayoutOptions } from './layouts';
 
 // x, y
 export type PointTuple = [number, number];
@@ -11,6 +12,7 @@ export interface Layout {
   layout(): void;
   stop(): void;
   destroy(): void;
+  getLayoutOptions?: () => LayoutOptions;
 }
 
 export interface Model {
@@ -274,6 +276,7 @@ export interface Graph<E extends GraphModel = GraphModel, D = any> extends Graph
   getLayout(): string | undefined;
   setLayout(type: string | undefined): void;
   layout(): void;
+  getLayoutOptions?: () => LayoutOptions;
   getLayers(): string[];
   setLayers(layers: string[]): void;
 

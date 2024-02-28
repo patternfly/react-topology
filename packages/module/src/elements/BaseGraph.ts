@@ -19,6 +19,7 @@ import {
   ScaleDetailsThresholds
 } from '../types';
 import BaseElement from './BaseElement';
+import { LayoutOptions } from '../layouts';
 
 export default class BaseGraph<E extends GraphModel = GraphModel, D = any> extends BaseElement<E, D>
   implements Graph<E, D> {
@@ -34,6 +35,8 @@ export default class BaseGraph<E extends GraphModel = GraphModel, D = any> exten
 
   private currentLayout?: Layout = undefined;
 
+  private layoutOptions?: LayoutOptions = undefined;
+
   private scaleExtent: ScaleExtent = [0.25, 4];
 
   constructor() {
@@ -44,6 +47,7 @@ export default class BaseGraph<E extends GraphModel = GraphModel, D = any> exten
       | 'layers'
       | 'scale'
       | 'layoutType'
+      | 'layoutOptions'
       | 'dimensions'
       | 'position'
       | 'scaleExtent'
@@ -55,6 +59,7 @@ export default class BaseGraph<E extends GraphModel = GraphModel, D = any> exten
       layers: observable.ref,
       scale: observable,
       layoutType: observable,
+      layoutOptions: observable.deep,
       dimensions: observable.ref,
       position: observable.ref,
       scaleExtent: observable.ref,
@@ -175,6 +180,10 @@ export default class BaseGraph<E extends GraphModel = GraphModel, D = any> exten
     return this.layoutType;
   }
 
+  getLayoutOptions(): LayoutOptions | undefined {
+    return this.layoutOptions;
+  }
+
   setLayout(layout: string | undefined): void {
     if (layout === this.layoutType) {
       return;
@@ -182,10 +191,12 @@ export default class BaseGraph<E extends GraphModel = GraphModel, D = any> exten
 
     if (this.currentLayout) {
       this.currentLayout.destroy();
+      this.layoutOptions = undefined;
     }
 
     this.layoutType = layout;
     this.currentLayout = layout ? this.getController().getLayout(layout) : undefined;
+    this.layoutOptions = this.currentLayout?.getLayoutOptions?.();
   }
 
   layout(): void {

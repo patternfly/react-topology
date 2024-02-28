@@ -2,7 +2,7 @@ import React from 'react';
 import { Checkbox, ToolbarItem } from '@patternfly/react-core';
 
 export const usePipelineOptions = (
-  allowGroups = false
+  isLayout = false,
 ): {
   contextToolbar: React.ReactNode;
   showContextMenu: boolean;
@@ -10,11 +10,13 @@ export const usePipelineOptions = (
   showIcons: boolean;
   showGroups: boolean;
   badgeTooltips: boolean;
+  verticalLayout: boolean;
 } => {
   const [showContextMenu, setShowContextMenu] = React.useState<boolean>(false);
   const [showBadges, setShowBadges] = React.useState<boolean>(false);
   const [showIcons, setShowIcons] = React.useState<boolean>(false);
   const [showGroups, setShowGroups] = React.useState<boolean>(false);
+  const [verticalLayout, setVerticalLayout] = React.useState<boolean>(false);
   const [badgeTooltips, setBadgeTooltips] = React.useState<boolean>(false);
 
   const contextToolbar = (
@@ -31,13 +33,18 @@ export const usePipelineOptions = (
       <ToolbarItem>
         <Checkbox id="menus-switch" isChecked={showContextMenu} onChange={(_event, checked) => setShowContextMenu(checked)} label="Context menus" />
       </ToolbarItem>
-      {allowGroups ? (
-        <ToolbarItem>
-          <Checkbox id="groups-switch" isChecked={showGroups} onChange={(_event, checked) => setShowGroups(checked)} label="Show groups" />
-        </ToolbarItem>
+      {isLayout ? (
+        <>
+          <ToolbarItem>
+            <Checkbox id="groups-switch" isChecked={showGroups} onChange={(_event, checked) => setShowGroups(checked)} label="Show groups" />
+          </ToolbarItem>
+          <ToolbarItem>
+            <Checkbox id="vertical-switch" isChecked={verticalLayout} onChange={(_event, checked) => setVerticalLayout(checked)} label="Vertical layout" />
+          </ToolbarItem>
+        </>
       ) : null}
     </>
   );
 
-  return { contextToolbar, showContextMenu, showBadges, showIcons, showGroups, badgeTooltips };
+  return { contextToolbar, showContextMenu, showBadges, showIcons, showGroups, badgeTooltips, verticalLayout };
 };
