@@ -2,7 +2,6 @@ import * as React from 'react';
 import {
   BadgeLocation,
   EdgeAnimationSpeed,
-  EdgeModel,
   EdgeStyle,
   EdgeTerminalType,
   LabelPosition,
@@ -10,8 +9,8 @@ import {
   NodeShape,
   NodeStatus
 } from '@patternfly/react-topology';
-import { DataTypes } from '../components/StyleNode';
-import { logos } from './logos';
+import { DataTypes } from './StyleNode';
+import { logos } from '../../utils/logos';
 
 export const ROW_HEIGHT = 140;
 export const BOTTOM_LABEL_ROW_HEIGHT = 165;
@@ -20,13 +19,6 @@ export const RIGHT_LABEL_COLUMN_WIDTH = 200;
 
 export const DEFAULT_NODE_SIZE = 75;
 
-export const NODE_STATUSES = [
-  NodeStatus.danger,
-  NodeStatus.success,
-  NodeStatus.warning,
-  NodeStatus.info,
-  NodeStatus.default
-];
 export const NODE_SHAPES = [
   NodeShape.ellipse,
   NodeShape.rect,
@@ -151,33 +143,6 @@ export const createNode = (options: {
   }
   return nodeModel;
 };
-
-export const createEdge = (
-  sourceId: string,
-  targetId: string,
-  options: {
-    style?: EdgeStyle;
-    animation?: EdgeAnimationSpeed;
-    terminalType?: EdgeTerminalType;
-    terminalStatus?: NodeStatus;
-    tag?: string;
-    tagStatus?: string;
-  }
-): EdgeModel => ({
-  id: `edge-${sourceId}-${targetId}`,
-  type: 'edge',
-  source: sourceId,
-  target: targetId,
-  edgeStyle: options.style,
-  animationSpeed: options.animation,
-  // data items are used to pass to the component to show various option, demo purposes only
-  data: {
-    endTerminalType: options.terminalType,
-    endTerminalStatus: options.terminalStatus,
-    tag: options.tag,
-    tagStatus: options.tagStatus
-  }
-});
 
 const createStatusNodes = (
   shape: NodeShape,

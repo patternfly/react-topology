@@ -1,8 +1,8 @@
 import { ComponentType } from 'react';
 import { GraphElement, ComponentFactory, ModelKind, GraphComponent, DefaultNode } from '@patternfly/react-topology';
-import Edge from './DefaultEdge';
+import Edge from './DemoDefaultEdge';
 import MultiEdge from './MultiEdge';
-import Group from './DefaultGroup';
+import Group from './DemoDefaultGroup';
 import GroupHull from './GroupHull';
 
 const defaultComponentFactory: ComponentFactory = (

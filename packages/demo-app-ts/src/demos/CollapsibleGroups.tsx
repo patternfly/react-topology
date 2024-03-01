@@ -25,7 +25,7 @@ import { ToolbarGroup, ToolbarItem, Checkbox } from '@patternfly/react-core';
 import defaultLayoutFactory from '../layouts/defaultLayoutFactory';
 import data from '../data/group-types';
 import GroupHull from '../components/GroupHull';
-import Group from '../components/DefaultGroup';
+import Group from '../components/DemoDefaultGroup';
 import DemoDefaultNode from '../components/DemoDefaultNode';
 import defaultComponentFactory from '../components/defaultComponentFactory';
 

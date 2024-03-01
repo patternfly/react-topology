@@ -13,16 +13,16 @@ import {
 import defaultLayoutFactory from '../layouts/defaultLayoutFactory';
 import defaultComponentFactory from '../components/defaultComponentFactory';
 import GroupHull from '../components/GroupHull';
-import Group from '../components/DefaultGroup';
+import Group from '../components/DemoDefaultGroup';
 import DemoDefaultNode from '../components/DemoDefaultNode';
 import withTopologySetup from '../utils/withTopologySetup';
-import { generateDataModel } from '../data/generator';
-import stylesComponentFactory from '../components/stylesComponentFactory';
+import { generateDataModel } from './topologyPackageDemo/generator';
+import stylesComponentFactory from './stylesDemo/stylesComponentFactory';
 import { Tab, Tabs, TabTitleText } from '@patternfly/react-core';
 
 const getModel = (layout: string): Model => {
   // create nodes from data
-  const model = generateDataModel(200, 5, 20);
+  const model = generateDataModel(200, 5, 20, 0);
   model.graph = {
     id: 'g1',
     type: 'graph',

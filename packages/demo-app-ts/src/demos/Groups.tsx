@@ -15,7 +15,7 @@ import {
   GraphElement
 } from '@patternfly/react-topology';
 import defaultComponentFactory from '../components/defaultComponentFactory';
-import DefaultGroup from '../components/DefaultGroup';
+import DefaultGroup from '../components/DemoDefaultGroup';
 import DemoDefaultNode from '../components/DemoDefaultNode';
 import defaultLayoutFactory from '../layouts/defaultLayoutFactory';
 import withTopologySetup from '../utils/withTopologySetup';
