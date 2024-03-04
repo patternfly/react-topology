@@ -4,7 +4,7 @@ import { PipelineNodeModel, RunStatus } from '@patternfly/react-topology';
 export const NODE_PADDING_VERTICAL = 15;
 export const NODE_PADDING_HORIZONTAL = 15;
 
-export const GROUP_PADDING_VERTICAL = 15;
+export const GROUP_PADDING_VERTICAL = 50;
 export const GROUP_PADDING_HORIZONTAL = 25;
 
 export const DEFAULT_TASK_WIDTH = 180;

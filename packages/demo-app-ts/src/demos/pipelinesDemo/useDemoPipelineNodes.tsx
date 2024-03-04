@@ -4,6 +4,7 @@ import {
   DEFAULT_TASK_NODE_TYPE,
   DEFAULT_WHEN_OFFSET,
   DEFAULT_WHEN_SIZE,
+  LabelPosition,
   PipelineNodeModel,
   RunStatus,
   WhenStatus
@@ -149,7 +150,10 @@ export const useDemoPipelineNodes = (
           type: 'task-group',
           children: parallelTasks.map((t) => t.id),
           group: true,
-          label: 'Parallel tasks'
+          label: 'Parallel tasks',
+          data: {
+            badge: 'Label',
+          }
         });
       }
     }
@@ -190,7 +194,8 @@ export const useDemoPipelineNodes = (
               type: 'task-group',
               children: [],
               group: true,
-              label: `Group ${task.data.columnGroup}`
+              label: `Group ${task.data.columnGroup}`, 
+              labelPosition: LabelPosition.top
             };
             acc.push(taskGroup);
           }
