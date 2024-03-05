@@ -1,9 +1,6 @@
 import * as React from 'react';
-import { action } from 'mobx';
 import {
-  createTopologyControlButtons,
   DagreLayout,
-  defaultControlButtonsOptions,
   EdgeModel,
   Graph,
   Layout,
@@ -13,7 +10,6 @@ import {
   NodeModel,
   NodeShape,
   SELECTION_EVENT,
-  TopologyControlBar,
   TopologyView,
   useVisualizationController,
   Visualization,
@@ -22,6 +18,7 @@ import {
 } from '@patternfly/react-topology';
 import defaultComponentFactory from '../../components/defaultComponentFactory';
 import statusConnectorsComponentFactory from './statusConnectorsComponentFactory';
+import DemoControlBar from '../DemoControlBar';
 
 const DEFAULT_CHAR_WIDTH = 8;
 const DEFAULT_NODE_SIZE = 75;
@@ -200,29 +197,7 @@ export const StatusConnectorsDemo: React.FunctionComponent= () => {
   }, [controller]);
 
   return (
-    <TopologyView
-      controlBar={
-        <TopologyControlBar
-          controlButtons={createTopologyControlButtons({
-            ...defaultControlButtonsOptions,
-            zoomInCallback: action(() => {
-              controller.getGraph().scaleBy(4 / 3);
-            }),
-            zoomOutCallback: action(() => {
-              controller.getGraph().scaleBy(0.75);
-            }),
-            fitToScreenCallback: action(() => {
-              controller.getGraph().fit(80);
-            }),
-            resetViewCallback: action(() => {
-              controller.getGraph().reset();
-              controller.getGraph().layout();
-            }),
-            legend: false
-          })}
-        />
-      }
-    >
+    <TopologyView controlBar={<DemoControlBar />}  >
       <VisualizationSurface state={{ selectedIds }} />
     </TopologyView>
   );

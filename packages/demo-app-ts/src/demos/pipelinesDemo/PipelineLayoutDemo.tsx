@@ -92,7 +92,7 @@ const TopologyPipelineLayout: React.FC = observer(() => {
 
 TopologyPipelineLayout.displayName = 'TopologyPipelineLayout';
 
-export const PipelineLayout = React.memo(() => {
+export const PipelineLayoutDemo = React.memo(() => {
   const controller = new Visualization();
   controller.setFitToScreenOnLayout(true);
   controller.registerComponentFactory(pipelineComponentFactory);
@@ -123,10 +123,12 @@ export const PipelineLayout = React.memo(() => {
   });
 
   return (
-    <VisualizationProvider controller={controller}>
-      <PipelineDemoContext.Provider value={new PipelineDemoModel()}>
-        <TopologyPipelineLayout />
-      </PipelineDemoContext.Provider>
-    </VisualizationProvider>
+    <div className="pf-ri__topology-demo">
+      <VisualizationProvider controller={controller}>
+        <PipelineDemoContext.Provider value={new PipelineDemoModel()}>
+          <TopologyPipelineLayout />
+        </PipelineDemoContext.Provider>
+      </VisualizationProvider>
+    </div>
   );
 });
