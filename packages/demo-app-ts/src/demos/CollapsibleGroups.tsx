@@ -2,9 +2,6 @@ import * as React from 'react';
 import { action } from 'mobx';
 import {
   TopologyView,
-  TopologyControlBar,
-  createTopologyControlButtons,
-  defaultControlButtonsOptions,
   EdgeModel,
   Model,
   ModelKind,
@@ -28,6 +25,7 @@ import GroupHull from '../components/GroupHull';
 import Group from '../components/DemoDefaultGroup';
 import DemoDefaultNode from '../components/DemoDefaultNode';
 import defaultComponentFactory from '../components/defaultComponentFactory';
+import DemoControlBar from './DemoControlBar';
 
 const getModel = (collapseTypes: string[] = []): Model => {
   // create nodes from data
@@ -209,30 +207,7 @@ const TopologyViewComponent: React.FunctionComponent<TopologyViewComponentProps>
   }, [vis, collapseBlue, collapseLightBlue, collapseCyan, collapseOrange, collapsePink]);
 
   return (
-    <TopologyView
-      controlBar={
-        <TopologyControlBar
-          controlButtons={createTopologyControlButtons({
-            ...defaultControlButtonsOptions,
-            zoomInCallback: action(() => {
-              vis.getGraph().scaleBy(4 / 3);
-            }),
-            zoomOutCallback: action(() => {
-              vis.getGraph().scaleBy(0.75);
-            }),
-            fitToScreenCallback: action(() => {
-              vis.getGraph().fit(80);
-            }),
-            resetViewCallback: action(() => {
-              vis.getGraph().reset();
-              vis.getGraph().layout();
-            }),
-            legend: false
-          })}
-        />
-      }
-      viewToolbar={viewToolbar}
-    >
+    <TopologyView controlBar={<DemoControlBar />} viewToolbar={viewToolbar}>
       <VisualizationSurface state={{ selectedIds }} />
     </TopologyView>
   );

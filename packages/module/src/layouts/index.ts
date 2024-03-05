@@ -4,6 +4,7 @@ export * from './ColaLayout';
 export * from './ColaGroupsLayout';
 export * from './ConcentricLayout';
 export * from './DagreLayout';
+export * from './DagreGroupsLayout';
 export * from './ForceLayout';
 export * from './GridLayout';
 export * from './LayoutNode';
