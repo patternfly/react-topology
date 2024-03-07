@@ -1,4 +1,6 @@
-import { TopologyPipelineDemo } from './demos/pipelinesDemo/TopologyPipelineDemo';
+import { PipelineTasksDemo } from './demos/pipelinesDemo/PipelineTasksDemo';
+import { PipelineLayoutDemo } from './demos/pipelinesDemo/PipelineLayoutDemo';
+import { PipelineGroupsDemo } from './demos/pipelineGroupsDemo/PipelineGroupsDemo';
 import { Basics } from './demos/Basics';
 import { StyleEdges, StyleGroups, StyleLabels, StyleNodes } from './demos/stylesDemo/Styles';
 import { Selection } from './demos/Selection';
@@ -36,9 +38,25 @@ export const Demos: DemoInterface[] = [
     isDefault: true,
   },
   {
-    id: 'topology-pipelines-demo',
-    name: 'Topology Pipelines',
-    componentType: TopologyPipelineDemo
+    id: 'pipelines',
+    name: 'Pipelines',
+    demos: [
+      {
+        id: 'pipelines-tasks-demo',
+        name: 'Task Nodes',
+        componentType: PipelineTasksDemo
+      },
+      {
+        id: 'pipelines-layout-demo',
+        name: 'Pipeline Layout',
+        componentType: PipelineLayoutDemo
+      },
+      {
+        id: 'pipelines-groups-layout-demo',
+        name: 'Pipeline Groups Layout',
+        componentType: PipelineGroupsDemo,
+      },
+    ]
   },
   {
     id: 'status-connectors',

@@ -59,7 +59,9 @@
   fill: var(--pf-v5-global--palette--light-blue-200);
 }
 
-.pf-v5-c-page__main-section#\/topology-demo-page-section, .pf-v5-c-page__main-section#\/topology-pipelines-demo-page-section {
+.pf-v5-c-page__main-section#\/topology-demo-page-section,
+.pf-v5-c-page__main-section#\/topology-pipelines-demo-page-section,
+.pf-v5-c-page__main-section#\/topology-pipelines-groups-demo-page-section {
   --pf-v5-c-page__main-section--PaddingTop: 0;
   --pf-v5-c-page__main-section--PaddingRight: 0;
   --pf-v5-c-page__main-section--PaddingLeft: 0;

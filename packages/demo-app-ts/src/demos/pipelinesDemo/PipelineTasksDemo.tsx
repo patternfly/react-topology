@@ -56,14 +56,16 @@ export const PipelineTasks: React.FC = observer(() => {
 
 PipelineTasks.displayName = 'PipelineTasks';
 
-export const TopologyPipelineTasks = React.memo(() => {
+export const PipelineTasksDemo = React.memo(() => {
   const controller = new Visualization();
   controller.registerComponentFactory(pipelineComponentFactory);
   return (
-    <VisualizationProvider controller={controller}>
-      <PipelineDemoContext.Provider value={new PipelineDemoModel()}>
-        <PipelineTasks />
-      </PipelineDemoContext.Provider>
-    </VisualizationProvider>
+    <div className="pf-ri__topology-demo">
+      <VisualizationProvider controller={controller}>
+        <PipelineDemoContext.Provider value={new PipelineDemoModel()}>
+          <PipelineTasks />
+        </PipelineDemoContext.Provider>
+      </VisualizationProvider>
+    </div>
   );
 });

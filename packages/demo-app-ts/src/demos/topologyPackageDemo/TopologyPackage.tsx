@@ -1,14 +1,10 @@
 import * as React from 'react';
-import { action } from 'mobx';
 import { Tab, Tabs, TabTitleText } from '@patternfly/react-core';
 import {
-  createTopologyControlButtons,
-  defaultControlButtonsOptions,
   GRAPH_POSITION_CHANGE_EVENT,
   GRAPH_LAYOUT_END_EVENT,
   SELECTION_EVENT,
   SelectionEventListener,
-  TopologyControlBar,
   TopologySideBar,
   TopologyView,
   useEventListener,
@@ -25,6 +21,7 @@ import OptionsViewBar from './OptionsViewBar';
 import { DemoContext } from './DemoContext';
 import demoComponentFactory from './demoComponentFactory';
 import { graphPositionChangeListener, layoutEndListener } from './listeners';
+import DemoControlBar from '../DemoControlBar';
 
 interface TopologyViewComponentProps {
   useSidebar: boolean;
@@ -89,27 +86,7 @@ const TopologyViewComponent: React.FunctionComponent<TopologyViewComponentProps>
 
   return (
     <TopologyView
-      controlBar={
-        <TopologyControlBar
-          controlButtons={createTopologyControlButtons({
-            ...defaultControlButtonsOptions,
-            zoomInCallback: action(() => {
-              controller.getGraph().scaleBy(4 / 3);
-            }),
-            zoomOutCallback: action(() => {
-              controller.getGraph().scaleBy(0.75);
-            }),
-            fitToScreenCallback: action(() => {
-              controller.getGraph().fit(80);
-            }),
-            resetViewCallback: action(() => {
-              controller.getGraph().reset();
-              controller.getGraph().layout();
-            }),
-            legend: false
-          })}
-        />
-      }
+      controlBar={<DemoControlBar />}
       contextToolbar={<OptionsContextBar />}
       viewToolbar={<OptionsViewBar controller={controller} /> }
       sideBar={useSidebar && topologySideBar}
