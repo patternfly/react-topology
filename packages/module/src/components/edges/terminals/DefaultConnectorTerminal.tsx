@@ -10,6 +10,7 @@ import ConnectorSquare from './ConnectorSquare';
 import ConnectorCircle from './ConnectorCircle';
 import ConnectorArrowAlt from './ConnectorArrowAlt';
 import { StatusModifier } from '../../../utils';
+import Point from '../../../geom/Point';
 
 interface EdgeConnectorArrowProps {
   edge: Edge;
@@ -20,6 +21,8 @@ interface EdgeConnectorArrowProps {
   terminalType?: EdgeTerminalType;
   size?: number;
   dragRef?: ConnectDragSource;
+  startPoint?: Point;
+  endPoint?: Point;
 }
 
 const DefaultConnectorTerminal: React.FunctionComponent<EdgeConnectorArrowProps> = ({
@@ -54,7 +57,9 @@ const DefaultConnectorTerminal: React.FunctionComponent<EdgeConnectorArrowProps>
     return null;
   }
   const bendPoints = edge.getBendpoints();
-  const startPoint = isTarget ? bendPoints[bendPoints.length - 1] || edge.getStartPoint() : bendPoints[0] || edge.getEndPoint();
+  const startPoint = isTarget
+  ? edge.getBendpoints[bendPoints.length - 1] || edge.getStartPoint()
+  : bendPoints[0] || edge.getEndPoint();
   const endPoint = isTarget ? edge.getEndPoint() : edge.getStartPoint();
   const classes = css(styles.topologyEdge, className, StatusModifier[status]);
 

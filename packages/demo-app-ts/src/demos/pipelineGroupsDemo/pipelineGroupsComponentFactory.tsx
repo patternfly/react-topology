@@ -7,11 +7,11 @@ import {
   DEFAULT_SPACER_NODE_TYPE,
   withSelection,
   withPanZoom,
-  GraphComponent,
-  TaskEdge
+  GraphComponent
 } from '@patternfly/react-topology';
 import DemoTaskNode from './DemoTaskNode';
 import DemoTaskGroup from './DemoTaskGroup';
+import DemoTaskEdge from './DemoTaskEdge';
 
 const pipelineGroupsComponentFactory: ComponentFactory = (
   kind: ModelKind,
@@ -28,7 +28,8 @@ const pipelineGroupsComponentFactory: ComponentFactory = (
     case DEFAULT_SPACER_NODE_TYPE:
       return SpacerNode;
     case 'edge':
-      return TaskEdge;
+      // draw arrow terminal when isDependency is set on data
+      return DemoTaskEdge;
     default:
       return undefined;
   }

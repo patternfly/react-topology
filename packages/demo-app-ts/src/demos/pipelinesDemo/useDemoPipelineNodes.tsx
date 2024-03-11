@@ -6,7 +6,7 @@ import {
   DEFAULT_WHEN_SIZE,
   PipelineNodeModel,
   RunStatus,
-  WhenStatus,
+  WhenStatus
 } from '@patternfly/react-topology';
 
 export const NODE_PADDING_VERTICAL = 45;
@@ -147,7 +147,7 @@ export const useDemoPipelineNodes = (
         tasks.push({
           id: `group-parallels`,
           type: 'task-group',
-          children: parallelTasks.map(t => t.id),
+          children: parallelTasks.map((t) => t.id),
           group: true,
           label: 'Parallel tasks'
         });
@@ -176,7 +176,7 @@ export const useDemoPipelineNodes = (
     const finallyGroup = {
       id: 'finally-group',
       type: 'finally-group',
-      children: finallyNodes.map(n => n.id),
+      children: finallyNodes.map((n) => n.id),
       group: true
     };
 
@@ -221,8 +221,8 @@ export const useDemoPipelineNodes = (
       taskProgress: '3/4',
       taskType: 'java',
       taskTopic: 'Environment',
-      columnGroup: TASK_STATUSES.length % STATUS_PER_ROW + 1,
-      taskJobType: 'cubes',
+      columnGroup: (TASK_STATUSES.length % STATUS_PER_ROW) + 1,
+      taskJobType: 'cubes'
     };
 
     if (!layout) {
@@ -250,8 +250,8 @@ export const useDemoPipelineNodes = (
       taskProgress: '3/4',
       taskType: 'java',
       taskTopic: 'Environment',
-      columnGroup: TASK_STATUSES.length % STATUS_PER_ROW + 1,
-      taskJobType: 'link',
+      columnGroup: (TASK_STATUSES.length % STATUS_PER_ROW) + 1,
+      taskJobType: 'link'
     };
 
     if (!layout) {
