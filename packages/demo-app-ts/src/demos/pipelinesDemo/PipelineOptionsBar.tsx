@@ -40,6 +40,14 @@ const PipelineOptionsBar: React.FC<{ isLayout?: boolean }> = observer(({ isLayou
           label="Context menus"
         />
       </ToolbarItem>
+      <ToolbarItem>
+        <Checkbox
+          id="terminal-switch"
+          isChecked={pipelineOptions.showTerminalType}
+          onChange={(_event, checked) => pipelineOptions.setShowTerminalType(checked)}
+          label="Directional edges"
+        />
+      </ToolbarItem>
       {isLayout ? (
         <>
           <ToolbarItem>

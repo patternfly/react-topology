@@ -101,7 +101,7 @@ const DefaultEdgeInner: React.FunctionComponent<DefaultEdgeInnerProps> = observe
   className,
   selected,
   onSelect,
-  onContextMenu
+  onContextMenu,
 }) => {
   const [hover, hoverRef] = useHover();
   const startPoint = element.getStartPoint();

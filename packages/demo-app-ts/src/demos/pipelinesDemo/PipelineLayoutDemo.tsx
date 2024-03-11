@@ -15,12 +15,13 @@ import {
   GRAPH_LAYOUT_END_EVENT,
   getSpacerNodes,
   getEdgesFromNodes,
-  DEFAULT_EDGE_TYPE,
   DEFAULT_SPACER_NODE_TYPE,
   DEFAULT_FINALLY_NODE_TYPE,
   TOP_TO_BOTTOM,
   LEFT_TO_RIGHT,
-  observer
+  observer,
+  DEFAULT_EDGE_TYPE,
+  DEFAULT_FINALLY_EDGE_TYPE
 } from '@patternfly/react-topology';
 import pipelineComponentFactory, { GROUPED_EDGE_TYPE } from './pipelineComponentFactory';
 import { useDemoPipelineNodes } from './useDemoPipelineNodes';
@@ -54,12 +55,12 @@ const TopologyPipelineLayout: React.FC = observer(() => {
     const nodes = [...pipelineNodes, ...spacerNodes];
     const edgeType = pipelineOptions.showGroups ? GROUPED_EDGE_TYPE : DEFAULT_EDGE_TYPE;
     const edges = getEdgesFromNodes(
-      nodes.filter(n => !n.group),
+      nodes.filter((n) => !n.group),
       DEFAULT_SPACER_NODE_TYPE,
       edgeType,
       edgeType,
       [DEFAULT_FINALLY_NODE_TYPE],
-      edgeType
+      DEFAULT_FINALLY_EDGE_TYPE
     );
 
     controller.fromModel(
@@ -69,7 +70,9 @@ const TopologyPipelineLayout: React.FC = observer(() => {
           type: 'graph',
           x: 25,
           y: 25,
-          layout: `${pipelineOptions.showGroups ? GROUP_PREFIX : ''}${PIPELINE_LAYOUT}${pipelineOptions.verticalLayout ? VERTICAL_SUFFIX : ''}`
+          layout: `${pipelineOptions.showGroups ? GROUP_PREFIX : ''}${PIPELINE_LAYOUT}${
+            pipelineOptions.verticalLayout ? VERTICAL_SUFFIX : ''
+          }`
         },
         nodes,
         edges
@@ -79,7 +82,7 @@ const TopologyPipelineLayout: React.FC = observer(() => {
     controller.getGraph().layout();
   }, [controller, pipelineNodes, pipelineOptions.showGroups, pipelineOptions.verticalLayout]);
 
-  useEventListener<SelectionEventListener>(SELECTION_EVENT, ids => {
+  useEventListener<SelectionEventListener>(SELECTION_EVENT, (ids) => {
     setSelectedIds(ids);
   });
 
@@ -101,8 +104,9 @@ export const PipelineLayoutDemo = React.memo(() => {
       new PipelineDagreLayout(graph, {
         nodesep: PIPELINE_NODE_SEPARATION_VERTICAL,
         rankdir: type.endsWith(VERTICAL_SUFFIX) ? TOP_TO_BOTTOM : LEFT_TO_RIGHT,
-        ranksep:
-          type.startsWith(GROUP_PREFIX) ? GROUPED_PIPELINE_NODE_SEPARATION_HORIZONTAL : NODE_SEPARATION_HORIZONTAL,
+        ranksep: type.startsWith(GROUP_PREFIX)
+          ? GROUPED_PIPELINE_NODE_SEPARATION_HORIZONTAL
+          : NODE_SEPARATION_HORIZONTAL,
         ignoreGroups: true
       })
   );

@@ -15,11 +15,13 @@ import {
   withSelection,
   withPanZoom,
   GraphComponent,
-  TaskEdge
+  DEFAULT_FINALLY_EDGE_TYPE
 } from '@patternfly/react-topology';
 import DemoTaskNode from './DemoTaskNode';
 import DemoFinallyNode from './DemoFinallyNode';
 import DemoTaskGroupEdge from './DemoTaskGroupEdge';
+import DemoFinallyTaskEdge from './DemoFinallyTaskEdge';
+import DemoTaskEdge from './DemoTaskEdge';
 
 export const GROUPED_EDGE_TYPE = 'GROUPED_EDGE';
 
@@ -59,7 +61,9 @@ const pipelineComponentFactory: ComponentFactory = (
       return SpacerNode;
     case 'finally-spacer-edge':
     case DEFAULT_EDGE_TYPE:
-      return TaskEdge;
+      return DemoTaskEdge;
+    case DEFAULT_FINALLY_EDGE_TYPE:
+      return DemoFinallyTaskEdge;
     case GROUPED_EDGE_TYPE:
       return DemoTaskGroupEdge;
     default:
