@@ -21,7 +21,7 @@ const OptionsContextBar: React.FC = observer(() => {
   const [numNodes, setNumNodes] = React.useState<number>(options.creationCounts.numNodes);
   const [numEdges, setNumEdges] = React.useState<number>(options.creationCounts.numEdges);
   const [numGroups, setNumGroups] = React.useState<number>(options.creationCounts.numGroups);
-  const [nestedLevel, setNestedLevel] = React.useState<number>(options.nestedLevel);
+  const [nestedLevel, setNestedLevel] = React.useState<number>(options.creationCounts.nestedLevel);
 
   const renderNodeOptionsDropdown = () => {
     const nodeOptionsToggle = (toggleRef: React.Ref<MenuToggleElement>) => (
@@ -268,7 +268,7 @@ const OptionsContextBar: React.FC = observer(() => {
             <Button
               variant="link"
               isDisabled={numNodes === undefined || numNodes < 1 || numEdges === undefined || numGroups === undefined}
-              onClick={() => options.setCreationCounts({ numNodes, numEdges, numGroups })}
+              onClick={() => options.setCreationCounts({ numNodes, numEdges, numGroups, nestedLevel })}
             >
               Apply
             </Button>

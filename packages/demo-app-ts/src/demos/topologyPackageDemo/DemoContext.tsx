@@ -23,11 +23,11 @@ export class DemoModel {
     showTags: false,
     terminalTypes: false,
   };
-  protected nestedLevelP: number = 0;
-  protected creationCountsP: { numNodes: number; numEdges: number; numGroups: number } = {
+  protected creationCountsP: { numNodes: number; numEdges: number; numGroups: number, nestedLevel: number } = {
     numNodes: 6,
     numEdges: 2,
     numGroups: 1,
+    nestedLevel: 0
   };
   protected layoutP: string = 'ColaNoForce';
   protected medScaleP: number = 0.5;
@@ -38,14 +38,12 @@ export class DemoModel {
       DemoModel,
       | 'nodeOptionsP'
       | 'edgeOptionsP'
-      | 'nestedLevelP'
       | 'creationCountsP'
       | 'layoutP'
       | 'medScaleP'
       | 'lowScaleP'
       | 'setNodeOptions'
       | 'setEdgeOptions'
-      | 'setNestedLevel'
       | 'setCreationCounts'
       | 'setLayout'
       | 'setMedScale'
@@ -53,14 +51,12 @@ export class DemoModel {
       >(this, {
       nodeOptionsP: observable.ref,
       edgeOptionsP: observable.shallow,
-      nestedLevelP: observable,
       creationCountsP: observable.shallow,
       layoutP: observable,
       medScaleP: observable,
       lowScaleP: observable,
       setNodeOptions: action,
       setEdgeOptions: action,
-      setNestedLevel: action,
       setCreationCounts: action,
       setLayout: action,
       setMedScale: action,
@@ -82,17 +78,11 @@ export class DemoModel {
     this.edgeOptionsP = options;
   }
 
-  public get nestedLevel(): number {
-    return this.nestedLevelP;
-  }
-  public setNestedLevel = (show: number): void => {
-    this.nestedLevelP = show;
-  }
-
-  public get creationCounts(): { numNodes: number; numEdges: number; numGroups: number } {
+  public get creationCounts(): { numNodes: number; numEdges: number; numGroups: number, nestedLevel: number } {
     return this.creationCountsP;
   }
-  public setCreationCounts = (counts: { numNodes: number; numEdges: number; numGroups: number }): void => {
+
+  public setCreationCounts = (counts: { numNodes: number; numEdges: number; numGroups: number, nestedLevel: number }): void => {
     this.creationCountsP = counts;
   }
 
