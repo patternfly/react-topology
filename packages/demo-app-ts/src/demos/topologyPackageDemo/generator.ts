@@ -138,7 +138,7 @@ export const generateDataModel = (
       type: 'group',
       group: true,
       label: id,
-      style: { padding: 15 },
+      style: { padding: 45 },
       data: {
         objectType: 'GN',
       }
