@@ -185,7 +185,7 @@ export const getEdgesFromNodes = (
     finallyNodes.forEach(finallyNode => {
       edges.push({
         id: `${finallyId}-${finallyNode.id}`,
-        type: spacerEdgeType,
+        type: finallyEdgeType,
         source: finallyId,
         target: finallyNode.id
       });
