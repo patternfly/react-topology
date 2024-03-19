@@ -22,7 +22,6 @@ interface EdgeConnectorArrowProps {
   size?: number;
   dragRef?: ConnectDragSource;
   startPoint?: Point;
-  endPoint?: Point;
 }
 
 const DefaultConnectorTerminal: React.FunctionComponent<EdgeConnectorArrowProps> = ({
