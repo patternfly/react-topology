@@ -28,8 +28,8 @@ export default class TaskNodeTargetAnchor<E extends Node = Node> extends Abstrac
         const scale = this.owner.getGraph().getScale();
         return new Point(bounds.x + (this.lowDetailsStatusIconSize / 2 + 2) * (1 / scale), bounds.y);
       }
-      return new Point(bounds.x + bounds.width / 2, bounds.y);
+      return new Point(bounds.x + bounds.width / 2, bounds.y - this.whenOffset);
     }
-    return new Point(bounds.x + this.whenOffset, bounds.y + bounds.height / 2);
+    return new Point(bounds.x, bounds.y + bounds.height / 2);
   }
 }
