@@ -23,15 +23,16 @@ import {
   DEFAULT_EDGE_TYPE,
   DEFAULT_FINALLY_EDGE_TYPE
 } from '@patternfly/react-topology';
-import pipelineComponentFactory, { GROUPED_EDGE_TYPE } from './pipelineComponentFactory';
+import pipelineComponentFactory, {
+  GROUPED_EDGE_TYPE,
+  SPACER_EDGE_TYPE
+} from './pipelineComponentFactory';
 import { useDemoPipelineNodes } from './useDemoPipelineNodes';
 import { GROUPED_PIPELINE_NODE_SEPARATION_HORIZONTAL } from './DemoTaskGroupEdge';
 import { PipelineDemoContext, PipelineDemoModel } from './PipelineDemoContext';
 import PipelineOptionsBar from './PipelineOptionsBar';
 
 export const PIPELINE_NODE_SEPARATION_VERTICAL = 65;
-
-export const LAYOUT_TITLE = 'Layout';
 
 const GROUP_PREFIX = 'Grouped_';
 const VERTICAL_SUFFIX = '_Vertical';
@@ -58,7 +59,7 @@ const TopologyPipelineLayout: React.FC = observer(() => {
       nodes.filter((n) => !n.group),
       DEFAULT_SPACER_NODE_TYPE,
       edgeType,
-      edgeType,
+      SPACER_EDGE_TYPE,
       [DEFAULT_FINALLY_NODE_TYPE],
       DEFAULT_FINALLY_EDGE_TYPE
     );
