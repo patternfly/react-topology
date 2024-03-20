@@ -22,6 +22,7 @@ interface EdgeConnectorArrowProps {
   size?: number;
   dragRef?: ConnectDragSource;
   startPoint?: Point;
+  endPoint?: Point;
 }
 
 const DefaultConnectorTerminal: React.FunctionComponent<EdgeConnectorArrowProps> = ({
@@ -30,6 +31,8 @@ const DefaultConnectorTerminal: React.FunctionComponent<EdgeConnectorArrowProps>
   isTarget = true,
   terminalType,
   status,
+  startPoint,
+  endPoint,
   ...others
 }) => {
   let Terminal;
@@ -56,13 +59,21 @@ const DefaultConnectorTerminal: React.FunctionComponent<EdgeConnectorArrowProps>
     return null;
   }
   const bendPoints = edge.getBendpoints();
-  const startPoint = isTarget
-  ? edge.getBendpoints[bendPoints.length - 1] || edge.getStartPoint()
-  : bendPoints[0] || edge.getEndPoint();
-  const endPoint = isTarget ? edge.getEndPoint() : edge.getStartPoint();
+  const defaultStartPoint = isTarget
+    ? edge.getBendpoints[bendPoints.length - 1] || edge.getStartPoint()
+    : bendPoints[0] || edge.getEndPoint();
+  const defaultEndPoint = isTarget ? edge.getEndPoint() : edge.getStartPoint();
   const classes = css(styles.topologyEdge, className, StatusModifier[status]);
 
-  return <Terminal className={classes} startPoint={startPoint} endPoint={endPoint} isTarget={isTarget} {...others} />;
+  return (
+    <Terminal
+      className={classes}
+      startPoint={startPoint ?? defaultStartPoint}
+      endPoint={endPoint ?? defaultEndPoint}
+      isTarget={isTarget}
+      {...others}
+    />
+  );
 };
 
 export default observer(DefaultConnectorTerminal);
