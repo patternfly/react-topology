@@ -43,7 +43,7 @@ export const PipelineTasks: React.FC = observer(() => {
     );
   }, [controller, pipelineNodes]);
 
-  useEventListener<SelectionEventListener>(SELECTION_EVENT, ids => {
+  useEventListener<SelectionEventListener>(SELECTION_EVENT, (ids) => {
     setSelectedIds(ids);
   });
 

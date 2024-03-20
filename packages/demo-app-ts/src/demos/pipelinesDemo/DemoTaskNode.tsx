@@ -82,9 +82,8 @@ const DemoTaskNode: React.FunctionComponent<DemoTaskNodeProps> = ({
           badge={pipelineOptions.showBadges ? data.taskProgress : undefined}
           badgePopoverParams={pipelineOptions.showBadgeTooltips ? undefined : badgePopoverParams}
           badgeTooltip={pipelineOptions.showBadgeTooltips ? DEMO_TIP_TEXT : undefined}
-          hasWhenExpression={!!data.whenStatus}
-          whenOffset={DEFAULT_WHEN_OFFSET}
-          whenSize={DEFAULT_WHEN_SIZE}
+          whenOffset={data.whenStatus ? DEFAULT_WHEN_OFFSET : 0}
+          whenSize={data.whenStatus ? DEFAULT_WHEN_SIZE : 0}
           {...rest}
         >
           {whenDecorator}
