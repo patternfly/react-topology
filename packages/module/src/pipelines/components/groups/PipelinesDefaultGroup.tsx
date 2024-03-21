@@ -6,7 +6,8 @@ import { Dimensions } from '../../../geom';
 import { GraphElement, LabelPosition, BadgeLocation, isNode, Node } from '../../../types';
 import PipelinesDefaultGroupCollapsed from './PipelinesDefaultGroupCollapsed';
 import PipelinesDefaultGroupExpanded from './PipelinesDefaultGroupExpanded';
-
+import styles from '../../../css/topology-pipelines';
+import { css } from "@patternfly/react-styles";
 interface PipelinesDefaultGroupProps {
   /** Additional content added to the node */
   children?: React.ReactNode;
@@ -100,26 +101,20 @@ const PipelinesDefaultGroupInner: React.FunctionComponent<PipelinesDefaultGroupI
     if (element.isCollapsed()) {
       return (
         <PipelinesDefaultGroupCollapsed
-          className={className}
+          className={css(styles.topologyPipelinesGroupCollapsed, className)}
           element={element}
           onCollapseChange={handleCollapse}
           badge={`${childCount}`}
-          badgeColor="#f5f5f5"
-          badgeBorderColor="#d2d2d2"
-          badgeTextColor="#000000"
           {...rest}
         />
       );
     }
     return (
       <PipelinesDefaultGroupExpanded
-        className={className}
+        className={css(styles.topologyPipelinesGroupExpanded, className)}
         labelPosition={LabelPosition.top}
         element={element}
         onCollapseChange={handleCollapse}
-        badgeColor="#f5f5f5"
-        badgeBorderColor="#d2d2d2"
-        badgeTextColor="#000000"
         {...rest}
       />
     );
