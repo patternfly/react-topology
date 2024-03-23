@@ -1,78 +1,45 @@
 import * as React from 'react';
 import {
+  DefaultTaskGroup,
+  EdgeCreationTypes,
   GraphElement,
-  Node,
+  LabelPosition,
+  observer,
   ScaleDetailsLevel,
-  ShapeProps,
   WithContextMenuProps,
   WithDragNodeProps,
   WithSelectionProps,
-  PipelinesDefaultGroup,
-  AnchorEnd,
-  DagreLayoutOptions,
-  TOP_TO_BOTTOM,
-  useAnchor,
-  Dimensions
 } from '@patternfly/react-topology';
-
-export enum DataTypes {
-  Default,
-  Alternate
-}
+import { GROUPED_EDGE_TYPE } from './pipelineComponentFactory';
 
 type DemoPipelinesGroupProps = {
   element: GraphElement;
-  collapsible?: boolean;
-  collapsedWidth?: number;
-  collapsedHeight?: number;
-  onCollapseChange?: (group: Node, collapsed: boolean) => void;
-  getCollapsedShape?: (node: Node) => React.FunctionComponent<ShapeProps>;
-  collapsedShadowOffset?: number; // defaults to 10
 } & WithContextMenuProps &
   WithDragNodeProps &
   WithSelectionProps;
 
-import TaskGroupSourceAnchor from '../pipelineGroupsDemo/TaskGroupSourceAnchor';
-import TaskGroupTargetAnchor from '../pipelineGroupsDemo/TaskGroupTargetAnchor';
+const getEdgeCreationTypes = (): EdgeCreationTypes => ({
+  edgeType: GROUPED_EDGE_TYPE,
+  spacerEdgeType: GROUPED_EDGE_TYPE,
+  finallyEdgeType: GROUPED_EDGE_TYPE,
+});
 
-export const DemoPipelinesGroup: React.FunctionComponent<DemoPipelinesGroupProps> = ({
-  element,
-  onCollapseChange,
-  ...rest
-}) => {
+const DemoPipelinesGroup: React.FunctionComponent<DemoPipelinesGroupProps> = ({ element }) => {
   const data = element.getData();
-  const detailsLevel = element.getGraph().getDetailsLevel();
-  const verticalLayout = (element.getGraph().getLayoutOptions?.() as DagreLayoutOptions)?.rankdir === TOP_TO_BOTTOM;
-
-  const handleCollapse = (group: Node, collapsed: boolean): void => {
-    if (collapsed && rest.collapsedWidth !== undefined && rest.collapsedHeight !== undefined) {
-      group.setDimensions(new Dimensions(rest.collapsedWidth, rest.collapsedHeight));
-    }
-    group.setCollapsed(collapsed);
-    onCollapseChange && onCollapseChange(group, collapsed);
-  };
-
-  useAnchor(
-    React.useCallback((node: Node) => new TaskGroupSourceAnchor(node, verticalLayout), [verticalLayout]),
-    AnchorEnd.source
-  );
-
-  useAnchor(
-    React.useCallback((node: Node) => new TaskGroupTargetAnchor(node, verticalLayout), [verticalLayout]),
-    AnchorEnd.target
-  );
+  const detailsLevel = element.getGraph().getDetailsLevel()
 
   return (
-    <PipelinesDefaultGroup
+    <DefaultTaskGroup
       element={element}
       collapsible
       collapsedWidth={75}
       collapsedHeight={75}
-      // TODO: labels don't render until clicked
       showLabel={detailsLevel === ScaleDetailsLevel.high}
+      labelPosition={LabelPosition.top}
       badge={data?.badge}
-      onCollapseChange={handleCollapse}
-      {...rest}
+      getEdgeCreationTypes={getEdgeCreationTypes}
     />
   );
 };
+
+export default observer(DemoPipelinesGroup);

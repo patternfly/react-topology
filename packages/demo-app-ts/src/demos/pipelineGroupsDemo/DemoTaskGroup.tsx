@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import {
   AnchorEnd,
   DagreLayoutOptions,
-  PipelinesDefaultGroup,
+  DefaultTaskGroup,
   GraphElement,
   isNode,
   LabelPosition,
@@ -14,6 +14,7 @@ import {
   WithSelectionProps,
   ShapeProps,
   WithDragNodeProps,
+  EdgeCreationTypes,
 } from '@patternfly/react-topology';
 import TaskGroupSourceAnchor from './TaskGroupSourceAnchor';
 import TaskGroupTargetAnchor from './TaskGroupTargetAnchor';
@@ -30,7 +31,15 @@ type DemoTaskGroupProps = {
   WithDragNodeProps &
   WithSelectionProps;
 
-const DemoTaskGroup: React.FunctionComponent<DemoTaskGroupProps> = ({ element, collapsedWidth, collapsedHeight, ...rest }) => {
+export const DEFAULT_TASK_WIDTH = 180;
+export const DEFAULT_TASK_HEIGHT = 32;
+
+const getEdgeCreationTypes = (): EdgeCreationTypes => ({
+  edgeType: 'edge',
+  spacerEdgeType: 'edge'
+});
+
+const DemoTaskGroup: React.FunctionComponent<DemoTaskGroupProps> = ({ element, ...rest }) => {
   const verticalLayout = (element.getGraph().getLayoutOptions?.() as DagreLayoutOptions)?.rankdir === TOP_TO_BOTTOM;
 
   useAnchor(
@@ -45,13 +54,13 @@ const DemoTaskGroup: React.FunctionComponent<DemoTaskGroupProps> = ({ element, c
     return null;
   }
   return (
-    <PipelinesDefaultGroup
-      hulledOutline={false}
+    <DefaultTaskGroup
       labelPosition={verticalLayout ? LabelPosition.top : LabelPosition.bottom}
       collapsible
-      collapsedWidth={collapsedWidth}
-      collapsedHeight={collapsedHeight}
+      collapsedWidth={DEFAULT_TASK_WIDTH}
+      collapsedHeight={DEFAULT_TASK_HEIGHT}
       element={element as Node}
+      getEdgeCreationTypes={getEdgeCreationTypes}
       {...rest}
     />
   );
