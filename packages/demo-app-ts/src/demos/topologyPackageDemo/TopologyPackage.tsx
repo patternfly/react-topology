@@ -41,7 +41,7 @@ const TopologyViewComponent: React.FunctionComponent<TopologyViewComponentProps>
       options.creationCounts.numNodes,
       options.creationCounts.numGroups,
       options.creationCounts.numEdges,
-      options.nestedLevel,
+      options.creationCounts.nestedLevel,
     );
 
     const model = {
@@ -54,7 +54,7 @@ const TopologyViewComponent: React.FunctionComponent<TopologyViewComponentProps>
     };
 
     controller.fromModel(model, true);
-  }, [controller, options.creationCounts, options.layout, options.nestedLevel]);
+  }, [controller, options.creationCounts, options.layout]);
 
   useEventListener<SelectionEventListener>(SELECTION_EVENT, ids => {
     setSelectedIds(ids);
