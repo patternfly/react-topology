@@ -60,6 +60,7 @@ const DemoTaskGroup: React.FunctionComponent<DemoTaskGroupProps> = ({ element, .
       collapsedWidth={DEFAULT_TASK_WIDTH}
       collapsedHeight={DEFAULT_TASK_HEIGHT}
       element={element as Node}
+      recreateLayoutOnCollapseChange
       getEdgeCreationTypes={getEdgeCreationTypes}
       {...rest}
     />

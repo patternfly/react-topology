@@ -89,6 +89,8 @@ interface PipelinesDefaultGroupProps {
   onContextMenu?: (e: React.MouseEvent) => void;
   /** Flag indicating that the context menu for the node is currently open  */
   contextMenuOpen?: boolean;
+  /** Flag to recreate the layout when the group is expanded/collapsed. Be sure you are registering "pipelineElementFactory" when set to true. */
+  recreateLayoutOnCollapseChange?: boolean;
   /** Function to return types used to re-create edges on a group collapse/expand (should be the same as calls to getEdgesFromNodes) */
   getEdgeCreationTypes?: () => {
     spacerNodeType?: string,
@@ -102,7 +104,7 @@ interface PipelinesDefaultGroupProps {
 type PipelinesDefaultGroupInnerProps = Omit<PipelinesDefaultGroupProps, 'element'> & { element: Node } & WithSelectionProps;
 
 const DefaultTaskGroupInner: React.FunctionComponent<PipelinesDefaultGroupInnerProps> = observer(
-  ({ className, element, onCollapseChange, getEdgeCreationTypes, ...rest }) => {
+  ({ className, element, onCollapseChange, recreateLayoutOnCollapseChange, getEdgeCreationTypes, ...rest }) => {
     const childCount = element.getAllNodeChildren().length;
 
     const handleCollapse = (group: Node, collapsed: boolean): void => {
@@ -111,25 +113,31 @@ const DefaultTaskGroupInner: React.FunctionComponent<PipelinesDefaultGroupInnerP
       }
       group.setCollapsed(collapsed);
 
-      const controller = group.hasController() && group.getController();
-      if (controller) {
-        const model = controller.toModel();
-        const creationTypes: EdgeCreationTypes = getEdgeCreationTypes ? getEdgeCreationTypes() : {};
+      if (recreateLayoutOnCollapseChange) {
+        const controller = group.hasController() && group.getController();
+        if (controller) {
+          const model = controller.toModel();
+          const creationTypes: EdgeCreationTypes = getEdgeCreationTypes ? getEdgeCreationTypes() : {};
 
-        const pipelineNodes = model.nodes.filter((n) => n.type !== creationTypes.spacerNodeType).map((n) => ({ ...n, visible: true }));
-        const spacerNodes = getSpacerNodes(pipelineNodes, creationTypes.spacerNodeType, creationTypes.finallyNodeTypes);
-        const nodes = [...pipelineNodes, ...spacerNodes];
-        const edges = getEdgesFromNodes(
-          pipelineNodes,
-          creationTypes.spacerNodeType,
-          creationTypes.edgeType,
-          creationTypes.edgeType,
-          creationTypes.finallyNodeTypes,
-          creationTypes.finallyEdgeType
-        );
-        controller.fromModel({nodes, edges}, true);
-        controller.getGraph().layout();
+          const pipelineNodes = model.nodes.filter((n) => n.type !== creationTypes.spacerNodeType).map((n) => ({
+            ...n,
+            visible: true
+          }));
+          const spacerNodes = getSpacerNodes(pipelineNodes, creationTypes.spacerNodeType, creationTypes.finallyNodeTypes);
+          const nodes = [...pipelineNodes, ...spacerNodes];
+          const edges = getEdgesFromNodes(
+            pipelineNodes,
+            creationTypes.spacerNodeType,
+            creationTypes.edgeType,
+            creationTypes.edgeType,
+            creationTypes.finallyNodeTypes,
+            creationTypes.finallyEdgeType
+          );
+          controller.fromModel({nodes, edges}, true);
+          controller.getGraph().layout();
+        }
       }
+
       onCollapseChange && onCollapseChange(group, collapsed);
     };
 
