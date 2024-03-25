@@ -156,7 +156,7 @@
   fill: var(--pf-topology-pipelines__pill--Color);
 }
 
-.pf-topology-pipelines__pill-background {
+.pf-topology-pipelines__pill-background, .pf-topology-pipelines__pill-background-offset {
   fill: var(--pf-topology-pipelines__pill-background--Fill);
   stroke-width: var(--pf-topology-pipelines__pill-background--StrokeWidth);
   stroke: var(--pf-topology-pipelines__pill-background--Stroke);
