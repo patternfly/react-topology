@@ -22,6 +22,7 @@ import DemoTaskNode from './DemoTaskNode';
 import DemoFinallyNode from './DemoFinallyNode';
 import DemoTaskGroupEdge from './DemoTaskGroupEdge';
 import DemoTaskEdge from './DemoTaskEdge';
+import DemoPipelinesGroup from "./DemoPipelinesGroup";
 
 export const GROUPED_EDGE_TYPE = 'GROUPED_EDGE';
 export const SPACER_EDGE_TYPE = 'spacer-edge';
@@ -55,7 +56,7 @@ const pipelineComponentFactory: ComponentFactory = (
     case DEFAULT_FINALLY_NODE_TYPE:
       return withContextMenu(() => defaultMenu)(withSelection()(DemoFinallyNode));
     case 'task-group':
-      return DefaultTaskGroup;
+      return withSelection()(DemoPipelinesGroup);
     case 'finally-group':
       return DefaultTaskGroup;
     case DEFAULT_SPACER_NODE_TYPE:

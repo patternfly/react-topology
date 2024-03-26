@@ -25,6 +25,8 @@ import { createDemoPipelineGroupsNodes } from './createDemoPipelineGroupsNodes';
 import { PipelineGroupsDemoContext, PipelineGroupsDemoModel } from './PipelineGroupsDemoContext';
 import OptionsBar from './OptionsBar';
 import DemoControlBar from '../DemoControlBar';
+import pipelineElementFactory
+  from '@patternfly/react-topology/dist/esm/pipelines/elements/pipelineElementFactory';
 
 const TopologyPipelineGroups: React.FC<{ nodes: PipelineNodeModel[] }> = observer(({ nodes }) => {
   const controller = useVisualizationController();
@@ -64,6 +66,7 @@ TopologyPipelineGroups.displayName = 'TopologyPipelineLayout';
 
 export const PipelineGroupsDemo = observer(() => {
   const controller = new Visualization();
+  controller.registerElementFactory(pipelineElementFactory);
   controller.registerComponentFactory(pipelineGroupsComponentFactory);
   controller.registerLayoutFactory(
     (type: string, graph: Graph): Layout | undefined =>

@@ -109,6 +109,10 @@ export interface TaskNodeProps {
   onContextMenu?: (e: React.MouseEvent) => void;
   /** Flag indicating that the context menu for the node is currently open  */
   contextMenuOpen?: boolean;
+  /** Number of shadowed pills to show  */
+  shadowCount?: number;
+  /** Offset for each shadow  */
+  shadowOffset?: number;
 }
 
 type TaskNodeInnerProps = Omit<TaskNodeProps, 'element'> & { element: Node };
@@ -153,6 +157,8 @@ const TaskNodeInner: React.FC<TaskNodeInnerProps> = observer(({
   actionIcon,
   actionIconClassName,
   onActionIconClick,
+  shadowCount = 0,
+  shadowOffset = 8,
   children
 }) => {
   const [hovered, hoverRef] = useHover();
@@ -417,6 +423,22 @@ const TaskNodeInner: React.FC<TaskNodeInnerProps> = observer(({
         </g>
       );
     }
+
+    const shadows = [];
+    for (let i = shadowCount; i > 0; i--) {
+      shadows.push(
+        <rect
+          key={`shadow-offset-${i}`}
+          x={offsetX + shadowOffset * i}
+          y={0}
+          width={pillWidth}
+          height={height}
+          rx={height / 2}
+          className={css(topologyStyles.topologyNodeBackground, 'pf-m-disabled')}          filter={filter}
+        />
+
+      )
+    }
     return (
       <g
         className={pillClasses}
@@ -426,6 +448,7 @@ const TaskNodeInner: React.FC<TaskNodeInnerProps> = observer(({
         ref={taskRef}
       >
         <NodeShadows />
+        {shadows}
         <rect
           x={offsetX}
           y={0}

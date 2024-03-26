@@ -59,6 +59,17 @@ const getSpacerId = (ids: string[]): string =>
       return ref;
     }, '');
 
+const nodeVisible = (node: PipelineNodeModel, nodes: PipelineNodeModel[]): boolean => {
+  const parentNode = nodes.find((n) => n.children?.includes(node.id));
+  if (!parentNode) {
+    return true;
+  }
+  if (parentNode.collapsed) {
+    return false;
+  }
+  return nodeVisible(parentNode, nodes);
+};
+
 /**
  * parameters:
  *   nodes: PipelineNodeModel[] - List of task and finally nodes in the model
@@ -76,7 +87,7 @@ export const getSpacerNodes = (
   interface ParallelNodeMap {
     [id: string]: PipelineNodeModel[];
   }
-  const finallyNodes = nodes.filter(n => finallyNodeTypes.includes(n.type));
+  const finallyNodes = nodes.filter(n => finallyNodeTypes.includes(n.type) && nodeVisible(n, nodes));
   // Collect only multiple run-afters
   const multipleRunBeforeMap: ParallelNodeMap = nodes.reduce((acc, node) => {
     const { runAfterTasks } = node;
@@ -132,19 +143,20 @@ export const getEdgesFromNodes = (
   finallyEdgeType = DEFAULT_EDGE_TYPE
 ): EdgeModel[] => {
   const edges: EdgeModel[] = [];
+  const visibleNodes = nodes.filter(n => nodeVisible(n, nodes));
 
-  const spacerNodes = nodes.filter(n => n.type === spacerNodeType);
-  const taskNodes = nodes.filter(n => n.type !== spacerNodeType);
-  const finallyNodes = nodes.filter(n => finallyNodeTypes.includes(n.type));
-  const lastTasks = nodes
+  const spacerNodes = visibleNodes.filter(n => n.type === spacerNodeType);
+  const taskNodes = visibleNodes.filter(n => n.type !== spacerNodeType);
+  const finallyNodes = visibleNodes.filter(n => finallyNodeTypes.includes(n.type));
+  const lastTasks = visibleNodes
     .filter(n => !finallyNodeTypes.includes(n.type))
     .filter(n => spacerNodeType !== n.type)
-    .filter(t => !nodes.find(n => n.runAfterTasks?.includes(t.id)));
+    .filter(t => !visibleNodes.find(n => n.runAfterTasks?.includes(t.id)));
 
   spacerNodes.forEach(spacer => {
     const sourceIds = spacer.id.split('|');
     sourceIds.forEach(sourceId => {
-      const node = nodes.find(n => n.id === sourceId);
+      const node = visibleNodes.find(n => n.id === sourceId);
       if (node && !finallyNodes.includes(node)) {
         edges.push({
           id: `${sourceId}-${spacer.id}`,
