@@ -434,8 +434,7 @@ const TaskNodeInner: React.FC<TaskNodeInnerProps> = observer(({
           width={pillWidth}
           height={height}
           rx={height / 2}
-          className={css(styles.topologyPipelinesPillBackgroundOffset)}
-          filter={filter}
+          className={css(topologyStyles.topologyNodeBackground, 'pf-m-disabled')}          filter={filter}
         />
 
       )
