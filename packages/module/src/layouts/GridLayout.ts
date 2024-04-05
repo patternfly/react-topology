@@ -10,14 +10,9 @@ import { GridGroup } from './GridGroup';
 export type GridLayoutOptions = LayoutOptions;
 
 export class GridLayout extends BaseLayout implements Layout {
-  private gridOptions: GridLayoutOptions;
 
   constructor(graph: Graph, options?: Partial<GridLayoutOptions>) {
     super(graph, options);
-    this.gridOptions = {
-      ...this.options,
-      ...options
-    };
   }
 
   protected createLayoutNode(node: Node, nodeDistance: number, index: number) {
