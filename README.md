@@ -1,61 +1,74 @@
-# @patternfly/react-topology
+# PatternFly Topology
 
-This package provides Topology View components based on [PatternFly 4][patternfly-4]
+This package provides the resources necessary to use PatternFly Topology, an open source utility built off of [@patternfly/react-core](https://www.npmjs.com/package/@patternfly/react-core) that you can use to create a visual representation of all the applications within your project, their build status, and the components and services associated with them.
 
-Based from https://github.com/patternfly/patternfly-react version 4.91.40
+Topology is based on PatternFly 5 components from https://github.com/patternfly/patternfly-react.
 
-### Prerequisites
+Documentation for Topology and its features is available on [the PatternFly website.](www.patternfly.org/topology/about-topology)
 
-#### Node Environment
+## Table of contents 
+- [Prerequisites](#prerequisites)
+- [Installing Topology](#installing-topology)
+- [Initial setup and usage](#initial-setup-and-usage)
+- [Example](#example)
+- [Demo app](#demo-app)
 
-This project currently supports Node [Active LTS](https://github.com/nodejs/Release#release-schedule) releases. Please stay current with Node Active LTS when developing patternfly-react.
+## Prerequisites
 
-For example, to develop with Node 8, use the following:
+To use Topology, you will need to have both [Node Active LTS](https://github.com/nodejs/Release#release-schedule) and [Yarn](https://yarnpkg.com/) installed.
 
-```
-nvm install 8
-nvm use 8
-```
+1. Install and develop with the most up-to-date version of Node Active LTS. For example, to develop with Node 8, you would use the following commands:
 
-This project also requires a Yarn version of >=1.6.0. The latest version can be installed [here](https://yarnpkg.com/).
+    ```
+    nvm install 8
+    nvm use 8
+    ```
+1. Install and use version 1.6.0 or later of Yarn.
 
-### Installing
+## Installing Topology
 
-```
-yarn add @patternfly/react-topology
-```
+Once you have all of the prequisites, you can install the Topology package with Yarn or npm:
 
-or
+1. Using Yarn:
 
-```
-npm install @patternfly/react-topology --save
-```
+    ```
+    yarn add @patternfly/react-topology
+    ```
+1. Using npm:
 
-## Basic Usage
+    ```
+    npm install @patternfly/react-topology --save
+    ```
 
-To use React Topology out-of-the-box, you will first need to transform your back-end data into a [Model](https://github.com/patternfly/patternfly-react/blob/main/packages/react-topology/src/types.ts#L16-L20). These model objects contain the information needed to display the nodes and edges. Each node and edge has a set of properties used by PF Topology as well as a data field which can be used to customize the nodes and edges by the application.
+## Initial setup and usage
 
-You will then need to declare a controller, which can be initialized via the `useVisualizationController()` method.
+To use Topology out of the box, follow these steps: 
 
-The `fromModel` method must be called on the controller to create the nodes. `fromModel` will take your data model as a parameter. Your data model should include a `graph` object, on which you will need to set `id` , `type` and `layout`.
+1. First transform your back-end data into a [Model](https://github.com/patternfly/react-topology/blob/main/packages/module/src/types.ts) object. This will contain the information needed to display the nodes and edges in your Topology view. Each node and edge contains a set of properties used by Topology, as well as a data field, which Topology can be used to customize the nodes and edges.
 
-To create your topology view component, you can use `TopologyView` to Wrap `<VisualizationSurface>` which can accept `state` as a parameter. The state is application specific. It can be any data the application wants to store/retrieve from the controller. Adding state to the surface allows hooks to update when state changes. The state is useful to keep graph state such as selected elements.
+1. Declare a controller, which can be initialized via the `useVisualizationController()` method.
 
-Use a controller to wrap your topology view component. In the example below, this is done via the `VisualizationProvider` which consumes the `Controller` via context.
+1. Create nodes by calling the `fromModel` method on the controller you initialized. `fromModel` will take the `Model` that you created as a parameter. Your data model should include a `graph` object, on which you will need to set `id` , `type`, and `layout`.
 
-Three `register` methods are accessed by the controller.
+1. To create your Topology view component, wrap `TopologyView` around `<VisualizationSurface>`, which can accept a `state` parameter. 
+    - The value of state is application specific and should include any data the application wants to store/retrieve from the controller. 
+    - Adding state to  `<VisualizationSurface>` allows hooks to update when state changes. 
+    - State can also be used to keep track of your graph state, such as selected elements.
 
-The following two must be declared explicitly\:
+1. Wrap your `TopologyView` with your controller. In the example below, this is done via the `VisualizationProvider` which consumes the `Controller` via context.
 
-- `registerLayoutFactory`\: This method sets the layout of your topology view (e.g. Force, Dagre, Cola, etc.). You can use `defaultLayoutFactory` as a parameter if your application supports all layouts. You can also update `defaultLayout` to a custom implementation if you only want to support a subset of the available layout options.
+1. There are 3 `register` methods that the controller accesses.
 
-- `registerComponentFactory`\: This method lets you customize the components in your topology view (e.g. nodes, groups, and edges). You can use `defaultComponentFactory` as a parameter.
+    These 2 must be declared explicitly:
 
-The register method below is initialized in `Visualization.ts`, therefore it doesn't need to be declared unless you want to support a custom implementation which modifies the types.
+    1. **`registerLayoutFactory`:** Sets the layout of your topology view (e.g. Force, Dagre, Cola, etc.). You can use `defaultLayoutFactory` as a parameter if your application supports all layouts. You can also update `defaultLayout` to a custom implementation if you only want to support a subset of the available layout options.
+    1. **`registerComponentFactory`:** Lets you customize the components in your topology view (e.g. nodes, groups, and edges). You can use `defaultComponentFactory` as a parameter.
+    
+    The remaining method is initialized in `Visualization.ts`, so it doesn't need to be declared unless you want to support a custom implementation that modifies the types:
 
-- `registerElementFactory`\: This method sets the types of the elements being used (e.g. graphs, nodes, edges). `defaultElementFactory` uses types from `ModelKind` and is exported in `index.ts`.
+    3. **`registerElementFactory`:** Sets the types of the elements being used (e.g. graphs, nodes, edges). `defaultElementFactory` uses types from `ModelKind` and is exported in `index.ts`.
 
-#### Example Component Usage
+## Example 
 
 ```ts
 import * as React from 'react';
@@ -185,3 +198,48 @@ export const TopologyBaselineDemo = React.memo(() => {
 });
 ```
 
+## Demo app
+
+To help you better understand and visualize the different Topology components, we have created an interactive demo, [which is contained here.](https://github.com/patternfly/react-topology/tree/main/packages/demo-app-ts)
+
+Continue reading for instructions on how to build and run the demo app. 
+
+### Prerequisites
+
+In order to run the demo app, you need to make sure the following prerequisites are met. 
+
+1. Make sure that you have yarn installed, as outlined in [the general Topology prerequisites.](#prerequisites) 
+1. Make sure that you have the PatternFly React library installed. [Follow these instructions if you need to install this package.](https://github.com/patternfly/patternfly-react?tab=readme-ov-file#install-and-configure-patternfly-react)
+1. If you haven’t already, [fork the Topology project.](https://github.com/patternfly/react-topology)
+
+### Running the demo app
+
+Once you’ve set up the prerequisites, you can follow these steps to run the demo app on your local machine
+
+1. In a terminal, type the following commands to start the docs workspace:
+
+```
+yarn install
+yarn start
+```
+
+2. In a terminal, type the following commands to navigate to demo-app-ts and launch the demo app:
+
+```
+cd packages/demo-app-ts
+yarn start:demo-app:hot
+```
+
+3. You will receive a message confirming that the app is running, as well the URL that you can enter in your browser to load the app:
+
+```
+<i> [webpack-dev-server] Project is running at:
+<i> [webpack-dev-server] Loopback: http://localhost:3000/
+```
+
+4. Explore the demo app in your browser:
+
+![Demo app landing page.](packages/module/patternfly-docs/content/examples/img/topology-demo-app.png)
+
+## Need help? 
+If you find a bug, have a request, or have any questions about Topology that aren't answered in our documentation, please [reach out to us on Slack.](https://patternfly.slack.com/archives/CK7URGJ2W)

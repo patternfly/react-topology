@@ -7,8 +7,6 @@ propComponents: ['TaskNode', 'TaskEdge', 'WhenDecorator']
 functions: { 'packages/module/src/pipelines/utils/utils.ts': ['getSpacerNodes', 'getEdgesFromNodes'] }
 ---
 
-Note: Topology lives in its own package at [`@patternfly/react-topology`](https://www.npmjs.com/package/@patternfly/react-topology)
-
 import {
   TopologyView,
   Visualization,
@@ -36,34 +34,44 @@ import {
 
 import './topology-pipelines-example.css';
 
-### Getting Started with Topology Pipelines
+# Introduction
 
-1. Create a new Controller which can be done using the default `Visualization` class.
+**Note:** Topology lives in its own package at [`@patternfly/react-topology`](https://www.npmjs.com/package/@patternfly/react-topology).
 
-  It is important to note that three `register` methods are accessed by the controller.
+A **pipeline** displays a series of connected tasks, shown in the order that they occur.
 
-  The following two must be declared explicitly:
+## Using pipelines
 
-    - `registerLayoutFactory`: This method sets the layout of your topology view. For topology pipelines, this shouls use the `PipleineDagreLayout` layout or an extension of it.
+To create a pipeline:
 
-    - `registerComponentFactory`: This method lets you customize the components in your topology view (e.g. nodes, groups, and edges).
-  For topology pipelines, nodes and edges should use the elements with a `PipelineNodeModel`, which adds the model field `runAfterTasks`.
+1. Create a new controller, using the default `Visualization` class.
+      - It is important to note that 3 `register` methods are accessed by the controller.
 
-  The register method below is initialized in `Visualization.ts`. It doesn't need to be declared unless you support a custom implementation which modifies the types.
+    The following 2 must be declared explicitly:
 
-    - `registerElementFactory`: This method sets the types of the elements being used (e.g. graphs, nodes, edges). `defaultElementFactory` uses types from `ModelKind` and is exported in `index.ts`.
+      - `registerLayoutFactory`: Sets the layout of your Topology view. For pipelines, this should use the `PipelineDagreLayout` layout, or an extension of it.
+      - `registerComponentFactory`: Lets you customize Topology view elements, such as nodes, groups, and edges.
+        - Nodes and edges should use a `PipelineNodeModel`, which adds the model field `runAfterTasks`.
+
+    The remaining method is initialized in `Visualization.ts`. It is optional and only needs to be declared if you support a custom implementation that modifies the types.
+
+      - `registerElementFactory`: Sets the types of the elements being used, such as graphs, nodes, edges.
+        - `defaultElementFactory` uses types from `ModelKind` and is exported in `index.ts`.
 
 1. Set the task nodes and their relationships using the `runAfterTasks` field.
 
-1. Use the `getSpacerNodes` function to determine the necessary spacer nodes. Spacer nodes are used to aggregate edges to/from multiple task nodes.
+1. Use the `getSpacerNodes` function to determine the necessary spacer nodes. Spacer nodes are used to aggregate edges to and from multiple task nodes.
 
-1. Determine the edges in your model by calling the `getEdgesFromNodes` function, passing it all the nodes including the spacer nodes.
+1. Determine the edges in your model by calling the `getEdgesFromNodes` function, passing in all nodes, including spacer nodes.
 
-1. The `fromModel` method can then be called, passing along all nodes and determined edges. Your data model should include a `graph` object, on which you will need to set `id` , `type` and `layout`.
+1. Call the `fromModel` method, passing along all nodes and determined edges. 
+   - Your data model should include a `graph` object, on which you will need to set `id` , `type`, and `layout`.
 
-1. To create your topology view component, add a `VisualizationProvider`, which is a useful context provider. It allows access to the created Controller and is required when using the `VisualizationSurface` component.
+1. To create your Topology view component, add a `VisualizationProvider`, which is a useful context provider that enables access to your controller. It is required when using the `VisualizationSurface` component.
 
-1. You can use the provided `VisualizationSurface` to provide the SVG component required for the topology components. The `VisualizationSurface` can take a state parameter that will allow you to pass your state settings along to the Controller.
+1. Use `VisualizationSurface` to provide the SVG component required for the Topology components. `VisualizationSurface` can take a "state" parameter, which will allow you to pass your state settings to the controller.
+
+### Example
 
 ```ts file='./TopologyPipelinesGettingStartedDemo.tsx'
 ```

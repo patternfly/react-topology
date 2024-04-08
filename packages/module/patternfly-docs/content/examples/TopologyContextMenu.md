@@ -1,11 +1,9 @@
 ---
-id: Context Menu
+id: Context menu
 section: topology
 sortValue: 23
 sourceLink: https://github.com/patternfly/react-topology/blob/main/packages/module/patternfly-docs/content/examples/TopologyContextMenuDemo.tsx
 ---
-
-Note: Topology lives in its own package at [`@patternfly/react-topology`](https://www.npmjs.com/package/@patternfly/react-topology)
 
 import {
   ColaLayout,
@@ -28,18 +26,23 @@ import {
 import Icon1 from '@patternfly/react-icons/dist/esm/icons/regions-icon';
 import './topology-example.css';
 
-### Topology with context menus
+# Introduction
 
-Context menus can be used to show a menu of actions or links related to a graph element that will trigger a process or navigate to a new location. The menus are shown when right clicking on elements in the graph. Nodes, edges, and the graph itself can have context menus.
+**Note:** Topology lives in its own package at [`@patternfly/react-topology`](https://www.npmjs.com/package/@patternfly/react-topology).
 
-To add context menus to an element, you can use the `withContextMenu` utility when returning the component in the componentFactory, e.g.: `withContextMenu(() => contextMenu)(MyCustomNode)`.
+A **context menu** displays a list of actions or links related to a graph element. Nodes, edges, and the graph itself can have context menus, which are shown when you select the menu toggle or right-click on a graph element. Selecting a menu item will trigger a process or navigate to a new location.  
 
-The component should accept two parameters, `onContextMenu` and `contextMenuOpen` (you can simply extend `WithContextMenuProps`).
+## Using context menus
 
-- `onContextMenu`: function to call upon node selection. Typically the outer container for the component would call onContextMenu when clicked.
-- `contextMenuOpen`: indicates if the menu is currently open. Updates the drawing of the component to indicate its toggle status.
+To add a context menu to a Topology element, you can simply extend `WithContextMenuProps` and use the `withContextMenu` utility when the context menu component is returned in the `componentFactory`. For example, `withContextMenu(() => contextMenu)(MyCustomNode)`. The component should accept 2 parameters: 
 
-If you are using `DefaultNode`, these props can be passed along and will be handled appropriately.
+- **`onContextMenu`:** The function to call upon node selection. Typically the outer container for the component would call `onContextMenu` when clicked.
+- **`contextMenuOpen`:** Indicates if the menu is currently open and applies styling to the respective component.
+
+If you are using `DefaultNode`, these properties can be passed along and will be handled appropriately.
+
+
+### Example 
 
 ```ts file='./TopologyContextMenuDemo.tsx'
 ```

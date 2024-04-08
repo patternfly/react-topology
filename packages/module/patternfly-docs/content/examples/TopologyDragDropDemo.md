@@ -1,11 +1,10 @@
 ---
-id: Drag and Drop
+id: Drag and drop
 section: topology
 sortValue: 24
 sourceLink: https://github.com/patternfly/react-topology/blob/main/packages/module/patternfly-docs/content/examples/TopologyDragDropDemo.tsx
 propComponents: ['DefaultNode', 'DefaultEdge', 'withDndDrop']
 ---
-Note: Topology lives in its own package at [`@patternfly/react-topology`](https://www.npmjs.com/package/@patternfly/react-topology)
 
 import {
 ColaLayout,
@@ -36,24 +35,34 @@ import Icon2 from '@patternfly/react-icons/dist/esm/icons/folder-open-icon';
 
 import './topology-example.css';
 
-### Drag and Drop
+# Introduction
 
-To add drag and drop functionality, in your component factory:
+**Note:** Topology lives in its own package at [`@patternfly/react-topology`](https://www.npmjs.com/package/@patternfly/react-topology).
 
-Nodes can be dragged about the canvas by using the `useDragNode` hook or by wrapping the node component with `withDragNode`.
-These utilities will provide a `dragNodeRef`. This ref should be added to outer element of the Node where the user can click and drag the node.
-`DefaultNode` accepts the `dragNodeRef` and adds it appropriately.
+**Drag and drop** functionality allows users to move Topology view elements as needed.
 
-Edges can be dragged in order to change the source and/or target of the edge using the `withSourceDrag` and/or `withTargetDrag`. These utilities
-will provide a `sourceDragRef` and a `targetDragRef` which should be added to the respective terminals for the edge. `DefaultEdge`
-accepts these refs and adds them to the appropriate terminals.
+## Drag and drop
 
+To add drag and drop functionality to your Topology view, add the following in your `ComponentFactory`:
+
+- Nodes can be dragged about the canvas by using the `useDragNode` hook, or by wrapping the `<Node>` component with `withDragNode`.
+
+  - These utilities will provide a `dragNodeRef`, which should be added to the outer element of the node, where users can click and drag.
+  - `DefaultNode` accepts `dragNodeRef` and adds it appropriately.
+
+- Edges can be dragged in order to change the source and/or target of the edge by using either `withSourceDrag` and/or `withTargetDrag`.
+  - These utilities will provide a `sourceDragRef` and a `targetDragRef`, which should be added to the respective terminals for the edge.
+  - `DefaultEdge` accepts these utilities and adds them to the appropriate terminals.
+
+### Example
 
 ```ts file='./TopologyDragDropDemo.tsx'
 ```
 
-## Functions
-### withDragNode
+### Functions
+
+#### withDragNode
+
 ```noLive
 /**
  * Parameters:
@@ -65,7 +74,9 @@ accepts these refs and adds them to the appropriate terminals.
 export const withDragNode = (spec?: DragSourceSpec) => 
   (wrappedComponent: React.FunctionComponent) =>  React.ComponentType);
 ```
-### withSourceDrag
+
+#### withSourceDrag
+
 ```noLive
 /**
  * Parameters:
@@ -78,7 +89,9 @@ export const withSourceDrag = (spec: DragSourceSpec) =>
   (wrappedComponent: React.FunctionComponent) =>  React.ComponentType);
 
 ```
-### withTargetDrag
+
+#### withTargetDrag
+
 ```noLive
 /**
  * Parameters:
@@ -90,7 +103,9 @@ export const withSourceDrag = (spec: DragSourceSpec) =>
 export const withTargetDrag = (spec: DragSourceSpec) =>
   (wrappedComponent: React.FunctionComponent) =>  React.ComponentType);
 ```
-### withDndDrop
+
+#### withDndDrop
+
 ```noLive
 /**
  * Parameters:

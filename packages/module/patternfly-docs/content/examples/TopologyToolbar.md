@@ -6,8 +6,6 @@ sourceLink: https://github.com/patternfly/react-topology/blob/main/packages/modu
 propComponents: ['TopologyView']
 ---
 
-Note: Topology lives in its own package at [`@patternfly/react-topology`](https://www.npmjs.com/package/@patternfly/react-topology)
-
 import {
   BadgeLocation,
   ColaLayout,
@@ -39,20 +37,27 @@ import Icon2 from '@patternfly/react-icons/dist/esm/icons/folder-open-icon';
 
 import './topology-example.css';
 
-### Topology with a toolbar
+# Introduction
 
-To add a toolbar to the topology view, wrap your `VisualizationProvider` with the `TopologyView` component, which will accept `viewToolbar` and/or `contextToolbar` as props.
+**Note:** Topology lives in its own package at [`@patternfly/react-topology`](https://www.npmjs.com/package/@patternfly/react-topology).
 
-- `contextToolbar`: displayed at the top of the view, should contain components for changing context
-- `viewToolbar`: displayed below the context toolbar, should contain components for changing view contents
+A **toolbar** places controls within a panel at the top of a Topology view.
 
-**Note**: You can set the state on the controller to track values such as the `viewOptions`.
+## Using a toolbar
 
-The GraphElement components can retrieve state from the controller via:
+To add a toolbar to a Topology view, wrap your `VisualizationProvider` with the `<TopologyView>` component, which will accept `viewToolbar` and/or `contextToolbar` as properties.
+  - **`contextToolbar`:** Displayed at the top of the view, containing components for changing context.
+  - **`viewToolbar`:** Displayed below the context toolbar, containing components for changing view contents.
+
+**Note**: You can set the "state" on the controller to track values such as the `viewOptions`.
+
+`GraphElement` components can retrieve state from the controller via:
 `element.getController().getState<ControllerState>();`
 and react to that state accordingly.
 
-You will need to pass in the corresponding props and the related `viewOptions` state values into your custom `DefaultNode` component for all the view options you want to track.
+You will need to pass in the corresponding properties and the related `viewOptions` state values to your custom `<DefaultNode>` component for all view options you want to track.
+
+### Example
 
 ```ts file='./TopologyToolbarDemo.tsx'
 ```
