@@ -21,6 +21,7 @@
   --pf-topology__node--m-disabled--Background--Stroke: var(--pf-t--global--border--color--disabled);
   --pf-topology__node--m-info--Background--Fill: var(--pf-t--global--color--nonstatus--blue--default);
   --pf-topology__node--m-success--Background--Fill: var(--pf-t--global--color--status--success--default);
+  --pf-topology__node--m-success--Background--Stroke: var(--pf-t--global--border--color--status--success--default);
   --pf-topology__node--m-warning--Background--Fill: var(--pf-t--global--color--status--warning--default);
   --pf-topology__node--m-danger--Background--Fill: var(--pf-t--global--color--status--danger--default);
   --pf-topology__node--m-selected--Background--Fill: var(--pf-t--global--color--status--danger--default);
@@ -30,8 +31,6 @@
   --pf-topology__node--m--hover--m-success--node__background--Stroke: var(--pf-t--global--border--color--status--success--hover);
   --pf-topology__node--m--hover--m-warning--node__background--Stroke: var(--pf-t--global--border--color--status--warning--hover);
   --pf-topology__node--m--hover--m-danger--node__background--Stroke: var(--pf-t--global--border--color--status--danger--hover);
-
-  
 
   /* node decorators */
   --pf-topology__node_decorator--Color: var(--pf-t--global--icon--color--regular);
@@ -134,7 +133,7 @@
   --pf-topology__group--m-selected--group__label__node__label__background--Fill: var(--pf-t--global--color--brand--default);
 
   /* edge */
-  --pf-topology__edge--Stroke: var(--pf-t--global--border--color--default);
+  --pf-topology__edge--Stroke: var(--pf-t--global--border--color--on-secondary);
   --pf-topology__edge--StrokeWidth: var(--pf-t--global--border--width--regular);
   --pf-topology__edge--HoverStroke: var(--pf-t--global--border--color--hover);
   --pf-topology__edge--ActiveStroke: var(--pf-t--global--border--color--clicked);
@@ -262,6 +261,7 @@
 
 .pf-topology__node__background.pf-m-success {
   --pf-topology__node__background--Fill: var(--pf-topology__node--m-success--Background--Fill);
+  --pf-topology__node__background--Stroke: var(--pf-topology__node--m-success--Background--Stroke);
 }
 
 .pf-topology__node__background.pf-m-success.pf-m-hover {
