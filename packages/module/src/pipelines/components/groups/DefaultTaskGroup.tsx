@@ -1,11 +1,6 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import {
-  OnSelect,
-  WithDndDragProps,
-  ConnectDragSource,
-  ConnectDropTarget,
-} from '../../../behavior';
+import { OnSelect, WithDndDragProps, ConnectDragSource, ConnectDropTarget } from '../../../behavior';
 import { ShapeProps } from '../../../components';
 import { Dimensions } from '../../../geom';
 import { GraphElement, LabelPosition, BadgeLocation, isNode, Node } from '../../../types';
@@ -13,6 +8,7 @@ import { action } from '../../../mobx-exports';
 import { getEdgesFromNodes, getSpacerNodes } from '../../utils';
 import DefaultTaskGroupCollapsed from './DefaultTaskGroupCollapsed';
 import DefaultTaskGroupExpanded from './DefaultTaskGroupExpanded';
+import { RunStatus } from '../../types';
 
 export interface EdgeCreationTypes {
   spacerNodeType?: string;
@@ -39,6 +35,12 @@ export interface DefaultTaskGroupProps {
   dragging?: boolean;
   /** Flag if drag operation is a regroup operation */
   dragRegroupable?: boolean;
+  /** RunStatus to depict, supported on collapsed groups only. */
+  status?: RunStatus;
+  /** Flag indicating the status indicator, supported on collapsed groups only */
+  showStatusState?: boolean;
+  /** Statuses to show at when details are hidden, supported on collapsed groups only */
+  hiddenDetailsShownStatuses?: RunStatus[];
   /** Flag indicating the node should be scaled, best on hover of the node at lowest scale level */
   scaleNode?: boolean;
   /** Flag to hide details at medium scale */
@@ -117,16 +119,17 @@ export interface DefaultTaskGroupProps {
 
 type PipelinesDefaultGroupInnerProps = Omit<DefaultTaskGroupProps, 'element'> & { element: Node };
 
-const DefaultTaskGroupInner: React.FunctionComponent<PipelinesDefaultGroupInnerProps> = observer(({
-  className,
-  element,
-  badge,
-  onCollapseChange,
-  collapsedShadowCount,
-  recreateLayoutOnCollapseChange,
-  getEdgeCreationTypes,
-  ...rest
-}) => {
+const DefaultTaskGroupInner: React.FunctionComponent<PipelinesDefaultGroupInnerProps> = observer(
+  ({
+    className,
+    element,
+    badge,
+    onCollapseChange,
+    collapsedShadowCount,
+    recreateLayoutOnCollapseChange,
+    getEdgeCreationTypes,
+    ...rest
+  }) => {
     const childCount = element.getAllNodeChildren().length;
 
     const handleCollapse = action((group: Node, collapsed: boolean): void => {
@@ -141,11 +144,17 @@ const DefaultTaskGroupInner: React.FunctionComponent<PipelinesDefaultGroupInnerP
           const model = controller.toModel();
           const creationTypes: EdgeCreationTypes = getEdgeCreationTypes ? getEdgeCreationTypes() : {};
 
-          const pipelineNodes = model.nodes.filter((n) => n.type !== creationTypes.spacerNodeType).map((n) => ({
+          const pipelineNodes = model.nodes
+            .filter((n) => n.type !== creationTypes.spacerNodeType)
+            .map((n) => ({
               ...n,
               visible: true
             }));
-          const spacerNodes = getSpacerNodes(pipelineNodes, creationTypes.spacerNodeType, creationTypes.finallyNodeTypes);
+          const spacerNodes = getSpacerNodes(
+            pipelineNodes,
+            creationTypes.spacerNodeType,
+            creationTypes.finallyNodeTypes
+          );
           const nodes = [...pipelineNodes, ...spacerNodes];
           const edges = getEdgesFromNodes(
             pipelineNodes,
@@ -176,6 +185,7 @@ const DefaultTaskGroupInner: React.FunctionComponent<PipelinesDefaultGroupInnerP
       );
     }
     return (
+      //  TODO: Support status indicators on expanded state.
       <DefaultTaskGroupExpanded
         className={className}
         labelPosition={LabelPosition.top}
@@ -198,13 +208,15 @@ const DefaultTaskGroup: React.FunctionComponent<DefaultTaskGroupProps> = ({
     throw new Error('DefaultTaskGroup must be used only on Node elements');
   }
 
-  return <DefaultTaskGroupInner
-    element={element}
-    badgeColor={badgeColor}
-    badgeBorderColor={badgeBorderColor}
-    badgeTextColor={badgeTextColor}
-    {...rest}
-  />;
+  return (
+    <DefaultTaskGroupInner
+      element={element}
+      badgeColor={badgeColor}
+      badgeBorderColor={badgeBorderColor}
+      badgeTextColor={badgeTextColor}
+      {...rest}
+    />
+  );
 };
 
 export default DefaultTaskGroup;
