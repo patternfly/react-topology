@@ -5,9 +5,9 @@
 
   /* Create connector */
   /* Remove --pf-topology-create-connector-color at a breaking change */
-  --pf-topology-create-connector-color: var(--pf-v5-global--secondary-color--100);
-  --pf-topology__create-connector-color--Stroke: var(--pf-topology-create-connector-color, var(--pf-v5-global--secondary-color--100));
-  --pf-topology__create-connector-color--Fill: var(--pf-topology-create-connector-color, var(--pf-v5-global--secondary-color--100));
+  --pf-topology-create-connector-color: var(--pf-t--global--border--color--on-secondary);
+  --pf-topology__create-connector-color--Stroke: var(--pf-topology-create-connector-color, var(--pf-t--global--border--color--on-secondary));
+  --pf-topology__create-connector-color--Fill: var(--pf-topology-create-connector-color, var(--pf-t--global--border--color--on-secondary));
 
   /* node */
   --pf-topology__node__background--Fill: var(--pf-t--global--background--color--floating--default);
@@ -20,17 +20,23 @@
   --pf-topology__node--m-disabled--Background--Fill: var(--pf-t--global--background--color--disabled--default);
   --pf-topology__node--m-disabled--Background--Stroke: var(--pf-t--global--border--color--disabled);
   --pf-topology__node--m-info--Background--Fill: var(--pf-t--global--color--nonstatus--blue--default);
+  --pf-topology__node--m-info--Background--Stroke: var(--pf-t--global--border--color--nonstatus--blue--default);
   --pf-topology__node--m-success--Background--Fill: var(--pf-t--global--color--status--success--default);
   --pf-topology__node--m-success--Background--Stroke: var(--pf-t--global--border--color--status--success--default);
   --pf-topology__node--m-warning--Background--Fill: var(--pf-t--global--color--status--warning--default);
+  --pf-topology__node--m-warning--Background--Stroke: var(--pf-t--global--border--color--status--warning--default);
   --pf-topology__node--m-danger--Background--Fill: var(--pf-t--global--color--status--danger--default);
+  --pf-topology__node--m-danger--Background--Stroke: var(--pf-t--global--border--color--status--danger--default);
   --pf-topology__node--m-selected--Background--Fill: var(--pf-t--global--color--status--danger--default);
+  
 
   --pf-topology__node--m-selected--node__background--Stroke: var(--pf-t--global--border--color--brand--default);
   --pf-topology__node--m--hover--m-info--node__background--Stroke: var(--pf-t--global--border--color--nonstatus--blue--clicked);
   --pf-topology__node--m--hover--m-success--node__background--Stroke: var(--pf-t--global--border--color--status--success--hover);
   --pf-topology__node--m--hover--m-warning--node__background--Stroke: var(--pf-t--global--border--color--status--warning--hover);
   --pf-topology__node--m--hover--m-danger--node__background--Stroke: var(--pf-t--global--border--color--status--danger--hover);
+
+  
 
   /* node decorators */
   --pf-topology__node_decorator--Color: var(--pf-t--global--icon--color--regular);
@@ -133,7 +139,7 @@
   --pf-topology__group--m-selected--group__label__node__label__background--Fill: var(--pf-t--global--color--brand--default);
 
   /* edge */
-  --pf-topology__edge--Stroke: var(--pf-t--global--border--color--on-secondary);
+  --pf-topology__edge--Stroke: #707070;
   --pf-topology__edge--StrokeWidth: var(--pf-t--global--border--width--regular);
   --pf-topology__edge--HoverStroke: var(--pf-t--global--border--color--hover);
   --pf-topology__edge--ActiveStroke: var(--pf-t--global--border--color--clicked);
@@ -261,7 +267,6 @@
 
 .pf-topology__node__background.pf-m-success {
   --pf-topology__node__background--Fill: var(--pf-topology__node--m-success--Background--Fill);
-  --pf-topology__node__background--Stroke: var(--pf-topology__node--m-success--Background--Stroke);
 }
 
 .pf-topology__node__background.pf-m-success.pf-m-hover {
@@ -295,7 +300,7 @@
 }
 
 .pf-topology__node.pf-m-info .pf-topology__node__background {
-  --pf-topology__node__background--Stroke: var(--pf-topology__node--m-info--node__background--Stroke);
+  --pf-topology__node__background--Stroke: var(--pf-topology__node--m-info--Background--Stroke);
 }
 
 .pf-topology__node.pf-m-hover .pf-topology__node__background {
@@ -303,11 +308,11 @@
 }
 
 .pf-topology__node.pf-m-hover.pf-m-info .pf-topology__node__background {
-  --pf-topology__node__background--Stroke: var(--pf-topology__node--m--hover--m-info--node__label__background--Stroke);
+  --pf-topology__node__background--Stroke: var(--pf-topology__node--m-info--Background--Stroke);
 }
 
 .pf-topology__node.pf-m-success .pf-topology__node__background {
-  --pf-topology__node__background--Stroke: var(--pf-topology__node--m-success--node__background--Stroke);
+  --pf-topology__node__background--Stroke: var(--pf-topology__node--m-success--Background--Stroke);
 }
 
 .pf-topology__node.pf-m-hover.pf-m-success .pf-topology__node__background {
@@ -315,7 +320,7 @@
 }
 
 .pf-topology__node.pf-m-warning .pf-topology__node__background {
-  --pf-topology__node__background--Stroke: var(--pf-topology__node--m-warning--node__background--Stroke);
+  --pf-topology__node__background--Stroke: var(--pf-topology__node--m-warning--Background--Stroke);
 }
 
 .pf-topology__node.pf-m-hover.pf-m-warning .pf-topology__node__background {
@@ -323,7 +328,7 @@
 }
 
 .pf-topology__node.pf-m-danger .pf-topology__node__background {
-  --pf-topology__node__background--Stroke: var(--pf-topology__node--m-danger--node__background--Stroke);
+  --pf-topology__node__background--Stroke: var(--pf-topology__node--m-danger--Background--Stroke);
 }
 
 .pf-topology__node.pf-m-hover.pf-m-danger .pf-topology__node__background {
