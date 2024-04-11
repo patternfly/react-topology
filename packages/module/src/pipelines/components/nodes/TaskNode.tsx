@@ -318,7 +318,7 @@ const TaskNodeInner: React.FC<TaskNodeInnerProps> = observer(({
     return action(() => {
       sourceEdges.forEach(edge => {
         const data = edge.getData();
-        if (data.indent) {
+        if (data?.indent) {
           edge.setData({...(data || {}), indent: 0});
         }
       });
