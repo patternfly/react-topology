@@ -233,7 +233,8 @@ const TaskNodeInner: React.FC<TaskNodeInnerProps> = observer(({
         badgeStartX: 0,
         iconWidth: 0,
         iconStartX: 0,
-        leadIconStartX: 0
+        leadIconStartX: 0,
+        offsetX: 0
       };
     }
     const height: number = textHeight + 2 * paddingY;
@@ -303,16 +304,25 @@ const TaskNodeInner: React.FC<TaskNodeInnerProps> = observer(({
   ]);
 
   React.useEffect(() => {
+    const sourceEdges = element.getSourceEdges();
     action(() => {
-      const sourceEdges = element.getSourceEdges();
+      const indent = detailsLevel === ScaleDetailsLevel.high && !verticalLayout ? width - pillWidth : 0;
       sourceEdges.forEach(edge => {
         const data = edge.getData();
-        edge.setData({
-          ...(data || {}),
-          indent: detailsLevel === ScaleDetailsLevel.high && !verticalLayout ? width - pillWidth : 0
-        });
+        if ((data?.indent ?? 0) !== indent) {
+          edge.setData({ ...(data || {}), indent });
+        }
       });
     })();
+
+    return action(() => {
+      sourceEdges.forEach(edge => {
+        const data = edge.getData();
+        if (data?.indent) {
+          edge.setData({...(data || {}), indent: 0});
+        }
+      });
+    });
   }, [detailsLevel, element, pillWidth, verticalLayout, width]);
 
   const scale = element.getGraph().getScale();
