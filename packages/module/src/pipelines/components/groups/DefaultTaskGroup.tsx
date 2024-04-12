@@ -1,28 +1,22 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import {
-  OnSelect,
-  WithDndDragProps,
-  ConnectDragSource,
-  ConnectDropTarget,
-} from '../../../behavior';
+import { OnSelect, WithDndDragProps, ConnectDragSource, ConnectDropTarget, WithSelectionProps } from '../../../behavior';
 import { ShapeProps } from '../../../components';
 import { Dimensions } from '../../../geom';
 import { GraphElement, LabelPosition, BadgeLocation, isNode, Node } from '../../../types';
-import { action } from '../../../mobx-exports';
 import { getEdgesFromNodes, getSpacerNodes } from '../../utils';
 import DefaultTaskGroupCollapsed from './DefaultTaskGroupCollapsed';
 import DefaultTaskGroupExpanded from './DefaultTaskGroupExpanded';
 
 export interface EdgeCreationTypes {
-  spacerNodeType?: string;
+  spacerNodeType?: string,
   edgeType?: string;
   spacerEdgeType?: string;
   finallyNodeTypes?: string[];
   finallyEdgeType?: string;
 }
 
-export interface DefaultTaskGroupProps {
+interface PipelinesDefaultGroupProps {
   /** Additional content added to the node */
   children?: React.ReactNode;
   /** Additional classes added to the group */
@@ -39,10 +33,6 @@ export interface DefaultTaskGroupProps {
   dragging?: boolean;
   /** Flag if drag operation is a regroup operation */
   dragRegroupable?: boolean;
-  /** Flag indicating the node should be scaled, best on hover of the node at lowest scale level */
-  scaleNode?: boolean;
-  /** Flag to hide details at medium scale */
-  hideDetailsAtMedium?: boolean;
   /** Flag if the user is hovering on the node */
   hover?: boolean;
   /** Label for the node. Defaults to element.getLabel() */
@@ -55,8 +45,6 @@ export interface DefaultTaskGroupProps {
   labelPosition?: LabelPosition;
   /** The maximum length of the label before truncation */
   truncateLength?: number;
-  /** Space between the label and the group. Defaults to 17 */
-  labelOffset?: number;
   /** The Icon class to show in the label, ignored when labelIcon is specified */
   labelIconClass?: string;
   /** The label icon component to show in the label, takes precedence over labelIconClass */
@@ -85,8 +73,6 @@ export interface DefaultTaskGroupProps {
   onCollapseChange?: (group: Node, collapsed: boolean) => void;
   /** Shape of the collapsed group */
   getCollapsedShape?: (node: Node) => React.FunctionComponent<ShapeProps>;
-  /** Number of shadows to shop for collapse groups. Defaults to 2 */
-  collapsedShadowCount?: number;
   /** Shadow offset for the collapsed group */
   collapsedShadowOffset?: number;
   /** Flag if the element selected. Part of WithSelectionProps */
@@ -107,7 +93,7 @@ export interface DefaultTaskGroupProps {
   recreateLayoutOnCollapseChange?: boolean;
   /** Function to return types used to re-create edges on a group collapse/expand (should be the same as calls to getEdgesFromNodes) */
   getEdgeCreationTypes?: () => {
-    spacerNodeType?: string;
+    spacerNodeType?: string,
     edgeType?: string;
     spacerEdgeType?: string;
     finallyNodeTypes?: string[];
@@ -115,21 +101,13 @@ export interface DefaultTaskGroupProps {
   };
 }
 
-type PipelinesDefaultGroupInnerProps = Omit<DefaultTaskGroupProps, 'element'> & { element: Node };
+type PipelinesDefaultGroupInnerProps = Omit<PipelinesDefaultGroupProps, 'element'> & { element: Node } & WithSelectionProps;
 
-const DefaultTaskGroupInner: React.FunctionComponent<PipelinesDefaultGroupInnerProps> = observer(({
-  className,
-  element,
-  badge,
-  onCollapseChange,
-  collapsedShadowCount,
-  recreateLayoutOnCollapseChange,
-  getEdgeCreationTypes,
-  ...rest
-}) => {
+const DefaultTaskGroupInner: React.FunctionComponent<PipelinesDefaultGroupInnerProps> = observer(
+  ({ className, element, onCollapseChange, recreateLayoutOnCollapseChange, getEdgeCreationTypes, ...rest }) => {
     const childCount = element.getAllNodeChildren().length;
 
-    const handleCollapse = action((group: Node, collapsed: boolean): void => {
+    const handleCollapse = (group: Node, collapsed: boolean): void => {
       if (collapsed && rest.collapsedWidth !== undefined && rest.collapsedHeight !== undefined) {
         group.setDimensions(new Dimensions(rest.collapsedWidth, rest.collapsedHeight));
       }
@@ -142,9 +120,9 @@ const DefaultTaskGroupInner: React.FunctionComponent<PipelinesDefaultGroupInnerP
           const creationTypes: EdgeCreationTypes = getEdgeCreationTypes ? getEdgeCreationTypes() : {};
 
           const pipelineNodes = model.nodes.filter((n) => n.type !== creationTypes.spacerNodeType).map((n) => ({
-              ...n,
-              visible: true
-            }));
+            ...n,
+            visible: true
+          }));
           const spacerNodes = getSpacerNodes(pipelineNodes, creationTypes.spacerNodeType, creationTypes.finallyNodeTypes);
           const nodes = [...pipelineNodes, ...spacerNodes];
           const edges = getEdgesFromNodes(
@@ -155,22 +133,24 @@ const DefaultTaskGroupInner: React.FunctionComponent<PipelinesDefaultGroupInnerP
             creationTypes.finallyNodeTypes,
             creationTypes.finallyEdgeType
           );
-          controller.fromModel({ nodes, edges }, true);
+          controller.fromModel({nodes, edges}, true);
           controller.getGraph().layout();
         }
       }
 
       onCollapseChange && onCollapseChange(group, collapsed);
-    });
+    };
 
     if (element.isCollapsed()) {
       return (
         <DefaultTaskGroupCollapsed
           className={className}
           element={element}
-          shadowCount={collapsedShadowCount}
           onCollapseChange={handleCollapse}
-          badge={badge || `${childCount}`}
+          badge={`${childCount}`}
+          badgeColor="#f5f5f5"
+          badgeBorderColor="#d2d2d2"
+          badgeTextColor="#000000"
           {...rest}
         />
       );
@@ -181,30 +161,24 @@ const DefaultTaskGroupInner: React.FunctionComponent<PipelinesDefaultGroupInnerP
         labelPosition={LabelPosition.top}
         element={element}
         onCollapseChange={handleCollapse}
+        badgeColor="#f5f5f5"
+        badgeBorderColor="#d2d2d2"
+        badgeTextColor="#000000"
         {...rest}
       />
     );
   }
 );
 
-const DefaultTaskGroup: React.FunctionComponent<DefaultTaskGroupProps> = ({
+const DefaultTaskGroup: React.FunctionComponent<PipelinesDefaultGroupProps> = ({
   element,
-  badgeColor = '#f5f5f5',
-  badgeBorderColor = '#d2d2d2',
-  badgeTextColor = '#000000',
   ...rest
-}: DefaultTaskGroupProps) => {
+}: PipelinesDefaultGroupProps) => {
   if (!isNode(element)) {
     throw new Error('DefaultTaskGroup must be used only on Node elements');
   }
 
-  return <DefaultTaskGroupInner
-    element={element}
-    badgeColor={badgeColor}
-    badgeBorderColor={badgeBorderColor}
-    badgeTextColor={badgeTextColor}
-    {...rest}
-  />;
+  return <DefaultTaskGroupInner element={element} {...rest} />;
 };
 
 export default DefaultTaskGroup;

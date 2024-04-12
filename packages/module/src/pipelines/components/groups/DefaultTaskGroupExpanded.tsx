@@ -7,23 +7,44 @@ import NodeLabel from '../../../components/nodes/labels/NodeLabel';
 import { Layer } from '../../../components/layers';
 import { GROUPS_LAYER, TOP_LAYER } from '../../../const';
 import { maxPadding, useCombineRefs, useHover } from '../../../utils';
+import { BadgeLocation, GraphElement, isGraph, LabelPosition, Node, NodeStyle } from '../../../types';
 import {
-  AnchorEnd,
-  isGraph,
-  LabelPosition,
-  Node,
-  NodeStyle
-} from '../../../types';
-import {
-  useAnchor,
   useDragNode,
+  WithContextMenuProps,
+  WithDndDropProps,
+  WithDragNodeProps,
+  WithSelectionProps
 } from '../../../behavior';
-import { DagreLayoutOptions, TOP_TO_BOTTOM } from '../../../layouts';
-import TaskGroupSourceAnchor from '../anchors/TaskGroupSourceAnchor';
-import TaskGroupTargetAnchor from '../anchors/TaskGroupTargetAnchor';
-import { DefaultTaskGroupProps } from './DefaultTaskGroup';
+import { CollapsibleGroupProps } from '../../../components';
 
-const DefaultTaskGroupExpanded: React.FunctionComponent<Omit<DefaultTaskGroupProps, 'element'> & { element: Node }> = observer(
+type DefaultTaskGroupProps = {
+  className?: string;
+  element: GraphElement;
+  droppable?: boolean;
+  canDrop?: boolean;
+  dropTarget?: boolean;
+  dragging?: boolean;
+  hover?: boolean;
+  label?: string; // Defaults to element.getLabel()
+  secondaryLabel?: string;
+  showLabel?: boolean; // Defaults to true
+  labelPosition?: LabelPosition;
+  truncateLength?: number; // Defaults to 13
+  badge?: string;
+  badgeColor?: string;
+  badgeTextColor?: string;
+  badgeBorderColor?: string;
+  badgeClassName?: string;
+  badgeLocation?: BadgeLocation;
+  labelOffset?: number; // Space between the label and the group
+  labelIconClass?: string; // Icon to show in label
+  labelIcon?: string;
+  labelIconPadding?: number;
+} & Partial<CollapsibleGroupProps & WithDragNodeProps & WithSelectionProps & WithDndDropProps & WithContextMenuProps>;
+
+type DefaultTaskGroupInnerProps = Omit<DefaultTaskGroupProps, 'element'> & { element: Node };
+
+const DefaultTaskGroupExpanded: React.FunctionComponent<DefaultTaskGroupInnerProps> = observer(
   ({
      className,
      element,
@@ -51,7 +72,7 @@ const DefaultTaskGroupExpanded: React.FunctionComponent<Omit<DefaultTaskGroupPro
      labelIconClass,
      labelIcon,
      labelIconPadding,
-     onCollapseChange,
+     onCollapseChange
    }) => {
     const [hovered, hoverRef] = useHover();
     const [labelHover, labelHoverRef] = useHover();
@@ -59,7 +80,6 @@ const DefaultTaskGroupExpanded: React.FunctionComponent<Omit<DefaultTaskGroupPro
     const refs = useCombineRefs<SVGPathElement>(hoverRef, dragNodeRef);
     const isHover = hover !== undefined ? hover : hovered;
     const labelPosition = element.getLabelPosition();
-    const verticalLayout = (element.getGraph().getLayoutOptions?.() as DagreLayoutOptions)?.rankdir === TOP_TO_BOTTOM;
 
     let parent = element.getParent();
     let altGroup = false;
@@ -67,15 +87,6 @@ const DefaultTaskGroupExpanded: React.FunctionComponent<Omit<DefaultTaskGroupPro
       altGroup = !altGroup;
       parent = parent.getParent();
     }
-
-    useAnchor(
-      React.useCallback((node: Node) => new TaskGroupSourceAnchor(node, verticalLayout), [verticalLayout]),
-      AnchorEnd.source
-    );
-    useAnchor(
-      React.useCallback((node: Node) => new TaskGroupTargetAnchor(node, verticalLayout), [verticalLayout]),
-      AnchorEnd.target
-    );
 
     const children = element.getNodes().filter((c) => c.isVisible());
 

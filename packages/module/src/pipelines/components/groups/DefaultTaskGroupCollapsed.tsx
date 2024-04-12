@@ -1,19 +1,38 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
 import ExpandIcon from '@patternfly/react-icons/dist/esm/icons/expand-alt-icon';
+import { WithDragNodeProps, WithSelectionProps, WithDndDropProps, WithContextMenuProps } from '../../../behavior';
 import { CollapsibleGroupProps } from "../../../components";
-import { Node } from '../../../types';
+import { LabelPosition, BadgeLocation, Node } from '../../../types';
 import { TaskNode } from '../nodes';
-import { TaskNodeProps } from '../nodes/TaskNode';
 
-export type DefaultTaskGroupCollapsedProps = {
+type DefaultTaskGroupCollapsedProps = {
+  children?: React.ReactNode;
+  className?: string;
   element: Node;
-  shadowCount?: number;
-} & Omit<TaskNodeProps, 'element'> & CollapsibleGroupProps;
+  droppable?: boolean;
+  canDrop?: boolean;
+  dropTarget?: boolean;
+  dragging?: boolean;
+  hover?: boolean;
+  label?: string; // Defaults to element.getLabel()
+  secondaryLabel?: string;
+  showLabel?: boolean; // Defaults to true
+  labelPosition?: LabelPosition; // Defaults to bottom
+  truncateLength?: number; // Defaults to 13
+  labelIconClass?: string; // Icon to show in label
+  labelIcon?: string;
+  labelIconPadding?: number;
+  badge?: string;
+  badgeColor?: string;
+  badgeTextColor?: string;
+  badgeBorderColor?: string;
+  badgeClassName?: string;
+  badgeLocation?: BadgeLocation;
+} & CollapsibleGroupProps & WithDragNodeProps & WithSelectionProps & WithDndDropProps & WithContextMenuProps;
 
 const DefaultTaskGroupCollapsed: React.FunctionComponent<DefaultTaskGroupCollapsedProps> = ({
   element,
-  shadowCount = 2,
   collapsible,
   onCollapseChange,
   ...rest
@@ -24,8 +43,7 @@ const DefaultTaskGroupCollapsed: React.FunctionComponent<DefaultTaskGroupCollaps
       element={element} {...rest}
       actionIcon={collapsible ? <ExpandIcon /> : undefined}
       onActionIconClick={() => onCollapseChange(element, false)}
-      shadowCount={shadowCount}
-      {...rest}
+      shadowCount={2}
     />
   );
 };
