@@ -21,7 +21,6 @@ import {
 import { DagreLayoutOptions, TOP_TO_BOTTOM } from '../../../layouts';
 import TaskGroupSourceAnchor from '../anchors/TaskGroupSourceAnchor';
 import TaskGroupTargetAnchor from '../anchors/TaskGroupTargetAnchor';
-// import { action } from 'mobx';
 import { DefaultTaskGroupProps } from './DefaultTaskGroup';
 
 const DefaultTaskGroupExpanded: React.FunctionComponent<Omit<DefaultTaskGroupProps, 'element'> & { element: Node }> = observer(
