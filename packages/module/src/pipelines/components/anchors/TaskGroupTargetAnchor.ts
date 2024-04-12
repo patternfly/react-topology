@@ -1,9 +1,11 @@
-import { AbstractAnchor, Point, Node } from '@patternfly/react-topology';
+import { AbstractAnchor } from '../../../anchors';
+import { Node } from '../../../types';
+import { Point } from '../../../geom';
 
-export default class TaskGroupTargetAnchor<E extends Node = Node> extends AbstractAnchor {
+export default class TaskGroupTargetAnchor extends AbstractAnchor {
   private vertical = false;
 
-  constructor(owner: E, vertical = false) {
+  constructor(owner: Node, vertical = false) {
     super(owner);
     this.vertical = vertical;
   }
