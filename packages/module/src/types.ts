@@ -3,7 +3,7 @@ import Point from './geom/Point';
 import Dimensions from './geom/Dimensions';
 import Rect from './geom/Rect';
 import { Padding, Translatable } from './geom/types';
-import { LayoutOptions } from './layouts';
+import { LayoutOptions } from './layouts/LayoutOptions';
 
 // x, y
 export type PointTuple = [number, number];
