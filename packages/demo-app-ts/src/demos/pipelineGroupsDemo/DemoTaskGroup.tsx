@@ -14,7 +14,9 @@ import {
   ScaleDetailsLevel,
   DEFAULT_LAYER,
   Layer,
-  TOP_LAYER, GROUPS_LAYER
+  TOP_LAYER,
+  GROUPS_LAYER,
+  RunStatus
 } from '@patternfly/react-topology';
 
 type DemoTaskGroupProps = {
@@ -33,6 +35,7 @@ const DemoTaskGroup: React.FunctionComponent<DemoTaskGroupProps> = ({ element, .
   const verticalLayout = (element.getGraph().getLayoutOptions?.() as DagreLayoutOptions)?.rankdir === TOP_TO_BOTTOM;
   const [hover, hoverRef] = useHover();
   const detailsLevel = element.getGraph().getDetailsLevel();
+  const data = element.getData();
 
   if (!isNode(element)) {
     return null;
@@ -53,6 +56,9 @@ const DemoTaskGroup: React.FunctionComponent<DemoTaskGroupProps> = ({ element, .
           scaleNode={hover && detailsLevel !== ScaleDetailsLevel.high}
           showLabel={detailsLevel === ScaleDetailsLevel.high}
           hideDetailsAtMedium
+          showStatusState
+          status={data.status}
+          hiddenDetailsShownStatuses={[RunStatus.Succeeded]}
           {...rest}
         />
       </g>
