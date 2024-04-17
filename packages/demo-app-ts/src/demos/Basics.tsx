@@ -325,7 +325,7 @@ export const Basics: React.FunctionComponent = () => {
   return (
     <div className="pf-ri__topology-demo">
       <Tabs unmountOnExit activeKey={activeKey} onSelect={handleTabClick}>
-        <Tab eventKey={0} title={<TabTitleText>Single Node</TabTitleText>}>
+        <Tab eventKey={0} title={<TabTitleText>1 Single Node</TabTitleText>}>
           <SingleNode/>
         </Tab>
         <Tab eventKey={1} title={<TabTitleText>Single Edge</TabTitleText>}>
