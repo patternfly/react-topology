@@ -159,10 +159,30 @@ export default class BaseNode<E extends NodeModel = NodeModel, D = any> extends 
   getAllNodeChildren(): Node[] {
     return super.getChildren().reduce((total, nexChild) => {
       if (isNode(nexChild)) {
-        total.push(nexChild.isGroup() ? nexChild.getAllNodeChildren() : nexChild);
+        if (nexChild.isGroup()) {
+          return total.concat(nexChild.getAllNodeChildren());
+        }
+        total.push(nexChild);
       }
       return total;
     }, []);
+  }
+
+  getPositionableChildren(): Node[] {
+    return super.getChildren().reduce((total, nexChild) => {
+      if (isNode(nexChild)) {
+        if (nexChild.isGroup() && !nexChild.isCollapsed()) {
+          return total.concat(nexChild.getAllNodeChildren());
+        }
+        total.push(nexChild);
+      }
+      return total;
+    }, []);
+  }
+
+  // Return all children regardless of collapse status
+  protected getAllChildren(): GraphElement[] {
+    return super.getChildren();
   }
 
   getKind(): ModelKind {
@@ -199,7 +219,7 @@ export default class BaseNode<E extends NodeModel = NodeModel, D = any> extends 
   updateChildrenPositions(point: Point, prevLocation: Point): void {
     const xOffset = point.x - prevLocation.x;
     const yOffset = point.y - prevLocation.y;
-    this.getChildren().forEach(child => {
+    this.getPositionableChildren().forEach(child => {
       if (isNode(child)) {
         const node = child as Node;
         const position = node.getPosition();

@@ -1,204 +1,222 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import { css } from '@patternfly/react-styles';
-import styles from '../../../css/topology-components';
-import CollapseIcon from '@patternfly/react-icons/dist/esm/icons/compress-alt-icon';
-import NodeLabel from '../../../components/nodes/labels/NodeLabel';
-import { Layer } from '../../../components/layers';
-import { GROUPS_LAYER } from '../../../const';
-import { maxPadding, useCombineRefs, useHover } from '../../../utils';
-import {
-  BadgeLocation,
-  GraphElement,
-  isGraph,
-  isNode,
-  LabelPosition,
-  Node,
-  NodeStyle
-} from '../../../types';
-import {
-  useDragNode,
-  WithContextMenuProps,
-  WithDndDropProps,
-  WithDragNodeProps,
-  WithSelectionProps
-} from '../../../behavior';
-import { CollapsibleGroupProps } from '../../../components';
+import { OnSelect, WithDndDragProps, ConnectDragSource, ConnectDropTarget } from '../../../behavior';
+import { ShapeProps } from '../../../components';
+import { Dimensions } from '../../../geom';
+import { GraphElement, LabelPosition, BadgeLocation, isNode, Node } from '../../../types';
+import { action } from '../../../mobx-exports';
+import { getEdgesFromNodes, getSpacerNodes } from '../../utils';
+import DefaultTaskGroupCollapsed from './DefaultTaskGroupCollapsed';
+import DefaultTaskGroupExpanded from './DefaultTaskGroupExpanded';
+import { RunStatus } from '../../types';
 
-type DefaultTaskGroupProps = {
+export interface EdgeCreationTypes {
+  spacerNodeType?: string;
+  edgeType?: string;
+  spacerEdgeType?: string;
+  finallyNodeTypes?: string[];
+  finallyEdgeType?: string;
+}
+
+export interface DefaultTaskGroupProps {
+  /** Additional content added to the node */
+  children?: React.ReactNode;
+  /** Additional classes added to the group */
   className?: string;
+  /** The graph group node element to represent */
   element: GraphElement;
+  /** Flag if the node accepts drop operations */
   droppable?: boolean;
+  /** Flag if the current drag operation can be dropped on the node */
   canDrop?: boolean;
+  /** Flag if the node is the current drop target */
   dropTarget?: boolean;
+  /** Flag if the user is dragging the node */
   dragging?: boolean;
+  /** Flag if drag operation is a regroup operation */
+  dragRegroupable?: boolean;
+  /** RunStatus to depict, supported on collapsed groups only. */
+  status?: RunStatus;
+  /** Flag indicating the status indicator, supported on collapsed groups only */
+  showStatusState?: boolean;
+  /** Statuses to show at when details are hidden, supported on collapsed groups only */
+  hiddenDetailsShownStatuses?: RunStatus[];
+  /** Flag indicating the node should be scaled, best on hover of the node at lowest scale level */
+  scaleNode?: boolean;
+  /** Flag to hide details at medium scale */
+  hideDetailsAtMedium?: boolean;
+  /** Flag if the user is hovering on the node */
   hover?: boolean;
+  /** Label for the node. Defaults to element.getLabel() */
   label?: string; // Defaults to element.getLabel()
+  /** Secondary label for the node */
   secondaryLabel?: string;
+  /** Flag to show the label */
   showLabel?: boolean; // Defaults to true
-  truncateLength?: number; // Defaults to 13
-  badge?: string;
-  badgeColor?: string;
-  badgeTextColor?: string;
-  badgeBorderColor?: string;
-  badgeClassName?: string;
-  badgeLocation?: BadgeLocation;
-  labelOffset?: number; // Space between the label and the group
-  labelIconClass?: string; // Icon to show in label
+  /** Position of the label, top or bottom. Defaults to element.getLabelPosition() or bottom */
+  labelPosition?: LabelPosition;
+  /** The maximum length of the label before truncation */
+  truncateLength?: number;
+  /** Space between the label and the group. Defaults to 17 */
+  labelOffset?: number;
+  /** The Icon class to show in the label, ignored when labelIcon is specified */
+  labelIconClass?: string;
+  /** The label icon component to show in the label, takes precedence over labelIconClass */
   labelIcon?: string;
+  /** Padding for the label's icon */
   labelIconPadding?: number;
-} & Partial<CollapsibleGroupProps & WithDragNodeProps & WithSelectionProps & WithDndDropProps & WithContextMenuProps>;
+  /** Text for the label's badge */
+  badge?: string;
+  /** Color to use for the label's badge background */
+  badgeColor?: string;
+  /** Color to use for the label's badge text */
+  badgeTextColor?: string;
+  /** Color to use for the label's badge border */
+  badgeBorderColor?: string;
+  /** Additional classes to use for the label's badge */
+  badgeClassName?: string;
+  /** Location of the badge relative to the label's text, inner or below */
+  badgeLocation?: BadgeLocation;
+  /** Flag if the group is collapsible */
+  collapsible?: boolean;
+  /** Width of the collapsed group */
+  collapsedWidth?: number;
+  /** Height of the collapsed group */
+  collapsedHeight?: number;
+  /** Callback when the group is collapsed */
+  onCollapseChange?: (group: Node, collapsed: boolean) => void;
+  /** Shape of the collapsed group */
+  getCollapsedShape?: (node: Node) => React.FunctionComponent<ShapeProps>;
+  /** Number of shadows to shop for collapse groups. Defaults to 2 */
+  collapsedShadowCount?: number;
+  /** Shadow offset for the collapsed group */
+  collapsedShadowOffset?: number;
+  /** Flag if the element selected. Part of WithSelectionProps */
+  selected?: boolean;
+  /** Function to call when the element should become selected (or deselected). Part of WithSelectionProps */
+  onSelect?: OnSelect;
+  /** A ref to add to the node for dragging. Part of WithDragNodeProps */
+  dragNodeRef?: WithDndDragProps['dndDragRef'];
+  /** A ref to add to the node for drag and drop. Part of WithDndDragProps */
+  dndDragRef?: ConnectDragSource;
+  /** A ref to add to the node for dropping. Part of WithDndDropProps */
+  dndDropRef?: ConnectDropTarget;
+  /** Function to call to show a context menu for the node  */
+  onContextMenu?: (e: React.MouseEvent) => void;
+  /** Flag indicating that the context menu for the node is currently open  */
+  contextMenuOpen?: boolean;
+  /** Flag to recreate the layout when the group is expanded/collapsed. Be sure you are registering "pipelineElementFactory" when set to true. */
+  recreateLayoutOnCollapseChange?: boolean;
+  /** Function to return types used to re-create edges on a group collapse/expand (should be the same as calls to getEdgesFromNodes) */
+  getEdgeCreationTypes?: () => {
+    spacerNodeType?: string;
+    edgeType?: string;
+    spacerEdgeType?: string;
+    finallyNodeTypes?: string[];
+    finallyEdgeType?: string;
+  };
+}
 
-type DefaultTaskGroupInnerProps = Omit<DefaultTaskGroupProps, 'element'> & { element: Node };
+type PipelinesDefaultGroupInnerProps = Omit<DefaultTaskGroupProps, 'element'> & { element: Node };
 
-const DefaultTaskGroupInner: React.FunctionComponent<DefaultTaskGroupInnerProps> = observer(({
-  className,
-  element,
-  collapsible,
-  selected,
-  onSelect,
-  hover,
-  label,
-  secondaryLabel,
-  showLabel = true,
-  truncateLength,
-  canDrop,
-  dropTarget,
-  onContextMenu,
-  contextMenuOpen,
-  dragging,
-  dragNodeRef,
-  badge,
-  badgeColor,
-  badgeTextColor,
-  badgeBorderColor,
-  badgeClassName,
-  badgeLocation,
-  labelOffset = 17,
-  labelIconClass,
-  labelIcon,
-  labelIconPadding,
-  onCollapseChange
-}) => {
-  const [hovered, hoverRef] = useHover();
-  const [labelHover, labelHoverRef] = useHover();
-  const dragLabelRef = useDragNode()[1];
-  const refs = useCombineRefs<SVGPathElement>(hoverRef, dragNodeRef);
-  const isHover = hover !== undefined ? hover : hovered;
-  const labelPosition = element.getLabelPosition();
-
-  let parent = element.getParent();
-  let altGroup = false;
-  while (!isGraph(parent)) {
-    altGroup = !altGroup;
-    parent = parent.getParent();
-  }
-
-  const children = element.getNodes().filter(c => c.isVisible());
-
-  // cast to number and coerce
-  const padding = maxPadding(element.getStyle<NodeStyle>().padding ?? 17);
-
-  const { minX, minY, maxX, maxY } = children.reduce(
-    (acc, child) => {
-      const bounds = child.getBounds();
-      return {
-        minX: Math.min(acc.minX, bounds.x - padding),
-        minY: Math.min(acc.minY, bounds.y - padding),
-        maxX: Math.max(acc.maxX, bounds.x + bounds.width + padding),
-        maxY: Math.max(acc.maxY, bounds.y + bounds.height + padding)
-      };
-    },
-    { minX: Infinity, minY: Infinity, maxX: 0, maxY: 0 }
-  );
-
-  const [labelX, labelY] = React.useMemo(() => {
-    if (!showLabel || !(label || element.getLabel())) {
-      return [0, 0];
-    }
-    switch (labelPosition) {
-      case LabelPosition.right:
-        return [maxX + labelOffset, minY + (maxY - minY) / 2];
-      case LabelPosition.bottom:
-      default:
-        return [minX + (maxX - minX) / 2, maxY + labelOffset];
-    }
-  }, [element, label, labelOffset, labelPosition, maxX, maxY, minX, minY, showLabel]);
-
-  if (children.length === 0) {
-    return null;
-  }
-
-  const groupClassName = css(
-    styles.topologyGroup,
+const DefaultTaskGroupInner: React.FunctionComponent<PipelinesDefaultGroupInnerProps> = observer(
+  ({
     className,
-    altGroup && 'pf-m-alt-group',
-    canDrop && 'pf-m-highlight',
-    dragging && 'pf-m-dragging',
-    selected && 'pf-m-selected'
-  );
-  const innerGroupClassName = css(
-    styles.topologyGroup,
-    className,
-    altGroup && 'pf-m-alt-group',
-    canDrop && 'pf-m-highlight',
-    dragging && 'pf-m-dragging',
-    selected && 'pf-m-selected',
-    (isHover || labelHover) && 'pf-m-hover',
-    canDrop && dropTarget && 'pf-m-drop-target'
-  );
+    element,
+    badge,
+    onCollapseChange,
+    collapsedShadowCount,
+    recreateLayoutOnCollapseChange,
+    getEdgeCreationTypes,
+    ...rest
+  }) => {
+    const childCount = element.getAllNodeChildren().length;
 
-  return (
-    <g ref={labelHoverRef} onContextMenu={onContextMenu} onClick={onSelect} className={groupClassName}>
-      <Layer id={GROUPS_LAYER}>
-        <g ref={refs} onContextMenu={onContextMenu} onClick={onSelect} className={innerGroupClassName}>
-          <rect x={minX} y={minY} width={maxX - minX} height={maxY - minY} className={styles.topologyGroupBackground} />
-        </g>
-      </Layer>
-      {showLabel && (label || element.getLabel()) && (
-        <NodeLabel
-          className={styles.topologyGroupLabel}
-          x={labelX}
-          y={labelY}
-          position={labelPosition}
-          paddingX={8}
-          paddingY={5}
-          dragRef={dragNodeRef ? dragLabelRef : undefined}
-          status={element.getNodeStatus()}
-          secondaryLabel={secondaryLabel}
-          truncateLength={truncateLength}
-          badge={badge}
-          badgeColor={badgeColor}
-          badgeTextColor={badgeTextColor}
-          badgeBorderColor={badgeBorderColor}
-          badgeClassName={badgeClassName}
-          badgeLocation={badgeLocation}
-          labelIconClass={labelIconClass}
-          labelIcon={labelIcon}
-          labelIconPadding={labelIconPadding}
-          onContextMenu={onContextMenu}
-          contextMenuOpen={contextMenuOpen}
-          hover={isHover || labelHover}
-          actionIcon={collapsible ? <CollapseIcon /> : undefined}
-          onActionIconClick={() => onCollapseChange(element, true)}
-        >
-          {label || element.getLabel()}
-        </NodeLabel>
-      )}
-    </g>
-  );
-});
+    const handleCollapse = action((group: Node, collapsed: boolean): void => {
+      if (collapsed && rest.collapsedWidth !== undefined && rest.collapsedHeight !== undefined) {
+        group.setDimensions(new Dimensions(rest.collapsedWidth, rest.collapsedHeight));
+      }
+      group.setCollapsed(collapsed);
+
+      if (recreateLayoutOnCollapseChange) {
+        const controller = group.hasController() && group.getController();
+        if (controller) {
+          const model = controller.toModel();
+          const creationTypes: EdgeCreationTypes = getEdgeCreationTypes ? getEdgeCreationTypes() : {};
+
+          const pipelineNodes = model.nodes
+            .filter((n) => n.type !== creationTypes.spacerNodeType)
+            .map((n) => ({
+              ...n,
+              visible: true
+            }));
+          const spacerNodes = getSpacerNodes(
+            pipelineNodes,
+            creationTypes.spacerNodeType,
+            creationTypes.finallyNodeTypes
+          );
+          const nodes = [...pipelineNodes, ...spacerNodes];
+          const edges = getEdgesFromNodes(
+            pipelineNodes,
+            creationTypes.spacerNodeType,
+            creationTypes.edgeType,
+            creationTypes.edgeType,
+            creationTypes.finallyNodeTypes,
+            creationTypes.finallyEdgeType
+          );
+          controller.fromModel({ nodes, edges }, true);
+          controller.getGraph().layout();
+        }
+      }
+
+      onCollapseChange && onCollapseChange(group, collapsed);
+    });
+
+    if (element.isCollapsed()) {
+      return (
+        <DefaultTaskGroupCollapsed
+          className={className}
+          element={element}
+          shadowCount={collapsedShadowCount}
+          onCollapseChange={handleCollapse}
+          badge={badge || `${childCount}`}
+          {...rest}
+        />
+      );
+    }
+    return (
+      //  TODO: Support status indicators on expanded state.
+      <DefaultTaskGroupExpanded
+        className={className}
+        labelPosition={LabelPosition.top}
+        element={element}
+        onCollapseChange={handleCollapse}
+        {...rest}
+      />
+    );
+  }
+);
 
 const DefaultTaskGroup: React.FunctionComponent<DefaultTaskGroupProps> = ({
   element,
-  showLabel = true,
-  labelOffset = 17,
+  badgeColor = '#f5f5f5',
+  badgeBorderColor = '#d2d2d2',
+  badgeTextColor = '#000000',
   ...rest
 }: DefaultTaskGroupProps) => {
   if (!isNode(element)) {
     throw new Error('DefaultTaskGroup must be used only on Node elements');
   }
-  return <DefaultTaskGroupInner element={element as Node} showLabel={showLabel} labelOffset={labelOffset} {...rest} />;
+
+  return (
+    <DefaultTaskGroupInner
+      element={element}
+      badgeColor={badgeColor}
+      badgeBorderColor={badgeBorderColor}
+      badgeTextColor={badgeTextColor}
+      {...rest}
+    />
+  );
 };
 
 export default DefaultTaskGroup;

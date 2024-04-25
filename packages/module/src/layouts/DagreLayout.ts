@@ -1,5 +1,4 @@
 import * as dagre from 'dagre';
-import * as _ from 'lodash';
 import { Edge, Graph, GRAPH_LAYOUT_END_EVENT, Layout, Node } from '../types';
 import { BaseLayout, LAYOUT_DEFAULTS } from './BaseLayout';
 import { LayoutOptions } from './LayoutOptions';
@@ -8,6 +7,9 @@ import { LayoutNode } from './LayoutNode';
 import { DagreNode } from './DagreNode';
 import { DagreGroup } from './DagreGroup';
 import { DagreLink } from './DagreLink';
+
+export const TOP_TO_BOTTOM = 'TB';
+export const LEFT_TO_RIGHT = 'LR';
 
 export type DagreLayoutOptions = LayoutOptions & dagre.GraphLabel & { ignoreGroups?: boolean };
 
@@ -24,7 +26,7 @@ export class DagreLayout extends BaseLayout implements Layout {
       nodesep: this.options.nodeDistance,
       edgesep: this.options.linkDistance,
       ranker: 'tight-tree',
-      rankdir: 'TB',
+      rankdir: TOP_TO_BOTTOM,
       ...options
     };
   }
@@ -42,7 +44,7 @@ export class DagreLayout extends BaseLayout implements Layout {
   }
 
   protected updateEdgeBendpoints(edges: DagreLink[]): void {
-    _.forEach(edges, edge => {
+    edges.forEach(edge => {
       const link = edge as DagreLink;
       link.updateBendpoints();
     });
@@ -55,26 +57,26 @@ export class DagreLayout extends BaseLayout implements Layout {
   protected startLayout(graph: Graph, initialRun: boolean, addingNodes: boolean): void {
     if (initialRun || addingNodes) {
       const dagreGraph = new dagre.graphlib.Graph({ compound: true });
-      dagreGraph.setGraph(_.omit(this.dagreOptions, Object.keys(LAYOUT_DEFAULTS)));
+      const options = { ...this.dagreOptions };
+      Object.keys(LAYOUT_DEFAULTS).forEach(key => delete options[key]);
+      dagreGraph.setGraph(options);
 
       if (!this.dagreOptions.ignoreGroups) {
-        _.forEach(this.groups, group => {
+        this.groups.forEach(group => {
           dagreGraph.setNode(group.id, group);
           dagreGraph.setParent(group.id, group.element.getParent().getId());
         });
       }
 
-      const updatedNodes: dagre.Node[] = [];
-      _.forEach(this.nodes, node => {
+      this.nodes?.forEach(node => {
         const updateNode = (node as DagreNode).getUpdatableNode();
-        updatedNodes.push(updateNode);
         dagreGraph.setNode(node.id, updateNode);
         if (!this.dagreOptions.ignoreGroups) {
           dagreGraph.setParent(node.id, node.element.getParent().getId());
         }
       });
 
-      _.forEach(this.edges, dagreEdge => {
+      this.edges?.forEach(dagreEdge => {
         dagreGraph.setEdge(dagreEdge.source.id, dagreEdge.target.id, dagreEdge);
       });
 

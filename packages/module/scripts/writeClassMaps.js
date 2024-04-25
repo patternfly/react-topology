@@ -51,6 +51,17 @@ function writeIndex(fileName) {
   }
 }
 
+function isNotTS(file) {
+  const isTS = file.endsWith('.ts');
+  const isNotDeclaration = !file.endsWith('.d.ts');
+
+  if (isTS && isNotDeclaration) {
+    return false;
+  }
+
+  return true;
+}
+
 /**
  * @param {any} classMaps Map of file names to classMaps
  */
@@ -65,10 +76,10 @@ function writeClassMaps(classMaps) {
     copyFileSync(file, join(outDir, outPath));
 
     ensureDirSync(esmDistDir);
-    copySync(outDir, esmDistDir);
+    copySync(outDir, esmDistDir, { filter: isNotTS });
 
     ensureDirSync(jsDistDir);
-    copySync(outDir, jsDistDir);
+    copySync(outDir, jsDistDir, { filter: isNotTS });
   });
 
   // eslint-disable-next-line no-console

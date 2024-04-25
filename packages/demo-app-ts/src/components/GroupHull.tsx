@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
 import { polygonHull } from 'd3-polygon';
-import * as _ from 'lodash';
 import {
   WithDragNodeProps,
   WithSelectionProps,
@@ -85,7 +84,7 @@ const GroupHull: React.FunctionComponent<GroupHullProps> = ({
       return null;
     }
     const points: PointWithSize[] = [];
-    _.forEach(nodeChildren, c => {
+    nodeChildren.forEach(c => {
       if (c.getNodeShape() === NodeShape.ellipse) {
         const { width, height } = c.getBounds();
         const { x, y } = c.getBounds().getCenter();

@@ -123,8 +123,22 @@ const NodeLabel: React.FunctionComponent<NodeLabelProps> = ({
     const primaryWidth = iconSpace + badgeSpace + paddingX + textSize.width + actionSpace + contextSpace + paddingX;
     const secondaryWidth = secondaryLabel && secondaryTextSize ? secondaryTextSize.width + 2 * paddingX : 0;
     const width = Math.max(primaryWidth, secondaryWidth);
-    const startX = position === LabelPosition.right ? x + iconSpace : x - width / 2 + iconSpace / 2;
-    const startY = position === LabelPosition.right ? y - height / 2 : y;
+
+    let startX: number;
+    let startY: number;
+    if (position === LabelPosition.top) {
+      startX = x - width / 2;
+      startY = -y - height - paddingY;
+    } else if (position === LabelPosition.right) {
+      startX = x + iconSpace;
+      startY = y - height / 2;
+    } else if (position === LabelPosition.left) {
+      startX = - width - paddingX;
+      startY = y - height / 2 + paddingY;
+    } else {
+      startX = x - width / 2 + iconSpace / 2;
+      startY = y;
+    }
     const actionStartX = iconSpace + badgeSpace + paddingX + textSize.width + paddingX;
     const contextStartX = actionStartX + actionSpace;
     const backgroundHeight =

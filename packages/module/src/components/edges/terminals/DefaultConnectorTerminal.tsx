@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import * as _ from 'lodash';
 import { css } from '@patternfly/react-styles';
 import styles from '../../../css/topology-components';
 import { Edge, EdgeTerminalType, NodeStatus } from '../../../types';
@@ -11,6 +10,7 @@ import ConnectorSquare from './ConnectorSquare';
 import ConnectorCircle from './ConnectorCircle';
 import ConnectorArrowAlt from './ConnectorArrowAlt';
 import { StatusModifier } from '../../../utils';
+import Point from '../../../geom/Point';
 
 interface EdgeConnectorArrowProps {
   edge: Edge;
@@ -21,6 +21,8 @@ interface EdgeConnectorArrowProps {
   terminalType?: EdgeTerminalType;
   size?: number;
   dragRef?: ConnectDragSource;
+  startPoint?: Point;
+  endPoint?: Point;
 }
 
 const DefaultConnectorTerminal: React.FunctionComponent<EdgeConnectorArrowProps> = ({
@@ -29,6 +31,8 @@ const DefaultConnectorTerminal: React.FunctionComponent<EdgeConnectorArrowProps>
   isTarget = true,
   terminalType,
   status,
+  startPoint,
+  endPoint,
   ...others
 }) => {
   let Terminal;
@@ -55,11 +59,21 @@ const DefaultConnectorTerminal: React.FunctionComponent<EdgeConnectorArrowProps>
     return null;
   }
   const bendPoints = edge.getBendpoints();
-  const startPoint = isTarget ? _.last(bendPoints) || edge.getStartPoint() : _.head(bendPoints) || edge.getEndPoint();
-  const endPoint = isTarget ? edge.getEndPoint() : edge.getStartPoint();
+  const defaultStartPoint = isTarget
+    ? edge.getBendpoints[bendPoints.length - 1] || edge.getStartPoint()
+    : bendPoints[0] || edge.getEndPoint();
+  const defaultEndPoint = isTarget ? edge.getEndPoint() : edge.getStartPoint();
   const classes = css(styles.topologyEdge, className, StatusModifier[status]);
 
-  return <Terminal className={classes} startPoint={startPoint} endPoint={endPoint} isTarget={isTarget} {...others} />;
+  return (
+    <Terminal
+      className={classes}
+      startPoint={startPoint ?? defaultStartPoint}
+      endPoint={endPoint ?? defaultEndPoint}
+      isTarget={isTarget}
+      {...others}
+    />
+  );
 };
 
 export default observer(DefaultConnectorTerminal);

@@ -1,6 +1,6 @@
 import { Graph, Layout } from '../../types';
 import { NODE_SEPARATION_HORIZONTAL, NODE_SEPARATION_VERTICAL } from '../const';
-import { DagreLayout, DagreLayoutOptions } from '../../layouts/DagreLayout';
+import { DagreLayout, DagreLayoutOptions, LEFT_TO_RIGHT } from '../../layouts/DagreLayout';
 
 export class PipelineDagreLayout extends DagreLayout implements Layout {
   constructor(graph: Graph, options?: Partial<DagreLayoutOptions>) {
@@ -17,7 +17,7 @@ export class PipelineDagreLayout extends DagreLayout implements Layout {
       ranksep: NODE_SEPARATION_HORIZONTAL,
       edgesep: 50,
       ranker: 'longest-path',
-      rankdir: 'LR',
+      rankdir: LEFT_TO_RIGHT,
       marginx: 20,
       marginy: 20,
       ...options
