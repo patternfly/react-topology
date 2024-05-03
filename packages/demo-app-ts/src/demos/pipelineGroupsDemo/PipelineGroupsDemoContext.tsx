@@ -2,7 +2,7 @@ import * as React from 'react';
 import { makeObservable, observable, action } from 'mobx';
 
 export class PipelineGroupsDemoModel {
-  protected verticalLayoutP: boolean = false;
+  protected verticalLayoutP: boolean = true;
 
   constructor() {
     makeObservable<

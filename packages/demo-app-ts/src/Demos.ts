@@ -1,6 +1,9 @@
 import { PipelineTasksDemo } from './demos/pipelinesDemo/PipelineTasksDemo';
 import { PipelineLayoutDemo } from './demos/pipelinesDemo/PipelineLayoutDemo';
-import { PipelineGroupsDemo } from './demos/pipelineGroupsDemo/PipelineGroupsDemo';
+import {
+  PipelineGroupsComplexDemo,
+  PipelineGroupsDemo
+} from './demos/pipelineGroupsDemo/PipelineGroupsDemo';
 import { Basics } from './demos/Basics';
 import { StyleEdges, StyleGroups, StyleLabels, StyleNodes } from './demos/stylesDemo/Styles';
 import { Selection } from './demos/Selection';
@@ -55,6 +58,11 @@ export const Demos: DemoInterface[] = [
         id: 'pipelines-groups-layout-demo',
         name: 'Pipeline Groups Layout',
         componentType: PipelineGroupsDemo,
+      },
+      {
+        id: 'pipelines-groups-complex-layout-demo',
+        name: 'Pipeline Groups Complex Layout',
+        componentType: PipelineGroupsComplexDemo,
       },
     ]
   },

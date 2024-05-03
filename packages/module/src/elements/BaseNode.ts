@@ -172,7 +172,7 @@ export default class BaseNode<E extends NodeModel = NodeModel, D = any> extends 
     return super.getChildren().reduce((total, nexChild) => {
       if (isNode(nexChild)) {
         if (nexChild.isGroup() && !nexChild.isCollapsed()) {
-          return total.concat(nexChild.getAllNodeChildren());
+          return total.concat(nexChild.getPositionableChildren());
         }
         total.push(nexChild);
       }

@@ -117,7 +117,7 @@ export const getSpacerNodes = (
       id: key,
       type: spacerNodeType,
       width: 1,
-      height: 1
+      height: 1,
     });
   });
 
@@ -132,6 +132,31 @@ export const getSpacerNodes = (
   }
 
   return spacerNodes;
+};
+
+export const addSpacerNodes = (
+  nodes: PipelineNodeModel[],
+  addSpacersToGroups: boolean = true,
+  spacerNodeType = DEFAULT_SPACER_NODE_TYPE,
+  finallyNodeTypes: string[] = [DEFAULT_FINALLY_NODE_TYPE]
+): PipelineNodeModel[] => {
+  const spacerNodes = getSpacerNodes(nodes, spacerNodeType, finallyNodeTypes);
+  const newNodes = [ ...nodes, ...spacerNodes];
+
+  if (addSpacersToGroups) {
+    // find the parent of each spacer node
+    spacerNodes.forEach((spacerNode) => {
+      const nodeIds = spacerNode.id.split('|');
+      if (nodeIds[0]) {
+        const parent = newNodes.find((n) => n.children?.includes(nodeIds[0]));
+        if (parent) {
+          parent.children?.push(spacerNode.id);
+        }
+      }
+    });
+  }
+
+  return newNodes;
 };
 
 export const getEdgesFromNodes = (
