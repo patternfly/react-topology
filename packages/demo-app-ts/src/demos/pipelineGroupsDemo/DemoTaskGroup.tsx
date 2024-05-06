@@ -18,13 +18,11 @@ import {
   GROUPS_LAYER,
   RunStatus
 } from '@patternfly/react-topology';
+import { DEFAULT_TASK_HEIGHT, GROUP_TASK_WIDTH } from './createDemoPipelineGroupsNodes';
 
 type DemoTaskGroupProps = {
   element: GraphElement;
 } & WithSelectionProps;
-
-export const DEFAULT_TASK_WIDTH = 180;
-export const DEFAULT_TASK_HEIGHT = 32;
 
 const getEdgeCreationTypes = (): EdgeCreationTypes => ({
   edgeType: 'edge',
@@ -48,7 +46,7 @@ const DemoTaskGroup: React.FunctionComponent<DemoTaskGroupProps> = ({ element, .
         <DefaultTaskGroup
           labelPosition={verticalLayout ? LabelPosition.top : LabelPosition.bottom}
           collapsible
-          collapsedWidth={DEFAULT_TASK_WIDTH}
+          collapsedWidth={GROUP_TASK_WIDTH}
           collapsedHeight={DEFAULT_TASK_HEIGHT}
           element={element as Node}
           recreateLayoutOnCollapseChange
