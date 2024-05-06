@@ -7,9 +7,9 @@ import {
   ConcentricLayout,
   DagreLayout,
   GridLayout,
-  BreadthFirstLayout
+  BreadthFirstLayout,
+  ColaGroupsLayout
 } from '@patternfly/react-topology';
-import { ColaGroupsLayout } from '@patternfly/react-topology/dist/esm/layouts/ColaGroupsLayout';
 
 const defaultLayoutFactory: LayoutFactory = (type: string, graph: Graph): Layout | undefined => {
   switch (type) {

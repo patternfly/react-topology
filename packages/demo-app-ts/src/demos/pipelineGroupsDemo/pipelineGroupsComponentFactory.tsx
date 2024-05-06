@@ -22,8 +22,11 @@ const pipelineGroupsComponentFactory: ComponentFactory = (
   }
   switch (type) {
     case 'Execution':
+    case 'EXECUTION_TASK_NODE':
       return withSelection()(DemoTaskGroup);
     case 'Task':
+    case 'DEFAULT_TASK_NODE':
+    case 'ICON_TASK_NODE':
       return withSelection()(DemoTaskNode);
     case DEFAULT_SPACER_NODE_TYPE:
       return SpacerNode;

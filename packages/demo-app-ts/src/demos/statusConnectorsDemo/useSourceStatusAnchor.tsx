@@ -4,9 +4,9 @@ import {
   isNode,
   AnchorEnd,
   ElementContext,
+  Point,
+  AbstractAnchor,
 } from '@patternfly/react-topology';
-import AbstractAnchor from '@patternfly/react-topology/dist/esm/anchors/AbstractAnchor';
-import Point from '@patternfly/react-topology/dist/esm/geom/Point';
 
 export type SvgAnchorRef = (node: SVGElement | null) => void;
 

@@ -13,20 +13,20 @@ const OptionsBar: React.FC = observer(() => {
       </ToolbarItem>
       <ToolbarItem>
         <Radio
-          id="horizontal-layout-radio"
-          name="horizontalLayout"
-          isChecked={!pipelineOptions.verticalLayout}
-          onChange={() => pipelineOptions.setVerticalLayout(false)}
-          label="Horizontal"
-        />
-      </ToolbarItem>
-      <ToolbarItem>
-        <Radio
           id="vertical-layout-radio"
           name="verticalLayout"
           isChecked={pipelineOptions.verticalLayout}
           onChange={() => pipelineOptions.setVerticalLayout(true)}
           label="Vertical"
+        />
+      </ToolbarItem>
+      <ToolbarItem>
+        <Radio
+          id="horizontal-layout-radio"
+          name="horizontalLayout"
+          isChecked={!pipelineOptions.verticalLayout}
+          onChange={() => pipelineOptions.setVerticalLayout(false)}
+          label="Horizontal"
         />
       </ToolbarItem>
     </>

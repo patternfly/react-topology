@@ -1,2 +1,2 @@
-export * from './BasePipelineNode';
-export * from './pipelineElementFactory';
+export { default as BasePipelineNode } from './BasePipelineNode';
+export { default as pipelineElementFactory } from './pipelineElementFactory';

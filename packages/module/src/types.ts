@@ -233,6 +233,7 @@ export interface Node<E extends NodeModel = NodeModel, D = any> extends GraphEle
   getSourceEdges(): Edge[];
   getTargetEdges(): Edge[];
   getAllNodeChildren(): Node[]; // Return all children regardless of collapse status or child groups' collapsed status
+  getPositionableChildren(): Node[]; // Return all children that can be positioned (collapsed groups are positionable)
   isDimensionsInitialized(): boolean;
   isPositioned(): boolean;
 }

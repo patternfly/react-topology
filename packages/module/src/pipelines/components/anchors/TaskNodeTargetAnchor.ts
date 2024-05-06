@@ -25,8 +25,7 @@ export default class TaskNodeTargetAnchor<E extends Node = Node> extends Abstrac
 
     if (this.vertical) {
       if (this.detailsLevel !== ScaleDetailsLevel.high) {
-        const scale = this.owner.getGraph().getScale();
-        return new Point(bounds.x + (this.lowDetailsStatusIconSize / 2 + 2) * (1 / scale), bounds.y);
+        return new Point(bounds.x + (bounds.width / 2), bounds.y);
       }
       return new Point(bounds.x + bounds.width / 2, bounds.y - this.whenOffset);
     }

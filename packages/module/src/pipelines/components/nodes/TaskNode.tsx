@@ -165,7 +165,7 @@ const TaskNodeInner: React.FC<TaskNodeInnerProps> = observer(({
   const taskRef = React.useRef();
   const taskIconComponentRef = React.useRef();
   const isHover = hover !== undefined ? hover : hovered;
-  const { width } = element.getBounds();
+  const { width, height: boundsHeight } = element.getBounds();
   const label = truncateMiddle(element.getLabel(), { length: truncateLength, omission: '...' });
   const [textSize, textRef] = useSize([label, className]);
   const nameLabelTriggerRef = React.useRef();
@@ -400,11 +400,12 @@ const TaskNodeInner: React.FC<TaskNodeInnerProps> = observer(({
   const renderTask = () => {
     if (showStatusState && !scaleNode && hideDetailsAtMedium && detailsLevel !== ScaleDetailsLevel.high) {
       const statusBackgroundRadius = statusIconSize / 2 + 4;
-      const height = element.getBounds().height;
       const upScale = 1 / scale;
 
+      const translateX = verticalLayout ? width / 2 - statusBackgroundRadius * upScale: 0;
+      const translateY = verticalLayout ? 0 : (boundsHeight - statusBackgroundRadius * 2 * upScale) / 2;
       return (
-        <g transform={`translate(0, ${(height - statusBackgroundRadius * 2 * upScale) / 2}) scale(${upScale})`} ref={taskRef}>
+        <g transform={`translate(${translateX}, ${translateY}) scale(${upScale})`} ref={taskRef}>
           <circle
             className={css(
               styles.topologyPipelinesStatusIconBackground,
