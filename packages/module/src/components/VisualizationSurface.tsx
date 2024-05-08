@@ -35,7 +35,7 @@ const VisualizationSurface: React.FunctionComponent<VisualizationSurfaceProps> =
       if (!timerId.current) {
         func(contentRect)
       }
-      clearTimeout(timerId.current)
+      clearTimeout(timerId.current as any)
 
       timerId.current = setTimeout(() => func(contentRect), delay)
     }
@@ -57,7 +57,7 @@ const VisualizationSurface: React.FunctionComponent<VisualizationSurfaceProps> =
   );
 
   // dispose of onMeasure
-  React.useEffect(() => () => clearTimeout(timerId.current), [onMeasure]);
+  React.useEffect(() => () => clearTimeout(timerId.current as any), [onMeasure]);
 
   if (!controller.hasGraph()) {
     return null;
