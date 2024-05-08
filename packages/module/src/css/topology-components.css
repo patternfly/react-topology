@@ -622,7 +622,7 @@
   --edge--stroke: var(--pf-topology__edge--Stroke);
   --edge--fill: var(--edge--stroke);
   --edge--opacity: 1;
-  --edge--cursor: pointer;
+  --edge--cursor: default;
   --edge--hover--stroke: var(--pf-topology__edge--HoverStroke);
   --edge--hover--fill: var(--edge--hover--stroke);
   --edge--active--stroke: var(--pf-topology__edge--ActiveStroke);
@@ -635,13 +635,15 @@
 
   cursor: var(--edge--cursor);
   stroke: var(--edge--stroke);
-  fill: var(--edge--fill);
+  fill: none;
   opacity: var(--edge--opacity);
 }
 
+.pf-topology__edge.pf-m-selectable {
+  --edge--cursor: pointer;
+}
 .pf-topology__edge.pf-m-info {
   --edge--stroke: var(--pf-topology__edge--m-info--EdgeStroke);
-  --edge--fill: var(--pf-v5-global--primary-color--light-100);
 }
 
 .pf-topology__edge.pf-m-success {
@@ -662,6 +664,10 @@
   stroke-width: 10px;
   stroke: transparent;
   fill: none;
+  cursor: var(--edge--cursor);
+}
+.pf-topology__edge__background.pf-m-selectable {
+  cursor: pointer;
 }
 .pf-topology__edge.pf-m-selected .pf-topology__edge__background {
   stroke: var(--pf-topology__edge--m-selected--background--Stroke);
@@ -673,9 +679,10 @@
 .pf-topology__edge__link {
   stroke-width: var(--edge--stroke-width);
   stroke-dasharray: var(--edge--stroke-dasharray);
-  fill-opacity: 0;
   animation: pf-topology__edge__dash 0s linear infinite forwards;
- }
+  --edge--cursor: pointer;
+  fill: none;
+}
 
 .pf-topology__edge__link.pf-m-dotted {
   stroke-dasharray: 2;
@@ -706,15 +713,19 @@
 
 .pf-topology__edge.pf-m-selected .pf-topology__edge__link,
 .pf-topology__edge.pf-m-selected .pf-topology-connector-arrow {
-  fill: var(--edge--active--fill);
   stroke: var(--edge--active--stroke);
   stroke-width: var(--edge--active--stroke-width);
+}
+.pf-topology__edge.pf-m-selected .pf-topology-connector-arrow {
+  fill: var(--edge--active--fill);
 }
 
 .pf-topology__edge.pf-m-selected.pf-m-hover .pf-topology__edge__link,
 .pf-topology__edge.pf-m-selected.pf-m-hover .pf-topology-connector-arrow {
-  fill: var(--edge--active--fill);
   stroke: var(--edge--active--stroke);
+}
+.pf-topology__edge.pf-m-selected.pf-m-hover .pf-topology-connector-arrow {
+  fill: var(--edge--active--fill);
 }
 
 .pf-topology__edge.pf-m-dragging {
@@ -722,14 +733,18 @@
 }
 .pf-topology__edge.pf-m-hover .pf-topology__edge__link,
 .pf-topology__edge.pf-m-hover .pf-topology-connector-arrow {
-  fill: var(--edge--hover--fill);
   stroke: var(--edge--hover--stroke);
+}
+.pf-topology__edge.pf-m-hover .pf-topology-connector-arrow {
+  fill: var(--edge--hover--fill);
 }
 
 .pf-topology__edge.pf-m-dragging .pf-topology__edge__link,
 .pf-topology__edge.pf-m-dragging .pf-topology-connector-arrow {
-  fill: var(--edge--interactive--fill);
   stroke: var(--edge--interactive--stroke);
+}
+.pf-topology__edge.pf-m-dragging .pf-topology-connector-arrow {
+  fill: var(--edge--interactive--fill);
 }
 
 .pf-topology__edge .pf-topology-connector-arrow {
@@ -779,6 +794,7 @@
 .pf-topology-connector-arrow {
   stroke-width: 1;
   stroke: var(--edge--stroke);
+  fill: var(--edge--fill)
 }
 
 .pf-topology-connector-arrow.pf-m-alt-connector-arrow {

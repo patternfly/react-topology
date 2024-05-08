@@ -5,10 +5,11 @@ import {
   Edge,
   EdgeTerminalType,
   GraphElement,
-  TaskEdge
+  TaskEdge,
+  WithSelectionProps
 } from '@patternfly/react-topology';
 
-interface DemoTaskEdgeProps {
+interface DemoTaskEdgeProps extends WithSelectionProps {
   element: GraphElement;
 }
 

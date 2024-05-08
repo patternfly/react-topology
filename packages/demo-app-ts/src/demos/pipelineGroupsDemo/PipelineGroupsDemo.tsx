@@ -21,6 +21,8 @@ import {
   useVisualizationController,
   addSpacerNodes,
   pipelineElementFactory,
+  isEdge,
+  Edge,
 } from '@patternfly/react-topology';
 import pipelineGroupsComponentFactory from './pipelineGroupsComponentFactory';
 import {
@@ -37,6 +39,25 @@ const TopologyPipelineGroups: React.FC<{ nodes: PipelineNodeModel[] }> = observe
   const [selectedIds, setSelectedIds] = React.useState<string[]>();
 
   useEventListener<SelectionEventListener>(SELECTION_EVENT, ids => {
+    if (ids?.[0]) {
+      const element = controller?.getElementById(ids[0]);
+      if (element && isEdge(element)) {
+        const edge = element as Edge;
+        const selectedEdges = [edge.getId()];
+        const source = edge.getSource();
+        const target = edge.getTarget();
+        if (source.getType() === DEFAULT_SPACER_NODE_TYPE) {
+          const sourceEdges = source.getTargetEdges();
+          selectedEdges.push(...sourceEdges.map((e) => e.getId()));
+        }
+        if (target.getType() === DEFAULT_SPACER_NODE_TYPE) {
+          const targetEdges = target.getSourceEdges();
+          selectedEdges.push(...targetEdges.map((e) => e.getId()));
+        }
+        setSelectedIds(selectedEdges);
+        return;
+      }
+    }
     setSelectedIds(ids);
   });
 
