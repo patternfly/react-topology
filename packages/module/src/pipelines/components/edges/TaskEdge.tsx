@@ -6,6 +6,9 @@ import { Edge, EdgeTerminalType, GraphElement, NodeStatus, isEdge } from '../../
 import { integralShapePath } from '../../utils';
 import { DagreLayoutOptions, TOP_TO_BOTTOM } from '../../../layouts';
 import { DefaultConnectorTerminal } from '../../../components';
+import { OnSelect } from '../../../behavior';
+import Layer from '../../../components/layers/Layer';
+import { TOP_LAYER } from '../../../const';
 
 interface TaskEdgeProps {
   /** The graph edge element to represent */
@@ -30,6 +33,10 @@ interface TaskEdgeProps {
   endTerminalStatus?: NodeStatus;
   /** The size of the end terminal */
   endTerminalSize?: number;
+  /** Flag if the element is selected. Part of WithSelectionProps */
+  selected?: boolean;
+  /** Function to call when the element should become selected (or deselected). Part of WithSelectionProps */
+  onSelect?: OnSelect;
 }
 
 type TaskEdgeInnerProps = Omit<TaskEdgeProps, 'element'> & { element: Edge };
@@ -46,18 +53,35 @@ const TaskEdgeInner: React.FunctionComponent<TaskEdgeInnerProps> = observer(
     endTerminalStatus,
     endTerminalSize = 14,
     className,
-    nodeSeparation
+    nodeSeparation,
+    selected,
+    onSelect,
   }) => {
     const startPoint = element.getStartPoint();
     const endPoint = element.getEndPoint();
-    const groupClassName = css(styles.topologyEdge, className);
+    const groupClassName = css(
+      styles.topologyEdge,
+      className,
+      selected && 'pf-m-selected',
+      onSelect && 'pf-m-selectable',
+    );
     const startIndent: number = element.getData()?.indent || 0;
     const verticalLayout = (element.getGraph().getLayoutOptions?.() as DagreLayoutOptions)?.rankdir === TOP_TO_BOTTOM;
 
+    const edgePath = integralShapePath(startPoint, endPoint, startIndent, nodeSeparation, verticalLayout);
+    const edgeBackground = (
+      <path
+        onClick={onSelect}
+        className={css(styles.topologyEdgeBackground, onSelect && 'pf-m-selectable')}
+        d={edgePath}
+      />
+    );
+
     return (
       <g data-test-id="task-handler" className={groupClassName}>
+        {selected ? edgeBackground : <Layer id={TOP_LAYER}>{edgeBackground}</Layer>}
         <path
-          d={integralShapePath(startPoint, endPoint, startIndent, nodeSeparation, verticalLayout)}
+          d={edgePath}
           transform="translate(0.5,0.5)"
           shapeRendering="geometricPrecision"
           fillOpacity={0}
