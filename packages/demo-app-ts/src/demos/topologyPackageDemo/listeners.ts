@@ -1,6 +1,6 @@
 import { Controller, EventListener, isNode, Node } from '@patternfly/react-topology';
 
-let positionTimer: NodeJS.Timer;
+let positionTimer: NodeJS.Timeout;
 
 export const graphPositionChangeListener: EventListener = ({ graph }): void => {
   const scale = graph.getScale();

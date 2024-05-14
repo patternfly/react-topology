@@ -9,7 +9,7 @@
   width: 0;
   max-width: 100%;
   height: 100%;
-  background-color: var(--pf-v5-global--BackgroundColor--100);
+  background-color: var(--pf-v6-global--BackgroundColor--100);
   overflow-x: hidden;
   opacity: 0;
   z-index: 5;
@@ -23,7 +23,7 @@
 .pf-topology-side-bar.shown {
   width: 100%;
 }
-.pf-topology-side-bar__dismiss.pf-v5-c-button {
+.pf-topology-side-bar__dismiss.pf-v6-c-button {
   position: absolute;
   top: calc(2rem - 0.375rem + 0.0625rem);
   right: 1rem;
@@ -36,7 +36,7 @@
 .pf-topology-resizable-side-bar {
   width: 100%;
   height: 100%;
-  background-color: var(--pf-v5-global--BackgroundColor--100);
+  background-color: var(--pf-v6-global--BackgroundColor--100);
   overflow-x: hidden;
 }
 
@@ -50,7 +50,7 @@
 @media (min-width: 768px) {
   .pf-topology-container__with-sidebar {
     overflow-x: hidden;
-    background-color: var(--pf-v5-global--Color--light-200) !important;
+    background-color: var(--pf-v6-global--Color--light-200) !important;
   }
   .pf-topology-container__with-sidebar .pf-topology-content {
     -webkit-transition: width 0.15s linear;
@@ -66,7 +66,7 @@
   }
 
   .pf-topology-side-bar.shown {
-    box-shadow: var(--pf-v5-global--BoxShadow--md);
+    box-shadow: var(--pf-v6-global--BoxShadow--md);
     width: calc(100% - 180px);
     max-width: 550px;
   }

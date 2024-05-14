@@ -17,7 +17,7 @@ export const withContextMenu = <E extends TopologyElement>(
   container?: Element | null | undefined | (() => Element),
   className?: string,
   atPoint: boolean = true,
-  waitElement: React.ReactElement = <Spinner className="pf-v5-u-mx-md" size="md" />
+  waitElement: React.ReactElement = <Spinner className="pf-v6-u-mx-md" size="md" />
 ) => <P extends WithContextMenuProps>(WrappedComponent: React.ComponentType<P>) => {
   const Component: React.FunctionComponent<Omit<P, keyof WithContextMenuProps>> = props => {
     const element = React.useContext(ElementContext);
