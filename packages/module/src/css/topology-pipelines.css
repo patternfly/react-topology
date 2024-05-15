@@ -625,7 +625,7 @@
 .pf-topology-pipelines__node__background {
   fill: var(--pf-topology__node__background--Fill);
   stroke-width: var(--pf-topology__node__background--StrokeWidth);
-  stroke: hotpink;
+  stroke: var(--pf-topology__node__background--Stroke);
 }
 
 .pf-topology-pipelines__node__label__background {
