@@ -60,7 +60,7 @@ const DefaultConnectorTerminal: React.FunctionComponent<EdgeConnectorArrowProps>
   }
   const bendPoints = edge.getBendpoints();
   const defaultStartPoint = isTarget
-    ? edge.getBendpoints[bendPoints.length - 1] || edge.getStartPoint()
+    ? bendPoints[bendPoints.length - 1] || edge.getStartPoint()
     : bendPoints[0] || edge.getEndPoint();
   const defaultEndPoint = isTarget ? edge.getEndPoint() : edge.getStartPoint();
   const classes = css(styles.topologyEdge, className, StatusModifier[status]);
