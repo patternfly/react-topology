@@ -37,7 +37,7 @@ const defaultMenu = createContextMenuItems('First', 'Second', 'Third', '-', 'Fou
 export const UncontrolledContextMenu = () => (
   <>
     <p>Dismiss the context menu by pressing `ESC` or clicking away.</p>
-    <ContextMenu reference={{ x: 350, y: 250 }}>{defaultMenu}</ContextMenu>
+    <ContextMenu reference={{ x: 400, y: 200 }}>{defaultMenu}</ContextMenu>
   </>
 );
 
@@ -48,7 +48,7 @@ export const ControlledContextMenu = () => {
       <button type="button" onClick={() => setOpen(true)} style={{ marginTop: 20 }}>
         Show Context Menu
       </button>
-      <ContextMenu reference={{ x: 350, y: 250 }} open={open} onRequestClose={() => setOpen(false)}>
+      <ContextMenu reference={{ x: 400, y: 200 }} open={open} onRequestClose={() => setOpen(false)}>
         {defaultMenu}
       </ContextMenu>
     </>
