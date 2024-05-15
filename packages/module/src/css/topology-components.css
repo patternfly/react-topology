@@ -304,9 +304,6 @@
   --pf-topology__node__background--Stroke: var(--pf-topology__node--m-info--Background--Stroke);
 }
 
-.pf-topology__node.pf-m-hover .pf-topology__node__background {
-  --pf-topology__node__background--Stroke: var(--pf-topology__node--m-hover--background--Stroke);
-}
 
 .pf-topology__node.pf-m-hover.pf-m-info .pf-topology__node__background {
   --pf-topology__node__background--Stroke: var(--pf-topology__node--m-info--Background--Stroke);

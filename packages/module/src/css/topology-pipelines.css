@@ -205,6 +205,10 @@
   --pf-topology-pipelines__pill-background--Stroke: var(--pf-topology-pipelines__pill-background--m-idle--Stroke);
 }
 
+.pf-topology-pipelines__pill.pf-m-hover .pf-topology-pipelines__pill-background {
+  --pf-topology-pipelines__pill-background--StrokeWidth: var(--pf-t--global--border--width--strong);
+}
+
 .pf-topology-pipelines__pill.pf-m-hover.pf-m-danger .pf-topology-pipelines__pill-background {
   --pf-topology-pipelines__pill-background--StrokeWidth: var(--pf-t--global--border--width--strong);
 }
@@ -621,7 +625,7 @@
 .pf-topology-pipelines__node__background {
   fill: var(--pf-topology__node__background--Fill);
   stroke-width: var(--pf-topology__node__background--StrokeWidth);
-  stroke: var(--pf-topology__node__background--Stroke);
+  stroke: hotpink;
 }
 
 .pf-topology-pipelines__node__label__background {
