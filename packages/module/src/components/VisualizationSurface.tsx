@@ -28,7 +28,7 @@ const VisualizationSurface: React.FunctionComponent<VisualizationSurfaceProps> =
   state
 }: VisualizationSurfaceProps) => {
   const controller = useVisualizationController();
-  const timerId = React.useRef<NodeJS.Timer>();
+  const timerId = React.useRef<NodeJS.Timeout>();
 
   const debounceMeasure = React.useCallback((func: (contentRect: ContentRect) => void, delay?: number) => {
     return (contentRect: ContentRect) => {
@@ -67,7 +67,7 @@ const VisualizationSurface: React.FunctionComponent<VisualizationSurfaceProps> =
 
   return (
     <ReactMeasure client onResize={onMeasure}>
-      {({ measureRef }: { measureRef: React.LegacyRef<any> }) => (
+      {({ measureRef }: { measureRef: React.LegacyRef<HTMLDivElement> }) => (
         // render an outer div because react-measure doesn't seem to fire events properly on svg resize
         <div data-test-id="topology" className={css(styles.topologyVisualizationSurface)} ref={measureRef}>
           <svg className={css(styles.topologyVisualizationSurfaceSvg)} onContextMenu={stopEvent}>
