@@ -33,9 +33,9 @@
     "tag": "alpha"
   },
   "dependencies": {
-    "@patternfly/react-core": "6.0.0-alpha.57",
-    "@patternfly/react-icons": "6.0.0-alpha.20",
-    "@patternfly/react-styles": "6.0.0-alpha.20",
+    "@patternfly/react-core": "6.0.0-alpha.50",
+    "@patternfly/react-icons": "6.0.0-alpha.19",
+    "@patternfly/react-styles": "6.0.0-alpha.19",
     "@types/d3": "^7.4.0",
     "@types/d3-force": "^1.2.1",
     "@types/dagre": "0.7.42",
