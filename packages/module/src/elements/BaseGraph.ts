@@ -224,6 +224,18 @@ export default class BaseGraph<E extends GraphModel = GraphModel, D = any> exten
     this.setPosition(new Point(0, 0));
   }
 
+  expandAll(): void {
+    this.getNodes().forEach(node => {
+      node.setCollapsed(false);
+    });
+  }
+
+  collapseAll(): void {
+    this.getNodes().forEach(node => {
+      node.setCollapsed(true);
+    });
+  }
+
   scaleBy(scale: number, location?: Point): void {
     const b = this.getBounds();
     let { x, y } = b;

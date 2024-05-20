@@ -287,6 +287,8 @@ export interface Graph<E extends GraphModel = GraphModel, D = any> extends Graph
   fit(padding?: number): void;
   panIntoView(element: Node, options?: { offset?: number; minimumVisible?: number }): void;
   isNodeInView(element: Node, options?: { padding: number }): boolean;
+  expandAll(): void;
+  collapseAll(): void;
 }
 
 export const isGraph = (element: GraphElement): element is Graph => element && element.getKind() === ModelKind.graph;

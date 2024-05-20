@@ -27,6 +27,12 @@ const DemoControlBar: React.FC = () => {
           controller.getGraph().reset();
           controller.getGraph().layout();
         }),
+        expandAllCallback: action(() => {
+          controller.getGraph().expandAll();
+        }),
+        collapseAllCallback: action(() => {
+          controller.getGraph().collapseAll();
+        }),
         legend: false
       })}
     />
