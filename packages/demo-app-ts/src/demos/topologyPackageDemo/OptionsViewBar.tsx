@@ -11,7 +11,7 @@ import {
   SplitItem,
   TextInput,
   ToolbarItem,
-  Tooltip,
+  Tooltip
 } from '@patternfly/react-core';
 import { Controller, Model, observer } from '@patternfly/react-topology';
 import { DemoContext } from './DemoContext';
@@ -31,7 +31,7 @@ const OptionsContextBar: React.FC<{ controller: Controller }> = observer(({ cont
   const layoutDropdown = (
     <Split>
       <SplitItem>
-        <label className="pf-v5-u-display-inline-block pf-v5-u-mr-md pf-v5-u-mt-sm">Layout:</label>
+        <label className="pf-v6-u-display-inline-block pf-v6-u-mr-md pf-v6-u-mt-sm">Layout:</label>
       </SplitItem>
       <SplitItem>
         <Dropdown

@@ -6,10 +6,10 @@ import {
   MenuToggle,
   MenuToggleElement,
   Select,
-  SelectList,
   SelectOption,
+  SelectList,
   TextInput,
-  ToolbarItem,
+  ToolbarItem
 } from '@patternfly/react-core';
 import { observer } from '@patternfly/react-topology';
 import { DemoContext } from './DemoContext';

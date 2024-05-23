@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { Dropdown, DropdownItem } from '@patternfly/react-core';
+import AngleRightIcon from '@patternfly/react-icons/dist/esm/icons/angle-right-icon';
 import { css } from '@patternfly/react-styles';
 import topologyStyles from '../../css/topology-components';
 // FIXME fully qualified due to the effect of long build times on storybook
 import Popper from '../popper/Popper';
-import AngleRightIcon from '@patternfly/react-icons/dist/esm/icons/angle-right-icon';
 
 interface ContextSubMenuItemProps {
   label: React.ReactNode;
@@ -63,7 +63,7 @@ const ContextSubMenuItem: React.FunctionComponent<ContextSubMenuItemProps> = ({ 
         <div
           ref={subMenuRef}
           role="presentation"
-          className="pf-v5-c-dropdown pf-m-expanded"
+          className="pf-v6-c-dropdown pf-m-expanded"
           onMouseLeave={(e) => {
             // only close the sub menu if the mouse does not enter the item
             if (!nodeRef.current || !nodeRef.current.contains(e.relatedTarget as Node)) {
