@@ -44,6 +44,7 @@ type DefaultGroupExpandedProps = {
   labelPosition?: LabelPosition;
   labelIconPadding?: number;
   hulledOutline?: boolean;
+  borderRadius?: number;
 } & CollapsibleGroupProps &
   WithDragNodeProps &
   WithSelectionProps &
@@ -141,7 +142,8 @@ const DefaultGroupExpanded: React.FunctionComponent<DefaultGroupExpandedProps> =
   labelPosition,
   labelIconPadding,
   onCollapseChange,
-  hulledOutline = true
+  hulledOutline = true,
+  borderRadius = 16
 }) => {
   const [hovered, hoverRef] = useHover(200, 500);
   const [labelHover, labelHoverRef] = useHover(0);
@@ -293,10 +295,18 @@ const DefaultGroupExpanded: React.FunctionComponent<DefaultGroupExpandedProps> =
               y={boxRef.current.y}
               width={boxRef.current.width}
               height={boxRef.current.height}
+              rx={borderRadius}
+              ry={borderRadius}
             />
           )}
         </g>
-        {groupLabel && isHover ? <Layer id={TOP_LAYER}>{groupLabel}</Layer> : groupLabel}
+        {groupLabel && isHover ? (
+          <Layer id={TOP_LAYER}>
+            <g className={innerGroupClassName}>{groupLabel}</g>
+          </Layer>
+        ) : (
+          groupLabel
+        )}
       </Layer>
     </g>
   );

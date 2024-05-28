@@ -55,7 +55,6 @@ const TaskPill: React.FC<TaskPillProps> = observer(
     badgeBorderColor,
     badgeClassName = styles.topologyPipelinesPillBadge,
     badgeTooltip,
-    badgePopoverProps,
     badgePopoverParams,
     nameLabelClass,
     taskIconClass,
@@ -67,7 +66,6 @@ const TaskPill: React.FC<TaskPillProps> = observer(
     disableTooltip = false,
     selected,
     onSelect,
-    hasWhenExpression = false,
     onContextMenu,
     contextMenuOpen,
     actionIcon,
@@ -94,17 +92,6 @@ const TaskPill: React.FC<TaskPillProps> = observer(
     const [contextSize, contextRef] = useSize([onContextMenu, paddingX]);
     const detailsLevel = element.getGraph().getDetailsLevel();
     const verticalLayout = (element.getGraph().getLayoutOptions?.() as DagreLayoutOptions)?.rankdir === TOP_TO_BOTTOM;
-
-    if (badgePopoverProps) {
-      // eslint-disable-next-line no-console
-      console.warn('badgePopoverProps is deprecated. Use badgePopoverParams instead.');
-    }
-    if (hasWhenExpression) {
-      // eslint-disable-next-line no-console
-      console.warn(
-        'hasWhenExpression is deprecated. Set whenSize and whenOffset only when showing the when expression.'
-      );
-    }
 
     const textWidth = textSize?.width ?? 0;
     const textHeight = textSize?.height ?? 0;

@@ -6,8 +6,8 @@ import {
   MenuToggle,
   MenuToggleElement,
   Select,
-  SelectList,
   SelectOption,
+  SelectList,
   TextInput,
   ToolbarItem
 } from '@patternfly/react-core';

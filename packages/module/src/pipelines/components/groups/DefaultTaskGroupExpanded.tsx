@@ -49,7 +49,8 @@ const DefaultTaskGroupExpanded: React.FunctionComponent<Omit<DefaultTaskGroupPro
       labelIcon,
       labelIconPadding,
       onCollapseChange,
-      labelPosition
+      labelPosition,
+      borderRadius = 16
     }) => {
       const [hovered, hoverRef] = useHover(200, 500);
       const [labelHover, labelHoverRef] = useHover(0);
@@ -215,9 +216,17 @@ const DefaultTaskGroupExpanded: React.FunctionComponent<Omit<DefaultTaskGroupPro
                 width={bounds.width}
                 height={bounds.height}
                 className={styles.topologyGroupBackground}
+                rx={borderRadius}
+                ry={borderRadius}
               />
             </g>
-            {groupLabel && isHover ? <Layer id={TOP_LAYER}>{groupLabel}</Layer> : groupLabel}
+            {groupLabel && isHover ? (
+              <Layer id={TOP_LAYER}>
+                <g className={innerGroupClassName}>{groupLabel}</g>
+              </Layer>
+            ) : (
+              groupLabel
+            )}
           </Layer>
         </g>
       );

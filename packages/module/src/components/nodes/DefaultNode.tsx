@@ -354,6 +354,7 @@ const DefaultNodeInner: React.FunctionComponent<DefaultNodeInnerProps> = observe
           {showLabel && (label || element.getLabel()) && (
             <Layer id={isHover ? TOP_LAYER : undefined}>
               <g
+                className={groupClassName}
                 transform={
                   isHover
                     ? `${scaleNode ? `translate(${translateX}, ${translateY})` : ''} scale(${nodeScale})`
