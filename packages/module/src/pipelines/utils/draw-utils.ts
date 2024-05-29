@@ -2,19 +2,25 @@ import { Point } from '../../geom';
 import { DrawDesign, NODE_SEPARATION_HORIZONTAL } from '../const';
 
 type SingleDraw = (p: Point) => string;
-type DoubleDraw = (p1: Point, p2: Point, startIndentX?: number, junctionOffset?: number, verticalLayout?: boolean) => string;
-type TripleDraw = (p1: Point, p2: Point, p3: Point, curveSize?: { x: number, y: number }) => string;
+type DoubleDraw = (
+  p1: Point,
+  p2: Point,
+  startIndentX?: number,
+  junctionOffset?: number,
+  verticalLayout?: boolean
+) => string;
+type TripleDraw = (p1: Point, p2: Point, p3: Point, curveSize?: { x: number; y: number }) => string;
 type DetermineDirection = (p1: Point, p2: Point) => boolean;
 
-const join = (...segments: string[]) => segments.filter(seg => !!seg).join(' ');
+const join = (...segments: string[]) => segments.filter((seg) => !!seg).join(' ');
 
 const leftRight: DetermineDirection = (p1, p2) => p1.x < p2.x;
 const topDown: DetermineDirection = (p1, p2) => p1.y < p2.y;
 const bottomUp: DetermineDirection = (p1, p2) => p1.y > p2.y;
 
-const point: SingleDraw = p => `${p.x},${p.y}`;
-const moveTo: SingleDraw = p => `M ${point(p)}`;
-const lineTo: SingleDraw = p => `L ${point(p)}`;
+const point: SingleDraw = (p) => `${p.x},${p.y}`;
+const moveTo: SingleDraw = (p) => `M ${point(p)}`;
+const lineTo: SingleDraw = (p) => `L ${point(p)}`;
 const quadTo: DoubleDraw = (corner, end) => `Q ${point(corner)} ${point(end)}`;
 
 // TODO: Try to simplify
@@ -123,8 +129,7 @@ export const integralShapePath: DoubleDraw = (
         });
       }
     }
-  }
-  else if (start.y !== finish.y) {
+  } else if (start.y !== finish.y) {
     const cornerX = Math.floor(start.x + nodeSeparation / 2);
     const firstCorner = new Point(cornerX, start.y);
     const secondCorner = new Point(cornerX, finish.y);
@@ -133,7 +138,7 @@ export const integralShapePath: DoubleDraw = (
       firstCurve = curve(start, firstCorner, secondCorner);
       secondCurve = curve(firstCorner, secondCorner, finish);
     } else {
-      firstCurve = curve(start, firstCorner, finish, {x: CURVE_SIZE.x, y: Math.abs(start.y - finish.y)});
+      firstCurve = curve(start, firstCorner, finish, { x: CURVE_SIZE.x, y: Math.abs(start.y - finish.y) });
     }
   }
 

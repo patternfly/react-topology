@@ -50,7 +50,7 @@ const model: Model = {
 export const PanZoom: React.FunctionComponent = withTopologySetup(() => {
   useComponentFactory(defaultComponentFactory);
   useComponentFactory(
-    React.useCallback<ComponentFactory>(kind => {
+    React.useCallback<ComponentFactory>((kind) => {
       if (kind === ModelKind.graph) {
         return withPanZoom()(GraphComponent);
       }
@@ -71,7 +71,7 @@ export const PanZoom: React.FunctionComponent = withTopologySetup(() => {
           k: controller.getGraph().getScale()
         };
       },
-      transform => {
+      (transform) => {
         // eslint-disable-next-line no-console
         console.log(`Pan zoom event`, transform);
       }

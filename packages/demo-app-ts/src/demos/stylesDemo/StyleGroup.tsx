@@ -66,7 +66,7 @@ const StyleGroup: React.FunctionComponent<StyleGroupProps> = ({
 
   const passedData = React.useMemo(() => {
     const newData = { ...data };
-    Object.keys(newData).forEach(key => {
+    Object.keys(newData).forEach((key) => {
       if (newData[key] === undefined) {
         delete newData[key];
       }

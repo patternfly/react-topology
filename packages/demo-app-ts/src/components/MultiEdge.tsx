@@ -15,7 +15,7 @@ const MultiEdge: React.FunctionComponent<MultiEdgeProps> = ({ element }) => {
   element
     .getGraph()
     .getEdges()
-    .forEach(e => {
+    .forEach((e) => {
       if (e === element) {
         idx = sum;
         sum++;

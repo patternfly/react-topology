@@ -96,7 +96,7 @@ export class Visualization extends Stateful implements Controller {
 
     // If not merging, clear out the old elements
     if (!merge) {
-      Object.keys(this.elements).forEach(element => this.removeElement(this.elements[element]));
+      Object.keys(this.elements).forEach((element) => this.removeElement(this.elements[element]));
     }
 
     // Create the graph if given in the model
@@ -112,14 +112,14 @@ export class Visualization extends Stateful implements Controller {
     const idToElement: { [id: string]: ElementModel } = {};
 
     model.nodes &&
-      model.nodes.forEach(n => {
+      model.nodes.forEach((n) => {
         idToElement[n.id] = n;
         this.createElement<Node>(ModelKind.node, n);
         validIds.push(n.id);
       });
 
     model.edges &&
-      model.edges.forEach(e => {
+      model.edges.forEach((e) => {
         idToElement[e.id] = e;
         this.createElement<Edge>(ModelKind.edge, e);
         validIds.push(e.id);
@@ -136,7 +136,7 @@ export class Visualization extends Stateful implements Controller {
     // process bottom up
     const processElement = (element: ElementModel): void => {
       if (element.children) {
-        element.children.forEach(id => processElement(idToElement[id]));
+        element.children.forEach((id) => processElement(idToElement[id]));
       }
       if (!processed[element.id]) {
         processed[element.id] = true;
@@ -149,7 +149,7 @@ export class Visualization extends Stateful implements Controller {
 
     // remove all stale elements
     if (merge) {
-      Object.keys(this.elements).forEach(key => {
+      Object.keys(this.elements).forEach((key) => {
         const element = this.elements[key];
         if (!validIds.includes(element.getId())) {
           this.removeElement(element);
@@ -194,12 +194,12 @@ export class Visualization extends Stateful implements Controller {
 
   toModel(): Model {
     const graph = this.getGraph();
-    const nodes = this.getElements().filter(n => isNode(n)) as Node[];
-    const edges = this.getElements().filter(e => isEdge(e)) as Edge[];
+    const nodes = this.getElements().filter((n) => isNode(n)) as Node[];
+    const edges = this.getElements().filter((e) => isEdge(e)) as Edge[];
     return {
       graph: graph.toModel(),
-      nodes: nodes.map(n => n.toModel()),
-      edges: edges.map(e => e.toModel())
+      nodes: nodes.map((n) => n.toModel()),
+      edges: edges.map((e) => e.toModel())
     };
   }
 
@@ -218,7 +218,7 @@ export class Visualization extends Stateful implements Controller {
       element
         .getChildren()
         .slice()
-        .forEach(child => child.remove());
+        .forEach((child) => child.remove());
       element.destroy();
       element.setController(undefined);
       delete this.elements[element.getId()];

@@ -1,12 +1,6 @@
 import * as React from 'react';
 import { action, observable } from 'mobx';
-import {
-  AbstractAnchor,
-  AnchorEnd,
-  ElementContext,
-  isNode, Node,
-  Point,
-} from '@patternfly/react-topology';
+import { AbstractAnchor, AnchorEnd, ElementContext, isNode, Node, Point } from '@patternfly/react-topology';
 
 export type SvgAnchorRef = (node: SVGElement | null) => void;
 
@@ -43,21 +37,23 @@ export const useTargetStatusAnchor = (
   end: AnchorEnd = AnchorEnd.both,
   type: string = '',
   offset: number = 0
-
 ): ((node: SVGElement | null) => void) => {
   const element = React.useContext(ElementContext);
   if (!isNode(element)) {
     throw new Error('useSvgAnchor must be used within the scope of a Node');
   }
 
-  return React.useCallback<SvgAnchorRef>((node: SVGElement | null) => {
-    const actionFn = action((node: SVGElement | null) => {
-      if (node) {
-        const anchor = new TargetStatusAnchor(element, offset);
-        anchor.setSVGElement(node);
-        element.setAnchor(anchor, end, type);
-      }
-    });
-    actionFn(node);
-  },[element, offset, end, type]);
+  return React.useCallback<SvgAnchorRef>(
+    (node: SVGElement | null) => {
+      const actionFn = action((node: SVGElement | null) => {
+        if (node) {
+          const anchor = new TargetStatusAnchor(element, offset);
+          anchor.setSVGElement(node);
+          element.setAnchor(anchor, end, type);
+        }
+      });
+      actionFn(node);
+    },
+    [element, offset, end, type]
+  );
 };

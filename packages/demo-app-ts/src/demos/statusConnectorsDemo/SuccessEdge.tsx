@@ -1,12 +1,6 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import {
-  Edge,
-  GraphElement,
-  integralShapePath,
-  Layer,
-  TOP_LAYER
-} from '@patternfly/react-topology';
+import { Edge, GraphElement, integralShapePath, Layer, TOP_LAYER } from '@patternfly/react-topology';
 import styles from '@patternfly/react-topology/src/css/topology-components';
 
 interface SuccessEdgeProps {

@@ -1,12 +1,5 @@
 import * as React from 'react';
-import {
-  MenuToggle,
-  MenuToggleElement,
-  Select,
-  SelectList,
-  SelectOption,
-  ToolbarItem
-} from '@patternfly/react-core';
+import { MenuToggle, MenuToggleElement, Select, SelectList, SelectOption, ToolbarItem } from '@patternfly/react-core';
 import { RegionsIcon as Icon1, FolderOpenIcon as Icon2 } from '@patternfly/react-icons';
 import {
   ColaLayout,

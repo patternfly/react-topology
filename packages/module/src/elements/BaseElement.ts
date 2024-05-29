@@ -14,8 +14,10 @@ import {
 import Stateful from '../utils/Stateful';
 import { Translatable } from '../geom/types';
 
-export default abstract class BaseElement<E extends ElementModel = ElementModel, D = any> extends Stateful
-  implements GraphElement<E, D> {
+export default abstract class BaseElement<E extends ElementModel = ElementModel, D = any>
+  extends Stateful
+  implements GraphElement<E, D>
+{
   private id: string = '';
 
   private type: string = '';
@@ -41,15 +43,7 @@ export default abstract class BaseElement<E extends ElementModel = ElementModel,
 
     makeObservable<
       BaseElement,
-      | 'type'
-      | 'data'
-      | 'parent'
-      | 'visible'
-      | 'children'
-      | 'controller'
-      | 'label'
-      | 'style'
-      | 'ordering'
+      'type' | 'data' | 'parent' | 'visible' | 'children' | 'controller' | 'label' | 'style' | 'ordering'
     >(this, {
       type: observable,
       data: observable.ref,
@@ -60,8 +54,7 @@ export default abstract class BaseElement<E extends ElementModel = ElementModel,
       label: observable,
       style: observable,
       ordering: computed({
-        equals: (a: number[], b: number[]) =>
-          a.length === b.length && a.every((val, i) => val === b[i])
+        equals: (a: number[], b: number[]) => a.length === b.length && a.every((val, i) => val === b[i])
       })
     });
   }
@@ -248,7 +241,7 @@ export default abstract class BaseElement<E extends ElementModel = ElementModel,
     if (Array.isArray(model.children)) {
       const controller = this.getController();
 
-      const childElements = model.children.map(id => {
+      const childElements = model.children.map((id) => {
         const element = controller.getElementById(id);
         if (!element) {
           throw new Error(`No element found with ID '${id}'.`);
@@ -257,11 +250,11 @@ export default abstract class BaseElement<E extends ElementModel = ElementModel,
       });
 
       // remove children
-      this.children.filter(c => !childElements.includes(c)).forEach(child => this.removeChild(child));
+      this.children.filter((c) => !childElements.includes(c)).forEach((child) => this.removeChild(child));
 
       // add children
-      const toAdd = childElements.filter(c => !this.children.includes(c));
-      toAdd.reverse().forEach(child => this.insertChild(child, 0));
+      const toAdd = childElements.filter((c) => !this.children.includes(c));
+      toAdd.reverse().forEach((child) => this.insertChild(child, 0));
     }
     if ('data' in model) {
       this.data = model.data;
@@ -280,7 +273,7 @@ export default abstract class BaseElement<E extends ElementModel = ElementModel,
       type: this.getType(),
       label: this.getLabel(),
       visible: this.isVisible(),
-      children: this.getChildren().map(c => c.getId()),
+      children: this.getChildren().map((c) => c.getId()),
       data: this.getData(),
       style: this.getStyle()
     };

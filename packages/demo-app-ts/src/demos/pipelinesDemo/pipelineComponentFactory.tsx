@@ -22,7 +22,7 @@ import DemoTaskNode from './DemoTaskNode';
 import DemoFinallyNode from './DemoFinallyNode';
 import DemoTaskGroupEdge from './DemoTaskGroupEdge';
 import DemoTaskEdge from './DemoTaskEdge';
-import DemoPipelinesGroup from "./DemoPipelinesGroup";
+import DemoPipelinesGroup from './DemoPipelinesGroup';
 
 export const GROUPED_EDGE_TYPE = 'GROUPED_EDGE';
 export const SPACER_EDGE_TYPE = 'spacer-edge';

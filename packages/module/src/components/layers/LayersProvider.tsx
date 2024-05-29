@@ -26,7 +26,7 @@ export default class LayersProvider extends React.Component<LayersProviderProps,
 
   private setDomLayers = (node: SVGGElement | null, id: string) => {
     if (node && this.state[id] !== node) {
-      this.setState(state => ({ ...state, [id]: node }));
+      this.setState((state) => ({ ...state, [id]: node }));
     }
   };
 
@@ -46,8 +46,8 @@ export default class LayersProvider extends React.Component<LayersProviderProps,
     const layerIds = layers || [DEFAULT_LAYER];
     return (
       <LayersContext.Provider value={this.contextValue}>
-        {layerIds.map(id => (
-          <g key={id} data-layer-id={id} ref={r => this.setDomLayers(r, id)}>
+        {layerIds.map((id) => (
+          <g key={id} data-layer-id={id} ref={(r) => this.setDomLayers(r, id)}>
             {id === DEFAULT_LAYER && this.state[id] ? children : undefined}
           </g>
         ))}

@@ -10,7 +10,6 @@ import { BreadthFirstGroup } from './BreadthFirstGroup';
 export type BreadthFirstLayoutOptions = LayoutOptions;
 
 export class BreadthFirstLayout extends BaseLayout implements Layout {
-
   constructor(graph: Graph, options?: Partial<BreadthFirstLayoutOptions>) {
     super(graph, options);
   }

@@ -286,7 +286,7 @@ export const TopologyControlBar: React.FunctionComponent<TopologyControlBarProps
 
   return (
     <GenerateId prefix="pf-topology-control-bar-">
-      {randomId => (
+      {(randomId) => (
         <Toolbar className={className} style={{ backgroundColor: 'transparent', padding: 0 }} id={randomId}>
           <ToolbarContent>
             <ToolbarGroup spaceItems={{ default: 'spaceItemsNone' }}>

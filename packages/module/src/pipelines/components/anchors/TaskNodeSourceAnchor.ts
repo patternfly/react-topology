@@ -25,7 +25,7 @@ export default class TaskNodeSourceAnchor<E extends Node = Node> extends Abstrac
       if (this.vertical) {
         return new Point(bounds.x + bounds.width / 2, bounds.y + nodeSize);
       }
-      return new Point(bounds.x + nodeSize, bounds.y + bounds.height / 2 );
+      return new Point(bounds.x + nodeSize, bounds.y + bounds.height / 2);
     }
     if (this.vertical) {
       return new Point(bounds.x + bounds.width / 2, bounds.bottom());

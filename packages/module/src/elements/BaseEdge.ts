@@ -4,8 +4,10 @@ import { Anchor, AnchorEnd, Edge, EdgeAnimationSpeed, EdgeModel, EdgeStyle, Mode
 import { getTopCollapsedParent } from '../utils';
 import BaseElement from './BaseElement';
 
-export default class BaseEdge<E extends EdgeModel = EdgeModel, D = any> extends BaseElement<E, D>
-  implements Edge<E, D> {
+export default class BaseEdge<E extends EdgeModel = EdgeModel, D = any>
+  extends BaseElement<E, D>
+  implements Edge<E, D>
+{
   private source?: Node = undefined;
 
   private target?: Node = undefined;
@@ -34,7 +36,7 @@ export default class BaseEdge<E extends EdgeModel = EdgeModel, D = any> extends 
       | 'endPoint'
       | 'sourceAnchor'
       | 'targetAnchor'
-      >(this, {
+    >(this, {
       source: observable.ref,
       target: observable.ref,
       edgeStyle: observable.ref,
@@ -43,7 +45,7 @@ export default class BaseEdge<E extends EdgeModel = EdgeModel, D = any> extends 
       startPoint: observable.ref,
       endPoint: observable.ref,
       sourceAnchor: computed,
-      targetAnchor: computed,
+      targetAnchor: computed
     });
   }
 
@@ -203,7 +205,7 @@ export default class BaseEdge<E extends EdgeModel = EdgeModel, D = any> extends 
       this.animationSpeed = model.animationSpeed;
     }
     if ('bendpoints' in model) {
-      this.bendpoints = model.bendpoints ? model.bendpoints.map(b => new Point(b[0], b[1])) : [];
+      this.bendpoints = model.bendpoints ? model.bendpoints.map((b) => new Point(b[0], b[1])) : [];
     }
   }
 
@@ -214,7 +216,7 @@ export default class BaseEdge<E extends EdgeModel = EdgeModel, D = any> extends 
       target: this.getTarget() ? this.getTarget().getId() : undefined,
       edgeStyle: this.edgeStyle,
       animationSpeed: this.animationSpeed,
-      bendpoints: this.getBendpoints().map(bp => [bp.x, bp.y])
+      bendpoints: this.getBendpoints().map((bp) => [bp.x, bp.y])
     };
   }
 }

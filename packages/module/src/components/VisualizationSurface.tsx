@@ -33,12 +33,12 @@ const VisualizationSurface: React.FunctionComponent<VisualizationSurfaceProps> =
   const debounceMeasure = React.useCallback((func: (contentRect: ContentRect) => void, delay?: number) => {
     return (contentRect: ContentRect) => {
       if (!timerId.current) {
-        func(contentRect)
+        func(contentRect);
       }
-      clearTimeout(timerId.current)
+      clearTimeout(timerId.current);
 
-      timerId.current = setTimeout(() => func(contentRect), delay)
-    }
+      timerId.current = setTimeout(() => func(contentRect), delay);
+    };
   }, []);
 
   React.useEffect(() => {
@@ -51,7 +51,7 @@ const VisualizationSurface: React.FunctionComponent<VisualizationSurfaceProps> =
         action((contentRect: ContentRect) => {
           controller.getGraph().setDimensions(new Dimensions(contentRect.client.width, contentRect.client.height));
         }),
-        100,
+        100
       ),
     [controller, debounceMeasure]
   );

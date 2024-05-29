@@ -13,7 +13,7 @@ export class Defs extends React.PureComponent<{}, DefsState> {
     const { defs } = this.state;
     return defs ? (
       <defs>
-        {Object.keys(defs).map(id => (
+        {Object.keys(defs).map((id) => (
           <React.Fragment key={id}>{defs[id].node}</React.Fragment>
         ))}
       </defs>

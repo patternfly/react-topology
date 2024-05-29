@@ -22,13 +22,10 @@ import {
   addSpacerNodes,
   pipelineElementFactory,
   isEdge,
-  Edge,
+  Edge
 } from '@patternfly/react-topology';
 import pipelineGroupsComponentFactory from './pipelineGroupsComponentFactory';
-import {
-  createComplexDemoPipelineGroupsNodes,
-  createDemoPipelineGroupsNodes
-} from './createDemoPipelineGroupsNodes';
+import { createComplexDemoPipelineGroupsNodes, createDemoPipelineGroupsNodes } from './createDemoPipelineGroupsNodes';
 import { PipelineGroupsDemoContext, PipelineGroupsDemoModel } from './PipelineGroupsDemoContext';
 import OptionsBar from './OptionsBar';
 import DemoControlBar from '../DemoControlBar';
@@ -38,7 +35,7 @@ const TopologyPipelineGroups: React.FC<{ nodes: PipelineNodeModel[] }> = observe
   const options = React.useContext(PipelineGroupsDemoContext);
   const [selectedIds, setSelectedIds] = React.useState<string[]>();
 
-  useEventListener<SelectionEventListener>(SELECTION_EVENT, ids => {
+  useEventListener<SelectionEventListener>(SELECTION_EVENT, (ids) => {
     if (ids?.[0]) {
       const element = controller?.getElementById(ids[0]);
       if (element && isEdge(element)) {
@@ -75,7 +72,7 @@ const TopologyPipelineGroups: React.FC<{ nodes: PipelineNodeModel[] }> = observe
           layout: options.verticalLayout ? TOP_TO_BOTTOM : LEFT_TO_RIGHT
         },
         nodes: pipelineNodes,
-        edges,
+        edges
       },
       false
     );
@@ -100,7 +97,7 @@ export const PipelineGroupsDemoComponent: React.FC<{ complex?: boolean }> = ({ c
         nodesep: NODE_SEPARATION_HORIZONTAL,
         ranksep: NODE_SEPARATION_VERTICAL + 40,
         rankdir: type,
-        ignoreGroups: true,
+        ignoreGroups: true
       })
   );
   const nodes = complex ? createComplexDemoPipelineGroupsNodes() : createDemoPipelineGroupsNodes();
@@ -116,10 +113,9 @@ export const PipelineGroupsDemoComponent: React.FC<{ complex?: boolean }> = ({ c
 };
 
 export const PipelineGroupsDemo = () => {
-  return <PipelineGroupsDemoComponent />
+  return <PipelineGroupsDemoComponent />;
 };
 
 export const PipelineGroupsComplexDemo = () => {
-  return <PipelineGroupsDemoComponent complex />
+  return <PipelineGroupsDemoComponent complex />;
 };
-

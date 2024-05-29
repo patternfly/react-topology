@@ -59,7 +59,7 @@ export const EDGE_TERMINAL_TYPES = [
   EdgeTerminalType.square,
   EdgeTerminalType.cross,
   EdgeTerminalType.directional,
-  EdgeTerminalType.none,
+  EdgeTerminalType.none
 ];
 export const EDGE_TERMINAL_TYPES_COUNT = EDGE_TERMINAL_TYPES.length;
 
@@ -444,7 +444,7 @@ export const createGroupedGroupNodes = (
     id: groupId,
     type: 'group',
     label: 'Grouped Group Title',
-    children: nodes.map(n => n.id),
+    children: nodes.map((n) => n.id),
     group: true,
     style: { padding: 17 },
     data: {

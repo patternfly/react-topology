@@ -8,7 +8,11 @@ export const graphPositionChangeListener: EventListener = ({ graph }): void => {
   const scaleExtent = graph.getScaleExtent();
 
   // eslint-disable-next-line no-console
-  console.log(`Graph Position Change:\n  Position: ${Math.round(position.x)},${Math.round(position.y)}\n  Scale: ${scale}\n  Scale Extent: max: ${scaleExtent[0]} max: ${scaleExtent[1]}`);
+  console.log(
+    `Graph Position Change:\n  Position: ${Math.round(position.x)},${Math.round(
+      position.y
+    )}\n  Scale: ${scale}\n  Scale Extent: max: ${scaleExtent[0]} max: ${scaleExtent[1]}`
+  );
 
   // After an interval, check that what we got was the final value.
   if (positionTimer) {
@@ -27,7 +31,11 @@ export const graphPositionChangeListener: EventListener = ({ graph }): void => {
     }
     if (newPosition.x !== position.x || newPosition.y !== position.y) {
       // eslint-disable-next-line no-console
-      console.error(`Graph Position Changed: ${Math.round(position.x)},${Math.round(position.y)} => ${Math.round(newPosition.x)},${Math.round(newPosition.y)}`);
+      console.error(
+        `Graph Position Changed: ${Math.round(position.x)},${Math.round(position.y)} => ${Math.round(
+          newPosition.x
+        )},${Math.round(newPosition.y)}`
+      );
     }
     if (newScaleExtent !== scaleExtent) {
       // eslint-disable-next-line no-console
@@ -38,7 +46,15 @@ export const graphPositionChangeListener: EventListener = ({ graph }): void => {
 
 export const layoutEndListener: EventListener = ({ graph }): void => {
   const controller: Controller = graph.getController();
-  const positions = controller.getElements().filter(e => isNode(e)).map((node) => `Node: ${node.getLabel()}: ${Math.round((node as Node).getPosition().x)},${Math.round((node as Node).getPosition().y)}`);
+  const positions = controller
+    .getElements()
+    .filter((e) => isNode(e))
+    .map(
+      (node) =>
+        `Node: ${node.getLabel()}: ${Math.round((node as Node).getPosition().x)},${Math.round(
+          (node as Node).getPosition().y
+        )}`
+    );
 
   // eslint-disable-next-line no-console
   console.log(`Layout Complete:\n${positions.join('\n')}`);

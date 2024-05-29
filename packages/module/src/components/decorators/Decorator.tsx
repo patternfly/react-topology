@@ -4,7 +4,7 @@ import styles from '../../css/topology-components';
 import SvgDropShadowFilter from '../svg/SvgDropShadowFilter';
 import { createSvgIdUrl, useHover } from '../../utils';
 import { DEFAULT_DECORATOR_PADDING } from '../nodes';
-import useCombineRefs from '../../utils/useCombineRefs'
+import useCombineRefs from '../../utils/useCombineRefs';
 
 interface DecoratorTypes {
   children?: React.ReactNode;
@@ -46,7 +46,7 @@ const Decorator: React.FunctionComponent<DecoratorTypes> = ({
       className={css(styles.topologyNodeDecorator, className)}
       {...(onClick
         ? {
-            onClick: e => {
+            onClick: (e) => {
               e.stopPropagation();
               onClick(e);
             },

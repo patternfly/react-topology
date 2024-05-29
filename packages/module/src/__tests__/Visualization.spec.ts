@@ -8,8 +8,8 @@ describe('Visualization', () => {
     visualization.fromModel({
       graph: {
         id: 'a',
-        type: 'graph',
-      },
+        type: 'graph'
+      }
     });
     const graphA = visualization.getElementById('a');
     expect(graphA).not.toBeUndefined();
@@ -24,8 +24,8 @@ describe('Visualization', () => {
     visualization.fromModel({
       graph: {
         id: 'b',
-        type: 'graph',
-      },
+        type: 'graph'
+      }
     });
     expect(visualization.getElementById('a')).toBeUndefined();
     expect(visualization.getElementById('b')).not.toBeUndefined();

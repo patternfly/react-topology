@@ -23,7 +23,8 @@ import { PipelineDemoContext } from './PipelineDemoContext';
 
 type DemoTaskNodeProps = {
   element: GraphElement;
-} & WithContextMenuProps & WithSelectionProps;
+} & WithContextMenuProps &
+  WithSelectionProps;
 
 const DEMO_TIP_TEXT =
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id feugiat augue, nec fringilla turpis.';
@@ -55,7 +56,11 @@ const DemoTaskNode: React.FunctionComponent<DemoTaskNodeProps> = ({
     <WhenDecorator
       element={element}
       status={data.whenStatus}
-      leftOffset={pipelineOptions.showIcons ? DEFAULT_WHEN_OFFSET + (nodeElement.getBounds().height - 4) * 0.75 : DEFAULT_WHEN_OFFSET}
+      leftOffset={
+        pipelineOptions.showIcons
+          ? DEFAULT_WHEN_OFFSET + (nodeElement.getBounds().height - 4) * 0.75
+          : DEFAULT_WHEN_OFFSET
+      }
     />
   ) : null;
 

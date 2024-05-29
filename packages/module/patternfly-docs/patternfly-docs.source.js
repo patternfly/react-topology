@@ -5,7 +5,7 @@ module.exports = (sourceMD, sourceProps, sourceFunctions) => {
   const propsIgnore = ['**/*.test.tsx', '**/examples/*.tsx'];
   const extensionPath = path.join(__dirname, '../src');
   sourceProps(path.join(extensionPath, '/**/*.tsx'), propsIgnore);
-  sourceFunctions('@patternfly/react-topology')
+  sourceFunctions('@patternfly/react-topology');
 
   // Parse md files
   const contentBase = path.join(__dirname, './content');

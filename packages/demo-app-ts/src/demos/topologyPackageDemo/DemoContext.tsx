@@ -14,16 +14,16 @@ export class DemoModel {
     badges: false,
     icons: false,
     contextMenus: false,
-    hulledOutline: true,
+    hulledOutline: true
   };
   protected edgeOptionsP: GeneratorEdgeOptions = {
     showStyles: false,
     showStatus: false,
     showAnimations: false,
     showTags: false,
-    terminalTypes: false,
+    terminalTypes: false
   };
-  protected creationCountsP: { numNodes: number; numEdges: number; numGroups: number, nestedLevel: number } = {
+  protected creationCountsP: { numNodes: number; numEdges: number; numGroups: number; nestedLevel: number } = {
     numNodes: 6,
     numEdges: 2,
     numGroups: 1,
@@ -48,7 +48,7 @@ export class DemoModel {
       | 'setLayout'
       | 'setMedScale'
       | 'setLowScale'
-      >(this, {
+    >(this, {
       nodeOptionsP: observable.ref,
       edgeOptionsP: observable.shallow,
       creationCountsP: observable.shallow,
@@ -60,7 +60,7 @@ export class DemoModel {
       setCreationCounts: action,
       setLayout: action,
       setMedScale: action,
-      setLowScale: action,
+      setLowScale: action
     });
   }
 
@@ -69,43 +69,48 @@ export class DemoModel {
   }
   public setNodeOptions = (options: GeneratorNodeOptions): void => {
     this.nodeOptionsP = options;
-  }
+  };
 
   public get edgeOptions(): GeneratorEdgeOptions {
     return this.edgeOptionsP;
   }
   public setEdgeOptions = (options: GeneratorEdgeOptions): void => {
     this.edgeOptionsP = options;
-  }
+  };
 
-  public get creationCounts(): { numNodes: number; numEdges: number; numGroups: number, nestedLevel: number } {
+  public get creationCounts(): { numNodes: number; numEdges: number; numGroups: number; nestedLevel: number } {
     return this.creationCountsP;
   }
 
-  public setCreationCounts = (counts: { numNodes: number; numEdges: number; numGroups: number, nestedLevel: number }): void => {
+  public setCreationCounts = (counts: {
+    numNodes: number;
+    numEdges: number;
+    numGroups: number;
+    nestedLevel: number;
+  }): void => {
     this.creationCountsP = counts;
-  }
+  };
 
   public get layout(): string {
     return this.layoutP;
   }
   public setLayout = (newLayout: string): void => {
     this.layoutP = newLayout;
-  }
+  };
 
   public get medScale(): number {
     return this.medScaleP;
   }
   public setMedScale = (scale: number): void => {
     this.medScaleP = scale;
-  }
+  };
 
   public get lowScale(): number {
     return this.lowScaleP;
   }
   public setLowScale = (scale: number): void => {
     this.lowScaleP = scale;
-  }
+  };
 }
 
 export const DemoContext = React.createContext<DemoModel>(new DemoModel());

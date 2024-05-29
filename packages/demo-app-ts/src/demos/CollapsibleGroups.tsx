@@ -29,13 +29,13 @@ import DemoControlBar from './DemoControlBar';
 
 const getModel = (collapseTypes: string[] = []): Model => {
   // create nodes from data
-  const nodes: NodeModel[] = data.nodes.map(d => {
+  const nodes: NodeModel[] = data.nodes.map((d) => {
     if (d.type) {
       return {
         type: d.type,
         id: d.id,
         group: true,
-        children: data.nodes.filter((n: any) => n.group === d.id).map(n => n.id),
+        children: data.nodes.filter((n: any) => n.group === d.id).map((n) => n.id),
         label: d.id,
         width: d.width,
         height: d.height,
@@ -124,7 +124,7 @@ const TopologyViewComponent: React.FunctionComponent<TopologyViewComponentProps>
   const [collapseOrange, setCollapseOrange] = React.useState<boolean>(false);
   const [collapsePink, setCollapsePink] = React.useState<boolean>(false);
 
-  useEventListener<SelectionEventListener>(SELECTION_EVENT, ids => {
+  useEventListener<SelectionEventListener>(SELECTION_EVENT, (ids) => {
     setSelectedIds(ids);
   });
 

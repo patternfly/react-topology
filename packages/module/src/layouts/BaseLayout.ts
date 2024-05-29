@@ -256,10 +256,10 @@ export class BaseLayout implements Layout {
       return undefined;
     }
 
-    let layoutNode = nodes.find(n =>  n.id === node.getId());
+    let layoutNode = nodes.find((n) => n.id === node.getId());
     if (!layoutNode && node.getNodes().length) {
       const id = node.getChildren()[0].getId();
-      layoutNode = nodes.find(n => n.id === id);
+      layoutNode = nodes.find((n) => n.id === id);
     }
     if (!layoutNode) {
       layoutNode = this.getLayoutNode(nodes, getClosestVisibleParent(node));
@@ -314,13 +314,13 @@ export class BaseLayout implements Layout {
     }
   };
 
-  protected getLeafNodes = (): Node[] => leafNodeElements(this.graph.getNodes()).filter(n => n.isVisible());
+  protected getLeafNodes = (): Node[] => leafNodeElements(this.graph.getNodes()).filter((n) => n.isVisible());
 
-  protected getGroupNodes = (): Node[] => groupNodeElements(this.graph.getNodes()).filter(g => g.isVisible());
+  protected getGroupNodes = (): Node[] => groupNodeElements(this.graph.getNodes()).filter((g) => g.isVisible());
 
   protected getLinks(edges: Edge[]): LayoutLink[] {
     const links: LayoutLink[] = [];
-    edges.forEach(e => {
+    edges.forEach((e) => {
       const source = this.getLayoutNode(this.nodes, e.getSource());
       const target = this.getLayoutNode(this.nodes, e.getTarget());
       if (source && target) {
@@ -332,7 +332,7 @@ export class BaseLayout implements Layout {
     return links;
   }
 
-  protected hasVisibleChildren = (group: Node): boolean => !!group.getNodes().find(c => isNode(c) && c.isVisible());
+  protected hasVisibleChildren = (group: Node): boolean => !!group.getNodes().find((c) => isNode(c) && c.isVisible());
 
   // Turn empty groups into nodes
   protected getNodesFromGroups(groups: Node[], nodeDistance: number, nodeCount: number): LayoutNode[] {
@@ -351,7 +351,7 @@ export class BaseLayout implements Layout {
     let nodeIndex = 2 * nodes.length;
     // Create groups only for those with children
     const layoutGroups: LayoutGroup[] = groups
-      .filter(g => this.hasVisibleChildren(g))
+      .filter((g) => this.hasVisibleChildren(g))
       .map((group: Node) => this.createLayoutGroup(group, padding, nodeIndex++));
 
     layoutGroups.forEach((groupNode: LayoutGroup) => {
@@ -360,7 +360,7 @@ export class BaseLayout implements Layout {
         .getNodes()
         .filter((node: any) => !node.isGroup() || !this.hasVisibleChildren(node));
       leafElements.forEach((leaf: any) => {
-        const layoutLeaf = nodes.find(n => n.id === leaf.getId());
+        const layoutLeaf = nodes.find((n) => n.id === leaf.getId());
         if (layoutLeaf) {
           leaves.push(layoutLeaf);
           layoutLeaf.parent = groupNode;
@@ -372,7 +372,7 @@ export class BaseLayout implements Layout {
         .getNodes()
         .filter((node: any) => node.isGroup() && node.isVisible() && !node.isCollapsed());
       groupElements.forEach((group: any) => {
-        const layoutGroup = layoutGroups.find(g => g.id === group.getId());
+        const layoutGroup = layoutGroups.find((g) => g.id === group.getId());
         if (layoutGroup) {
           childGroups.push(layoutGroup);
           layoutGroup.parent = groupNode;
@@ -441,18 +441,18 @@ export class BaseLayout implements Layout {
 
     const newNodes: LayoutNode[] = initialRun
       ? this.nodes
-      : this.nodes.filter(node => !this.nodesMap[node.element.getId()]);
+      : this.nodes.filter((node) => !this.nodesMap[node.element.getId()]);
     let addingNodes = restart && newNodes.length > 0;
 
     if (!initialRun && restart && !addingNodes) {
-      this.groups.forEach(group => {
-        const prevGroup = prevGroups.find(g => g.element.getId() === group.element.getId());
+      this.groups.forEach((group) => {
+        const prevGroup = prevGroups.find((g) => g.element.getId() === group.element.getId());
         if (!prevGroup) {
           addingNodes = true;
           newNodes.push(...group.leaves);
         } else {
-          group.leaves.forEach(node => {
-            if (!prevGroup.leaves.find(l => l.element.getId() === node.element.getId())) {
+          group.leaves.forEach((node) => {
+            if (!prevGroup.leaves.find((l) => l.element.getId() === node.element.getId())) {
               newNodes.push(node);
             }
           });

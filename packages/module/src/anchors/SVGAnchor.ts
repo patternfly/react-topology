@@ -15,7 +15,7 @@ export default class SVGAnchor<E extends Node = Node> extends AbstractAnchor {
   constructor(owner: E, offset: number = 0) {
     super(owner, offset);
 
-    makeObservable<SVGAnchor, "svgElement">(this, { svgElement: observable.ref });
+    makeObservable<SVGAnchor, 'svgElement'>(this, { svgElement: observable.ref });
   }
 
   setSVGElement(svgElement: SVGElement) {

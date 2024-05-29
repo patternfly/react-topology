@@ -186,12 +186,7 @@ const DefaultTaskGroupInner: React.FunctionComponent<PipelinesDefaultGroupInnerP
     }
     return (
       //  TODO: Support status indicators on expanded state.
-      <DefaultTaskGroupExpanded
-        className={className}
-        element={element}
-        onCollapseChange={handleCollapse}
-        {...rest}
-      />
+      <DefaultTaskGroupExpanded className={className} element={element} onCollapseChange={handleCollapse} {...rest} />
     );
   }
 );

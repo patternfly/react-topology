@@ -16,12 +16,7 @@ const FailedEdge: React.FunctionComponent<FailedEdgeProps> = ({ element }) => {
   const path = integralShapePath(startPoint, endPoint, startIndent, 10);
   return (
     <g data-test-id="task-handler" className={styles.topologyEdge} fillOpacity={0}>
-      <path
-        d={path}
-        transform="translate(0.5,0.5)"
-        shapeRendering="geometricPrecision"
-        stroke="red"
-      />
+      <path d={path} transform="translate(0.5,0.5)" shapeRendering="geometricPrecision" stroke="red" />
     </g>
   );
 };

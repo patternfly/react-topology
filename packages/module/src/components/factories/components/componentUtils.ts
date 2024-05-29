@@ -65,7 +65,7 @@ const canDropEdgeOnNode = (operation: string, element: GraphElement, node: Node)
     return true;
   }
 
-  return !node.getTargetEdges().find(e => e.getSource() === edge.getSource());
+  return !node.getTargetEdges().find((e) => e.getSource() === edge.getSource());
 };
 
 const highlightNode = (monitor: DropTargetMonitor, element: Node): boolean => {
@@ -109,7 +109,7 @@ const nodeDragSourceSpec = (
           [Modifiers.SHIFT]: { type: REGROUP_OPERATION, edit: true }
         }
       : undefined,
-  canCancel: monitor => monitor.getOperation()?.type === REGROUP_OPERATION,
+  canCancel: (monitor) => monitor.getOperation()?.type === REGROUP_OPERATION,
   begin: (monitor, props): DragNodeObject => ({
     element: props.element,
     allowRegroup: (canEdit || props.canEdit) && allowRegroup
@@ -132,7 +132,7 @@ const nodeDragSourceSpec = (
     }
     return undefined;
   },
-  collect: monitor => ({
+  collect: (monitor) => ({
     dragging: monitor.isDragging(),
     regrouping: monitor.getOperation()?.type === REGROUP_OPERATION
   })
@@ -148,7 +148,7 @@ const noRegroupDragSourceSpec: DragSourceSpec<
   NodeComponentProps
 > = {
   item: { type: NODE_DRAG_TYPE },
-  collect: monitor => ({
+  collect: (monitor) => ({
     dragging: monitor.isDragging()
   })
 };
@@ -173,7 +173,7 @@ const nodeDropTargetSpec = (
   any,
   { canDrop?: boolean; dropTarget?: boolean; edgeDragging?: boolean },
   GraphElementProps
-  > => ({
+> => ({
   accept: accept || [EDGE_DRAG_TYPE, CREATE_CONNECTOR_DROP_TYPE],
   canDrop: (item, monitor, props) => {
     if (isEdge(item) && isNode(props.element)) {
@@ -182,7 +182,7 @@ const nodeDropTargetSpec = (
     if (item === props.element || !isNode(props.element)) {
       return false;
     }
-    return !props.element.getTargetEdges().find(e => e.getSource() === item);
+    return !props.element.getTargetEdges().find((e) => e.getSource() === item);
   },
   collect: (monitor, props) => ({
     canDrop: highlightNode(monitor, props.element as Node),
@@ -203,7 +203,7 @@ const graphDropTargetSpec = (
       item.element.hasParent() &&
       item.element.getParent() !== props.element) ||
       monitor.getItemType() === CREATE_CONNECTOR_DROP_TYPE),
-  collect: monitor => {
+  collect: (monitor) => {
     const operation = monitor.getOperation() as EditableDragOperationType;
     const dragEditInProgress =
       monitor.isDragging() && (operation?.type === CREATE_CONNECTOR_OPERATION || operation?.edit);
@@ -230,7 +230,7 @@ const groupDropTargetSpec: DropTargetSpec<
   any,
   { droppable: boolean; dropTarget: boolean; canDrop: boolean },
   any
-  > = {
+> = {
   accept: [NODE_DRAG_TYPE, EDGE_DRAG_TYPE, CREATE_CONNECTOR_DROP_TYPE],
   canDrop: (item, monitor, props) =>
     monitor.isOver({ shallow: monitor.getItemType() === CREATE_CONNECTOR_DROP_TYPE }) &&
@@ -273,7 +273,7 @@ const edgeDragSourceSpec = (
       callback(props.element.getSource(), dropResult, props.element.getTarget());
     }
   },
-  collect: monitor => ({
+  collect: (monitor) => ({
     dragging: monitor.isDragging()
   })
 });

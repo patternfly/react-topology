@@ -89,7 +89,7 @@ export const SingleEdge = withTopologySetup(() => {
 export const MultiEdge = withTopologySetup(() => {
   useComponentFactory(defaultComponentFactory);
   useComponentFactory(
-    React.useCallback<ComponentFactory>(kind => {
+    React.useCallback<ComponentFactory>((kind) => {
       if (kind === ModelKind.node) {
         return withDragNode()(DefaultNode);
       }
@@ -188,56 +188,58 @@ export const MultiEdge = withTopologySetup(() => {
   return null;
 });
 
-const groupStory = (groupType: string): React.FunctionComponent => () => {
-  useComponentFactory(defaultComponentFactory);
-  useModel(
-    React.useMemo(
-      (): Model => ({
-        graph: {
-          id: 'g1',
-          type: 'graph'
-        },
-        nodes: [
-          {
-            id: 'gr1',
-            type: groupType,
-            group: true,
-            children: ['n1', 'n2', 'n3'],
-            style: {
-              padding: 10
+const groupStory =
+  (groupType: string): React.FunctionComponent =>
+  () => {
+    useComponentFactory(defaultComponentFactory);
+    useModel(
+      React.useMemo(
+        (): Model => ({
+          graph: {
+            id: 'g1',
+            type: 'graph'
+          },
+          nodes: [
+            {
+              id: 'gr1',
+              type: groupType,
+              group: true,
+              children: ['n1', 'n2', 'n3'],
+              style: {
+                padding: 10
+              }
+            },
+            {
+              id: 'n1',
+              type: 'node',
+              x: 50,
+              y: 50,
+              width: 30,
+              height: 30
+            },
+            {
+              id: 'n2',
+              type: 'node',
+              x: 200,
+              y: 20,
+              width: 10,
+              height: 10
+            },
+            {
+              id: 'n3',
+              type: 'node',
+              x: 150,
+              y: 100,
+              width: 20,
+              height: 20
             }
-          },
-          {
-            id: 'n1',
-            type: 'node',
-            x: 50,
-            y: 50,
-            width: 30,
-            height: 30
-          },
-          {
-            id: 'n2',
-            type: 'node',
-            x: 200,
-            y: 20,
-            width: 10,
-            height: 10
-          },
-          {
-            id: 'n3',
-            type: 'node',
-            x: 150,
-            y: 100,
-            width: 20,
-            height: 20
-          }
-        ]
-      }),
-      []
-    )
-  );
-  return null;
-};
+          ]
+        }),
+        []
+      )
+    );
+    return null;
+  };
 
 export const Group = withTopologySetup(groupStory('group'));
 export const GroupHull = withTopologySetup(groupStory('group-hull'));
@@ -314,7 +316,6 @@ export const AutoSizeNode = withTopologySetup(() => {
   return null;
 });
 
-
 export const Basics: React.FunctionComponent = () => {
   const [activeKey, setActiveKey] = React.useState<string | number>(0);
 
@@ -326,22 +327,22 @@ export const Basics: React.FunctionComponent = () => {
     <div className="pf-ri__topology-demo">
       <Tabs unmountOnExit activeKey={activeKey} onSelect={handleTabClick}>
         <Tab eventKey={0} title={<TabTitleText>Single Node</TabTitleText>}>
-          <SingleNode/>
+          <SingleNode />
         </Tab>
         <Tab eventKey={1} title={<TabTitleText>Single Edge</TabTitleText>}>
-          <SingleEdge/>
+          <SingleEdge />
         </Tab>
         <Tab eventKey={2} title={<TabTitleText>Multi Edge</TabTitleText>}>
-          <MultiEdge/>
+          <MultiEdge />
         </Tab>
         <Tab eventKey={3} title={<TabTitleText>Group</TabTitleText>}>
-          <Group/>
+          <Group />
         </Tab>
         <Tab eventKey={4} title={<TabTitleText>Group Hull</TabTitleText>}>
-          <GroupHull/>
+          <GroupHull />
         </Tab>
         <Tab eventKey={5} title={<TabTitleText>Auto Size Node</TabTitleText>}>
-          <AutoSizeNode/>
+          <AutoSizeNode />
         </Tab>
       </Tabs>
     </div>

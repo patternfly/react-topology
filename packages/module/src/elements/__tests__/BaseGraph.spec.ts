@@ -77,7 +77,7 @@ describe('BaseGraph', () => {
 
     const controller = new Visualization();
     controller.setGraph(graph);
-    controller.registerLayoutFactory(type => {
+    controller.registerLayoutFactory((type) => {
       switch (type) {
         case LAYOUT1_TYPE:
           return layout1;
@@ -251,7 +251,7 @@ describe('BaseGraph', () => {
     const layoutType = 'test';
     const controller = new Visualization();
     controller.setGraph(graph);
-    controller.registerLayoutFactory(type => {
+    controller.registerLayoutFactory((type) => {
       return type === layoutType ? new TestLayout() : undefined;
     });
 

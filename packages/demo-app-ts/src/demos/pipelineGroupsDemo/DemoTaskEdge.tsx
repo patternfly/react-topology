@@ -17,9 +17,7 @@ const DemoTaskEdge: React.FunctionComponent<DemoTaskEdgeProps> = ({ element, ...
   <TaskEdge
     element={element as Edge}
     endTerminalType={
-      (element as Edge).getTarget().getType() !== DEFAULT_SPACER_NODE_TYPE
-        ? EdgeTerminalType.directional
-        : undefined
+      (element as Edge).getTarget().getType() !== DEFAULT_SPACER_NODE_TYPE ? EdgeTerminalType.directional : undefined
     }
     {...props}
   />

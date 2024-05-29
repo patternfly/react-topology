@@ -77,140 +77,143 @@ interface DefaultEdgeProps {
 
 type DefaultEdgeInnerProps = Omit<DefaultEdgeProps, 'element'> & { element: Edge };
 
-const DefaultEdgeInner: React.FunctionComponent<DefaultEdgeInnerProps> = observer(({
-  element,
-  dragging,
-  sourceDragRef,
-  targetDragRef,
-  edgeStyle,
-  animationDuration,
-  onShowRemoveConnector,
-  onHideRemoveConnector,
-  startTerminalType = EdgeTerminalType.none,
-  startTerminalClass,
-  startTerminalStatus,
-  startTerminalSize = 14,
-  endTerminalType = EdgeTerminalType.directional,
-  endTerminalClass,
-  endTerminalStatus,
-  endTerminalSize = 14,
-  tag,
-  tagClass,
-  tagStatus,
-  children,
-  className,
-  selected,
-  onSelect,
-  onContextMenu,
-}) => {
-  const [hover, hoverRef] = useHover();
-  const startPoint = element.getStartPoint();
-  const endPoint = element.getEndPoint();
-
-  // eslint-disable-next-line patternfly-react/no-layout-effect
-  React.useLayoutEffect(() => {
-    if (hover && !dragging) {
-      onShowRemoveConnector && onShowRemoveConnector();
-    } else {
-      onHideRemoveConnector && onHideRemoveConnector();
-    }
-  }, [hover, dragging, onShowRemoveConnector, onHideRemoveConnector]);
-
-  // If the edge connects to nodes in a collapsed group don't draw
-  const sourceParent = getClosestVisibleParent(element.getSource());
-  const targetParent = getClosestVisibleParent(element.getTarget());
-  if (isNode(sourceParent) && sourceParent.isCollapsed() && sourceParent === targetParent) {
-    return null;
-  }
-
-  const detailsLevel = element.getGraph().getDetailsLevel();
-
-  const groupClassName = css(
-    styles.topologyEdge,
+const DefaultEdgeInner: React.FunctionComponent<DefaultEdgeInnerProps> = observer(
+  ({
+    element,
+    dragging,
+    sourceDragRef,
+    targetDragRef,
+    edgeStyle,
+    animationDuration,
+    onShowRemoveConnector,
+    onHideRemoveConnector,
+    startTerminalType = EdgeTerminalType.none,
+    startTerminalClass,
+    startTerminalStatus,
+    startTerminalSize = 14,
+    endTerminalType = EdgeTerminalType.directional,
+    endTerminalClass,
+    endTerminalStatus,
+    endTerminalSize = 14,
+    tag,
+    tagClass,
+    tagStatus,
+    children,
     className,
-    dragging && 'pf-m-dragging',
-    hover && !dragging && 'pf-m-hover',
-    selected && !dragging && 'pf-m-selected',
-    StatusModifier[endTerminalStatus]
-  );
+    selected,
+    onSelect,
+    onContextMenu
+  }) => {
+    const [hover, hoverRef] = useHover();
+    const startPoint = element.getStartPoint();
+    const endPoint = element.getEndPoint();
 
-  const edgeAnimationDuration = animationDuration ?? getEdgeAnimationDuration(element.getEdgeAnimationSpeed());
-  const linkClassName = css(styles.topologyEdgeLink, getEdgeStyleClassModifier(edgeStyle || element.getEdgeStyle()));
+    // eslint-disable-next-line patternfly-react/no-layout-effect
+    React.useLayoutEffect(() => {
+      if (hover && !dragging) {
+        onShowRemoveConnector && onShowRemoveConnector();
+      } else {
+        onHideRemoveConnector && onHideRemoveConnector();
+      }
+    }, [hover, dragging, onShowRemoveConnector, onHideRemoveConnector]);
 
-  const bendpoints = element.getBendpoints();
+    // If the edge connects to nodes in a collapsed group don't draw
+    const sourceParent = getClosestVisibleParent(element.getSource());
+    const targetParent = getClosestVisibleParent(element.getTarget());
+    if (isNode(sourceParent) && sourceParent.isCollapsed() && sourceParent === targetParent) {
+      return null;
+    }
 
-  const d = `M${startPoint.x} ${startPoint.y} ${bendpoints.map((b: Point) => `L${b.x} ${b.y} `).join('')}L${endPoint.x
+    const detailsLevel = element.getGraph().getDetailsLevel();
+
+    const groupClassName = css(
+      styles.topologyEdge,
+      className,
+      dragging && 'pf-m-dragging',
+      hover && !dragging && 'pf-m-hover',
+      selected && !dragging && 'pf-m-selected',
+      StatusModifier[endTerminalStatus]
+    );
+
+    const edgeAnimationDuration = animationDuration ?? getEdgeAnimationDuration(element.getEdgeAnimationSpeed());
+    const linkClassName = css(styles.topologyEdgeLink, getEdgeStyleClassModifier(edgeStyle || element.getEdgeStyle()));
+
+    const bendpoints = element.getBendpoints();
+
+    const d = `M${startPoint.x} ${startPoint.y} ${bendpoints.map((b: Point) => `L${b.x} ${b.y} `).join('')}L${
+      endPoint.x
     } ${endPoint.y}`;
 
-  const bgStartPoint =
-    !startTerminalType || startTerminalType === EdgeTerminalType.none
-      ? [startPoint.x, startPoint.y]
-      : getConnectorStartPoint(bendpoints?.[0] || endPoint, startPoint, startTerminalSize);
-  const bgEndPoint =
-    !endTerminalType || endTerminalType === EdgeTerminalType.none
-      ? [endPoint.x, endPoint.y]
-      : getConnectorStartPoint(bendpoints?.[bendpoints.length - 1] || startPoint, endPoint, endTerminalSize);
-  const backgroundPath = `M${bgStartPoint[0]} ${bgStartPoint[1]} ${bendpoints
-    .map((b: Point) => `L${b.x} ${b.y} `)
-    .join('')}L${bgEndPoint[0]} ${bgEndPoint[1]}`;
+    const bgStartPoint =
+      !startTerminalType || startTerminalType === EdgeTerminalType.none
+        ? [startPoint.x, startPoint.y]
+        : getConnectorStartPoint(bendpoints?.[0] || endPoint, startPoint, startTerminalSize);
+    const bgEndPoint =
+      !endTerminalType || endTerminalType === EdgeTerminalType.none
+        ? [endPoint.x, endPoint.y]
+        : getConnectorStartPoint(bendpoints?.[bendpoints.length - 1] || startPoint, endPoint, endTerminalSize);
+    const backgroundPath = `M${bgStartPoint[0]} ${bgStartPoint[1]} ${bendpoints
+      .map((b: Point) => `L${b.x} ${b.y} `)
+      .join('')}L${bgEndPoint[0]} ${bgEndPoint[1]}`;
 
-  const showTag = tag && (detailsLevel === ScaleDetailsLevel.high || hover);
-  const scale = element.getGraph().getScale();
-  const tagScale = hover && !(detailsLevel === ScaleDetailsLevel.high) ? Math.max(1, 1 / scale) : 1;
-  const tagPositionScale = hover && !(detailsLevel === ScaleDetailsLevel.high) ? Math.min(1, scale) : 1;
+    const showTag = tag && (detailsLevel === ScaleDetailsLevel.high || hover);
+    const scale = element.getGraph().getScale();
+    const tagScale = hover && !(detailsLevel === ScaleDetailsLevel.high) ? Math.max(1, 1 / scale) : 1;
+    const tagPositionScale = hover && !(detailsLevel === ScaleDetailsLevel.high) ? Math.min(1, scale) : 1;
 
-  return (
-    <Layer id={dragging || hover ? TOP_LAYER : undefined}>
-      <g
-        ref={hoverRef}
-        data-test-id="edge-handler"
-        className={groupClassName}
-        onClick={onSelect}
-        onContextMenu={onContextMenu}
-      >
-        <path
-          className={css(styles.topologyEdgeBackground)}
-          d={backgroundPath}
-          onMouseEnter={onShowRemoveConnector}
-          onMouseLeave={onHideRemoveConnector}
-        />
-        <path className={linkClassName} d={d} style={{ animationDuration: `${edgeAnimationDuration}s` }} />
-        {showTag && (
-          <g transform={`scale(${hover ? tagScale : 1})`}>
-            <DefaultConnectorTag
-              className={tagClass}
-              startPoint={element.getStartPoint().scale(tagPositionScale)}
-              endPoint={element.getEndPoint().scale(tagPositionScale)}
-              tag={tag}
-              status={tagStatus}
-            />
-          </g>
-        )}
-        <DefaultConnectorTerminal
-          className={startTerminalClass}
-          isTarget={false}
-          edge={element}
-          size={startTerminalSize}
-          dragRef={sourceDragRef}
-          terminalType={startTerminalType}
-          status={startTerminalStatus}
-          highlight={dragging || hover}
-        />
-        <DefaultConnectorTerminal
-          className={endTerminalClass}
-          isTarget
-          dragRef={targetDragRef}
-          edge={element}
-          size={endTerminalSize}
-          terminalType={endTerminalType}
-          status={endTerminalStatus}
-          highlight={dragging || hover}
-        />
-        {children}
-      </g>
-    </Layer>
-  );
-});
+    return (
+      <Layer id={dragging || hover ? TOP_LAYER : undefined}>
+        <g
+          ref={hoverRef}
+          data-test-id="edge-handler"
+          className={groupClassName}
+          onClick={onSelect}
+          onContextMenu={onContextMenu}
+        >
+          <path
+            className={css(styles.topologyEdgeBackground)}
+            d={backgroundPath}
+            onMouseEnter={onShowRemoveConnector}
+            onMouseLeave={onHideRemoveConnector}
+          />
+          <path className={linkClassName} d={d} style={{ animationDuration: `${edgeAnimationDuration}s` }} />
+          {showTag && (
+            <g transform={`scale(${hover ? tagScale : 1})`}>
+              <DefaultConnectorTag
+                className={tagClass}
+                startPoint={element.getStartPoint().scale(tagPositionScale)}
+                endPoint={element.getEndPoint().scale(tagPositionScale)}
+                tag={tag}
+                status={tagStatus}
+              />
+            </g>
+          )}
+          <DefaultConnectorTerminal
+            className={startTerminalClass}
+            isTarget={false}
+            edge={element}
+            size={startTerminalSize}
+            dragRef={sourceDragRef}
+            terminalType={startTerminalType}
+            status={startTerminalStatus}
+            highlight={dragging || hover}
+          />
+          <DefaultConnectorTerminal
+            className={endTerminalClass}
+            isTarget
+            dragRef={targetDragRef}
+            edge={element}
+            size={endTerminalSize}
+            terminalType={endTerminalType}
+            status={endTerminalStatus}
+            highlight={dragging || hover}
+          />
+          {children}
+        </g>
+      </Layer>
+    );
+  }
+);
 
 const DefaultEdge: React.FunctionComponent<DefaultEdgeProps> = ({
   element,

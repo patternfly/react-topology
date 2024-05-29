@@ -30,7 +30,7 @@ const CustomRect: React.FunctionComponent<ShapeProps> = observer(({ className })
   return <rect className={className} x={0} y={0} width={100} height={20} />;
 });
 
-const CustomRectNode: React.FunctionComponent<CustomRectNodeProps> = props => (
+const CustomRectNode: React.FunctionComponent<CustomRectNodeProps> = (props) => (
   <DemoDefaultNode getCustomShape={() => CustomRect} {...props} />
 );
 

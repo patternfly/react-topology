@@ -86,27 +86,24 @@ interface DefaultGroupProps {
 
 type DefaultGroupInnerProps = Omit<DefaultGroupProps, 'element'> & { element: Node };
 
-const DefaultGroupInner: React.FunctionComponent<DefaultGroupInnerProps> = observer(({
-  className,
-  element,
-  onCollapseChange,
-  ...rest
-}) => {
-  const handleCollapse = (group: Node, collapsed: boolean): void => {
-    if (collapsed && rest.collapsedWidth !== undefined && rest.collapsedHeight !== undefined) {
-      group.setDimensions(new Dimensions(rest.collapsedWidth, rest.collapsedHeight));
-    }
-    group.setCollapsed(collapsed);
-    onCollapseChange && onCollapseChange(group, collapsed);
-  };
+const DefaultGroupInner: React.FunctionComponent<DefaultGroupInnerProps> = observer(
+  ({ className, element, onCollapseChange, ...rest }) => {
+    const handleCollapse = (group: Node, collapsed: boolean): void => {
+      if (collapsed && rest.collapsedWidth !== undefined && rest.collapsedHeight !== undefined) {
+        group.setDimensions(new Dimensions(rest.collapsedWidth, rest.collapsedHeight));
+      }
+      group.setCollapsed(collapsed);
+      onCollapseChange && onCollapseChange(group, collapsed);
+    };
 
-  if (element.isCollapsed()) {
-    return (
-      <DefaultGroupCollapsed className={className} element={element} onCollapseChange={handleCollapse} {...rest} />
-    );
+    if (element.isCollapsed()) {
+      return (
+        <DefaultGroupCollapsed className={className} element={element} onCollapseChange={handleCollapse} {...rest} />
+      );
+    }
+    return <DefaultGroupExpanded className={className} element={element} onCollapseChange={handleCollapse} {...rest} />;
   }
-  return <DefaultGroupExpanded className={className} element={element} onCollapseChange={handleCollapse} {...rest} />;
-});
+);
 
 const DefaultGroup: React.FunctionComponent<DefaultGroupProps> = ({ element, ...rest }: DefaultGroupProps) => {
   if (!isNode(element)) {

@@ -1,9 +1,6 @@
 import { PipelineTasksDemo } from './demos/pipelinesDemo/PipelineTasksDemo';
 import { PipelineLayoutDemo } from './demos/pipelinesDemo/PipelineLayoutDemo';
-import {
-  PipelineGroupsComplexDemo,
-  PipelineGroupsDemo
-} from './demos/pipelineGroupsDemo/PipelineGroupsDemo';
+import { PipelineGroupsComplexDemo, PipelineGroupsDemo } from './demos/pipelineGroupsDemo/PipelineGroupsDemo';
 import { Basics } from './demos/Basics';
 import { StyleEdges, StyleGroups, StyleLabels, StyleNodes } from './demos/stylesDemo/Styles';
 import { Selection } from './demos/Selection';
@@ -38,7 +35,7 @@ export const Demos: DemoInterface[] = [
     id: 'topology-package',
     name: 'Topology Package',
     componentType: TopologyPackage,
-    isDefault: true,
+    isDefault: true
   },
   {
     id: 'pipelines',
@@ -57,24 +54,24 @@ export const Demos: DemoInterface[] = [
       {
         id: 'pipelines-groups-layout-demo',
         name: 'Pipeline Groups Layout',
-        componentType: PipelineGroupsDemo,
+        componentType: PipelineGroupsDemo
       },
       {
         id: 'pipelines-groups-complex-layout-demo',
         name: 'Pipeline Groups Complex Layout',
-        componentType: PipelineGroupsComplexDemo,
-      },
+        componentType: PipelineGroupsComplexDemo
+      }
     ]
   },
   {
     id: 'status-connectors',
     name: 'Status Connectors',
-    componentType: StatusConnectors,
+    componentType: StatusConnectors
   },
   {
     id: 'basic',
     name: 'Basic',
-    componentType: Basics,
+    componentType: Basics
   },
   {
     id: 'styles',
@@ -83,70 +80,70 @@ export const Demos: DemoInterface[] = [
       {
         id: 'nodes',
         name: 'Nodes',
-        componentType: StyleNodes,
+        componentType: StyleNodes
       },
       {
         id: 'labels',
         name: 'Labels',
-        componentType: StyleLabels,
+        componentType: StyleLabels
       },
       {
         id: 'groups',
         name: 'Groups',
-        componentType: StyleGroups,
+        componentType: StyleGroups
       },
       {
         id: 'edges',
         name: 'Edges',
-        componentType: StyleEdges,
-      },
+        componentType: StyleEdges
+      }
     ]
   },
   {
     id: 'selection',
     name: 'Selection',
-    componentType: Selection,
+    componentType: Selection
   },
   {
     id: 'pan-zoom',
     name: 'Pan Zoom',
-    componentType: PanZoom,
+    componentType: PanZoom
   },
   {
     id: 'layout',
     name: 'Layout',
-    componentType: Layouts,
+    componentType: Layouts
   },
   {
     id: 'connectors',
     name: 'Connectors',
-    componentType: Connectors,
+    componentType: Connectors
   },
   {
     id: 'drag-and-drop',
     name: 'Drag and Drop',
-    componentType: DragAndDrop,
+    componentType: DragAndDrop
   },
   {
     id: 'shapes',
     name: 'Shapes',
-    componentType: Shapes,
+    componentType: Shapes
   },
   {
     id: 'context-menus',
     name: 'Context Menus',
-    componentType: ContextMenus,
+    componentType: ContextMenus
   },
   {
     id: 'complex-group',
     name: 'Complex Group',
-    componentType: ComplexGroup,
+    componentType: ComplexGroup
   },
   {
     id: 'collapsible-groups',
     name: 'Collapsible Groups',
-    componentType: CollapsibleGroups,
-  },
+    componentType: CollapsibleGroups
+  }
 ];
 
 export default Demos;

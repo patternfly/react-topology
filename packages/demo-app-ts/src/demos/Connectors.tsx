@@ -38,7 +38,7 @@ import { Tab, Tabs, TabTitleText } from '@patternfly/react-core';
 export const Reconnect = withTopologySetup(() => {
   useComponentFactory(defaultComponentFactory);
   useComponentFactory(
-    React.useCallback<ComponentFactory>(kind => {
+    React.useCallback<ComponentFactory>((kind) => {
       if (kind === ModelKind.graph) {
         return withPanZoom()(GraphComponent);
       }
@@ -47,7 +47,7 @@ export const Reconnect = withTopologySetup(() => {
           accept: 'test',
           canDrop: (item, monitor, props) =>
             !props || (item.getSource() !== props.element && item.getTarget() !== props.element),
-          collect: monitor => ({
+          collect: (monitor) => ({
             droppable: monitor.isDragging(),
             hover: monitor.isOver(),
             canDrop: monitor.canDrop()
@@ -86,7 +86,7 @@ export const Reconnect = withTopologySetup(() => {
               }
               (props.element as Edge).setEndPoint();
             },
-            collect: monitor => ({
+            collect: (monitor) => ({
               dragging: monitor.isDragging()
             })
           })(DefaultEdge)
@@ -197,7 +197,7 @@ export const CreateConnector = withTopologySetup(() => {
   useComponentFactory(defaultComponentFactory);
   useComponentFactory(
     React.useCallback<ComponentFactory>(
-      kind => {
+      (kind) => {
         if (kind === ModelKind.graph) {
           return withDndDrop({
             accept: CREATE_CONNECTOR_DROP_TYPE,
@@ -256,7 +256,7 @@ export const CreateConnector = withTopologySetup(() => {
             withDndDrop<Node, any, { droppable?: boolean; hover?: boolean; canDrop?: boolean }, GraphElementProps>({
               accept: CREATE_CONNECTOR_DROP_TYPE,
               canDrop: (item, monitor, props) => !props || item !== props.element,
-              collect: monitor => ({
+              collect: (monitor) => ({
                 droppable: monitor.isDragging(),
                 hover: monitor.isOver(),
                 canDrop: monitor.canDrop()
@@ -273,7 +273,10 @@ export const CreateConnector = withTopologySetup(() => {
   return null;
 });
 
-const NodeWithPointAnchor: React.FunctionComponent<{ element: GraphElement } & WithDragNodeProps> = ({ element, ...props }) => {
+const NodeWithPointAnchor: React.FunctionComponent<{ element: GraphElement } & WithDragNodeProps> = ({
+  element,
+  ...props
+}) => {
   const nodeElement = element as Node;
   const nodeRef = useSvgAnchor();
   const targetRef = useSvgAnchor(AnchorEnd.target, 'edge-point');
@@ -292,7 +295,7 @@ const NodeWithPointAnchor: React.FunctionComponent<{ element: GraphElement } & W
 export const Anchors = withTopologySetup(() => {
   useComponentFactory(defaultComponentFactory);
   useComponentFactory(
-    React.useCallback<ComponentFactory>(kind => {
+    React.useCallback<ComponentFactory>((kind) => {
       if (kind === ModelKind.node) {
         return withDragNode()(NodeWithPointAnchor);
       }

@@ -4,10 +4,8 @@ const path = require('path');
 
 const root = process.cwd();
 
-const sourceFiles = glob
-  .sync(`${root}/src/*/`)
-  .map((name) => name.replace(/\/$/, ''));
-  
+const sourceFiles = glob.sync(`${root}/src/*/`).map((name) => name.replace(/\/$/, ''));
+
 const indexTypings = glob.sync(`${root}/src/index.d.ts`);
 
 async function copyTypings(files, dest) {
@@ -34,7 +32,7 @@ async function createPackage(file) {
   const esmRelative = path.relative(file.replace('/dist/esm', ''), esmSource);
   const content = {
     main: 'index.js',
-    module: esmRelative,
+    module: esmRelative
   };
   const typings = glob.sync(`${root}/src/${fileName}/*.d.ts`);
   const cmds = [];

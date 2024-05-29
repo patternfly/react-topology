@@ -55,7 +55,7 @@ const TaskEdgeInner: React.FunctionComponent<TaskEdgeInnerProps> = observer(
     className,
     nodeSeparation,
     selected,
-    onSelect,
+    onSelect
   }) => {
     const startPoint = element.getStartPoint();
     const endPoint = element.getEndPoint();
@@ -63,7 +63,7 @@ const TaskEdgeInner: React.FunctionComponent<TaskEdgeInnerProps> = observer(
       styles.topologyEdge,
       className,
       selected && 'pf-m-selected',
-      onSelect && 'pf-m-selectable',
+      onSelect && 'pf-m-selectable'
     );
     const startIndent: number = element.getData()?.indent || 0;
     const verticalLayout = (element.getGraph().getLayoutOptions?.() as DagreLayoutOptions)?.rankdir === TOP_TO_BOTTOM;
@@ -80,12 +80,7 @@ const TaskEdgeInner: React.FunctionComponent<TaskEdgeInnerProps> = observer(
     return (
       <g data-test-id="task-handler" className={groupClassName}>
         {selected ? edgeBackground : <Layer id={TOP_LAYER}>{edgeBackground}</Layer>}
-        <path
-          d={edgePath}
-          transform="translate(0.5,0.5)"
-          shapeRendering="geometricPrecision"
-          fillOpacity={0}
-        />
+        <path d={edgePath} transform="translate(0.5,0.5)" shapeRendering="geometricPrecision" fillOpacity={0} />
         <DefaultConnectorTerminal
           className={startTerminalClass}
           isTarget={false}

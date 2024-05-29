@@ -10,18 +10,18 @@ import ElementWrapper from './ElementWrapper';
 import { GraphElementProps } from './factories';
 
 type GraphComponentProps = GraphElementProps &
-    WithPanZoomProps &
-    WithDndDropProps &
-    WithSelectionProps &
-    WithContextMenuProps;
+  WithPanZoomProps &
+  WithDndDropProps &
+  WithSelectionProps &
+  WithContextMenuProps;
 
 // This inner Component will prevent the re-rendering of all children when the transform changes
 const ElementChildren: React.FunctionComponent<{ element: Graph }> = observer(({ element }) => (
   <>
-    {element.getEdges().map(e => (
+    {element.getEdges().map((e) => (
       <ElementWrapper key={e.getId()} element={e} />
     ))}
-    {element.getNodes().map(e => (
+    {element.getNodes().map((e) => (
       <ElementWrapper key={e.getId()} element={e} />
     ))}
   </>

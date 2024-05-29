@@ -71,7 +71,7 @@ const CustomNode: React.FC<CustomNodeProps & WithSelectionProps & WithDragNodePr
 }) => {
   const data = element.getData();
   const Icon = data.icon;
-  const badgeColors = BadgeColors.find(badgeColor => badgeColor.name === data.badge);
+  const badgeColors = BadgeColors.find((badgeColor) => badgeColor.name === data.badge);
   return (
     <DefaultNode
       element={element}
@@ -131,7 +131,7 @@ const customComponentFactory: ComponentFactory = (kind: ModelKind, type: string)
               }
               (props.element as Edge).setEndPoint();
             },
-            collect: monitor => ({
+            collect: (monitor) => ({
               dragging: monitor.isDragging()
             })
           })(DefaultEdge);

@@ -31,7 +31,7 @@ function getClassMaps(cssString) {
   const res = {};
   const distinctClasses = new Set(getCSSClasses(cssString));
 
-  distinctClasses.forEach(className => {
+  distinctClasses.forEach((className) => {
     const key = formatClassName(className);
     const value = className.replace('.', '').trim();
     if (isModifier(className)) {
@@ -45,7 +45,7 @@ function getClassMaps(cssString) {
   const ordered = {};
   Object.keys(res)
     .sort()
-    .forEach(key => (ordered[key] = res[key]));
+    .forEach((key) => (ordered[key] = res[key]));
 
   return ordered;
 }
@@ -58,8 +58,8 @@ function generateClassMaps() {
 
   const res = {};
   srcCSSFiles
-    .map(file => path.resolve(file)) // Normalize path for Windows
-    .forEach(file => {
+    .map((file) => path.resolve(file)) // Normalize path for Windows
+    .forEach((file) => {
       res[file] = getClassMaps(fs.readFileSync(file, 'utf8'));
     });
 

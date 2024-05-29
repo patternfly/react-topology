@@ -130,7 +130,7 @@ const demoComponentFactory: ComponentFactory = (
             }
             props.element.setEndPoint();
           },
-          collect: monitor => ({
+          collect: (monitor) => ({
             dragging: monitor.isDragging()
           })
         })(withContextMenu(() => defaultMenu)(withSelection()(DemoEdge)))

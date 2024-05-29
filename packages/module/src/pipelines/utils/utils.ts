@@ -87,7 +87,7 @@ export const getSpacerNodes = (
   interface ParallelNodeMap {
     [id: string]: PipelineNodeModel[];
   }
-  const finallyNodes = nodes.filter(n => finallyNodeTypes.includes(n.type) && nodeVisible(n, nodes));
+  const finallyNodes = nodes.filter((n) => finallyNodeTypes.includes(n.type) && nodeVisible(n, nodes));
   // Collect only multiple run-afters
   const multipleRunBeforeMap: ParallelNodeMap = nodes.reduce((acc, node) => {
     const { runAfterTasks } = node;
@@ -112,17 +112,17 @@ export const getSpacerNodes = (
   const spacerNodes: PipelineNodeModel[] = [];
 
   // Insert a spacer node between the multiple nodes on the sides of a parallel-to-parallel
-  Object.keys(multiParallelToParallelList).forEach(key => {
+  Object.keys(multiParallelToParallelList).forEach((key) => {
     spacerNodes.push({
       id: key,
       type: spacerNodeType,
       width: 1,
-      height: 1,
+      height: 1
     });
   });
 
   if (finallyNodes.length > 1) {
-    const finallyId = getSpacerId(finallyNodes.map(n => n.id));
+    const finallyId = getSpacerId(finallyNodes.map((n) => n.id));
     spacerNodes.push({
       id: finallyId,
       type: spacerNodeType,
@@ -141,7 +141,7 @@ export const addSpacerNodes = (
   finallyNodeTypes: string[] = [DEFAULT_FINALLY_NODE_TYPE]
 ): PipelineNodeModel[] => {
   const spacerNodes = getSpacerNodes(nodes, spacerNodeType, finallyNodeTypes);
-  const newNodes = [ ...nodes, ...spacerNodes];
+  const newNodes = [...nodes, ...spacerNodes];
 
   if (addSpacersToGroups) {
     // find the parent of each spacer node
@@ -168,20 +168,20 @@ export const getEdgesFromNodes = (
   finallyEdgeType = DEFAULT_EDGE_TYPE
 ): EdgeModel[] => {
   const edges: EdgeModel[] = [];
-  const visibleNodes = nodes.filter(n => nodeVisible(n, nodes));
+  const visibleNodes = nodes.filter((n) => nodeVisible(n, nodes));
 
-  const spacerNodes = visibleNodes.filter(n => n.type === spacerNodeType);
-  const taskNodes = visibleNodes.filter(n => n.type !== spacerNodeType);
-  const finallyNodes = visibleNodes.filter(n => finallyNodeTypes.includes(n.type));
+  const spacerNodes = visibleNodes.filter((n) => n.type === spacerNodeType);
+  const taskNodes = visibleNodes.filter((n) => n.type !== spacerNodeType);
+  const finallyNodes = visibleNodes.filter((n) => finallyNodeTypes.includes(n.type));
   const lastTasks = visibleNodes
-    .filter(n => !finallyNodeTypes.includes(n.type))
-    .filter(n => spacerNodeType !== n.type)
-    .filter(t => !visibleNodes.find(n => n.runAfterTasks?.includes(t.id)));
+    .filter((n) => !finallyNodeTypes.includes(n.type))
+    .filter((n) => spacerNodeType !== n.type)
+    .filter((t) => !visibleNodes.find((n) => n.runAfterTasks?.includes(t.id)));
 
-  spacerNodes.forEach(spacer => {
+  spacerNodes.forEach((spacer) => {
     const sourceIds = spacer.id.split('|');
-    sourceIds.forEach(sourceId => {
-      const node = visibleNodes.find(n => n.id === sourceId);
+    sourceIds.forEach((sourceId) => {
+      const node = visibleNodes.find((n) => n.id === sourceId);
       if (node && !finallyNodes.includes(node)) {
         edges.push({
           id: `${sourceId}-${spacer.id}`,
@@ -193,10 +193,10 @@ export const getEdgesFromNodes = (
     });
   });
 
-  taskNodes.forEach(node => {
+  taskNodes.forEach((node) => {
     if (node.runAfterTasks) {
       const spacerId: string = getSpacerId([...node.runAfterTasks]);
-      const spacer = spacerNodes.find(n => n.id === spacerId);
+      const spacer = spacerNodes.find((n) => n.id === spacerId);
       if (spacer) {
         edges.push({
           id: `${spacer.id}-${node.id}`,
@@ -205,7 +205,7 @@ export const getEdgesFromNodes = (
           target: node.id
         });
       } else if (node.runAfterTasks) {
-        node.runAfterTasks.forEach(afterId => {
+        node.runAfterTasks.forEach((afterId) => {
           edges.push({
             id: `${afterId}-${node.id}`,
             type: edgeType,
@@ -218,8 +218,8 @@ export const getEdgesFromNodes = (
   });
 
   if (finallyNodes.length > 1) {
-    const finallyId = getSpacerId(finallyNodes.map(n => n.id));
-    finallyNodes.forEach(finallyNode => {
+    const finallyId = getSpacerId(finallyNodes.map((n) => n.id));
+    finallyNodes.forEach((finallyNode) => {
       edges.push({
         id: `${finallyId}-${finallyNode.id}`,
         type: finallyEdgeType,
@@ -227,7 +227,7 @@ export const getEdgesFromNodes = (
         target: finallyNode.id
       });
     });
-    lastTasks.forEach(lastTaskNode => {
+    lastTasks.forEach((lastTaskNode) => {
       edges.push({
         id: `${lastTaskNode.id}-${finallyId}`,
         type: spacerEdgeType,
@@ -237,7 +237,7 @@ export const getEdgesFromNodes = (
     });
   }
   if (finallyNodes.length === 1) {
-    lastTasks.forEach(lastTaskNode => {
+    lastTasks.forEach((lastTaskNode) => {
       edges.push({
         id: `finallyId-${lastTaskNode.id}-${finallyNodes[0].id}`,
         type: finallyEdgeType,

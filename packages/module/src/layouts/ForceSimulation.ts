@@ -37,11 +37,11 @@ class ForceSimulation {
     this.simulation = d3.forceSimulation<ForceSimulationNode>();
     this.simulation.force(
       'collide',
-      d3.forceCollide<ForceSimulationNode>().radius(d => d.collisionRadius + this.options.collideDistance)
+      d3.forceCollide<ForceSimulationNode>().radius((d) => d.collisionRadius + this.options.collideDistance)
     );
     this.simulation.force('charge', d3.forceManyBody().strength(this.options.chargeStrength));
     this.simulation.alpha(0);
-    this.forceLink = d3.forceLink<ForceSimulationNode, d3.SimulationLinkDatum<ForceSimulationNode>>().id(e => e.id);
+    this.forceLink = d3.forceLink<ForceSimulationNode, d3.SimulationLinkDatum<ForceSimulationNode>>().id((e) => e.id);
 
     this.simulation.force('link', this.forceLink);
     this.simulation.on(

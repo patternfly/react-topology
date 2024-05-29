@@ -24,7 +24,7 @@ export class ColaGroupsNode extends LayoutNode implements webcola.Node {
         const xOffset = this.xx - prevLocation.x;
         const yOffset = this.yy - prevLocation.y;
 
-        this.node.getChildren().forEach(child => {
+        this.node.getChildren().forEach((child) => {
           if (isNode(child)) {
             const node = child as Node;
             const position = node.getPosition();

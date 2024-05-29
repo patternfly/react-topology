@@ -2,14 +2,7 @@ import * as React from 'react';
 import { observer } from 'mobx-react';
 import { css } from '@patternfly/react-styles';
 import styles from '@patternfly/react-topology/dist/esm/css/topology-components';
-import {
-  AnchorEnd,
-  GraphElement,
-  Node,
-  Rectangle,
-  useCombineRefs,
-  useSize,
-} from '@patternfly/react-topology';
+import { AnchorEnd, GraphElement, Node, Rectangle, useCombineRefs, useSize } from '@patternfly/react-topology';
 import CheckCircleIcon from '@patternfly/react-icons/dist/esm/icons/check-circle-icon';
 import ExclamationCircleIcon from '@patternfly/react-icons/dist/esm/icons/exclamation-circle-icon';
 import { useSourceStatusAnchor } from './useSourceStatusAnchor';
@@ -40,16 +33,12 @@ const StatusConnectorNode: React.FunctionComponent<StatusConnectorNodeProps> = (
   const secondaryWidth = secondarySize?.width ?? 0;
   const secondaryHeight = secondarySize?.height ?? 0;
 
-  const {
-    height,
-    textStartX,
-    width,
-  } = React.useMemo(() => {
+  const { height, textStartX, width } = React.useMemo(() => {
     if (!textSize) {
       return {
         height: 0,
         textStartX: 0,
-        width: 0,
+        width: 0
       };
     }
     const textStartX = paddingX;
@@ -63,7 +52,7 @@ const StatusConnectorNode: React.FunctionComponent<StatusConnectorNodeProps> = (
     return {
       height,
       textStartX,
-      width,
+      width
     };
   }, [textSize, textWidth, secondaryWidth, textHeight, secondaryHeight]);
 
@@ -74,7 +63,12 @@ const StatusConnectorNode: React.FunctionComponent<StatusConnectorNodeProps> = (
   );
 
   const secondaryLabel = (
-    <text ref={secondaryRef} transform={`translate(0, ${textHeight + paddingY / 2})`} className={css(styles.modifiers.secondary)} dominantBaseline="middle">
+    <text
+      ref={secondaryRef}
+      transform={`translate(0, ${textHeight + paddingY / 2})`}
+      className={css(styles.modifiers.secondary)}
+      dominantBaseline="middle"
+    >
       {element.getData().secondaryLabel}
     </text>
   );
@@ -102,7 +96,7 @@ const StatusConnectorNode: React.FunctionComponent<StatusConnectorNodeProps> = (
         className={css(styles.topologyNodeDecoratorBg)}
       />
       <g
-        transform={`translate(${width -iconRadius}, ${height / 3 - iconRadius})`}
+        transform={`translate(${width - iconRadius}, ${height / 3 - iconRadius})`}
         className={css(styles.topologyNodeDecoratorIcon)}
         style={{ fontSize: `${iconRadius * 2}px` }}
       >
@@ -122,7 +116,7 @@ const StatusConnectorNode: React.FunctionComponent<StatusConnectorNodeProps> = (
         className={css(styles.topologyNodeDecoratorBg)}
       />
       <g
-        transform={`translate(${width -iconRadius}, ${height - height / 3 - iconRadius})`}
+        transform={`translate(${width - iconRadius}, ${height - height / 3 - iconRadius})`}
         className={css(styles.topologyNodeDecoratorIcon)}
         style={{ fontSize: `${iconRadius * 2}px` }}
       >
@@ -134,12 +128,7 @@ const StatusConnectorNode: React.FunctionComponent<StatusConnectorNodeProps> = (
   );
   return (
     <g className={styles.topologyNode}>
-      <Rectangle
-        className={styles.topologyNodeBackground}
-        element={nodeElement}
-        width={width}
-        height={height}
-      />
+      <Rectangle className={styles.topologyNodeBackground} element={nodeElement} width={width} height={height} />
       <g transform={`translate(${textStartX}, ${paddingY + textHeight / 2 + 1})`} className={styles.topologyNodeLabel}>
         {nameLabel}
         {secondaryLabel}

@@ -8,7 +8,13 @@ export default class TaskNodeTargetAnchor<E extends Node = Node> extends Abstrac
   private lowDetailsStatusIconSize = 0;
   private vertical = false;
 
-  constructor(owner: E, whenOffset: number, detailsLevel = ScaleDetailsLevel.high, lowDetailsStatusIconSize = 0, vertical = false) {
+  constructor(
+    owner: E,
+    whenOffset: number,
+    detailsLevel = ScaleDetailsLevel.high,
+    lowDetailsStatusIconSize = 0,
+    vertical = false
+  ) {
     super(owner);
     this.whenOffset = whenOffset;
     this.detailsLevel = detailsLevel;
@@ -25,7 +31,7 @@ export default class TaskNodeTargetAnchor<E extends Node = Node> extends Abstrac
 
     if (this.vertical) {
       if (this.detailsLevel !== ScaleDetailsLevel.high) {
-        return new Point(bounds.x + (bounds.width / 2), bounds.y);
+        return new Point(bounds.x + bounds.width / 2, bounds.y);
       }
       return new Point(bounds.x + bounds.width / 2, bounds.y - this.whenOffset);
     }
