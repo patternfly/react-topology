@@ -7,13 +7,17 @@ import {
   action
 } from '@patternfly/react-topology';
 
-const DemoControlBar: React.FC = () => {
+const DemoControlBar: React.FC<{ collapseAllCallback?: (collapseAll: boolean) => void }> = ({
+  collapseAllCallback
+}) => {
   const controller = useVisualizationController();
 
   return (
     <TopologyControlBar
       controlButtons={createTopologyControlButtons({
         ...defaultControlButtonsOptions,
+        expandAll: !!collapseAllCallback,
+        collapseAll: !!collapseAllCallback,
         zoomInCallback: action(() => {
           controller.getGraph().scaleBy(4 / 3);
         }),
@@ -26,6 +30,12 @@ const DemoControlBar: React.FC = () => {
         resetViewCallback: action(() => {
           controller.getGraph().reset();
           controller.getGraph().layout();
+        }),
+        expandAllCallback: action(() => {
+          collapseAllCallback(false);
+        }),
+        collapseAllCallback: action(() => {
+          collapseAllCallback(true);
         }),
         legend: false
       })}

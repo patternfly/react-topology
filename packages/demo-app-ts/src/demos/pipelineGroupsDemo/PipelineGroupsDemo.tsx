@@ -25,7 +25,12 @@ import {
   Edge
 } from '@patternfly/react-topology';
 import pipelineGroupsComponentFactory from './pipelineGroupsComponentFactory';
-import { createComplexDemoPipelineGroupsNodes, createDemoPipelineGroupsNodes } from './createDemoPipelineGroupsNodes';
+import {
+  createComplexDemoPipelineGroupsNodes,
+  createDemoPipelineGroupsNodes,
+  DEFAULT_TASK_HEIGHT,
+  GROUP_TASK_WIDTH
+} from './createDemoPipelineGroupsNodes';
 import { PipelineGroupsDemoContext, PipelineGroupsDemoModel } from './PipelineGroupsDemoContext';
 import OptionsBar from './OptionsBar';
 import DemoControlBar from '../DemoControlBar';
@@ -78,8 +83,48 @@ const TopologyPipelineGroups: React.FC<{ nodes: PipelineNodeModel[] }> = observe
     );
   }, [controller, nodes, options.verticalLayout]);
 
+  const collapseAllCallback = React.useCallback(
+    (collapseAll: boolean) => {
+      // First, expand/collapse all nodes
+      collapseAll ? controller.getGraph().collapseAll() : controller.getGraph().expandAll();
+      // We must recreate the model based on what is visible
+      const model = controller.toModel();
+
+      // Get all the non-spacer nodes, mark them all visible again
+      const nodes = model.nodes
+        .filter((n) => n.type !== DEFAULT_SPACER_NODE_TYPE)
+        .map((n) => ({
+          ...n,
+          visible: true
+        }));
+
+      // If collapsing, set the size of the collapsed group nodes
+      if (collapseAll) {
+        nodes.forEach((node) => {
+          if (node.group && node.collapsed) {
+            node.width = GROUP_TASK_WIDTH;
+            node.height = DEFAULT_TASK_HEIGHT;
+          }
+        });
+      }
+      // Determine the new set of nodes, including the spacer nodes
+      const pipelineNodes = addSpacerNodes(nodes);
+
+      // Determine the new edges
+      const edges = getEdgesFromNodes(pipelineNodes, DEFAULT_SPACER_NODE_TYPE, 'edge', 'edge');
+      // Apply the new model and run the layout
+      controller.fromModel({ nodes: pipelineNodes, edges }, true);
+      controller.getGraph().layout();
+      controller.getGraph().fit(80);
+    },
+    [controller]
+  );
+
   return (
-    <TopologyView contextToolbar={<OptionsBar />} controlBar={<DemoControlBar />}>
+    <TopologyView
+      contextToolbar={<OptionsBar />}
+      controlBar={<DemoControlBar collapseAllCallback={collapseAllCallback} />}
+    >
       <VisualizationSurface state={{ selectedIds }} />
     </TopologyView>
   );

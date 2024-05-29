@@ -157,12 +157,15 @@ export default class BaseNode<E extends NodeModel = NodeModel, D = any>
     return super.getChildren();
   }
 
-  // Return all child leaf nodes regardless of collapse status or child groups' collapsed status
-  getAllNodeChildren(): Node[] {
+  // Return all child nodes regardless of collapse status or child groups' collapsed status
+  getAllNodeChildren(leafOnly: boolean = true): Node[] {
     return super.getChildren().reduce((total, nexChild) => {
       if (isNode(nexChild)) {
         if (nexChild.isGroup()) {
-          return total.concat(nexChild.getAllNodeChildren());
+          total.push(...nexChild.getAllNodeChildren(leafOnly));
+          if (leafOnly) {
+            return total;
+          }
         }
         total.push(nexChild);
       }
