@@ -34,10 +34,15 @@ export const Dnd = withTopologySetup(() => {
         return withPanZoom()(GraphComponent);
       }
       if (type === 'group-drop') {
-        return withDndDrop<GraphElement, any, { droppable?: boolean; hover?: boolean; canDrop?: boolean }, ElementProps>({
+        return withDndDrop<
+          GraphElement,
+          any,
+          { droppable?: boolean; hover?: boolean; canDrop?: boolean },
+          ElementProps
+        >({
           accept: 'test',
           canDrop: (item, monitor, props) => !!props && (item as Node).getParent() !== props.element,
-          collect: monitor => ({
+          collect: (monitor) => ({
             droppable: monitor.isDragging(),
             hover: monitor.isOver(),
             canDrop: monitor.canDrop()
@@ -53,12 +58,7 @@ export const Dnd = withTopologySetup(() => {
           },
           drag: (event, monitor, props) => {
             const nodeElement = props.element as Node;
-            nodeElement.setPosition(
-              nodeElement
-                .getPosition()
-                .clone()
-                .translate(event.dx, event.dy)
-            );
+            nodeElement.setPosition(nodeElement.getPosition().clone().translate(event.dx, event.dy));
           },
           end: (dropResult, monitor, props) => {
             if (monitor.didDrop() && dropResult && props) {
@@ -157,7 +157,7 @@ export const DndShiftRegroup = withTopologySetup(() => {
           accept: 'test',
           canDrop: (item, monitor, props) =>
             item && monitor.getOperation().type === 'regroup' && !!props && item.getParent() !== props.element,
-          collect: monitor => ({
+          collect: (monitor) => ({
             droppable: monitor.isDragging() && monitor.getOperation().type === 'regroup',
             hover: monitor.isOver(),
             canDrop: monitor.canDrop()

@@ -11,7 +11,7 @@ export class ForceLayout extends BaseLayout implements Layout {
       ...options,
       layoutOnDrag: true,
       onSimulationEnd: () => {
-        this.nodes.forEach(n => n.setFixed(false));
+        this.nodes.forEach((n) => n.setFixed(false));
         this.graph.getController().fireEvent(GRAPH_LAYOUT_END_EVENT, { graph: this.graph });
       }
     });

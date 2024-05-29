@@ -32,7 +32,7 @@ const Rhombus: React.FunctionComponent<RhombusProps> = ({
 
     return cornerRadius
       ? getHullPath(getRhombusPoints(width, height, -cornerRadius), cornerRadius)
-      : polygonPoints.map(p => `${p[0]},${p[1]}`).join(' ');
+      : polygonPoints.map((p) => `${p[0]},${p[1]}`).join(' ');
   }, [cornerRadius, height, width]);
 
   return cornerRadius ? (

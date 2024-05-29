@@ -197,7 +197,7 @@ const Popper: React.FunctionComponent<PopperProps> = ({
   ]);
 
   const nodeRefCallback = React.useCallback<React.RefCallback<HTMLDivElement>>(
-    node => {
+    (node) => {
       nodeRef.current = node;
       initialize();
     },

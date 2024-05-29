@@ -25,8 +25,10 @@ import Point from '../geom/Point';
 
 const createAnchorKey = (end: AnchorEnd = AnchorEnd.both, type: string = ''): string => `${end}:${type}`;
 
-export default class BaseNode<E extends NodeModel = NodeModel, D = any> extends BaseElement<E, D>
-  implements Node<E, D> {
+export default class BaseNode<E extends NodeModel = NodeModel, D = any>
+  extends BaseElement<E, D>
+  implements Node<E, D>
+{
   private anchors: { [type: string]: Anchor } = {
     [createAnchorKey()]: new CenterAnchor(this)
   };
@@ -105,13 +107,13 @@ export default class BaseNode<E extends NodeModel = NodeModel, D = any> extends 
   private get groupBounds(): Rect {
     const children = this.getChildren()
       .filter(isNode)
-      .filter(n => n.isVisible());
+      .filter((n) => n.isVisible());
     if (!children.length) {
       return this.getInternalBounds();
     }
 
     let rect: Rect | undefined;
-    children.forEach(c => {
+    children.forEach((c) => {
       if (isNode(c)) {
         const { padding } = c.getStyle<NodeStyle>();
         const b = c.getBounds();
@@ -139,13 +141,13 @@ export default class BaseNode<E extends NodeModel = NodeModel, D = any> extends 
   private get sourceEdges(): Edge[] {
     return this.getGraph()
       .getEdges()
-      .filter(e => e.getSource() === this);
+      .filter((e) => e.getSource() === this);
   }
 
   private get targetEdges(): Edge[] {
     return this.getGraph()
       .getEdges()
-      .filter(e => e.getTarget() === this);
+      .filter((e) => e.getTarget() === this);
   }
 
   getChildren(): GraphElement[] {
@@ -219,7 +221,7 @@ export default class BaseNode<E extends NodeModel = NodeModel, D = any> extends 
   updateChildrenPositions(point: Point, prevLocation: Point): void {
     const xOffset = point.x - prevLocation.x;
     const yOffset = point.y - prevLocation.y;
-    this.getPositionableChildren().forEach(child => {
+    this.getPositionableChildren().forEach((child) => {
       if (isNode(child)) {
         const node = child as Node;
         const position = node.getPosition();
@@ -259,7 +261,7 @@ export default class BaseNode<E extends NodeModel = NodeModel, D = any> extends 
   private setGroupDimensionInitializedByChildren(): void {
     if (!this.dimensionsInitialized && this.isGroup()) {
       const nodes = this.getChildren().filter(isNode);
-      if (nodes.length > 0 && nodes.every(c => c.isDimensionsInitialized())) {
+      if (nodes.length > 0 && nodes.every((c) => c.isDimensionsInitialized())) {
         this.dimensionsInitialized = true;
       }
     }

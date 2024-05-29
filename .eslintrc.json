@@ -31,7 +31,13 @@
       "version": "detect"
     }
   },
-  "plugins": ["react", "react-hooks", "@typescript-eslint", "patternfly-react"],
+  "plugins": [
+    "react",
+    "react-hooks",
+    "@typescript-eslint",
+    "patternfly-react",
+    "prettier"
+  ],
   "rules": {
     "@typescript-eslint/adjacent-overload-signatures": "error",
     "@typescript-eslint/array-type": "error",
@@ -92,6 +98,7 @@
     "object-shorthand": "error",
     "one-var": ["error", "never"],
     "prefer-const": "error",
+    "prettier/prettier": "error",
     "radix": ["error", "as-needed"],
     "react/prop-types": 0,
     "react/display-name": 0,

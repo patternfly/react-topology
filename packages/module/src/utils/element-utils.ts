@@ -7,7 +7,7 @@ const groupNodeElements = (nodes: GraphElement[]): Node[] => {
     return [];
   }
   const groupNodes: Node[] = [];
-  nodes.forEach(nextNode => {
+  nodes.forEach((nextNode) => {
     if (isNode(nextNode) && nextNode.isGroup() && !nextNode.isCollapsed()) {
       groupNodes.push(nextNode);
       groupNodes.push(...groupNodeElements(nextNode.getChildren()));
@@ -32,8 +32,8 @@ const leafNodeElements = (nodeElements: Node | Node[] | null): Node[] => {
 
   if (nodeElements.isGroup() && !nodeElements.isCollapsed()) {
     const leafNodes: Node[] = [];
-    const children: GraphElement[] = nodeElements.getChildren().filter(e => isNode(e));
-    children.forEach(element => leafNodes.push(...leafNodeElements(element as Node)));
+    const children: GraphElement[] = nodeElements.getChildren().filter((e) => isNode(e));
+    children.forEach((element) => leafNodes.push(...leafNodeElements(element as Node)));
     return leafNodes;
   }
 
@@ -107,15 +107,16 @@ const getGroupPadding = (element: GraphElement, padding = 0): number => {
 };
 
 const getGroupChildrenDimensions = (group: Node): Dimensions => {
-  const children = group.getChildren()
+  const children = group
+    .getChildren()
     .filter(isNode)
-    .filter(n => n.isVisible());
+    .filter((n) => n.isVisible());
   if (!children.length) {
     return new Dimensions(0, 0);
   }
 
   let rect: Rect | undefined;
-  children.forEach(c => {
+  children.forEach((c) => {
     if (isNode(c)) {
       const { padding } = c.getStyle<NodeStyle>();
       const b = c.getBounds();

@@ -6,15 +6,7 @@ import CheckCircleIcon from '@patternfly/react-icons/dist/esm/icons/check-circle
 import ExclamationCircleIcon from '@patternfly/react-icons/dist/esm/icons/exclamation-circle-icon';
 import ExclamationTriangleIcon from '@patternfly/react-icons/dist/esm/icons/exclamation-triangle-icon';
 import styles from '../../css/topology-components';
-import {
-  BadgeLocation,
-  GraphElement,
-  isNode,
-  LabelPosition,
-  Node,
-  NodeStatus,
-  TopologyQuadrant
-} from '../../types';
+import { BadgeLocation, GraphElement, isNode, LabelPosition, Node, NodeStatus, TopologyQuadrant } from '../../types';
 import { ConnectDragSource, ConnectDropTarget, OnSelect, WithDndDragProps } from '../../behavior';
 import Decorator from '../decorators/Decorator';
 import { Layer } from '../layers';
@@ -132,270 +124,272 @@ const SCALE_UP_TIME = 200;
 
 type DefaultNodeInnerProps = Omit<DefaultNodeProps, 'element'> & { element: Node };
 
-const DefaultNodeInner: React.FunctionComponent<DefaultNodeInnerProps> = observer(({
-  className,
-  element,
-  selected,
-  hover,
-  scaleNode,
-  showLabel = true,
-  label,
-  secondaryLabel,
-  labelClassName,
-  labelPosition,
-  scaleLabel,
-  truncateLength,
-  labelIconClass,
-  labelIcon,
-  labelIconPadding,
-  nodeStatus,
-  showStatusBackground,
-  showStatusDecorator = false,
-  statusDecoratorTooltip,
-  getCustomShape,
-  getShapeDecoratorCenter,
-  onStatusDecoratorClick,
-  badge,
-  badgeColor,
-  badgeTextColor,
-  badgeBorderColor,
-  badgeClassName,
-  badgeLocation,
-  onSelect,
-  children,
-  attachments,
-  dragNodeRef,
-  dragging,
-  edgeDragging,
-  canDrop,
-  dropTarget,
-  dndDropRef,
-  onHideCreateConnector,
-  onShowCreateConnector,
-  onContextMenu,
-  contextMenuOpen
-}) => {
-  const [hovered, hoverRef] = useHover();
-  const status = nodeStatus || element.getNodeStatus();
-  const refs = useCombineRefs<SVGEllipseElement>(hoverRef, dragNodeRef);
-  const { width, height } = element.getDimensions();
-  const isHover = hover !== undefined ? hover : hovered;
-  const [nodeScale, setNodeScale] = React.useState<number>(1);
-  const decoratorRef = React.useRef();
+const DefaultNodeInner: React.FunctionComponent<DefaultNodeInnerProps> = observer(
+  ({
+    className,
+    element,
+    selected,
+    hover,
+    scaleNode,
+    showLabel = true,
+    label,
+    secondaryLabel,
+    labelClassName,
+    labelPosition,
+    scaleLabel,
+    truncateLength,
+    labelIconClass,
+    labelIcon,
+    labelIconPadding,
+    nodeStatus,
+    showStatusBackground,
+    showStatusDecorator = false,
+    statusDecoratorTooltip,
+    getCustomShape,
+    getShapeDecoratorCenter,
+    onStatusDecoratorClick,
+    badge,
+    badgeColor,
+    badgeTextColor,
+    badgeBorderColor,
+    badgeClassName,
+    badgeLocation,
+    onSelect,
+    children,
+    attachments,
+    dragNodeRef,
+    dragging,
+    edgeDragging,
+    canDrop,
+    dropTarget,
+    dndDropRef,
+    onHideCreateConnector,
+    onShowCreateConnector,
+    onContextMenu,
+    contextMenuOpen
+  }) => {
+    const [hovered, hoverRef] = useHover();
+    const status = nodeStatus || element.getNodeStatus();
+    const refs = useCombineRefs<SVGEllipseElement>(hoverRef, dragNodeRef);
+    const { width, height } = element.getDimensions();
+    const isHover = hover !== undefined ? hover : hovered;
+    const [nodeScale, setNodeScale] = React.useState<number>(1);
+    const decoratorRef = React.useRef();
 
-  const statusDecorator = React.useMemo(() => {
-    if (!status || !showStatusDecorator) {
-      return null;
-    }
+    const statusDecorator = React.useMemo(() => {
+      if (!status || !showStatusDecorator) {
+        return null;
+      }
 
-    const icon = getStatusIcon(status);
-    if (!icon) {
-      return null;
-    }
+      const icon = getStatusIcon(status);
+      if (!icon) {
+        return null;
+      }
 
-    const { x, y } = getShapeDecoratorCenter
-      ? getShapeDecoratorCenter(StatusQuadrant, element)
-      : getDefaultShapeDecoratorCenter(StatusQuadrant, element);
+      const { x, y } = getShapeDecoratorCenter
+        ? getShapeDecoratorCenter(StatusQuadrant, element)
+        : getDefaultShapeDecoratorCenter(StatusQuadrant, element);
 
-    const decorator = (
-      <Decorator
-        x={x}
-        y={y}
-        radius={DEFAULT_DECORATOR_RADIUS}
-        showBackground
-        onClick={e => onStatusDecoratorClick(e, element)}
-        icon={<g className={css(styles.topologyNodeDecoratorStatus)}>{icon}</g>}
-        ariaLabel={status}
-        innerRef={decoratorRef}
-      />
+      const decorator = (
+        <Decorator
+          x={x}
+          y={y}
+          radius={DEFAULT_DECORATOR_RADIUS}
+          showBackground
+          onClick={(e) => onStatusDecoratorClick(e, element)}
+          icon={<g className={css(styles.topologyNodeDecoratorStatus)}>{icon}</g>}
+          ariaLabel={status}
+          innerRef={decoratorRef}
+        />
+      );
+
+      if (statusDecoratorTooltip) {
+        return (
+          <Tooltip triggerRef={decoratorRef} content={statusDecoratorTooltip} position={TooltipPosition.left}>
+            {decorator}
+          </Tooltip>
+        );
+      }
+
+      return decorator;
+    }, [status, showStatusDecorator, getShapeDecoratorCenter, element, statusDecoratorTooltip, onStatusDecoratorClick]);
+
+    React.useEffect(() => {
+      if (isHover) {
+        onShowCreateConnector && onShowCreateConnector();
+      } else {
+        onHideCreateConnector && onHideCreateConnector();
+      }
+    }, [isHover, onShowCreateConnector, onHideCreateConnector]);
+
+    const ShapeComponent = (getCustomShape && getCustomShape(element)) || getShapeComponent(element);
+
+    const groupClassName = css(
+      styles.topologyNode,
+      className,
+      isHover && 'pf-m-hover',
+      (dragging || edgeDragging) && 'pf-m-dragging',
+      canDrop && 'pf-m-highlight',
+      canDrop && dropTarget && 'pf-m-drop-target',
+      selected && 'pf-m-selected',
+      StatusModifier[status]
     );
 
-    if (statusDecoratorTooltip) {
-      return (
-        <Tooltip triggerRef={decoratorRef} content={statusDecoratorTooltip} position={TooltipPosition.left}>
-          {decorator}
-        </Tooltip>
-      );
+    const backgroundClassName = css(
+      styles.topologyNodeBackground,
+      showStatusBackground && StatusModifier[status],
+      showStatusBackground && selected && 'pf-m-selected'
+    );
+
+    let filter;
+    if (status === 'danger') {
+      filter = createSvgIdUrl(NODE_SHADOW_FILTER_ID_DANGER);
+    } else if (isHover || dragging || edgeDragging || dropTarget) {
+      filter = createSvgIdUrl(NODE_SHADOW_FILTER_ID_HOVER);
     }
 
-    return decorator;
-  }, [status, showStatusDecorator, getShapeDecoratorCenter, element, statusDecoratorTooltip, onStatusDecoratorClick]);
+    const nodeLabelPosition = labelPosition || element.getLabelPosition();
+    const scale = element.getGraph().getScale();
 
-  React.useEffect(() => {
-    if (isHover) {
-      onShowCreateConnector && onShowCreateConnector();
-    } else {
-      onHideCreateConnector && onHideCreateConnector();
-    }
-  }, [isHover, onShowCreateConnector, onHideCreateConnector]);
+    const animationRef = React.useRef<number>();
+    const scaleGoal = React.useRef<number>(1);
+    const nodeScaled = React.useRef<boolean>(false);
 
-  const ShapeComponent = (getCustomShape && getCustomShape(element)) || getShapeComponent(element);
+    React.useEffect(() => {
+      if (!scaleNode || scale >= 1) {
+        setNodeScale(1);
+        nodeScaled.current = false;
+        if (animationRef.current) {
+          cancelAnimationFrame(animationRef.current);
+          animationRef.current = 0;
+        }
+      } else {
+        scaleGoal.current = 1 / scale;
+        const scaleDelta = scaleGoal.current - scale;
+        const initTime = performance.now();
 
-  const groupClassName = css(
-    styles.topologyNode,
-    className,
-    isHover && 'pf-m-hover',
-    (dragging || edgeDragging) && 'pf-m-dragging',
-    canDrop && 'pf-m-highlight',
-    canDrop && dropTarget && 'pf-m-drop-target',
-    selected && 'pf-m-selected',
-    StatusModifier[status]
-  );
+        const bumpScale = (bumpTime: number) => {
+          const scalePercent = (bumpTime - initTime) / SCALE_UP_TIME;
+          const nextScale = Math.min(scale + scaleDelta * scalePercent, scaleGoal.current);
+          setNodeScale(nextScale);
+          if (nextScale < scaleGoal.current) {
+            animationRef.current = requestAnimationFrame(bumpScale);
+          } else {
+            nodeScaled.current = true;
+            animationRef.current = 0;
+          }
+        };
 
-  const backgroundClassName = css(
-    styles.topologyNodeBackground,
-    showStatusBackground && StatusModifier[status],
-    showStatusBackground && selected && 'pf-m-selected'
-  );
-
-  let filter;
-  if (status === 'danger') {
-    filter = createSvgIdUrl(NODE_SHADOW_FILTER_ID_DANGER);
-  } else if (isHover || dragging || edgeDragging || dropTarget) {
-    filter = createSvgIdUrl(NODE_SHADOW_FILTER_ID_HOVER);
-  }
-
-  const nodeLabelPosition = labelPosition || element.getLabelPosition();
-  const scale = element.getGraph().getScale();
-
-  const animationRef = React.useRef<number>();
-  const scaleGoal = React.useRef<number>(1);
-  const nodeScaled = React.useRef<boolean>(false);
-
-  React.useEffect(() => {
-    if (!scaleNode || scale >= 1) {
-      setNodeScale(1);
-      nodeScaled.current = false;
-      if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current);
-        animationRef.current = 0;
-      }
-    } else {
-      scaleGoal.current = 1 / scale;
-      const scaleDelta = scaleGoal.current - scale;
-      const initTime = performance.now();
-
-      const bumpScale = (bumpTime: number) => {
-        const scalePercent = (bumpTime - initTime) / SCALE_UP_TIME;
-        const nextScale = Math.min(scale + scaleDelta * scalePercent, scaleGoal.current);
-        setNodeScale(nextScale);
-        if (nextScale < scaleGoal.current) {
+        if (nodeScaled.current) {
+          setNodeScale(scaleGoal.current);
+        } else if (!animationRef.current) {
           animationRef.current = requestAnimationFrame(bumpScale);
-        } else {
-          nodeScaled.current = true;
+        }
+      }
+      return () => {
+        if (animationRef.current) {
+          cancelAnimationFrame(animationRef.current);
           animationRef.current = 0;
         }
       };
+    }, [scale, scaleNode]);
 
-      if (nodeScaled.current) {
-        setNodeScale(scaleGoal.current);
-      } else if (!animationRef.current) {
-        animationRef.current = requestAnimationFrame(bumpScale);
+    // counter scale label
+    const counterScale = (scale: number, scaleMin: number, scaleMax: number, valueMin: number, valueMax: number) => {
+      if (scale >= scaleMax) {
+        return valueMin;
+      } else if (scale <= scaleMin) {
+        return valueMax;
       }
-    }
-    return () => {
-      if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current);
-        animationRef.current = 0;
-      }
+      return valueMin + (1 - (scale - scaleMin) / (scaleMax - scaleMin)) * (valueMax - valueMin);
     };
-  }, [scale, scaleNode]);
+    const labelScale = scaleLabel ? counterScale(scale, 0.35, 0.85, 1, 1.6) : 1;
+    const labelPositionScale = scaleLabel ? Math.min(1, 1 / labelScale) : 1;
 
-  // counter scale label
-  const counterScale = (scale: number, scaleMin: number, scaleMax: number, valueMin: number, valueMax: number) => {
-    if (scale >= scaleMax) {
-      return valueMin;
-    } else if (scale <= scaleMin) {
-      return valueMax;
-    }
-    return valueMin + (1 - (scale - scaleMin) / (scaleMax - scaleMin)) * (valueMax - valueMin);
-  };
-  const labelScale = scaleLabel ? counterScale(scale, 0.35, 0.85, 1, 1.6) : 1;
-  const labelPositionScale = scaleLabel ? Math.min(1, 1 / labelScale) : 1;
+    const { translateX, translateY } = React.useMemo(() => {
+      if (!scaleNode) {
+        return { translateX: 0, translateY: 0 };
+      }
+      const bounds = element.getBounds();
+      const translateX = bounds.width / 2 - (bounds.width / 2) * nodeScale;
+      const translateY = bounds.height / 2 - (bounds.height / 2) * nodeScale;
 
-  const { translateX, translateY } = React.useMemo(() => {
-    if (!scaleNode) {
-      return { translateX: 0, translateY: 0 };
-    }
-    const bounds = element.getBounds();
-    const translateX = bounds.width / 2 - (bounds.width / 2) * nodeScale;
-    const translateY = bounds.height / 2 - (bounds.height / 2) * nodeScale;
+      return { translateX, translateY };
+    }, [element, nodeScale, scaleNode]);
 
-    return { translateX, translateY };
-  }, [element, nodeScale, scaleNode]);
-
-  let labelX;
-  let labelY;
-  const labelPaddingX = 8;
-  const labelPaddingY = 4;
-  if(nodeLabelPosition === LabelPosition.right) {
-     labelX = (width + labelPaddingX) * labelPositionScale;
-     labelY = height / 2;
-  } else if (nodeLabelPosition === LabelPosition.left) {
-    labelX = 0;
-    labelY = height / 2 - labelPaddingY;
-  } else if(nodeLabelPosition === LabelPosition.top) {
+    let labelX;
+    let labelY;
+    const labelPaddingX = 8;
+    const labelPaddingY = 4;
+    if (nodeLabelPosition === LabelPosition.right) {
+      labelX = (width + labelPaddingX) * labelPositionScale;
+      labelY = height / 2;
+    } else if (nodeLabelPosition === LabelPosition.left) {
+      labelX = 0;
+      labelY = height / 2 - labelPaddingY;
+    } else if (nodeLabelPosition === LabelPosition.top) {
       labelX = width / 2;
-      labelY = labelPaddingY + labelPaddingY/2;
-  } else {
-    labelX = width / 2 * labelPositionScale;
-    labelY = height + labelPaddingY + labelPaddingY / 2 ;
-  }
-  return (
-    <g
-      className={groupClassName}
-      transform={`${scaleNode ? `translate(${translateX}, ${translateY})` : ''} scale(${nodeScale})`}
-    >
-      <NodeShadows />
-      <g ref={refs} onClick={onSelect} onContextMenu={onContextMenu}>
-        {ShapeComponent && (
-          <ShapeComponent
-            className={backgroundClassName}
-            element={element}
-            width={width}
-            height={height}
-            dndDropRef={dndDropRef}
-            filter={filter}
-          />
-        )}
-        {showLabel && (label || element.getLabel()) && (
-          <Layer id={isHover ? TOP_LAYER : undefined}>
-            <g transform={`scale(${labelScale})`}>
-              <NodeLabel
-                className={css(styles.topologyNodeLabel, labelClassName)}
-                x={labelX}
-                y={labelY * labelPositionScale}
-                position={nodeLabelPosition}
-                paddingX={8}
-                paddingY={4}
-                secondaryLabel={secondaryLabel}
-                truncateLength={truncateLength}
-                status={status}
-                badge={badge}
-                badgeColor={badgeColor}
-                badgeTextColor={badgeTextColor}
-                badgeBorderColor={badgeBorderColor}
-                badgeClassName={badgeClassName}
-                badgeLocation={badgeLocation}
-                onContextMenu={onContextMenu}
-                contextMenuOpen={contextMenuOpen}
-                hover={isHover}
-                labelIconClass={labelIconClass}
-                labelIcon={labelIcon}
-                labelIconPadding={labelIconPadding}
-              >
-                {label || element.getLabel()}
-              </NodeLabel>
-            </g>
-          </Layer>
-        )}
-        {children}
+      labelY = labelPaddingY + labelPaddingY / 2;
+    } else {
+      labelX = (width / 2) * labelPositionScale;
+      labelY = height + labelPaddingY + labelPaddingY / 2;
+    }
+    return (
+      <g
+        className={groupClassName}
+        transform={`${scaleNode ? `translate(${translateX}, ${translateY})` : ''} scale(${nodeScale})`}
+      >
+        <NodeShadows />
+        <g ref={refs} onClick={onSelect} onContextMenu={onContextMenu}>
+          {ShapeComponent && (
+            <ShapeComponent
+              className={backgroundClassName}
+              element={element}
+              width={width}
+              height={height}
+              dndDropRef={dndDropRef}
+              filter={filter}
+            />
+          )}
+          {showLabel && (label || element.getLabel()) && (
+            <Layer id={isHover ? TOP_LAYER : undefined}>
+              <g transform={`scale(${labelScale})`}>
+                <NodeLabel
+                  className={css(styles.topologyNodeLabel, labelClassName)}
+                  x={labelX}
+                  y={labelY * labelPositionScale}
+                  position={nodeLabelPosition}
+                  paddingX={8}
+                  paddingY={4}
+                  secondaryLabel={secondaryLabel}
+                  truncateLength={truncateLength}
+                  status={status}
+                  badge={badge}
+                  badgeColor={badgeColor}
+                  badgeTextColor={badgeTextColor}
+                  badgeBorderColor={badgeBorderColor}
+                  badgeClassName={badgeClassName}
+                  badgeLocation={badgeLocation}
+                  onContextMenu={onContextMenu}
+                  contextMenuOpen={contextMenuOpen}
+                  hover={isHover}
+                  labelIconClass={labelIconClass}
+                  labelIcon={labelIcon}
+                  labelIconPadding={labelIconPadding}
+                >
+                  {label || element.getLabel()}
+                </NodeLabel>
+              </g>
+            </Layer>
+          )}
+          {children}
+        </g>
+        {statusDecorator}
+        {attachments}
       </g>
-      {statusDecorator}
-      {attachments}
-    </g>
-  );
-});
+    );
+  }
+);
 
 const DefaultNode: React.FunctionComponent<DefaultNodeProps> = ({
   element,
@@ -406,7 +400,14 @@ const DefaultNode: React.FunctionComponent<DefaultNodeProps> = ({
   if (!isNode(element)) {
     throw new Error('DefaultNode must be used only on Node elements');
   }
-  return <DefaultNodeInner element={element as Node} showLabel={showLabel} showStatusDecorator={showStatusDecorator} {...rest} />;
+  return (
+    <DefaultNodeInner
+      element={element as Node}
+      showLabel={showLabel}
+      showStatusDecorator={showStatusDecorator}
+      {...rest}
+    />
+  );
 };
 
 export default DefaultNode;

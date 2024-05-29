@@ -15,29 +15,33 @@ export const useSvgAnchor = (
     throw new Error('useSvgAnchor must be used within the scope of a Node');
   }
 
-  return React.useCallback<SvgAnchorRef>((node: SVGElement | null) => {
-    const actionFn = action((node: SVGElement | null) => {
-      if (node) {
-        const anchor = new SVGAnchor(element);
-        anchor.setSVGElement(node);
-        element.setAnchor(anchor, end, type);
-      }
-    });
-    actionFn(node);
-  },[element, type, end]);
+  return React.useCallback<SvgAnchorRef>(
+    (node: SVGElement | null) => {
+      const actionFn = action((node: SVGElement | null) => {
+        if (node) {
+          const anchor = new SVGAnchor(element);
+          anchor.setSVGElement(node);
+          element.setAnchor(anchor, end, type);
+        }
+      });
+      actionFn(node);
+    },
+    [element, type, end]
+  );
 };
 
 export interface WithSvgAnchorProps {
   svgAnchorRef: SvgAnchorRef;
 }
 
-export const withSvgAnchor = (end?: AnchorEnd, type?: string) => <P extends WithSvgAnchorProps>() => (
-  WrappedComponent: React.ComponentType<P>
-) => {
-  const Component: React.FunctionComponent<Omit<P, keyof WithSvgAnchorProps>> = props => {
-    const svgAnchorRef = useSvgAnchor(end, type);
-    return <WrappedComponent {...(props as any)} svgAnchorRef={svgAnchorRef} />;
+export const withSvgAnchor =
+  (end?: AnchorEnd, type?: string) =>
+  <P extends WithSvgAnchorProps>() =>
+  (WrappedComponent: React.ComponentType<P>) => {
+    const Component: React.FunctionComponent<Omit<P, keyof WithSvgAnchorProps>> = (props) => {
+      const svgAnchorRef = useSvgAnchor(end, type);
+      return <WrappedComponent {...(props as any)} svgAnchorRef={svgAnchorRef} />;
+    };
+    Component.displayName = `withSvgAnchor(${WrappedComponent.displayName || WrappedComponent.name})`;
+    return Component;
   };
-  Component.displayName = `withSvgAnchor(${WrappedComponent.displayName || WrappedComponent.name})`;
-  return Component;
-};

@@ -62,7 +62,13 @@ const DemoDefaultNode: React.FunctionComponent<DemoDefaultNodeProps> = ({
 
   return (
     <g ref={refs} onClick={onSelect} onContextMenu={onContextMenu}>
-      <ShapeComponent className={className} element={nodeElement} width={width} height={height} dndDropRef={dndDropRef} />
+      <ShapeComponent
+        className={className}
+        element={nodeElement}
+        width={width}
+        height={height}
+        dndDropRef={dndDropRef}
+      />
     </g>
   );
 };

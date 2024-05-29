@@ -16,10 +16,10 @@ const NodeElementComponent: React.FunctionComponent<{ element: Node }> = observe
   const isDragging = dndManager.isDragging();
   const dragItem = dndManager.getItem();
   const controller = element.hasController() && element.getController();
-  const isVisible = React.useMemo(() => computed(() => controller && controller.shouldRenderNode(element)), [
-    element,
-    controller
-  ]);
+  const isVisible = React.useMemo(
+    () => computed(() => controller && controller.shouldRenderNode(element)),
+    [element, controller]
+  );
   if (isVisible.get() || (isDragging && dragItem === element)) {
     return <ElementComponent element={element} />;
   }
@@ -49,13 +49,13 @@ const ElementChildren: React.FunctionComponent<ElementWrapperProps> = observer((
     {element
       .getChildren()
       .filter(isEdge)
-      .map(e => (
+      .map((e) => (
         <ElementWrapper key={e.getId()} element={e} />
       ))}
     {element
       .getChildren()
       .filter(isNode)
-      .map(e => (
+      .map((e) => (
         <ElementWrapper key={e.getId()} element={e} />
       ))}
   </>

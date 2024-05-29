@@ -133,7 +133,7 @@ const NodeLabel: React.FunctionComponent<NodeLabelProps> = ({
       startX = x + iconSpace;
       startY = y - height / 2;
     } else if (position === LabelPosition.left) {
-      startX = - width - paddingX;
+      startX = -width - paddingX;
       startY = y - height / 2 + paddingY;
     } else {
       startX = x - width / 2 + iconSpace / 2;

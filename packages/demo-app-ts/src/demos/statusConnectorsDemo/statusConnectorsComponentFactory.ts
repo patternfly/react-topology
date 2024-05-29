@@ -1,11 +1,5 @@
 import { ComponentType } from 'react';
-import {
-  GraphElement,
-  ComponentFactory,
-  ModelKind,
-  GraphComponent,
-  withPanZoom
-} from '@patternfly/react-topology';
+import { GraphElement, ComponentFactory, ModelKind, GraphComponent, withPanZoom } from '@patternfly/react-topology';
 import DefaultEdge from '../../components/DemoDefaultEdge';
 import StatusConnectorNode from './StatusConnectorNode';
 import SuccessEdge from './SuccessEdge';

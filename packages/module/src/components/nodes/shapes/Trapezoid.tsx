@@ -37,7 +37,7 @@ const Trapezoid: React.FunctionComponent<TrapezoidProps> = ({
 
     const path = cornerRadius
       ? getHullPath(getTrapezoidPoints(width, height, cornerRadius), cornerRadius)
-      : polygonPoints.map(p => `${p[0]},${p[1]}`).join(' ');
+      : polygonPoints.map((p) => `${p[0]},${p[1]}`).join(' ');
 
     return [polygonPoints, path];
   }, [height, cornerRadius, width]);

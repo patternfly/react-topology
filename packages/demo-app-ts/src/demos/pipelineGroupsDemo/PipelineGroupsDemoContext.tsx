@@ -5,12 +5,9 @@ export class PipelineGroupsDemoModel {
   protected verticalLayoutP: boolean = true;
 
   constructor() {
-    makeObservable<
-      PipelineGroupsDemoModel,
-      | 'verticalLayoutP'
-      >(this, {
+    makeObservable<PipelineGroupsDemoModel, 'verticalLayoutP'>(this, {
       verticalLayoutP: observable,
-      setVerticalLayout: action,
+      setVerticalLayout: action
     });
   }
 
@@ -19,7 +16,7 @@ export class PipelineGroupsDemoModel {
   }
   public setVerticalLayout = (show: boolean): void => {
     this.verticalLayoutP = show;
-  }
+  };
 }
 
 export const PipelineGroupsDemoContext = React.createContext<PipelineGroupsDemoModel>(new PipelineGroupsDemoModel());

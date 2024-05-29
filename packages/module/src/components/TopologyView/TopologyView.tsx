@@ -107,7 +107,7 @@ export const TopologyView: React.FunctionComponent<TopologyViewProps> = ({
       {contextToolbar || viewToolbar ? (
         <StackItem isFilled={false}>
           <GenerateId prefix="pf-topology-view-">
-            {randomId => (
+            {(randomId) => (
               <Toolbar id={randomId}>
                 {contextToolbar && (
                   <ToolbarContent>

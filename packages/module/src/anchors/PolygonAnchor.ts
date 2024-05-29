@@ -11,11 +11,11 @@ export default class PolygonAnchor<E extends Node = Node> extends AbstractAnchor
   constructor(owner: E, offset: number = 0) {
     super(owner, offset);
 
-    makeObservable<PolygonAnchor, "points">(this, { points: observable.ref });
+    makeObservable<PolygonAnchor, 'points'>(this, { points: observable.ref });
   }
 
   setPoints(points: PointTuple[]) {
-    this.points = points?.map(p => new Point(p[0], p[1]));
+    this.points = points?.map((p) => new Point(p[0], p[1]));
   }
 
   getLocation(reference: Point): Point {

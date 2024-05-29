@@ -37,24 +37,24 @@ export class ConcentricLayout extends BaseLayout implements Layout {
   protected startLayout(graph: Graph, initialRun: boolean, addingNodes: boolean): void {
     if (initialRun || addingNodes) {
       const weights = {};
-      this.nodes.forEach(node => {
+      this.nodes.forEach((node) => {
         weights[node.id] = { in: 0, out: 0, total: 0 };
       });
-      this.edges.forEach(edge => {
+      this.edges.forEach((edge) => {
         weights[edge.target.id].in++;
         weights[edge.target.id].total++;
         weights[edge.source.id].out++;
         weights[edge.source.id].total++;
       });
 
-      const nodesWeight = Object.keys(weights).map(k => ({ id: k, total: weights[k].total }));
+      const nodesWeight = Object.keys(weights).map((k) => ({ id: k, total: weights[k].total }));
       nodesWeight.sort((a: any, b: any) => b.total - a.total);
 
       const splitLevel = this.concentricOptions.splitLevel ? this.concentricOptions.splitLevel : 4;
       const levelWidth = nodesWeight.length > 0 ? nodesWeight[0].total / splitLevel : 0;
       const levels: any = [[]];
       let currentLevel = levels[0];
-      nodesWeight.forEach(n => {
+      nodesWeight.forEach((n) => {
         if (currentLevel.length > 0) {
           const diff = Math.abs(currentLevel[0].total - n.total);
           if (diff >= levelWidth) {

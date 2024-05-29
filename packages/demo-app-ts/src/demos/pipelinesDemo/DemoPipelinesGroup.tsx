@@ -7,7 +7,7 @@ import {
   ScaleDetailsLevel,
   WithContextMenuProps,
   WithDragNodeProps,
-  WithSelectionProps,
+  WithSelectionProps
 } from '@patternfly/react-topology';
 
 type DemoPipelinesGroupProps = {
@@ -18,7 +18,7 @@ type DemoPipelinesGroupProps = {
 
 const DemoPipelinesGroup: React.FunctionComponent<DemoPipelinesGroupProps> = ({ element }) => {
   const data = element.getData();
-  const detailsLevel = element.getGraph().getDetailsLevel()
+  const detailsLevel = element.getGraph().getDetailsLevel();
 
   return (
     <DefaultTaskGroup

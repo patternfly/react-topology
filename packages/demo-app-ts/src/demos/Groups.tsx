@@ -20,23 +20,25 @@ import DemoDefaultNode from '../components/DemoDefaultNode';
 import defaultLayoutFactory from '../layouts/defaultLayoutFactory';
 import withTopologySetup from '../utils/withTopologySetup';
 
-const GroupWithDecorator: React.FunctionComponent<{ element: GraphElement } & WithDragNodeProps> = observer(({ element, ...props }) => {
-  const trafficSourceRef = useSvgAnchor(AnchorEnd.source, 'traffic');
-  const b = (element as Node).getBounds();
-  return (
-    <DefaultGroup element={element} {...(props as any)}>
-      <circle
-        ref={trafficSourceRef}
-        cx={b.x + b.width}
-        cy={b.y}
-        r="12.5"
-        fill="lightblue"
-        strokeWidth={1}
-        stroke="#333333"
-      />
-    </DefaultGroup>
-  );
-});
+const GroupWithDecorator: React.FunctionComponent<{ element: GraphElement } & WithDragNodeProps> = observer(
+  ({ element, ...props }) => {
+    const trafficSourceRef = useSvgAnchor(AnchorEnd.source, 'traffic');
+    const b = (element as Node).getBounds();
+    return (
+      <DefaultGroup element={element} {...(props as any)}>
+        <circle
+          ref={trafficSourceRef}
+          cx={b.x + b.width}
+          cy={b.y}
+          r="12.5"
+          fill="lightblue"
+          strokeWidth={1}
+          stroke="#333333"
+        />
+      </DefaultGroup>
+    );
+  }
+);
 
 export const ComplexGroup = withTopologySetup(() => {
   useLayoutFactory(defaultLayoutFactory);

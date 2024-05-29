@@ -7,7 +7,7 @@ export default function useCallbackRef<T extends (...args: any[]) => any>(rawCal
   const cleanupRef = useRef<(() => any) | null>(null);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   return useCallback<T>(
-    (node => {
+    ((node) => {
       if (cleanupRef.current) {
         cleanupRef.current();
         cleanupRef.current = null;

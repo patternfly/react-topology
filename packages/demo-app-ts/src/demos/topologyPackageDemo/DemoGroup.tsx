@@ -22,11 +22,7 @@ type DemoGroupProps = {
   WithDragNodeProps &
   WithSelectionProps;
 
-const DemoGroup: React.FunctionComponent<DemoGroupProps> = ({
-  element,
-  onContextMenu,
-  ...rest
-}) => {
+const DemoGroup: React.FunctionComponent<DemoGroupProps> = ({ element, onContextMenu, ...rest }) => {
   const options = React.useContext(DemoContext).nodeOptions;
   const groupElement = element as Node;
   const data = element.getData();
@@ -52,7 +48,7 @@ const DemoGroup: React.FunctionComponent<DemoGroupProps> = ({
     );
   };
 
-   return (
+  return (
     <DefaultGroup
       {...rest}
       onContextMenu={data.showContextMenu ? onContextMenu : undefined}

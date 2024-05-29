@@ -88,7 +88,7 @@ export function computeLabelLocation(points: PointWithSize[], labelPosition?: La
     ];
   }
 
-  points.forEach(p => {
+  points.forEach((p) => {
     const delta = !lowPoints ? Infinity : Math.round(p[1]) - Math.round(lowPoints[0][1]);
     if (delta > threshold) {
       lowPoints = [p];
@@ -106,11 +106,7 @@ export function computeLabelLocation(points: PointWithSize[], labelPosition?: La
   const maxSize = lowPoints.reduce((acc, point) => {
     return Math.max(acc, point[2]);
   }, Number.NEGATIVE_INFINITY);
-  return [
-    (minX + maxX) / 2,
-    lowPoints[0][1],
-    maxSize,
-  ];
+  return [(minX + maxX) / 2, lowPoints[0][1], maxSize];
 }
 
 const DefaultGroupExpanded: React.FunctionComponent<DefaultGroupExpandedProps> = ({
@@ -143,7 +139,7 @@ const DefaultGroupExpanded: React.FunctionComponent<DefaultGroupExpandedProps> =
   labelPosition,
   labelIconPadding,
   onCollapseChange,
-  hulledOutline = true,
+  hulledOutline = true
 }) => {
   const [hovered, hoverRef] = useHover();
   const [labelHover, labelHoverRef] = useHover();
@@ -167,13 +163,18 @@ const DefaultGroupExpanded: React.FunctionComponent<DefaultGroupExpandedProps> =
   const padding = maxPadding(element.getStyle<NodeStyle>().padding ?? 17);
   const hullPadding = (point: PointWithSize | PointTuple) => (point[2] || 0) + padding;
 
-  if (!droppable || (hulledOutline && !pathRef.current) || (!hulledOutline && !boxRef.current) || !labelLocation.current) {
-    const children = element.getNodes().filter(c => c.isVisible());
+  if (
+    !droppable ||
+    (hulledOutline && !pathRef.current) ||
+    (!hulledOutline && !boxRef.current) ||
+    !labelLocation.current
+  ) {
+    const children = element.getNodes().filter((c) => c.isVisible());
     if (children.length === 0) {
       return null;
     }
     const points: (PointWithSize | PointTuple)[] = [];
-    children.forEach(c => {
+    children.forEach((c) => {
       if (c.getNodeShape() === NodeShape.circle) {
         const bounds = c.getBounds();
         const { width, height } = bounds;
@@ -245,7 +246,14 @@ const DefaultGroupExpanded: React.FunctionComponent<DefaultGroupExpandedProps> =
           {hulledOutline ? (
             <path ref={outlineRef} className={styles.topologyGroupBackground} d={pathRef.current} />
           ) : (
-            <rect ref={outlineRef} className={styles.topologyGroupBackground} x={boxRef.current.x} y={boxRef.current.y} width={boxRef.current.width} height={boxRef.current.height}/>
+            <rect
+              ref={outlineRef}
+              className={styles.topologyGroupBackground}
+              x={boxRef.current.x}
+              y={boxRef.current.y}
+              width={boxRef.current.width}
+              height={boxRef.current.height}
+            />
           )}
         </g>
       </Layer>

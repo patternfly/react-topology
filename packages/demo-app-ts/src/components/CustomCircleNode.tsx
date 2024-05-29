@@ -47,7 +47,7 @@ const CustomCircle: React.FunctionComponent<ShapeProps> = ({ element, className 
   );
 };
 
-const CustomCircleNode: React.FunctionComponent<CustomCircleNodeProps> = props => (
+const CustomCircleNode: React.FunctionComponent<CustomCircleNodeProps> = (props) => (
   <DemoDefaultNode getCustomShape={() => CustomCircle} {...props} />
 );
 

@@ -24,10 +24,10 @@ describe('SVGDefs', () => {
 
     // addDef called on mount and removeDef on unmount being called
     // signifies the context props were passed into SVGDefs (and therefore SVGDefsSetter).
-    expect(contextProps.addDef).toHaveBeenCalledWith("foo", <span />);
+    expect(contextProps.addDef).toHaveBeenCalledWith('foo', <span />);
 
     unmount();
-    expect(contextProps.removeDef).toHaveBeenLastCalledWith("foo");
+    expect(contextProps.removeDef).toHaveBeenLastCalledWith('foo');
   });
 
   describe('SVGDefsSetter', () => {
@@ -36,7 +36,7 @@ describe('SVGDefs', () => {
         id: 'foo',
         addDef: jest.fn(),
         removeDef: jest.fn(),
-        children: <span />,
+        children: <span />
       };
 
       const { unmount, rerender } = render(<SVGDefsSetter {...props} />);
@@ -44,7 +44,7 @@ describe('SVGDefs', () => {
 
       // test update
       const newChild = <span />;
-      rerender(<SVGDefsSetter {...props}>{newChild}</SVGDefsSetter>)
+      rerender(<SVGDefsSetter {...props}>{newChild}</SVGDefsSetter>);
       expect(props.addDef).toHaveBeenCalledTimes(2);
       expect(props.addDef).toHaveBeenLastCalledWith(props.id, newChild);
 

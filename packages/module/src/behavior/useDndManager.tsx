@@ -24,7 +24,7 @@ export const matchesType = (
   if (draggedItemType === null) {
     return targetType === null;
   }
-  return Array.isArray(targetType) ? targetType.some(t => t === draggedItemType) : targetType === draggedItemType;
+  return Array.isArray(targetType) ? targetType.some((t) => t === draggedItemType) : targetType === draggedItemType;
 };
 
 export class DndManagerImpl implements DndManager {
@@ -69,11 +69,11 @@ export class DndManagerImpl implements DndManager {
   get dropHints(): string[] {
     return this.state.targetIds
       ? (this.state.targetIds
-          .map(id => {
+          .map((id) => {
             const target = this.getTarget(id);
             return target ? target.dropHint(this) : [];
           })
-          .filter(x => x) as string[])
+          .filter((x) => x) as string[])
       : [];
   }
 
@@ -174,7 +174,7 @@ export class DndManagerImpl implements DndManager {
   }
 
   hasDropTarget(): boolean {
-    return !!this.getTargetIds().find(id => this.canDropOnTarget(id));
+    return !!this.getTargetIds().find((id) => this.canDropOnTarget(id));
   }
 
   getDropResult(): any {
@@ -241,9 +241,9 @@ export class DndManagerImpl implements DndManager {
   }
 
   hover(targetIds: string[]): void {
-    const ids: string[] = targetIds.filter(id => this.getTarget(id));
+    const ids: string[] = targetIds.filter((id) => this.getTarget(id));
     this.state.targetIds = ids;
-    ids.forEach(id => {
+    ids.forEach((id) => {
       const target = this.getTarget(id);
       if (target) {
         target.hover(this);
@@ -281,7 +281,7 @@ export class DndManagerImpl implements DndManager {
 
   drop(): void {
     this.getTargetIds()
-      .filter(id => this.canDropOnTarget(id))
+      .filter((id) => this.canDropOnTarget(id))
       .reverse()
       .forEach((id, idx) => {
         const target = this.getTarget(id);
@@ -335,7 +335,7 @@ export class DndManagerImpl implements DndManager {
     const event = this.getDragEvent();
     if (event && draggedItemType) {
       const targetIds: string[] = [];
-      Object.keys(this.targets).forEach(targetId => {
+      Object.keys(this.targets).forEach((targetId) => {
         const target = this.getTarget(targetId);
         if (target && matchesType(target.type, draggedItemType) && target.hitTest(event.x, event.y)) {
           targetIds.push(targetId);

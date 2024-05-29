@@ -35,43 +35,44 @@ export const useSelection = ({ multiSelect, controlled, raiseOnSelect = true }: 
     [element]
   );
 
-  const onSelect = React.useCallback((e: React.MouseEvent): void => {
-    const actionFn = action((e: React.MouseEvent): void => {
-      e.stopPropagation();
-      const id = elementRef.current.getId();
-      const state = elementRef.current.getController().getState<SelectionHandlerState>();
-      const idx = state.selectedIds ? state.selectedIds.indexOf(id) : -1;
-      let selectedIds: string[];
-      let raise = false;
-      if (multiSelect && (e.ctrlKey || e.metaKey)) {
-        if (!state.selectedIds) {
+  const onSelect = React.useCallback(
+    (e: React.MouseEvent): void => {
+      const actionFn = action((e: React.MouseEvent): void => {
+        e.stopPropagation();
+        const id = elementRef.current.getId();
+        const state = elementRef.current.getController().getState<SelectionHandlerState>();
+        const idx = state.selectedIds ? state.selectedIds.indexOf(id) : -1;
+        let selectedIds: string[];
+        let raise = false;
+        if (multiSelect && (e.ctrlKey || e.metaKey)) {
+          if (!state.selectedIds) {
+            raise = true;
+            selectedIds = [id];
+          } else {
+            selectedIds = [...state.selectedIds];
+            if (idx === -1) {
+              raise = true;
+              selectedIds.push(id);
+            } else {
+              selectedIds.splice(idx, 1);
+            }
+          }
+        } else if (idx === -1 || multiSelect) {
           raise = true;
           selectedIds = [id];
         } else {
-          selectedIds = [...state.selectedIds];
-          if (idx === -1) {
-            raise = true;
-            selectedIds.push(id);
-          } else {
-            selectedIds.splice(idx, 1);
-          }
+          selectedIds = [];
         }
-      } else if (idx === -1 || multiSelect) {
-        raise = true;
-        selectedIds = [id];
-      } else {
-        selectedIds = [];
-      }
-      if (!controlled) {
-        state.selectedIds = selectedIds;
-      }
-      elementRef.current.getController().fireEvent(SELECTION_EVENT, selectedIds);
-      if (raiseOnSelect && raise) {
-        elementRef.current.raise();
-      }
-    });
-    actionFn(e);
-  },
+        if (!controlled) {
+          state.selectedIds = selectedIds;
+        }
+        elementRef.current.getController().fireEvent(SELECTION_EVENT, selectedIds);
+        if (raiseOnSelect && raise) {
+          elementRef.current.raise();
+        }
+      });
+      actionFn(e);
+    },
     [multiSelect, controlled, raiseOnSelect]
   );
   return [selected.get(), onSelect];
@@ -82,13 +83,13 @@ export interface WithSelectionProps {
   onSelect?: OnSelect;
 }
 
-export const withSelection = (options?: Options) => <P extends WithSelectionProps>(
-  WrappedComponent: React.ComponentType<P>
-) => {
-  const Component: React.FunctionComponent<Omit<P, keyof WithSelectionProps>> = props => {
-    const [selected, onSelect] = useSelection(options);
-    return <WrappedComponent {...(props as any)} selected={selected} onSelect={onSelect} />;
+export const withSelection =
+  (options?: Options) =>
+  <P extends WithSelectionProps>(WrappedComponent: React.ComponentType<P>) => {
+    const Component: React.FunctionComponent<Omit<P, keyof WithSelectionProps>> = (props) => {
+      const [selected, onSelect] = useSelection(options);
+      return <WrappedComponent {...(props as any)} selected={selected} onSelect={onSelect} />;
+    };
+    Component.displayName = `withSelection(${WrappedComponent.displayName || WrappedComponent.name})`;
+    return observer(Component);
   };
-  Component.displayName = `withSelection(${WrappedComponent.displayName || WrappedComponent.name})`;
-  return observer(Component);
-};

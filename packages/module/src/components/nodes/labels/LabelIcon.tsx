@@ -38,7 +38,13 @@ const LabelIcon = React.forwardRef<SVGCircleElement, LabelIconProps>(
             {icon}
           </foreignObject>
         ) : (
-          <image x={innerX} y={innerY} width={Math.max(innerWidth, 0)} height={Math.max(innerHeight, 0)} xlinkHref={iconClass} />
+          <image
+            x={innerX}
+            y={innerY}
+            width={Math.max(innerWidth, 0)}
+            height={Math.max(innerHeight, 0)}
+            xlinkHref={iconClass}
+          />
         )}
       </g>
     );

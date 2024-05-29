@@ -14,7 +14,7 @@ class BasePipelineNode extends BaseNode {
     if ('runAfterTasks' in model) {
       this.runAfterTasks = model.runAfterTasks;
     }
-  };
+  }
 
   toModel(): PipelineNodeModel {
     return {
@@ -23,7 +23,6 @@ class BasePipelineNode extends BaseNode {
       children: super.getAllChildren().map((c) => c.getId())
     };
   }
-
-};
+}
 
 export default BasePipelineNode;

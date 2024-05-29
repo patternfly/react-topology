@@ -308,7 +308,10 @@ export interface WithState {
 
 export type LayoutFactory = (type: string, graph: Graph) => Layout | undefined;
 
-export type ComponentFactory = (kind: ModelKind, type: string) => ComponentType<{ element: GraphElement | Graph | Edge | Node }> | undefined;
+export type ComponentFactory = (
+  kind: ModelKind,
+  type: string
+) => ComponentType<{ element: GraphElement | Graph | Edge | Node }> | undefined;
 
 export type ElementFactory = (kind: ModelKind, type: string) => GraphElement | undefined;
 

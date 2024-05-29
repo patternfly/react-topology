@@ -146,61 +146,57 @@ const getShapeComponent = (shape: NodeShape): React.FunctionComponent<ShapeProps
   }
 };
 
-const DemoNode: React.FunctionComponent<DemoNodeProps> = observer(({
-  element,
-  onContextMenu,
-  dragging,
-  onShowCreateConnector,
-  onHideCreateConnector,
-  ...rest
-}) => {
-  const options = React.useContext(DemoContext).nodeOptions;
-  const nodeElement = element as Node;
-  const data = element.getData() as GeneratedNodeData;
-  const detailsLevel = element.getGraph().getDetailsLevel();
-  const [hover, hoverRef] = useHover();
+const DemoNode: React.FunctionComponent<DemoNodeProps> = observer(
+  ({ element, onContextMenu, dragging, onShowCreateConnector, onHideCreateConnector, ...rest }) => {
+    const options = React.useContext(DemoContext).nodeOptions;
+    const nodeElement = element as Node;
+    const data = element.getData() as GeneratedNodeData;
+    const detailsLevel = element.getGraph().getDetailsLevel();
+    const [hover, hoverRef] = useHover();
 
-  React.useEffect(() => {
-    if (detailsLevel === ScaleDetailsLevel.low) {
-      onHideCreateConnector && onHideCreateConnector();
-    }
-  }, [detailsLevel, onHideCreateConnector]);
+    React.useEffect(() => {
+      if (detailsLevel === ScaleDetailsLevel.low) {
+        onHideCreateConnector && onHideCreateConnector();
+      }
+    }, [detailsLevel, onHideCreateConnector]);
 
-  const labelIconClass = data.index % 2 === 0 && logos.get('icon-java');
-  const LabelIcon = data.index % 2 === 1  ? SignOutAltIcon as any : undefined;
+    const labelIconClass = data.index % 2 === 0 && logos.get('icon-java');
+    const LabelIcon = data.index % 2 === 1 ? (SignOutAltIcon as any) : undefined;
 
-  return (
-    <Layer id={hover ? TOP_LAYER : DEFAULT_LAYER}>
-      <g ref={hoverRef}>
-        <DefaultNode
-          element={element}
-          scaleLabel={detailsLevel !== ScaleDetailsLevel.low}
-          scaleNode={hover && detailsLevel === ScaleDetailsLevel.low}
-          {...rest}
-          dragging={dragging}
-          showLabel={hover || (detailsLevel !== ScaleDetailsLevel.low && options.labels)}
-          showStatusBackground={!hover && detailsLevel === ScaleDetailsLevel.low}
-          showStatusDecorator={detailsLevel === ScaleDetailsLevel.high && options.showStatus}
-          statusDecoratorTooltip={nodeElement.getNodeStatus()}
-          onContextMenu={options.contextMenus ? onContextMenu : undefined}
-          onShowCreateConnector={detailsLevel !== ScaleDetailsLevel.low ? onShowCreateConnector : undefined}
-          onHideCreateConnector={onHideCreateConnector}
-          labelIcon={options.icons && LabelIcon && <LabelIcon noVerticalAlign />}
-          labelIconClass={options.icons && labelIconClass}
-          secondaryLabel={options.secondaryLabels && data.subTitle}
-          nodeStatus={options.showStatus && data.status}
-          getCustomShape={options.showShapes ? () => getShapeComponent(data.shape) : undefined}
-          badge={options.badges ? data.objectType : undefined}
-          attachments={
-            (hover || detailsLevel === ScaleDetailsLevel.high) && options.showDecorators &&
-            renderDecorators(options, nodeElement, rest.getShapeDecoratorCenter)
-          }
-        >
-          {(hover || detailsLevel !== ScaleDetailsLevel.low) && renderIcon(data, nodeElement)}
-        </DefaultNode>
-      </g>
-    </Layer>
-  );
-});
+    return (
+      <Layer id={hover ? TOP_LAYER : DEFAULT_LAYER}>
+        <g ref={hoverRef}>
+          <DefaultNode
+            element={element}
+            scaleLabel={detailsLevel !== ScaleDetailsLevel.low}
+            scaleNode={hover && detailsLevel === ScaleDetailsLevel.low}
+            {...rest}
+            dragging={dragging}
+            showLabel={hover || (detailsLevel !== ScaleDetailsLevel.low && options.labels)}
+            showStatusBackground={!hover && detailsLevel === ScaleDetailsLevel.low}
+            showStatusDecorator={detailsLevel === ScaleDetailsLevel.high && options.showStatus}
+            statusDecoratorTooltip={nodeElement.getNodeStatus()}
+            onContextMenu={options.contextMenus ? onContextMenu : undefined}
+            onShowCreateConnector={detailsLevel !== ScaleDetailsLevel.low ? onShowCreateConnector : undefined}
+            onHideCreateConnector={onHideCreateConnector}
+            labelIcon={options.icons && LabelIcon && <LabelIcon noVerticalAlign />}
+            labelIconClass={options.icons && labelIconClass}
+            secondaryLabel={options.secondaryLabels && data.subTitle}
+            nodeStatus={options.showStatus && data.status}
+            getCustomShape={options.showShapes ? () => getShapeComponent(data.shape) : undefined}
+            badge={options.badges ? data.objectType : undefined}
+            attachments={
+              (hover || detailsLevel === ScaleDetailsLevel.high) &&
+              options.showDecorators &&
+              renderDecorators(options, nodeElement, rest.getShapeDecoratorCenter)
+            }
+          >
+            {(hover || detailsLevel !== ScaleDetailsLevel.low) && renderIcon(data, nodeElement)}
+          </DefaultNode>
+        </g>
+      </Layer>
+    );
+  }
+);
 
 export default DemoNode;

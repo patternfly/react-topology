@@ -17,7 +17,7 @@ const Polygon: React.FunctionComponent<ShapeProps> = ({ className, width, height
     <polygon
       className={className}
       ref={dndDropRef}
-      points={points.map(p => `${p[0]},${p[1]}`).join(' ')}
+      points={points.map((p) => `${p[0]},${p[1]}`).join(' ')}
       filter={filter}
     />
   );

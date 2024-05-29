@@ -51,11 +51,11 @@ const defaultLayoutFactory: LayoutFactory = (type: string, graph: Graph): Layout
     ranker: 'longest-path',
     rankdir: LEFT_TO_RIGHT,
     marginx: 20,
-    marginy: 20,
+    marginy: 20
   });
 };
 
-export const StatusConnectorsDemo: React.FunctionComponent= () => {
+export const StatusConnectorsDemo: React.FunctionComponent = () => {
   const controller = useVisualizationController();
   const [selectedIds, setSelectedIds] = React.useState<string[]>([]);
 
@@ -69,8 +69,8 @@ export const StatusConnectorsDemo: React.FunctionComponent= () => {
         height: DEFAULT_NODE_SIZE,
         label: 'Demo Job Template',
         data: {
-          secondaryLabel: 'Job template',
-        },
+          secondaryLabel: 'Job template'
+        }
       },
       {
         id: '2',
@@ -80,7 +80,7 @@ export const StatusConnectorsDemo: React.FunctionComponent= () => {
         height: DEFAULT_NODE_SIZE,
         label: 'Demo Job Template @ 05:02:15:215PM',
         data: {
-          secondaryLabel: 'Job template',
+          secondaryLabel: 'Job template'
         }
       },
       {
@@ -91,7 +91,7 @@ export const StatusConnectorsDemo: React.FunctionComponent= () => {
         height: DEFAULT_NODE_SIZE,
         label: 'Approval',
         data: {
-          secondaryLabel: 'Approval',
+          secondaryLabel: 'Approval'
         }
       },
       {
@@ -102,7 +102,7 @@ export const StatusConnectorsDemo: React.FunctionComponent= () => {
         height: DEFAULT_NODE_SIZE,
         label: 'Demo Project',
         data: {
-          secondaryLabel: 'Project',
+          secondaryLabel: 'Project'
         }
       },
       {
@@ -113,9 +113,9 @@ export const StatusConnectorsDemo: React.FunctionComponent= () => {
         height: DEFAULT_NODE_SIZE,
         label: 'Cleanup Activity Stream',
         data: {
-          secondaryLabel: 'System job',
+          secondaryLabel: 'System job'
         }
-      },
+      }
     ];
 
     const edges: EdgeModel[] = [
@@ -123,56 +123,56 @@ export const StatusConnectorsDemo: React.FunctionComponent= () => {
         id: `edge-${1}-${2}`,
         type: 'success-edge',
         source: '1',
-        target: '2',
+        target: '2'
       },
       {
         id: `edge-${1}-${3}`,
         type: 'success-edge',
         source: '1',
-        target: '3',
+        target: '3'
       },
       {
         id: `edge-${1}-${4}`,
         type: 'success-edge',
         source: '1',
-        target: '4',
+        target: '4'
       },
       {
         id: `edge-${1}-${5}`,
         type: 'failed-edge',
         source: '1',
-        target: '5',
+        target: '5'
       },
       {
         id: `edge-${2}-${4}`,
         type: 'failed-edge',
         source: '2',
-        target: '4',
+        target: '4'
       },
       {
         id: `edge-${3}-${4}`,
         type: 'success-edge',
         source: '3',
-        target: '4',
+        target: '4'
       },
       {
         id: `edge-${3}-${5}`,
         type: 'failed-edge',
         source: '3',
-        target: '5',
+        target: '5'
       },
       {
         id: `edge-${4}-${5}-success`,
         type: 'success-edge',
         source: '4',
-        target: '5',
+        target: '5'
       },
       {
         id: `edge-${4}-${5}-failed`,
         type: 'failed-edge',
         source: '4',
-        target: '5',
-      },
+        target: '5'
+      }
     ];
 
     nodes.forEach((node) => {
@@ -189,7 +189,7 @@ export const StatusConnectorsDemo: React.FunctionComponent= () => {
 
     const model = { graph, nodes, edges };
 
-    controller.addEventListener(SELECTION_EVENT, ids => {
+    controller.addEventListener(SELECTION_EVENT, (ids) => {
       setSelectedIds(ids);
     });
 
@@ -197,13 +197,11 @@ export const StatusConnectorsDemo: React.FunctionComponent= () => {
   }, [controller]);
 
   return (
-    <TopologyView controlBar={<DemoControlBar />}  >
+    <TopologyView controlBar={<DemoControlBar />}>
       <VisualizationSurface state={{ selectedIds }} />
     </TopologyView>
   );
 };
-
-
 
 export const StatusConnectors = React.memo(() => {
   const controller = new Visualization();

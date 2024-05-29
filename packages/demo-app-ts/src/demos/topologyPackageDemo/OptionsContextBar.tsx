@@ -9,7 +9,7 @@ import {
   SelectList,
   SelectOption,
   TextInput,
-  ToolbarItem,
+  ToolbarItem
 } from '@patternfly/react-core';
 import { observer } from '@patternfly/react-topology';
 import { DemoContext } from './DemoContext';
@@ -60,7 +60,9 @@ const OptionsContextBar: React.FC = observer(() => {
             hasCheckbox
             value="Secondary Labels"
             isSelected={options.nodeOptions.secondaryLabels}
-            onClick={() => options.setNodeOptions({ ...options.nodeOptions, secondaryLabels: !options.nodeOptions.secondaryLabels })}
+            onClick={() =>
+              options.setNodeOptions({ ...options.nodeOptions, secondaryLabels: !options.nodeOptions.secondaryLabels })
+            }
           >
             Secondary Labels
           </SelectOption>
@@ -68,7 +70,9 @@ const OptionsContextBar: React.FC = observer(() => {
             hasCheckbox
             value="Status"
             isSelected={options.nodeOptions.showStatus}
-            onClick={() => options.setNodeOptions({ ...options.nodeOptions, showStatus: !options.nodeOptions.showStatus })}
+            onClick={() =>
+              options.setNodeOptions({ ...options.nodeOptions, showStatus: !options.nodeOptions.showStatus })
+            }
           >
             Status
           </SelectOption>
@@ -105,7 +109,9 @@ const OptionsContextBar: React.FC = observer(() => {
             hasCheckbox
             value="Shapes"
             isSelected={options.nodeOptions.showShapes}
-            onClick={() => options.setNodeOptions({ ...options.nodeOptions, showShapes: !options.nodeOptions.showShapes })}
+            onClick={() =>
+              options.setNodeOptions({ ...options.nodeOptions, showShapes: !options.nodeOptions.showShapes })
+            }
           >
             Shapes
           </SelectOption>
@@ -113,7 +119,9 @@ const OptionsContextBar: React.FC = observer(() => {
             hasCheckbox
             value="Context Menus"
             isSelected={options.nodeOptions.contextMenus}
-            onClick={() => options.setNodeOptions({ ...options.nodeOptions, contextMenus: !options.nodeOptions.contextMenus })}
+            onClick={() =>
+              options.setNodeOptions({ ...options.nodeOptions, contextMenus: !options.nodeOptions.contextMenus })
+            }
           >
             Context Menus
           </SelectOption>
@@ -121,7 +129,9 @@ const OptionsContextBar: React.FC = observer(() => {
             hasCheckbox
             value="Rectangle Groups"
             isSelected={!options.nodeOptions.hulledOutline}
-            onClick={() => options.setNodeOptions({ ...options.nodeOptions, hulledOutline: !options.nodeOptions.hulledOutline })}
+            onClick={() =>
+              options.setNodeOptions({ ...options.nodeOptions, hulledOutline: !options.nodeOptions.hulledOutline })
+            }
           >
             Rectangle Groups
           </SelectOption>
@@ -137,7 +147,9 @@ const OptionsContextBar: React.FC = observer(() => {
           value="Status"
           hasCheckbox
           isSelected={options.edgeOptions.showStatus}
-          onClick={() => options.setEdgeOptions({ ...options.edgeOptions, showStatus: !options.edgeOptions.showStatus })}
+          onClick={() =>
+            options.setEdgeOptions({ ...options.edgeOptions, showStatus: !options.edgeOptions.showStatus })
+          }
         >
           Status
         </SelectOption>
@@ -145,7 +157,9 @@ const OptionsContextBar: React.FC = observer(() => {
           value="Styles"
           hasCheckbox
           isSelected={options.edgeOptions.showStyles}
-          onClick={() => options.setEdgeOptions({ ...options.edgeOptions, showStyles: !options.edgeOptions.showStyles })}
+          onClick={() =>
+            options.setEdgeOptions({ ...options.edgeOptions, showStyles: !options.edgeOptions.showStyles })
+          }
         >
           Styles
         </SelectOption>
@@ -153,7 +167,9 @@ const OptionsContextBar: React.FC = observer(() => {
           value="Animations"
           hasCheckbox
           isSelected={options.edgeOptions.showAnimations}
-          onClick={() => options.setEdgeOptions({ ...options.edgeOptions, showAnimations: !options.edgeOptions.showAnimations })}
+          onClick={() =>
+            options.setEdgeOptions({ ...options.edgeOptions, showAnimations: !options.edgeOptions.showAnimations })
+          }
         >
           Animations
         </SelectOption>
@@ -161,7 +177,9 @@ const OptionsContextBar: React.FC = observer(() => {
           value="Terminal types"
           hasCheckbox
           isSelected={options.edgeOptions.terminalTypes}
-          onClick={() => options.setEdgeOptions({ ...options.edgeOptions, terminalTypes: !options.edgeOptions.terminalTypes })}
+          onClick={() =>
+            options.setEdgeOptions({ ...options.edgeOptions, terminalTypes: !options.edgeOptions.terminalTypes })
+          }
         >
           Terminal type
         </SelectOption>
@@ -211,9 +229,9 @@ const OptionsContextBar: React.FC = observer(() => {
   return (
     <Flex>
       <ToolbarItem>
-        <Flex flexWrap={{ default: 'wrap' }} gap={{ default: 'gapMd'}}>
+        <Flex flexWrap={{ default: 'wrap' }} gap={{ default: 'gapMd' }}>
           <FlexItem>
-            <Flex flexWrap={{ default: 'nowrap' }} gap={{ default: 'gapXs'}}>
+            <Flex flexWrap={{ default: 'nowrap' }} gap={{ default: 'gapXs' }}>
               <span>Nodes:</span>
               <TextInput
                 aria-label="nodes"
@@ -226,42 +244,42 @@ const OptionsContextBar: React.FC = observer(() => {
             </Flex>
           </FlexItem>
           <FlexItem>
-            <Flex flexWrap={{ default: 'nowrap' }} gap={{ default: 'gapXs'}}>
-            <span>Edges:</span>
-            <TextInput
-              aria-label="edges"
-              type="number"
-              value={numEdges === null ? '' : numEdges}
-              onChange={(_event, val: string) =>
-                val ? updateValue(parseInt(val), 0, 200, setNumEdges) : setNumEdges(null)
-              }
-            />
+            <Flex flexWrap={{ default: 'nowrap' }} gap={{ default: 'gapXs' }}>
+              <span>Edges:</span>
+              <TextInput
+                aria-label="edges"
+                type="number"
+                value={numEdges === null ? '' : numEdges}
+                onChange={(_event, val: string) =>
+                  val ? updateValue(parseInt(val), 0, 200, setNumEdges) : setNumEdges(null)
+                }
+              />
             </Flex>
           </FlexItem>
           <FlexItem>
-            <Flex flexWrap={{ default: 'nowrap' }} gap={{ default: 'gapXs'}}>
-            <span>Groups:</span>
-            <TextInput
-              aria-label="groups"
-              type="number"
-              value={numGroups === null ? '' : numGroups}
-              onChange={(_event, val: string) =>
-                val ? updateValue(parseInt(val), 0, 100, setNumGroups) : setNumGroups(null)
-              }
-            />
+            <Flex flexWrap={{ default: 'nowrap' }} gap={{ default: 'gapXs' }}>
+              <span>Groups:</span>
+              <TextInput
+                aria-label="groups"
+                type="number"
+                value={numGroups === null ? '' : numGroups}
+                onChange={(_event, val: string) =>
+                  val ? updateValue(parseInt(val), 0, 100, setNumGroups) : setNumGroups(null)
+                }
+              />
             </Flex>
           </FlexItem>
           <FlexItem>
-            <Flex flexWrap={{ default: 'nowrap' }} gap={{ default: 'gapXs'}}>
-            <span>Nesting Depth:</span>
-            <TextInput
-              aria-label="nesting depth"
-              type="number"
-              value={nestedLevel === null ? '' : nestedLevel}
-              onChange={(_event, val: string) =>
-                val ? updateValue(parseInt(val), 0, 5, setNestedLevel) : setNestedLevel(null)
-              }
-            />
+            <Flex flexWrap={{ default: 'nowrap' }} gap={{ default: 'gapXs' }}>
+              <span>Nesting Depth:</span>
+              <TextInput
+                aria-label="nesting depth"
+                type="number"
+                value={nestedLevel === null ? '' : nestedLevel}
+                onChange={(_event, val: string) =>
+                  val ? updateValue(parseInt(val), 0, 5, setNestedLevel) : setNestedLevel(null)
+                }
+              />
             </Flex>
           </FlexItem>
           <FlexItem>

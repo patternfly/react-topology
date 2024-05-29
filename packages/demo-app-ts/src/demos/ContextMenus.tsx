@@ -58,7 +58,7 @@ export const ControlledContextMenu = () => {
 export const ContextMenuOnNode = withTopologySetup(() => {
   useComponentFactory(defaultComponentFactory);
   useComponentFactory(
-    React.useCallback<ComponentFactory>(kind => {
+    React.useCallback<ComponentFactory>((kind) => {
       if (kind === ModelKind.graph) {
         return withPanZoom()(GraphComponent);
       }
@@ -98,11 +98,11 @@ const createDelayedMenu = (): Promise<React.ReactElement[]> => {
       resolve(defaultMenu);
     }, 2000);
   });
-}
+};
 export const ContextMenuPromise = withTopologySetup(() => {
   useComponentFactory(defaultComponentFactory);
   useComponentFactory(
-    React.useCallback<ComponentFactory>(kind => {
+    React.useCallback<ComponentFactory>((kind) => {
       if (kind === ModelKind.graph) {
         return withPanZoom()(GraphComponent);
       }

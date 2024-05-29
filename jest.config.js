@@ -16,5 +16,5 @@ module.exports = {
   testEnvironment: 'jsdom',
   transformIgnorePatterns: ['node_modules/(?!@patternfly)'],
   testPathIgnorePatterns: ['<rootDir>/packages/demo-app-ts/'],
-  setupFilesAfterEnv: ['<rootDir>/testSetup.ts'],
+  setupFilesAfterEnv: ['<rootDir>/testSetup.ts']
 };

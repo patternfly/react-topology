@@ -24,7 +24,7 @@ const SidedShape: React.FunctionComponent<SidedProps> = ({
       polygonPoints,
       cornerRadius
         ? getPathForSides(sides, Math.min(width, height), cornerRadius)
-        : polygonPoints.map(p => `${p[0]},${p[1]}`).join(' ')
+        : polygonPoints.map((p) => `${p[0]},${p[1]}`).join(' ')
     ];
   }, [cornerRadius, height, sides, width]);
 

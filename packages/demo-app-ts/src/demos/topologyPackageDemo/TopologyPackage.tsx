@@ -11,7 +11,8 @@ import {
   useVisualizationController,
   Visualization,
   VisualizationProvider,
-  VisualizationSurface, observer
+  VisualizationSurface,
+  observer
 } from '@patternfly/react-topology';
 import defaultLayoutFactory from '../../layouts/defaultLayoutFactory';
 import defaultComponentFactory from '../../components/defaultComponentFactory';
@@ -28,77 +29,75 @@ interface TopologyViewComponentProps {
   sideBarResizable?: boolean;
 }
 
-const TopologyViewComponent: React.FunctionComponent<TopologyViewComponentProps> = observer(({
-  useSidebar,
-  sideBarResizable = false
-}) => {
-  const [selectedIds, setSelectedIds] = React.useState<string[]>([]);
-  const controller = useVisualizationController();
-  const options = React.useContext(DemoContext);
+const TopologyViewComponent: React.FunctionComponent<TopologyViewComponentProps> = observer(
+  ({ useSidebar, sideBarResizable = false }) => {
+    const [selectedIds, setSelectedIds] = React.useState<string[]>([]);
+    const controller = useVisualizationController();
+    const options = React.useContext(DemoContext);
 
-  React.useEffect(() => {
-    const dataModel = generateDataModel(
-      options.creationCounts.numNodes,
-      options.creationCounts.numGroups,
-      options.creationCounts.numEdges,
-      options.creationCounts.nestedLevel,
+    React.useEffect(() => {
+      const dataModel = generateDataModel(
+        options.creationCounts.numNodes,
+        options.creationCounts.numGroups,
+        options.creationCounts.numEdges,
+        options.creationCounts.nestedLevel
+      );
+
+      const model = {
+        graph: {
+          id: 'g1',
+          type: 'graph',
+          layout: options.layout
+        },
+        ...dataModel
+      };
+
+      controller.fromModel(model, true);
+    }, [controller, options.creationCounts, options.layout]);
+
+    useEventListener<SelectionEventListener>(SELECTION_EVENT, (ids) => {
+      setSelectedIds(ids);
+    });
+
+    React.useEffect(() => {
+      controller.addEventListener(GRAPH_POSITION_CHANGE_EVENT, graphPositionChangeListener);
+      controller.addEventListener(GRAPH_LAYOUT_END_EVENT, layoutEndListener);
+
+      return () => {
+        controller.removeEventListener(GRAPH_POSITION_CHANGE_EVENT, graphPositionChangeListener);
+        controller.removeEventListener(GRAPH_LAYOUT_END_EVENT, layoutEndListener);
+      };
+    }, [controller]);
+
+    React.useEffect(() => {
+      controller.getGraph().setDetailsLevelThresholds({
+        low: options.lowScale,
+        medium: options.medScale
+      });
+    }, [controller, options.lowScale, options.medScale]);
+
+    const topologySideBar = (
+      <TopologySideBar show={!!selectedIds?.length} resizable={sideBarResizable} onClose={() => setSelectedIds([])}>
+        <div style={{ marginTop: 27, marginLeft: 20, height: '800px' }}>{selectedIds?.[0]}</div>
+      </TopologySideBar>
     );
 
-    const model = {
-      graph: {
-        id: 'g1',
-        type: 'graph',
-        layout: options.layout,
-      },
-      ...dataModel
-    };
+    return (
+      <TopologyView
+        controlBar={<DemoControlBar />}
+        contextToolbar={<OptionsContextBar />}
+        viewToolbar={<OptionsViewBar controller={controller} />}
+        sideBar={useSidebar && topologySideBar}
+        sideBarOpen={useSidebar && !!selectedIds?.length}
+        sideBarResizable={sideBarResizable}
+      >
+        <VisualizationSurface state={{ selectedIds }} />
+      </TopologyView>
+    );
+  }
+);
 
-    controller.fromModel(model, true);
-  }, [controller, options.creationCounts, options.layout]);
-
-  useEventListener<SelectionEventListener>(SELECTION_EVENT, ids => {
-    setSelectedIds(ids);
-  });
-
-  React.useEffect(() => {
-
-    controller.addEventListener(GRAPH_POSITION_CHANGE_EVENT, graphPositionChangeListener);
-    controller.addEventListener(GRAPH_LAYOUT_END_EVENT, layoutEndListener);
-
-    return () => {
-      controller.removeEventListener(GRAPH_POSITION_CHANGE_EVENT, graphPositionChangeListener);
-      controller.removeEventListener(GRAPH_LAYOUT_END_EVENT, layoutEndListener);
-    };
-  }, [controller]);
-
-  React.useEffect(() => {
-    controller.getGraph().setDetailsLevelThresholds({
-      low: options.lowScale,
-      medium: options.medScale
-    });
-  }, [controller, options.lowScale, options.medScale]);
-
-  const topologySideBar = (
-    <TopologySideBar show={!!selectedIds?.length} resizable={sideBarResizable} onClose={() => setSelectedIds([])}>
-      <div style={{ marginTop: 27, marginLeft: 20, height: '800px' }}>{selectedIds?.[0]}</div>
-    </TopologySideBar>
-  );
-
-  return (
-    <TopologyView
-      controlBar={<DemoControlBar />}
-      contextToolbar={<OptionsContextBar />}
-      viewToolbar={<OptionsViewBar controller={controller} /> }
-      sideBar={useSidebar && topologySideBar}
-      sideBarOpen={useSidebar && !!selectedIds?.length}
-      sideBarResizable={sideBarResizable}
-    >
-      <VisualizationSurface state={{ selectedIds }} />
-    </TopologyView>
-  );
-});
-
-export const Topology: React.FC<{ useSidebar?: boolean, sideBarResizable?: boolean }> = ({
+export const Topology: React.FC<{ useSidebar?: boolean; sideBarResizable?: boolean }> = ({
   useSidebar = false,
   sideBarResizable = false
 }) => {
@@ -109,7 +108,7 @@ export const Topology: React.FC<{ useSidebar?: boolean, sideBarResizable?: boole
 
   return (
     <VisualizationProvider controller={controller}>
-      <TopologyViewComponent useSidebar={useSidebar} sideBarResizable={sideBarResizable}/>
+      <TopologyViewComponent useSidebar={useSidebar} sideBarResizable={sideBarResizable} />
     </VisualizationProvider>
   );
 };

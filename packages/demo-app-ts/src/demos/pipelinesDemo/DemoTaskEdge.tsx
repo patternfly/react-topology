@@ -13,9 +13,7 @@ const DemoTaskEdge: React.FunctionComponent<DemoTaskEdgeProps> = ({ element, ...
   return (
     <TaskEdge
       element={element as Edge}
-      endTerminalType={
-        pipelineOptions.showTerminalType ? EdgeTerminalType.directional : EdgeTerminalType.none
-      }
+      endTerminalType={pipelineOptions.showTerminalType ? EdgeTerminalType.directional : EdgeTerminalType.none}
       {...props}
     />
   );

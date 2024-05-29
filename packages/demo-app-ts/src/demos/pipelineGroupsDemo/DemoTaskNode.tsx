@@ -14,7 +14,8 @@ import {
 
 type DemoTaskNodeProps = {
   element: GraphElement;
-} & WithContextMenuProps & WithSelectionProps;
+} & WithContextMenuProps &
+  WithSelectionProps;
 
 const DemoTaskNode: React.FunctionComponent<DemoTaskNodeProps> = ({ element, ...rest }) => {
   const data = element.getData();

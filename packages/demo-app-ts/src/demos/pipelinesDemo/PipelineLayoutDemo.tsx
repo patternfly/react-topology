@@ -23,10 +23,7 @@ import {
   DEFAULT_EDGE_TYPE,
   DEFAULT_FINALLY_EDGE_TYPE
 } from '@patternfly/react-topology';
-import pipelineComponentFactory, {
-  GROUPED_EDGE_TYPE,
-  SPACER_EDGE_TYPE
-} from './pipelineComponentFactory';
+import pipelineComponentFactory, { GROUPED_EDGE_TYPE, SPACER_EDGE_TYPE } from './pipelineComponentFactory';
 import { useDemoPipelineNodes } from './useDemoPipelineNodes';
 import { GROUPED_PIPELINE_NODE_SEPARATION_HORIZONTAL } from './DemoTaskGroupEdge';
 import { PipelineDemoContext, PipelineDemoModel } from './PipelineDemoContext';

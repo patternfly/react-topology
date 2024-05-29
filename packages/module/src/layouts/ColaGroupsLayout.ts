@@ -41,7 +41,7 @@ class ColaGroupsLayout extends ColaLayout implements Layout {
     this.d3Cola.on('tick', () => {
       this.tickCount++;
       if (this.tickCount >= 1 || this.tickCount % this.options.simulationSpeed === 0) {
-        action(() => this.nodes.forEach(d => d.update()))();
+        action(() => this.nodes.forEach((d) => d.update()))();
       }
       if (this.colaOptions.maxTicks >= 0 && this.tickCount > this.colaOptions.maxTicks) {
         this.d3Cola.stop();
@@ -55,7 +55,7 @@ class ColaGroupsLayout extends ColaLayout implements Layout {
           this.handleLayoutEnd();
           return;
         }
-        this.layoutNodes.forEach(d => {
+        this.layoutNodes.forEach((d) => {
           if (!this.simulationStopped) {
             d.update();
           }
@@ -86,7 +86,7 @@ class ColaGroupsLayout extends ColaLayout implements Layout {
 
   protected stopSimulation(): void {
     super.stopSimulation();
-    this.childLayouts.forEach(layout => layout.stop());
+    this.childLayouts.forEach((layout) => layout.stop());
   }
 
   protected createLayoutNode(node: Node, nodeDistance: number, index: number) {
@@ -95,29 +95,29 @@ class ColaGroupsLayout extends ColaLayout implements Layout {
 
   protected getAllLeaves(group: LayoutGroup): LayoutNode[] {
     const leaves = [...group.leaves];
-    group.groups?.forEach(subGroup => leaves.push(...this.getAllLeaves(subGroup)));
+    group.groups?.forEach((subGroup) => leaves.push(...this.getAllLeaves(subGroup)));
     return leaves;
   }
   protected getAllSubGroups(group: LayoutGroup): LayoutGroup[] {
     const groups = [...group.groups];
-    group.groups?.forEach(subGroup => groups.push(...this.getAllSubGroups(subGroup)));
+    group.groups?.forEach((subGroup) => groups.push(...this.getAllSubGroups(subGroup)));
     return groups;
   }
 
   protected isNodeInGroups(node: LayoutNode, groups: LayoutGroup[]): boolean {
-    return !!groups.find(group => group.leaves.includes(node) || this.isNodeInGroups(node, group.groups));
+    return !!groups.find((group) => group.leaves.includes(node) || this.isNodeInGroups(node, group.groups));
   }
 
   protected isNodeInChildGroups(node: LayoutNode, groups: ChildGroup[]): boolean {
-    return !!groups.find(group => group.nodes.includes(node) || this.isNodeInGroups(node, group.groups));
+    return !!groups.find((group) => group.nodes.includes(node) || this.isNodeInGroups(node, group.groups));
   }
 
   protected isSubGroup(group: ChildGroup, childGroups: ChildGroup[]): boolean {
-    return !!childGroups.find(cg => cg.groups.includes(group.group));
+    return !!childGroups.find((cg) => cg.groups.includes(group.group));
   }
 
   protected getNodeGroup(node: LayoutNode, childGroups: ChildGroup[]): ChildGroup | undefined {
-    return childGroups.find(group => group.nodes.includes(node) || this.isNodeInGroups(node, group.groups));
+    return childGroups.find((group) => group.nodes.includes(node) || this.isNodeInGroups(node, group.groups));
   }
 
   protected getGroupLayout(
@@ -127,7 +127,11 @@ class ColaGroupsLayout extends ColaLayout implements Layout {
     edges: LayoutLink[],
     groups: LayoutGroup[]
   ): BaseLayout {
-    const layout = new ColaGroupsLayout(graph, { ...this.options, onSimulationEnd: undefined, listenForChanges: false });
+    const layout = new ColaGroupsLayout(graph, {
+      ...this.options,
+      onSimulationEnd: undefined,
+      listenForChanges: false
+    });
     layout.setupLayout(graph, nodes, edges, groups);
     return layout;
   }
@@ -136,11 +140,13 @@ class ColaGroupsLayout extends ColaLayout implements Layout {
     const constraints = this.getConstraints(nodes as ColaGroupsNode[], groups as ColaGroup[], edges);
     let childGroups = groups.reduce((acc, group) => {
       if (
-        !groups.find(g => group.element.getParent()?.getId() === g.element.getId()) &&
+        !groups.find((g) => group.element.getParent()?.getId() === g.element.getId()) &&
         (group.groups.length || group.leaves.length)
       ) {
         const allLeaves = this.getAllLeaves(group);
-        const groupEdges = edges.filter(edge => allLeaves.includes(edge.sourceNode) && allLeaves.includes(edge.target));
+        const groupEdges = edges.filter(
+          (edge) => allLeaves.includes(edge.sourceNode) && allLeaves.includes(edge.target)
+        );
         const groupGroups = this.getAllSubGroups(group);
         allLeaves.forEach((l, i) => {
           l.index = i;
@@ -162,11 +168,11 @@ class ColaGroupsLayout extends ColaLayout implements Layout {
       }
       return acc;
     }, [] as ChildGroup[]);
-    const constrainedGroups = groups.filter(g => constraints.find(c => c.group === g.element.getId()));
-    this.layerGroups = childGroups.filter(cg => constrainedGroups.includes(cg.group)).map(cg => cg.group);
-    childGroups = childGroups.filter(cg => !this.layerGroups.includes(cg.group));
-    this.layerNodes = nodes.filter(node => !this.isNodeInChildGroups(node, childGroups));
-    this.layerGroupNodes = childGroups.filter(cg => !this.isSubGroup(cg, childGroups));
+    const constrainedGroups = groups.filter((g) => constraints.find((c) => c.group === g.element.getId()));
+    this.layerGroups = childGroups.filter((cg) => constrainedGroups.includes(cg.group)).map((cg) => cg.group);
+    childGroups = childGroups.filter((cg) => !this.layerGroups.includes(cg.group));
+    this.layerNodes = nodes.filter((node) => !this.isNodeInChildGroups(node, childGroups));
+    this.layerGroupNodes = childGroups.filter((cg) => !this.isSubGroup(cg, childGroups));
     this.layerEdges = edges.reduce((acc, edge) => {
       const source = this.getNodeGroup(edge.sourceNode, childGroups);
       const target = this.getNodeGroup(edge.targetNode, childGroups);
@@ -175,7 +181,7 @@ class ColaGroupsLayout extends ColaLayout implements Layout {
       }
       return acc;
     }, [] as LayoutLink[]);
-    this.childLayouts = childGroups.map(childGroup =>
+    this.childLayouts = childGroups.map((childGroup) =>
       this.getGroupLayout(graph, childGroup.group, childGroup.nodes, childGroup.edges, childGroup.groups)
     );
   }
@@ -186,7 +192,7 @@ class ColaGroupsLayout extends ColaLayout implements Layout {
     initialRun: boolean,
     addingNodes: boolean
   ): Promise<void> {
-    return new Promise<void>(resolve => {
+    return new Promise<void>((resolve) => {
       childLayout.doStartLayout(graph, initialRun, addingNodes, () => {
         resolve();
       });
@@ -203,14 +209,14 @@ class ColaGroupsLayout extends ColaLayout implements Layout {
       const { width, height } = this.graph.getBounds();
       this.d3Cola.size([width, height]);
       this.layoutNodes = [...this.layerNodes];
-      this.layerGroupNodes.forEach(cg => {
+      this.layerGroupNodes.forEach((cg) => {
         const layoutNode = this.createLayoutNode(cg.group.element, this.options.nodeDistance, cg.group.index);
         this.layoutNodes.push(layoutNode);
-        this.layerEdges.forEach(edge => {
-          if (cg.nodes.find(n => n.id === edge.sourceNode.id) || this.isNodeInGroups(edge.sourceNode, cg.groups)) {
+        this.layerEdges.forEach((edge) => {
+          if (cg.nodes.find((n) => n.id === edge.sourceNode.id) || this.isNodeInGroups(edge.sourceNode, cg.groups)) {
             edge.sourceNode = layoutNode;
           }
-          if (cg.nodes.find(n => n.id === edge.targetNode.id) || this.isNodeInGroups(edge.targetNode, cg.groups)) {
+          if (cg.nodes.find((n) => n.id === edge.targetNode.id) || this.isNodeInGroups(edge.targetNode, cg.groups)) {
             edge.targetNode = layoutNode;
           }
         });
@@ -242,7 +248,7 @@ class ColaGroupsLayout extends ColaLayout implements Layout {
     if (this.childLayouts?.length) {
       const runLayouts = (childLayouts: BaseLayout[]): Promise<void[]> =>
         Promise.all(
-          childLayouts.map(childLayout => this.startChildLayout(this.graph, childLayout, initialRun, addingNodes))
+          childLayouts.map((childLayout) => this.startChildLayout(this.graph, childLayout, initialRun, addingNodes))
         );
 
       runLayouts(this.childLayouts)

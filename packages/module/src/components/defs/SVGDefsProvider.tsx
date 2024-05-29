@@ -41,7 +41,7 @@ class SVGDefsProvider extends React.Component<SVGDefsProviderProps> {
         this.updateDefs();
       }
     },
-    removeDef: id => {
+    removeDef: (id) => {
       const defObj = this.defs[id];
       if (--defObj.count === 0) {
         delete this.defs[id];

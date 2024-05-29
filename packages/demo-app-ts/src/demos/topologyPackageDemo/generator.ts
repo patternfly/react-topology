@@ -53,7 +53,7 @@ export const EDGE_TERMINAL_TYPES = [
   EdgeTerminalType.square,
   EdgeTerminalType.cross,
   EdgeTerminalType.directional,
-  EdgeTerminalType.none,
+  EdgeTerminalType.none
 ];
 
 const getRandomNode = (numNodes: number, notNode = -1): number => {
@@ -111,7 +111,7 @@ const createNode = (index: number): NodeModel => ({
     subTitle: `Node subtitle`,
     objectType: 'CS',
     shape: NODE_SHAPES[Math.round(Math.random() * (NODE_SHAPES.length - 1))],
-    status: NODE_STATUSES[index % NODE_STATUSES.length],
+    status: NODE_STATUSES[index % NODE_STATUSES.length]
   }
 });
 
@@ -119,7 +119,7 @@ export const generateDataModel = (
   numNodes: number,
   numGroups: number,
   numEdges: number,
-  groupDepth: number = 0,
+  groupDepth: number = 0
 ): Model => {
   const groups: NodeModel[] = [];
   const nodes: NodeModel[] = [];
@@ -140,11 +140,11 @@ export const generateDataModel = (
       label: id,
       style: { padding: 45 },
       data: {
-        objectType: 'GN',
+        objectType: 'GN'
       }
     };
     if (level === groupDepth) {
-      group.children = childNodes.map(n => n.id);
+      group.children = childNodes.map((n) => n.id);
     } else {
       const nodesPerChildGroup = Math.floor(childNodes.length / 2);
       if (nodesPerChildGroup < 1) {
@@ -180,8 +180,8 @@ export const generateDataModel = (
       target: nodes[targetNum].id,
       data: {
         index: i,
-        tag: '250kbs',
-      },
+        tag: '250kbs'
+      }
     };
     edges.push(edge);
   }

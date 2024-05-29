@@ -10,10 +10,6 @@ describe('ComputeElementDimensions', () => {
       </svg>
     );
 
-    expect(
-      screen
-        .getByTestId('wrapper-test-id')
-        .querySelector('g')
-    ).toHaveAttribute('style', 'visibility: hidden;');
+    expect(screen.getByTestId('wrapper-test-id').querySelector('g')).toHaveAttribute('style', 'visibility: hidden;');
   });
 });

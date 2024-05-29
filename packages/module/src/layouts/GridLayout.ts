@@ -10,7 +10,6 @@ import { GridGroup } from './GridGroup';
 export type GridLayoutOptions = LayoutOptions;
 
 export class GridLayout extends BaseLayout implements Layout {
-
   constructor(graph: Graph, options?: Partial<GridLayoutOptions>) {
     super(graph, options);
   }

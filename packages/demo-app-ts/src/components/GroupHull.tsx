@@ -84,7 +84,7 @@ const GroupHull: React.FunctionComponent<GroupHullProps> = ({
       return null;
     }
     const points: PointWithSize[] = [];
-    nodeChildren.forEach(c => {
+    nodeChildren.forEach((c) => {
       if (c.getNodeShape() === NodeShape.ellipse) {
         const { width, height } = c.getBounds();
         const { x, y } = c.getBounds().getCenter();

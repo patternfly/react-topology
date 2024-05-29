@@ -44,7 +44,7 @@ export class DagreLayout extends BaseLayout implements Layout {
   }
 
   protected updateEdgeBendpoints(edges: DagreLink[]): void {
-    edges.forEach(edge => {
+    edges.forEach((edge) => {
       const link = edge as DagreLink;
       link.updateBendpoints();
     });
@@ -58,17 +58,17 @@ export class DagreLayout extends BaseLayout implements Layout {
     if (initialRun || addingNodes) {
       const dagreGraph = new dagre.graphlib.Graph({ compound: true });
       const options = { ...this.dagreOptions };
-      Object.keys(LAYOUT_DEFAULTS).forEach(key => delete options[key]);
+      Object.keys(LAYOUT_DEFAULTS).forEach((key) => delete options[key]);
       dagreGraph.setGraph(options);
 
       if (!this.dagreOptions.ignoreGroups) {
-        this.groups.forEach(group => {
+        this.groups.forEach((group) => {
           dagreGraph.setNode(group.id, group);
           dagreGraph.setParent(group.id, group.element.getParent().getId());
         });
       }
 
-      this.nodes?.forEach(node => {
+      this.nodes?.forEach((node) => {
         const updateNode = (node as DagreNode).getUpdatableNode();
         dagreGraph.setNode(node.id, updateNode);
         if (!this.dagreOptions.ignoreGroups) {
@@ -76,12 +76,12 @@ export class DagreLayout extends BaseLayout implements Layout {
         }
       });
 
-      this.edges?.forEach(dagreEdge => {
+      this.edges?.forEach((dagreEdge) => {
         dagreGraph.setEdge(dagreEdge.source.id, dagreEdge.target.id, dagreEdge);
       });
 
       dagre.layout(dagreGraph);
-      this.nodes.forEach(node => {
+      this.nodes.forEach((node) => {
         (node as DagreNode).updateToNode(dagreGraph.node(node.id));
       });
 

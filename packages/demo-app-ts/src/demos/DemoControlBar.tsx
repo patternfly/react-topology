@@ -4,7 +4,7 @@ import {
   defaultControlButtonsOptions,
   TopologyControlBar,
   useVisualizationController,
-  action,
+  action
 } from '@patternfly/react-topology';
 
 const DemoControlBar: React.FC = () => {

@@ -11,7 +11,7 @@ import {
   SplitItem,
   TextInput,
   ToolbarItem,
-  Tooltip,
+  Tooltip
 } from '@patternfly/react-core';
 import { Controller, Model, observer } from '@patternfly/react-topology';
 import { DemoContext } from './DemoContext';
@@ -94,7 +94,7 @@ const OptionsContextBar: React.FC<{ controller: Controller }> = observer(({ cont
         layout: savedModel.graph.layout,
         scale: savedModel.graph.scale,
         scaleExtent: savedModel.graph.scaleExtent,
-        layers: savedModel.graph.layers,
+        layers: savedModel.graph.layers
       };
       currentModel.nodes = currentModel.nodes.map((n) => {
         const savedNode = savedModel.nodes.find((sn) => sn.id === n.id);
@@ -110,7 +110,7 @@ const OptionsContextBar: React.FC<{ controller: Controller }> = observer(({ cont
           collapsed: savedNode.collapsed,
           width: savedNode.width,
           height: savedNode.height,
-          shape: savedNode.shape,
+          shape: savedNode.shape
         };
       });
       controller.fromModel(currentModel, false);
@@ -135,8 +135,8 @@ const OptionsContextBar: React.FC<{ controller: Controller }> = observer(({ cont
   };
 
   return (
-    <Flex flexWrap={{ default: 'wrap' }} gap={{ default: 'gapMd'}}>
-      <Flex >
+    <Flex flexWrap={{ default: 'wrap' }} gap={{ default: 'gapMd' }}>
+      <Flex>
         <ToolbarItem>{layoutDropdown}</ToolbarItem>
         <ToolbarItem>
           <Tooltip content="Layout info saved" trigger="manual" isVisible={modelSaved}>
@@ -157,8 +157,8 @@ const OptionsContextBar: React.FC<{ controller: Controller }> = observer(({ cont
         </ToolbarItem>
       </Flex>
       <ToolbarItem>
-        <Flex flexWrap={{ default: 'nowrap' }} gap={{ default: 'gapMd'}}>
-          <Flex flexWrap={{ default: 'nowrap' }} gap={{ default: 'gapXs'}}>
+        <Flex flexWrap={{ default: 'nowrap' }} gap={{ default: 'gapMd' }}>
+          <Flex flexWrap={{ default: 'nowrap' }} gap={{ default: 'gapXs' }}>
             <span id="med-scale">Medium Scale:</span>
             <TextInput
               aria-labelledby="med-scale"
@@ -175,7 +175,7 @@ const OptionsContextBar: React.FC<{ controller: Controller }> = observer(({ cont
               }}
             />
           </Flex>
-          <Flex flexWrap={{ default: 'nowrap' }} gap={{ default: 'gapXs'}}>
+          <Flex flexWrap={{ default: 'nowrap' }} gap={{ default: 'gapXs' }}>
             <span id="low-scale">Low Scale:</span>
             <TextInput
               aria-labelledby="low-scale"

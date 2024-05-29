@@ -44,7 +44,7 @@ const DefaultTaskGroupExpanded: React.FunctionComponent<Omit<DefaultTaskGroupPro
       labelIcon,
       labelIconPadding,
       onCollapseChange,
-      labelPosition,
+      labelPosition
     }) => {
       const [hovered, hoverRef] = useHover();
       const [labelHover, labelHoverRef] = useHover();

@@ -114,9 +114,9 @@ export const NodeDecoratorStyles = withTopologySetup(() => {
   const nodes: NodeModel[] = createGroupNodes();
   const nodes2: NodeModel[] = createGroupNodes('2', 600);
 
-  nodes.forEach(n => (n.data.showDecorators = true));
-  nodes.forEach(n => (n.data.labelPosition = LabelPosition.bottom));
-  nodes2.forEach(n => (n.data.showDecorators = true));
+  nodes.forEach((n) => (n.data.showDecorators = true));
+  nodes.forEach((n) => (n.data.labelPosition = LabelPosition.bottom));
+  nodes2.forEach((n) => (n.data.showDecorators = true));
   useModel(
     React.useMemo(
       (): Model => ({
@@ -377,7 +377,7 @@ export const GroupStyles = withTopologySetup(() => {
     id: 'Group 1',
     type: 'group',
     label: 'Node Group Title',
-    children: nodes.map(n => n.id),
+    children: nodes.map((n) => n.id),
     group: true,
     style: { padding: 17 },
     data: {
@@ -411,7 +411,7 @@ export const GroupHoverStyles = withTopologySetup(() => {
     id: 'Group 1',
     type: 'group',
     label: 'Node Group Title',
-    children: nodes.map(n => n.id),
+    children: nodes.map((n) => n.id),
     group: true,
     style: { padding: 17 },
     data: {
@@ -445,7 +445,7 @@ export const GroupSelectedStyles = withTopologySetup(() => {
     id: 'Group 1',
     type: 'group',
     label: 'Node Group Title',
-    children: nodes.map(n => n.id),
+    children: nodes.map((n) => n.id),
     group: true,
     style: { padding: 17 },
     data: {
@@ -479,7 +479,7 @@ export const GroupDropTargetStyles = withTopologySetup(() => {
     id: 'Group 1',
     type: 'group',
     label: 'Node Group Title',
-    children: nodes.map(n => n.id),
+    children: nodes.map((n) => n.id),
     group: true,
     style: { padding: 17 },
     data: {
@@ -515,7 +515,7 @@ export const GroupedGroupsStyles = withTopologySetup(() => {
     id: 'Group 1',
     type: 'group',
     label: 'Node Group Title',
-    children: ['GroupedGroup', ...ungroupedGroupNodes.map(n => n.id)],
+    children: ['GroupedGroup', ...ungroupedGroupNodes.map((n) => n.id)],
     group: true,
     style: { padding: 17 },
     data: {
@@ -537,7 +537,7 @@ export const GroupedGroupsStyles = withTopologySetup(() => {
     id: 'Group 2',
     type: 'group',
     label: 'Node Group Title',
-    children: ['GroupedGroup2', ...ungroupedGroupNodes2.map(n => n.id)],
+    children: ['GroupedGroup2', ...ungroupedGroupNodes2.map((n) => n.id)],
     group: true,
     style: { padding: 17 },
     data: {
@@ -580,7 +580,7 @@ export const CollapsibleGroupStyles = withTopologySetup(() => {
     id: 'Group 1',
     type: 'group',
     label: 'Node Group Title',
-    children: nodes.map(n => n.id),
+    children: nodes.map((n) => n.id),
     group: true,
     style: { padding: 17 },
     data: {
@@ -600,7 +600,7 @@ export const CollapsibleGroupStyles = withTopologySetup(() => {
     id: 'Group 2',
     type: 'group',
     label: 'Node Group Title',
-    children: nodes2.map(n => n.id),
+    children: nodes2.map((n) => n.id),
     group: true,
     style: { padding: 17 },
     collapsed: true,
@@ -873,19 +873,19 @@ export const StyleNodes: React.FunctionComponent = () => {
     <div className="pf-ri__topology-demo">
       <Tabs unmountOnExit activeKey={activeKey} onSelect={handleTabClick}>
         <Tab eventKey={0} title={<TabTitleText>Nodes</TabTitleText>}>
-          <NodeStyles/>
+          <NodeStyles />
         </Tab>
         <Tab eventKey={1} title={<TabTitleText>Hover Nodes</TabTitleText>}>
-          <NodeHoverStyles/>
+          <NodeHoverStyles />
         </Tab>
         <Tab eventKey={2} title={<TabTitleText>Selected Nodes</TabTitleText>}>
-          <NodeSelectedStyles/>
+          <NodeSelectedStyles />
         </Tab>
         <Tab eventKey={3} title={<TabTitleText>Status Decorators</TabTitleText>}>
-          <NodeStatusDecoratorStyles/>
+          <NodeStatusDecoratorStyles />
         </Tab>
         <Tab eventKey={4} title={<TabTitleText>Decorators</TabTitleText>}>
-          <NodeDecoratorStyles/>
+          <NodeDecoratorStyles />
         </Tab>
       </Tabs>
     </div>
@@ -903,28 +903,28 @@ export const StyleLabels: React.FunctionComponent = () => {
     <div className="pf-ri__topology-demo">
       <Tabs unmountOnExit activeKey={activeKey} onSelect={handleTabClick}>
         <Tab eventKey={0} title={<TabTitleText>Node Labels</TabTitleText>}>
-          <NodeLabelStyles/>
+          <NodeLabelStyles />
         </Tab>
         <Tab eventKey={1} title={<TabTitleText>Hover Labels</TabTitleText>}>
-          <NodeLabelHoverStyles/>
+          <NodeLabelHoverStyles />
         </Tab>
         <Tab eventKey={2} title={<TabTitleText>Selected Labels</TabTitleText>}>
-          <NodeLabelSelectedStyles/>
+          <NodeLabelSelectedStyles />
         </Tab>
         <Tab eventKey={3} title={<TabTitleText>Horizontal Labels</TabTitleText>}>
-          <NodeHorizontalLabelStyles/>
+          <NodeHorizontalLabelStyles />
         </Tab>
         <Tab eventKey={4} title={<TabTitleText>Badged Labels</TabTitleText>}>
-          <NodeBadgedLabelStyles/>
+          <NodeBadgedLabelStyles />
         </Tab>
         <Tab eventKey={5} title={<TabTitleText>Context Menu Labels</TabTitleText>}>
-          <NodeContextMenuLabelStyles/>
+          <NodeContextMenuLabelStyles />
         </Tab>
         <Tab eventKey={6} title={<TabTitleText>Icon Labels</TabTitleText>}>
-          <NodeIconLabelStyles/>
+          <NodeIconLabelStyles />
         </Tab>
         <Tab eventKey={7} title={<TabTitleText>Secondary Labels</TabTitleText>}>
-          <NodeSecondaryLabelStyles/>
+          <NodeSecondaryLabelStyles />
         </Tab>
       </Tabs>
     </div>
@@ -942,22 +942,22 @@ export const StyleGroups: React.FunctionComponent = () => {
     <div className="pf-ri__topology-demo">
       <Tabs unmountOnExit activeKey={activeKey} onSelect={handleTabClick}>
         <Tab eventKey={0} title={<TabTitleText>Group</TabTitleText>}>
-          <GroupStyles/>
+          <GroupStyles />
         </Tab>
         <Tab eventKey={1} title={<TabTitleText>Hover Group</TabTitleText>}>
-          <GroupHoverStyles/>
+          <GroupHoverStyles />
         </Tab>
         <Tab eventKey={2} title={<TabTitleText>Selected Group</TabTitleText>}>
-          <GroupSelectedStyles/>
+          <GroupSelectedStyles />
         </Tab>
         <Tab eventKey={3} title={<TabTitleText>Drop Target Group</TabTitleText>}>
-          <GroupDropTargetStyles/>
+          <GroupDropTargetStyles />
         </Tab>
         <Tab eventKey={4} title={<TabTitleText>Grouped Groups</TabTitleText>}>
-          <GroupedGroupsStyles/>
+          <GroupedGroupsStyles />
         </Tab>
         <Tab eventKey={5} title={<TabTitleText>Collapsible Groups</TabTitleText>}>
-          <CollapsibleGroupStyles/>
+          <CollapsibleGroupStyles />
         </Tab>
       </Tabs>
     </div>
@@ -975,19 +975,19 @@ export const StyleEdges: React.FunctionComponent = () => {
     <div className="pf-ri__topology-demo">
       <Tabs unmountOnExit activeKey={activeKey} onSelect={handleTabClick}>
         <Tab eventKey={0} title={<TabTitleText>Edge Styles</TabTitleText>}>
-          <EdgeStyles/>
+          <EdgeStyles />
         </Tab>
         <Tab eventKey={1} title={<TabTitleText>Animated Edges</TabTitleText>}>
-          <EdgeAnimationStyles/>
+          <EdgeAnimationStyles />
         </Tab>
         <Tab eventKey={2} title={<TabTitleText>Edge Terminal Types</TabTitleText>}>
-          <EdgeTerminalStyles/>
+          <EdgeTerminalStyles />
         </Tab>
         <Tab eventKey={3} title={<TabTitleText>Edge Terminal Status</TabTitleText>}>
-          <EdgeTerminalStatusStyles/>
+          <EdgeTerminalStatusStyles />
         </Tab>
         <Tab eventKey={4} title={<TabTitleText>Edge Terminal Tags</TabTitleText>}>
-          <EdgeTerminalTagStyles/>
+          <EdgeTerminalTagStyles />
         </Tab>
       </Tabs>
     </div>

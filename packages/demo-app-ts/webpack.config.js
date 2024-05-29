@@ -112,10 +112,7 @@ module.exports = (_env, argv) => {
           },
           eslint: {
             enabled: !isProd,
-            files: [
-              './src/**/*.{ts,tsx}',
-              '../module/src/**/*.{ts,tsx}',
-            ],
+            files: ['./src/**/*.{ts,tsx}', '../module/src/**/*.{ts,tsx}'],
             options: {
               ignorePath: '../../.eslintignore'
             }

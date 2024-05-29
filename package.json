@@ -15,8 +15,11 @@
     "serve:docs": "yarn workspace @patternfly/react-topology docs:serve",
     "clean": "yarn workspace @patternfly/react-topology clean",
     "lint:js": "eslint . --ext .js,.jsx,.ts,.tsx --color",
+    "lint:js:fix": "eslint . --ext .js,.jsx,.ts,.tsx --color --fix",
     "lint:md": "eslint packages --ext md --no-eslintrc --config .eslintrc-md.json --cache",
+    "lint:md:fix": "eslint packages --ext md --no-eslintrc --config .eslintrc-md.json --cache --fix",
     "lint": "yarn lint:js && yarn lint:md",
+    "lint:fix": "yarn lint:js:fix && yarn lint:md:fix",
     "test": "TZ=EST jest packages",
     "test:a11y": "echo skipping a11y tests for now",
     "serve:a11y": "yarn workspace @patternfly/react-topology serve:a11y"

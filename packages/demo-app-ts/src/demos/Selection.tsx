@@ -89,7 +89,7 @@ export const ControlledSelection = withTopologySetup(() => {
   useEventListener(
     SELECTION_EVENT,
     React.useCallback<SelectionEventListener>(
-      ids => {
+      (ids) => {
         // eslint-disable-next-line no-console
         console.log(`Selection event`, ids);
         setSelectedIds(ids);
@@ -115,7 +115,7 @@ export const MultiSelect: React.FunctionComponent = withTopologySetup(() => {
   );
   useEventListener(
     SELECTION_EVENT,
-    React.useCallback<SelectionEventListener>(ids => {
+    React.useCallback<SelectionEventListener>((ids) => {
       // eslint-disable-next-line no-console
       console.log(`Selection event`, ids);
     }, [])
@@ -172,16 +172,16 @@ export const Selection: React.FunctionComponent = () => {
     <div className="pf-ri__topology-demo">
       <Tabs unmountOnExit activeKey={activeKey} onSelect={handleTabClick}>
         <Tab eventKey={0} title={<TabTitleText>Uncontrolled</TabTitleText>}>
-          <UncontrolledSelection/>
+          <UncontrolledSelection />
         </Tab>
         <Tab eventKey={1} title={<TabTitleText>Controlled</TabTitleText>}>
-          <ControlledSelection/>
+          <ControlledSelection />
         </Tab>
         <Tab eventKey={2} title={<TabTitleText>Multi Select</TabTitleText>}>
-          <MultiSelect/>
+          <MultiSelect />
         </Tab>
         <Tab eventKey={3} title={<TabTitleText>Performance</TabTitleText>}>
-          <Performance/>
+          <Performance />
         </Tab>
       </Tabs>
     </div>

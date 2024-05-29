@@ -152,7 +152,7 @@ export const useDemoPipelineNodes = (
           group: true,
           label: 'Parallel tasks',
           data: {
-            badge: 'Label',
+            badge: 'Label'
           }
         });
       }
@@ -194,7 +194,7 @@ export const useDemoPipelineNodes = (
               type: 'task-group',
               children: [],
               group: true,
-              label: `Group ${task.data.columnGroup}`, 
+              label: `Group ${task.data.columnGroup}`,
               labelPosition: LabelPosition.top
             };
             acc.push(taskGroup);

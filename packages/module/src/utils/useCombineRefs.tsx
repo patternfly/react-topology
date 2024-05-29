@@ -3,7 +3,7 @@ import * as React from 'react';
 const useCombineRefs = <RefType extends any>(...refs: (React.Ref<RefType> | undefined)[]) =>
   React.useCallback(
     (element: RefType | null): void =>
-      refs.forEach(ref => {
+      refs.forEach((ref) => {
         if (ref) {
           if (typeof ref === 'function') {
             ref(element);
