@@ -239,16 +239,21 @@ export default class BaseGraph<E extends GraphModel = GraphModel, D = any>
     this.setPosition(new Point(x, y));
   }
 
-  fit(padding = 0): void {
+  fit(padding = 0, node?: Node): void {
     let rect: Rect | undefined;
-    this.getNodes().forEach((c) => {
-      const b = c.getBounds();
-      if (!rect) {
-        rect = b.clone();
-      } else {
-        rect.union(b);
-      }
-    });
+    if (node) {
+      rect = node.getBounds();
+    } else {
+      this.getNodes().forEach((c) => {
+        const b = c.getBounds();
+        if (!rect) {
+          rect = b.clone();
+        } else {
+          rect.union(b);
+        }
+      });
+    }
+
     if (!rect) {
       return;
     }
@@ -280,6 +285,22 @@ export default class BaseGraph<E extends GraphModel = GraphModel, D = any>
     this.setScale(scale);
     this.setPosition(new Point(tx, ty));
   }
+
+  centerInView = (nodeElement: Node): void => {
+    if (!nodeElement) {
+      return;
+    }
+    const { x: viewX, y: viewY, width: viewWidth, height: viewHeight } = this.getBounds();
+    const boundingBox = nodeElement.getBounds().clone().scale(this.scale).translate(viewX, viewY);
+    const { x, y, width, height } = boundingBox;
+
+    const newLocation = {
+      x: viewX - (x + width / 2) + viewWidth / 2,
+      y: viewY - (y + height / 2) + viewHeight / 2
+    };
+
+    this.setBounds(new Rect(newLocation.x, newLocation.y, viewWidth, viewHeight));
+  };
 
   panIntoView = (
     nodeElement: Node,
