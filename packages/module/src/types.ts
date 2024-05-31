@@ -232,7 +232,7 @@ export interface Node<E extends NodeModel = NodeModel, D = any> extends GraphEle
   setNodeStatus(shape: NodeStatus): void;
   getSourceEdges(): Edge[];
   getTargetEdges(): Edge[];
-  getAllNodeChildren(): Node[]; // Return all children regardless of collapse status or child groups' collapsed status
+  getAllNodeChildren(leafOnly?: boolean): Node[]; // Return all children regardless of collapse status or child groups' collapsed status
   getPositionableChildren(): Node[]; // Return all children that can be positioned (collapsed groups are positionable)
   isDimensionsInitialized(): boolean;
   isPositioned(): boolean;
@@ -287,6 +287,8 @@ export interface Graph<E extends GraphModel = GraphModel, D = any> extends Graph
   fit(padding?: number): void;
   panIntoView(element: Node, options?: { offset?: number; minimumVisible?: number }): void;
   isNodeInView(element: Node, options?: { padding: number }): boolean;
+  expandAll(): void;
+  collapseAll(): void;
 }
 
 export const isGraph = (element: GraphElement): element is Graph => element && element.getKind() === ModelKind.graph;

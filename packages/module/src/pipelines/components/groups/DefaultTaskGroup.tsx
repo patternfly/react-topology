@@ -9,6 +9,7 @@ import { getEdgesFromNodes, getSpacerNodes } from '../../utils';
 import DefaultTaskGroupCollapsed from './DefaultTaskGroupCollapsed';
 import DefaultTaskGroupExpanded from './DefaultTaskGroupExpanded';
 import { RunStatus } from '../../types';
+import { DEFAULT_SPACER_NODE_TYPE } from '../../const';
 
 export interface EdgeCreationTypes {
   spacerNodeType?: string;
@@ -145,7 +146,7 @@ const DefaultTaskGroupInner: React.FunctionComponent<PipelinesDefaultGroupInnerP
           const creationTypes: EdgeCreationTypes = getEdgeCreationTypes ? getEdgeCreationTypes() : {};
 
           const pipelineNodes = model.nodes
-            .filter((n) => n.type !== creationTypes.spacerNodeType)
+            .filter((n) => n.type !== (creationTypes.spacerNodeType || DEFAULT_SPACER_NODE_TYPE))
             .map((n) => ({
               ...n,
               visible: true

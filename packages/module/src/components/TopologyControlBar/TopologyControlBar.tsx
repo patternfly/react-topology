@@ -12,6 +12,9 @@ import ExpandIcon from '@patternfly/react-icons/dist/esm/icons/expand-icon';
 import ExpandArrowsAltIcon from '@patternfly/react-icons/dist/esm/icons/expand-arrows-alt-icon';
 import SearchPlusIcon from '@patternfly/react-icons/dist/esm/icons/search-plus-icon';
 import SearchMinusIcon from '@patternfly/react-icons/dist/esm/icons/search-minus-icon';
+import CollapseIcon from '@patternfly/react-icons/dist/esm/icons/compress-alt-icon';
+import ExpandAltIcon from '@patternfly/react-icons/dist/esm/icons/expand-alt-icon';
+
 import '../../css/topology-controlbar';
 
 /* ID's for common control buttons */
@@ -19,6 +22,8 @@ export const ZOOM_IN = 'zoom-in';
 export const ZOOM_OUT = 'zoom-out';
 export const FIT_TO_SCREEN = 'fit-to-screen';
 export const RESET_VIEW = 'reset-view';
+export const EXPAND_ALL = 'expand-all';
+export const COLLAPSE_ALL = 'collapse-all';
 export const LEGEND = 'legend';
 
 /* Data needed for each control button */
@@ -66,6 +71,22 @@ export interface TopologyControlButtonsOptions {
   resetViewDisabled: boolean;
   resetViewHidden: boolean;
 
+  expandAll: boolean;
+  expandAllIcon: React.ReactNode;
+  expandAllTip: React.ReactNode;
+  expandAllAriaLabel: string;
+  expandAllCallback: (id: any) => void;
+  expandAllDisabled: boolean;
+  expandAllHidden: boolean;
+
+  collapseAll: boolean;
+  collapseAllIcon: React.ReactNode;
+  collapseAllTip: React.ReactNode;
+  collapseAllAriaLabel: string;
+  collapseAllCallback: (id: any) => void;
+  collapseAllDisabled: boolean;
+  collapseAllHidden: boolean;
+
   legend: boolean;
   legendIcon: React.ReactNode;
   legendTip: string;
@@ -111,6 +132,22 @@ export const defaultControlButtonsOptions: TopologyControlButtonsOptions = {
   resetViewDisabled: false,
   resetViewHidden: false,
 
+  expandAll: false,
+  expandAllIcon: <ExpandAltIcon />,
+  expandAllTip: 'Expand All',
+  expandAllAriaLabel: 'Expand All',
+  expandAllCallback: null,
+  expandAllDisabled: false,
+  expandAllHidden: false,
+
+  collapseAll: false,
+  collapseAllIcon: <CollapseIcon />,
+  collapseAllTip: 'Collapse All',
+  collapseAllAriaLabel: 'Collapse All',
+  collapseAllCallback: null,
+  collapseAllDisabled: false,
+  collapseAllHidden: false,
+
   legend: true,
   legendIcon: 'Legend',
   legendTip: '',
@@ -155,6 +192,22 @@ export const createTopologyControlButtons = ({
   resetViewCallback = defaultControlButtonsOptions.resetViewCallback,
   resetViewDisabled = defaultControlButtonsOptions.resetViewDisabled,
   resetViewHidden = defaultControlButtonsOptions.resetViewHidden,
+
+  expandAll = defaultControlButtonsOptions.expandAll,
+  expandAllIcon = defaultControlButtonsOptions.expandAllIcon,
+  expandAllTip = defaultControlButtonsOptions.expandAllTip,
+  expandAllAriaLabel = defaultControlButtonsOptions.expandAllAriaLabel,
+  expandAllCallback = defaultControlButtonsOptions.expandAllCallback,
+  expandAllDisabled = defaultControlButtonsOptions.expandAllDisabled,
+  expandAllHidden = defaultControlButtonsOptions.expandAllHidden,
+
+  collapseAll = defaultControlButtonsOptions.collapseAll,
+  collapseAllIcon = defaultControlButtonsOptions.collapseAllIcon,
+  collapseAllTip = defaultControlButtonsOptions.collapseAllTip,
+  collapseAllAriaLabel = defaultControlButtonsOptions.collapseAllAriaLabel,
+  collapseAllCallback = defaultControlButtonsOptions.collapseAllCallback,
+  collapseAllDisabled = defaultControlButtonsOptions.collapseAllDisabled,
+  collapseAllHidden = defaultControlButtonsOptions.collapseAllHidden,
 
   legend = defaultControlButtonsOptions.legend,
   legendIcon = defaultControlButtonsOptions.legendIcon,
@@ -213,6 +266,30 @@ export const createTopologyControlButtons = ({
       callback: resetViewCallback,
       disabled: resetViewDisabled,
       hidden: resetViewHidden
+    });
+  }
+
+  if (expandAll) {
+    controlButtons.push({
+      id: EXPAND_ALL,
+      icon: expandAllIcon,
+      tooltip: expandAllTip,
+      ariaLabel: expandAllAriaLabel,
+      callback: expandAllCallback,
+      disabled: expandAllDisabled,
+      hidden: expandAllHidden
+    });
+  }
+
+  if (collapseAll) {
+    controlButtons.push({
+      id: COLLAPSE_ALL,
+      icon: collapseAllIcon,
+      tooltip: collapseAllTip,
+      ariaLabel: collapseAllAriaLabel,
+      callback: collapseAllCallback,
+      disabled: collapseAllDisabled,
+      hidden: collapseAllHidden
     });
   }
 
