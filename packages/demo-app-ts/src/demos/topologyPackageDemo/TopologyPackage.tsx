@@ -60,6 +60,26 @@ const TopologyViewComponent: React.FunctionComponent<TopologyViewComponentProps>
     });
 
     React.useEffect(() => {
+      let resizeTimeout: NodeJS.Timeout;
+
+      if (selectedIds[0]) {
+        const selectedNode = controller.getNodeById(selectedIds[0]);
+        if (selectedNode) {
+          // Use a timeout in order to allow the side panel to be shown and window size recomputed
+          resizeTimeout = setTimeout(() => {
+            controller.getGraph().panIntoView(selectedNode, { offset: 20, minimumVisible: 100 });
+            resizeTimeout = null;
+          }, 500);
+        }
+      }
+      return () => {
+        if (resizeTimeout) {
+          clearTimeout(resizeTimeout);
+        }
+      };
+    }, [selectedIds, controller]);
+
+    React.useEffect(() => {
       controller.addEventListener(GRAPH_POSITION_CHANGE_EVENT, graphPositionChangeListener);
       controller.addEventListener(GRAPH_LAYOUT_END_EVENT, layoutEndListener);
 
