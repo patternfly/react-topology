@@ -353,32 +353,40 @@ const DefaultNodeInner: React.FunctionComponent<DefaultNodeInnerProps> = observe
           )}
           {showLabel && (label || element.getLabel()) && (
             <Layer id={isHover ? TOP_LAYER : undefined}>
-              <g transform={`scale(${labelScale})`}>
-                <NodeLabel
-                  className={css(styles.topologyNodeLabel, labelClassName)}
-                  x={labelX}
-                  y={labelY * labelPositionScale}
-                  position={nodeLabelPosition}
-                  paddingX={8}
-                  paddingY={4}
-                  secondaryLabel={secondaryLabel}
-                  truncateLength={truncateLength}
-                  status={status}
-                  badge={badge}
-                  badgeColor={badgeColor}
-                  badgeTextColor={badgeTextColor}
-                  badgeBorderColor={badgeBorderColor}
-                  badgeClassName={badgeClassName}
-                  badgeLocation={badgeLocation}
-                  onContextMenu={onContextMenu}
-                  contextMenuOpen={contextMenuOpen}
-                  hover={isHover}
-                  labelIconClass={labelIconClass}
-                  labelIcon={labelIcon}
-                  labelIconPadding={labelIconPadding}
-                >
-                  {label || element.getLabel()}
-                </NodeLabel>
+              <g
+                transform={
+                  isHover
+                    ? `${scaleNode ? `translate(${translateX}, ${translateY})` : ''} scale(${nodeScale})`
+                    : undefined
+                }
+              >
+                <g transform={`scale(${labelScale})`}>
+                  <NodeLabel
+                    className={css(styles.topologyNodeLabel, labelClassName)}
+                    x={labelX}
+                    y={labelY * labelPositionScale}
+                    position={nodeLabelPosition}
+                    paddingX={8}
+                    paddingY={4}
+                    secondaryLabel={secondaryLabel}
+                    truncateLength={truncateLength}
+                    status={status}
+                    badge={badge}
+                    badgeColor={badgeColor}
+                    badgeTextColor={badgeTextColor}
+                    badgeBorderColor={badgeBorderColor}
+                    badgeClassName={badgeClassName}
+                    badgeLocation={badgeLocation}
+                    onContextMenu={onContextMenu}
+                    contextMenuOpen={contextMenuOpen}
+                    hover={isHover}
+                    labelIconClass={labelIconClass}
+                    labelIcon={labelIcon}
+                    labelIconPadding={labelIconPadding}
+                  >
+                    {label || element.getLabel()}
+                  </NodeLabel>
+                </g>
               </g>
             </Layer>
           )}
