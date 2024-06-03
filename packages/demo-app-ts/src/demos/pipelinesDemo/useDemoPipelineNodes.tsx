@@ -287,14 +287,13 @@ export const useDemoPipelineNodes = (
       taskType: 'java',
       taskTopic: 'Environment',
       columnGroup: (TASK_STATUSES.length % STATUS_PER_ROW) + 1
-      // taskJobType: 'link'
     };
 
     if (!layout) {
       const row = Math.ceil((TASK_STATUSES.length + 1) / STATUS_PER_ROW) - 1;
       const columnWidth = COLUMN_WIDTH + (showIcons ? 15 : 0) + (showBadges ? 32 : 0) + (showContextMenu ? 20 : 0);
-      iconTask2.x = (showIcons ? 28 : 0) + 2 * columnWidth;
-      iconTask2.y = GRAPH_MARGIN_TOP + row * ROW_HEIGHT;
+      iconTask3.x = (showIcons ? 28 : 0) + 3 * columnWidth;
+      iconTask3.y = GRAPH_MARGIN_TOP + row * ROW_HEIGHT;
     }
     tasks.push(iconTask3);
 
