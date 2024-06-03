@@ -58,6 +58,7 @@ const DemoGroup: React.FunctionComponent<DemoGroupProps> = ({ element, onContext
       collapsedHeight={DEFAULT_NODE_SIZE}
       showLabel={detailsLevel === ScaleDetailsLevel.high}
       hulledOutline={options.hulledOutline}
+      showLabelOnHover
     >
       {groupElement.isCollapsed() ? renderIcon() : null}
     </DefaultGroup>

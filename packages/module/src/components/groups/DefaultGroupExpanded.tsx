@@ -31,6 +31,7 @@ type DefaultGroupExpandedProps = {
   label?: string; // Defaults to element.getLabel()
   secondaryLabel?: string;
   showLabel?: boolean; // Defaults to true
+  showLabelOnHover?: boolean;
   truncateLength?: number; // Defaults to 13
   badge?: string;
   badgeColor?: string;
@@ -119,6 +120,7 @@ const DefaultGroupExpanded: React.FunctionComponent<DefaultGroupExpandedProps> =
   label,
   secondaryLabel,
   showLabel = true,
+  showLabelOnHover,
   truncateLength,
   dndDropRef,
   droppable,
@@ -141,11 +143,11 @@ const DefaultGroupExpanded: React.FunctionComponent<DefaultGroupExpandedProps> =
   onCollapseChange,
   hulledOutline = true
 }) => {
-  const [hovered, hoverRef] = useHover();
-  const [labelHover, labelHoverRef] = useHover();
+  const [hovered, hoverRef] = useHover(200, 500);
+  const [labelHover, labelHoverRef] = useHover(0);
   const dragLabelRef = useDragNode()[1];
   const refs = useCombineRefs<SVGPathElement>(hoverRef, dragNodeRef);
-  const isHover = hover !== undefined ? hover : hovered;
+  const isHover = hover !== undefined ? hover : hovered || labelHover;
   const anchorRef = useSvgAnchor();
   const outlineRef = useCombineRefs(dndDropRef, anchorRef);
   const labelLocation = React.useRef<PointWithSize>();
@@ -239,8 +241,46 @@ const DefaultGroupExpanded: React.FunctionComponent<DefaultGroupExpandedProps> =
       ? labelLocation.current[1] - outlinePadding - labelGap * 2
       : labelLocation.current[1] + outlinePadding + labelGap;
 
+  const scale = element.getGraph().getScale();
+  const medScale = element.getGraph().getDetailsLevelThresholds().medium;
+  const labelScale = !showLabel && showLabelOnHover && isHover ? Math.min(1 / scale, 1 / medScale) : 1;
+  const labelPositionScale = 1 / labelScale;
+
+  const groupLabel =
+    (showLabel || (showLabelOnHover && isHover)) && (label || element.getLabel()) ? (
+      <g ref={labelHoverRef} transform={isHover ? `scale(${labelScale})` : undefined}>
+        <NodeLabel
+          className={styles.topologyGroupLabel}
+          x={startX * labelPositionScale}
+          y={startY * labelPositionScale}
+          paddingX={8}
+          paddingY={5}
+          dragRef={dragNodeRef ? dragLabelRef : undefined}
+          status={element.getNodeStatus()}
+          secondaryLabel={secondaryLabel}
+          truncateLength={truncateLength}
+          badge={badge}
+          badgeColor={badgeColor}
+          badgeTextColor={badgeTextColor}
+          badgeBorderColor={badgeBorderColor}
+          badgeClassName={badgeClassName}
+          badgeLocation={badgeLocation}
+          labelIconClass={labelIconClass}
+          labelIcon={labelIcon}
+          labelIconPadding={labelIconPadding}
+          onContextMenu={onContextMenu}
+          contextMenuOpen={contextMenuOpen}
+          hover={isHover || labelHover}
+          actionIcon={collapsible ? <CollapseIcon /> : undefined}
+          onActionIconClick={() => onCollapseChange(element, true)}
+        >
+          {label || element.getLabel()}
+        </NodeLabel>
+      </g>
+    ) : null;
+
   return (
-    <g ref={labelHoverRef} onContextMenu={onContextMenu} onClick={onSelect} className={groupClassName}>
+    <g onContextMenu={onContextMenu} onClick={onSelect} className={groupClassName}>
       <Layer id={GROUPS_LAYER}>
         <g ref={refs} onContextMenu={onContextMenu} onClick={onSelect} className={innerGroupClassName}>
           {hulledOutline ? (
@@ -256,38 +296,8 @@ const DefaultGroupExpanded: React.FunctionComponent<DefaultGroupExpandedProps> =
             />
           )}
         </g>
+        {groupLabel && isHover ? <Layer id={TOP_LAYER}>{groupLabel}</Layer> : groupLabel}
       </Layer>
-      {showLabel && (label || element.getLabel()) && (
-        <Layer id={isHover ? TOP_LAYER : undefined}>
-          <NodeLabel
-            className={styles.topologyGroupLabel}
-            x={startX}
-            y={startY}
-            paddingX={8}
-            paddingY={5}
-            dragRef={dragNodeRef ? dragLabelRef : undefined}
-            status={element.getNodeStatus()}
-            secondaryLabel={secondaryLabel}
-            truncateLength={truncateLength}
-            badge={badge}
-            badgeColor={badgeColor}
-            badgeTextColor={badgeTextColor}
-            badgeBorderColor={badgeBorderColor}
-            badgeClassName={badgeClassName}
-            badgeLocation={badgeLocation}
-            labelIconClass={labelIconClass}
-            labelIcon={labelIcon}
-            labelIconPadding={labelIconPadding}
-            onContextMenu={onContextMenu}
-            contextMenuOpen={contextMenuOpen}
-            hover={isHover || labelHover}
-            actionIcon={collapsible ? <CollapseIcon /> : undefined}
-            onActionIconClick={() => onCollapseChange(element, true)}
-          >
-            {label || element.getLabel()}
-          </NodeLabel>
-        </Layer>
-      )}
     </g>
   );
 };
