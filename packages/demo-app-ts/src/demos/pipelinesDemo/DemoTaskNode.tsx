@@ -82,6 +82,7 @@ const DemoTaskNode: React.FunctionComponent<DemoTaskNodeProps> = ({
           status={data.status}
           hideDetailsAtMedium
           leadIcon={getLeadIcon(data.taskJobType)}
+          customStatusIcon={data.customStatusIcon}
           taskIconClass={pipelineOptions.showIcons ? logos.get('icon-java') : undefined}
           taskIconTooltip={pipelineOptions.showIcons ? 'Environment' : undefined}
           badge={pipelineOptions.showBadges ? data.taskProgress : undefined}
