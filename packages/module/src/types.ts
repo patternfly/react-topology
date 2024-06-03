@@ -284,7 +284,8 @@ export interface Graph<E extends GraphModel = GraphModel, D = any> extends Graph
   // viewport operations
   reset(): void;
   scaleBy(scale: number, location?: Point): void;
-  fit(padding?: number): void;
+  fit(padding?: number, node?: Node): void;
+  centerInView(nodeElement: Node): void;
   panIntoView(element: Node, options?: { offset?: number; minimumVisible?: number }): void;
   isNodeInView(element: Node, options?: { padding: number }): boolean;
   expandAll(): void;

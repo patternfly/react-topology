@@ -2,7 +2,7 @@ import * as React from 'react';
 import { observer } from 'mobx-react';
 import { OnSelect, WithDndDragProps, ConnectDragSource, ConnectDropTarget } from '../../../behavior';
 import { ShapeProps } from '../../../components';
-import { Dimensions } from '../../../geom';
+import { Dimensions, Rect } from '../../../geom';
 import { GraphElement, LabelPosition, BadgeLocation, isNode, Node } from '../../../types';
 import { action } from '../../../mobx-exports';
 import { getEdgesFromNodes, getSpacerNodes } from '../../utils';
@@ -167,6 +167,33 @@ const DefaultTaskGroupInner: React.FunctionComponent<PipelinesDefaultGroupInnerP
           );
           controller.fromModel({ nodes, edges }, true);
           controller.getGraph().layout();
+        }
+      }
+
+      const graph = group.getGraph();
+      if (graph) {
+        if (!collapsed) {
+          graph.fit(80, group);
+        } else {
+          // Get the current graph required size
+          let rect: Rect | undefined;
+          graph.getNodes().forEach((c) => {
+            const b = c.getBounds();
+            if (!rect) {
+              rect = b.clone();
+            } else {
+              rect.union(b);
+            }
+          });
+
+          // If the required size is smaller, zoom in to fit the current graph
+          const graphBounds = graph.getBounds();
+          if (rect.width < graphBounds.width || rect.height < graphBounds.height) {
+            graph.fit(80);
+          }
+
+          // Center the graph on the group that was collapsed
+          graph.centerInView(group);
         }
       }
 
