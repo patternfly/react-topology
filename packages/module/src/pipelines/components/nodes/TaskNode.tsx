@@ -47,6 +47,8 @@ export interface TaskNodeProps {
   statusIconSize?: number;
   /** Flag indicating the status indicator */
   showStatusState?: boolean;
+  /** Custom icon to use as the status icon */
+  customStatusIcon?: React.ReactNode;
   /** Flag indicating the node should be scaled, best on hover of the node at lowest scale level */
   scaleNode?: boolean;
   /** Flag to hide details at medium scale */
@@ -138,6 +140,7 @@ const TaskNodeInner: React.FC<TaskNodeInnerProps> = observer(
     badgeTooltip,
     badgePopoverProps,
     badgePopoverParams,
+    customStatusIcon,
     nameLabelClass,
     taskIconClass,
     taskIcon,
@@ -296,6 +299,7 @@ const TaskNodeInner: React.FC<TaskNodeInnerProps> = observer(
       showStatusState,
       leadSize,
       leadIcon,
+      customStatusIcon,
       statusSize,
       badgeSize,
       badge,
@@ -437,7 +441,7 @@ const TaskNodeInner: React.FC<TaskNodeInnerProps> = observer(
                     (status === RunStatus.Running || status === RunStatus.InProgress) && styles.modifiers.spin
                   )}
                 >
-                  <StatusIcon status={status} />
+                  {customStatusIcon ?? <StatusIcon status={status} />}
                 </g>
               </g>
             ) : null}
@@ -501,7 +505,7 @@ const TaskNodeInner: React.FC<TaskNodeInnerProps> = observer(
                   (status === RunStatus.Running || status === RunStatus.InProgress) && styles.modifiers.spin
                 )}
               >
-                <StatusIcon status={status} />
+                {customStatusIcon ?? <StatusIcon status={status} />}
               </g>
             </g>
           )}

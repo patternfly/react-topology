@@ -9,6 +9,7 @@ import {
   RunStatus,
   WhenStatus
 } from '@patternfly/react-topology';
+import { BanIcon } from '@patternfly/react-icons';
 
 export const NODE_PADDING_VERTICAL = 45;
 export const NODE_PADDING_HORIZONTAL = 15;
@@ -266,6 +267,35 @@ export const useDemoPipelineNodes = (
       iconTask2.y = GRAPH_MARGIN_TOP + row * ROW_HEIGHT;
     }
     tasks.push(iconTask2);
+
+    const iconTask3: PipelineNodeModel = {
+      id: `task-icon-3`,
+      type: DEFAULT_TASK_NODE_TYPE,
+      label: `Custom status icon task`,
+      width: DEFAULT_TASK_WIDTH + (showContextMenu ? 10 : 0) + (showBadges ? 40 : 0),
+      height: DEFAULT_TASK_HEIGHT,
+      style: {
+        padding: [NODE_PADDING_VERTICAL, NODE_PADDING_HORIZONTAL + (showIcons ? 25 : 0)]
+      },
+      runAfterTasks: [iconTask2.id]
+    };
+
+    iconTask3.data = {
+      status: RunStatus.Failed,
+      customStatusIcon: <BanIcon />,
+      taskProgress: '3/4',
+      taskType: 'java',
+      taskTopic: 'Environment',
+      columnGroup: (TASK_STATUSES.length % STATUS_PER_ROW) + 1
+    };
+
+    if (!layout) {
+      const row = Math.ceil((TASK_STATUSES.length + 1) / STATUS_PER_ROW) - 1;
+      const columnWidth = COLUMN_WIDTH + (showIcons ? 15 : 0) + (showBadges ? 32 : 0) + (showContextMenu ? 20 : 0);
+      iconTask3.x = (showIcons ? 28 : 0) + 3 * columnWidth;
+      iconTask3.y = GRAPH_MARGIN_TOP + row * ROW_HEIGHT;
+    }
+    tasks.push(iconTask3);
 
     return [...tasks, ...finallyNodes, finallyGroup];
   }, [layout, showBadges, showContextMenu, showGroups, showIcons]);
