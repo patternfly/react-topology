@@ -11,7 +11,7 @@ coverage
 .eslintcache
 generated
 *.d.ts
-*/css/*.js
+**/css/*.js
 
 # package managers
 yarn-error.log

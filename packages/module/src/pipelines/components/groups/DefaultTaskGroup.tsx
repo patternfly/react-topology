@@ -62,6 +62,8 @@ export interface DefaultTaskGroupProps {
   truncateLength?: number;
   /** Space between the label and the group. Defaults to 17 */
   labelOffset?: number;
+  /** Center the label on the edge, overrides the label offset, only applicable to expanded groups */
+  centerLabelOnEdge?: boolean;
   /** The Icon class to show in the label, ignored when labelIcon is specified */
   labelIconClass?: string;
   /** The label icon component to show in the label, takes precedence over labelIconClass */

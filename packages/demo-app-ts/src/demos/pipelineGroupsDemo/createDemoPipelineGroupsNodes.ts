@@ -155,7 +155,7 @@ export const createExecution3 = (runAfter?: string): [string, PipelineNodeModel[
     height: DEFAULT_TASK_HEIGHT,
     group: true,
     style: {
-      padding: [NODE_PADDING_VERTICAL, NODE_PADDING_HORIZONTAL]
+      padding: [GROUP_PADDING_VERTICAL, GROUP_PADDING_HORIZONTAL]
     },
     runAfterTasks: [task_3_1.id],
     data: {
@@ -386,7 +386,7 @@ export const createComplexDemoPipelineGroupsNodes = (): PipelineNodeModel[] => [
       'metadata',
       'training-configurator-and-validator'
     ],
-    style: { padding: [15, 15] },
+    style: { padding: [GROUP_PADDING_VERTICAL, GROUP_PADDING_HORIZONTAL] },
     data: {}
   },
   {
@@ -420,7 +420,7 @@ export const createComplexDemoPipelineGroupsNodes = (): PipelineNodeModel[] => [
       'model',
       'model-upload'
     ],
-    style: { padding: [15, 15] },
+    style: { padding: [GROUP_PADDING_VERTICAL, GROUP_PADDING_HORIZONTAL] },
     data: {}
   },
   {
@@ -519,7 +519,7 @@ export const createComplexDemoPipelineGroupsNodes = (): PipelineNodeModel[] => [
       'model-evaluation-import',
       'table-to-uri'
     ],
-    style: { padding: [15, 15] },
+    style: { padding: [GROUP_PADDING_VERTICAL, GROUP_PADDING_HORIZONTAL] },
     data: {}
   },
   {
@@ -748,7 +748,7 @@ export const createComplexDemoPipelineGroupsNodes = (): PipelineNodeModel[] => [
       'get-prediction-image-uri-2',
       'model-upload-2'
     ],
-    style: { padding: [15, 15] },
+    style: { padding: [GROUP_PADDING_VERTICAL, GROUP_PADDING_HORIZONTAL] },
     data: {}
   },
   {
@@ -797,7 +797,7 @@ export const createComplexDemoPipelineGroupsNodes = (): PipelineNodeModel[] => [
       'model-evaluation-import-2',
       'table-to-uri-2'
     ],
-    style: { padding: [15, 15] },
+    style: { padding: [GROUP_PADDING_VERTICAL, GROUP_PADDING_HORIZONTAL] },
     data: {}
   },
   {

@@ -299,7 +299,6 @@ const TaskNodeInner: React.FC<TaskNodeInnerProps> = observer(
       showStatusState,
       leadSize,
       leadIcon,
-      customStatusIcon,
       statusSize,
       badgeSize,
       badge,
