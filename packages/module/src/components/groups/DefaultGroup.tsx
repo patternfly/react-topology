@@ -32,6 +32,8 @@ interface DefaultGroupProps {
   secondaryLabel?: string;
   /** Flag to show the label */
   showLabel?: boolean; // Defaults to true
+  /** Flag to show the label when hovering (effects expanded only) */
+  showLabelOnHover?: boolean;
   /** Position of the label, top or bottom. Defaults to element.getLabelPosition() or bottom */
   labelPosition?: LabelPosition;
   /** The maximum length of the label before truncation */

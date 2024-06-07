@@ -7,7 +7,7 @@ import NodeLabel from '../../../components/nodes/labels/NodeLabel';
 import { Layer } from '../../../components/layers';
 import { GROUPS_LAYER, TOP_LAYER } from '../../../const';
 import { maxPadding, useCombineRefs, useHover } from '../../../utils';
-import { AnchorEnd, isGraph, LabelPosition, Node, NodeStyle } from '../../../types';
+import { AnchorEnd, isGraph, LabelPosition, Node, NodeStyle, ScaleDetailsLevel } from '../../../types';
 import { useAnchor, useDragNode } from '../../../behavior';
 import { DagreLayoutOptions, TOP_TO_BOTTOM } from '../../../layouts';
 import TaskGroupSourceAnchor from '../anchors/TaskGroupSourceAnchor';
@@ -26,6 +26,8 @@ const DefaultTaskGroupExpanded: React.FunctionComponent<Omit<DefaultTaskGroupPro
       label,
       secondaryLabel,
       showLabel = true,
+      showLabelOnHover,
+      hideDetailsAtMedium,
       truncateLength,
       canDrop,
       dropTarget,
@@ -46,14 +48,15 @@ const DefaultTaskGroupExpanded: React.FunctionComponent<Omit<DefaultTaskGroupPro
       onCollapseChange,
       labelPosition
     }) => {
-      const [hovered, hoverRef] = useHover();
-      const [labelHover, labelHoverRef] = useHover();
+      const [hovered, hoverRef] = useHover(200, 500);
+      const [labelHover, labelHoverRef] = useHover(0);
       const dragLabelRef = useDragNode()[1];
       const refs = useCombineRefs<SVGPathElement>(hoverRef, dragNodeRef);
-      const isHover = hover !== undefined ? hover : hovered;
+      const isHover = hover !== undefined ? hover : hovered || labelHover;
       const verticalLayout = (element.getGraph().getLayoutOptions?.() as DagreLayoutOptions)?.rankdir === TOP_TO_BOTTOM;
       const groupLabelPosition = labelPosition ?? element.getLabelPosition() ?? LabelPosition.bottom;
       let parent = element.getParent();
+      const detailsLevel = element.getGraph().getDetailsLevel();
       let altGroup = false;
       while (!isGraph(parent)) {
         altGroup = !altGroup;
@@ -121,12 +124,53 @@ const DefaultTaskGroupExpanded: React.FunctionComponent<Omit<DefaultTaskGroupPro
         canDrop && 'pf-m-highlight',
         dragging && 'pf-m-dragging',
         selected && 'pf-m-selected',
-        (isHover || labelHover) && 'pf-m-hover',
+        isHover && 'pf-m-hover',
         canDrop && dropTarget && 'pf-m-drop-target'
       );
 
+      const scale = element.getGraph().getScale();
+      const medScale = element.getGraph().getDetailsLevelThresholds().medium;
+      const labelScale = detailsLevel !== ScaleDetailsLevel.high ? Math.min(1 / scale, 1 / medScale) : 1;
+      const labelPositionScale = detailsLevel !== ScaleDetailsLevel.high ? 1 / labelScale : 1;
+
+      const groupLabel =
+        showLabel &&
+        (!hideDetailsAtMedium || detailsLevel === ScaleDetailsLevel.high || (isHover && showLabelOnHover)) &&
+        (label || element.getLabel()) ? (
+          <g ref={labelHoverRef} transform={isHover ? `scale(${labelScale})` : undefined}>
+            <NodeLabel
+              className={styles.topologyGroupLabel}
+              x={labelX * labelPositionScale}
+              y={labelY * labelPositionScale}
+              position={labelPosition}
+              paddingX={8}
+              paddingY={5}
+              dragRef={dragNodeRef ? dragLabelRef : undefined}
+              status={element.getNodeStatus()}
+              secondaryLabel={secondaryLabel}
+              truncateLength={truncateLength}
+              badge={badge}
+              badgeColor={badgeColor}
+              badgeTextColor={badgeTextColor}
+              badgeBorderColor={badgeBorderColor}
+              badgeClassName={badgeClassName}
+              badgeLocation={badgeLocation}
+              labelIconClass={labelIconClass}
+              labelIcon={labelIcon}
+              labelIconPadding={labelIconPadding}
+              onContextMenu={onContextMenu}
+              contextMenuOpen={contextMenuOpen}
+              hover={isHover}
+              actionIcon={collapsible ? <CollapseIcon /> : undefined}
+              onActionIconClick={() => onCollapseChange(element, true)}
+            >
+              {label || element.getLabel()}
+            </NodeLabel>
+          </g>
+        ) : null;
+
       return (
-        <g ref={labelHoverRef} onContextMenu={onContextMenu} onClick={onSelect} className={groupClassName}>
+        <g onContextMenu={onContextMenu} onClick={onSelect} className={groupClassName}>
           <Layer id={GROUPS_LAYER}>
             <g ref={refs} onContextMenu={onContextMenu} onClick={onSelect} className={innerGroupClassName}>
               <rect
@@ -137,39 +181,8 @@ const DefaultTaskGroupExpanded: React.FunctionComponent<Omit<DefaultTaskGroupPro
                 className={styles.topologyGroupBackground}
               />
             </g>
+            {groupLabel && isHover ? <Layer id={TOP_LAYER}>{groupLabel}</Layer> : groupLabel}
           </Layer>
-          {showLabel && (label || element.getLabel()) && (
-            <Layer id={isHover ? TOP_LAYER : undefined}>
-              <NodeLabel
-                className={styles.topologyGroupLabel}
-                x={labelX}
-                y={labelY}
-                position={labelPosition}
-                paddingX={8}
-                paddingY={5}
-                dragRef={dragNodeRef ? dragLabelRef : undefined}
-                status={element.getNodeStatus()}
-                secondaryLabel={secondaryLabel}
-                truncateLength={truncateLength}
-                badge={badge}
-                badgeColor={badgeColor}
-                badgeTextColor={badgeTextColor}
-                badgeBorderColor={badgeBorderColor}
-                badgeClassName={badgeClassName}
-                badgeLocation={badgeLocation}
-                labelIconClass={labelIconClass}
-                labelIcon={labelIcon}
-                labelIconPadding={labelIconPadding}
-                onContextMenu={onContextMenu}
-                contextMenuOpen={contextMenuOpen}
-                hover={isHover || labelHover}
-                actionIcon={collapsible ? <CollapseIcon /> : undefined}
-                onActionIconClick={() => onCollapseChange(element, true)}
-              >
-                {label || element.getLabel()}
-              </NodeLabel>
-            </Layer>
-          )}
         </g>
       );
     }

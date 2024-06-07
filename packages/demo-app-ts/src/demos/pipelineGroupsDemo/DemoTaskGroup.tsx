@@ -12,10 +12,6 @@ import {
   EdgeCreationTypes,
   useHover,
   ScaleDetailsLevel,
-  DEFAULT_LAYER,
-  Layer,
-  TOP_LAYER,
-  GROUPS_LAYER,
   RunStatus
 } from '@patternfly/react-topology';
 import { DEFAULT_TASK_HEIGHT, GROUP_TASK_WIDTH } from './createDemoPipelineGroupsNodes';
@@ -38,29 +34,26 @@ const DemoTaskGroup: React.FunctionComponent<DemoTaskGroupProps> = ({ element, .
   if (!isNode(element)) {
     return null;
   }
-  const groupLayer = element.isCollapsed() ? DEFAULT_LAYER : GROUPS_LAYER;
 
   return (
-    <Layer id={detailsLevel !== ScaleDetailsLevel.high && hover ? TOP_LAYER : groupLayer}>
-      <g ref={hoverRef}>
-        <DefaultTaskGroup
-          labelPosition={verticalLayout ? LabelPosition.top : LabelPosition.bottom}
-          collapsible
-          collapsedWidth={GROUP_TASK_WIDTH}
-          collapsedHeight={DEFAULT_TASK_HEIGHT}
-          element={element as Node}
-          recreateLayoutOnCollapseChange
-          getEdgeCreationTypes={getEdgeCreationTypes}
-          scaleNode={hover && detailsLevel !== ScaleDetailsLevel.high}
-          showLabel={detailsLevel === ScaleDetailsLevel.high}
-          hideDetailsAtMedium
-          showStatusState
-          status={data.status}
-          hiddenDetailsShownStatuses={[RunStatus.Succeeded]}
-          {...rest}
-        />
-      </g>
-    </Layer>
+    <g id="group-hover-ref" ref={hoverRef}>
+      <DefaultTaskGroup
+        labelPosition={verticalLayout ? LabelPosition.top : LabelPosition.bottom}
+        collapsible
+        collapsedWidth={GROUP_TASK_WIDTH}
+        collapsedHeight={DEFAULT_TASK_HEIGHT}
+        element={element as Node}
+        recreateLayoutOnCollapseChange
+        getEdgeCreationTypes={getEdgeCreationTypes}
+        scaleNode={hover && detailsLevel !== ScaleDetailsLevel.high}
+        showLabelOnHover
+        hideDetailsAtMedium
+        showStatusState
+        status={data.status}
+        hiddenDetailsShownStatuses={[RunStatus.Succeeded]}
+        {...rest}
+      />
+    </g>
   );
 };
 

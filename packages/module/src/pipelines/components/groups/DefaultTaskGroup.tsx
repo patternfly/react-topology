@@ -46,6 +46,8 @@ export interface DefaultTaskGroupProps {
   scaleNode?: boolean;
   /** Flag to hide details at medium scale */
   hideDetailsAtMedium?: boolean;
+  /** Flag to show the label when hovering and details are hidden (effects expanded only) */
+  showLabelOnHover?: boolean;
   /** Flag if the user is hovering on the node */
   hover?: boolean;
   /** Label for the node. Defaults to element.getLabel() */
