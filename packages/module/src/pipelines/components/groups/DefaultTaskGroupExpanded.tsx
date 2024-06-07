@@ -6,8 +6,8 @@ import CollapseIcon from '@patternfly/react-icons/dist/esm/icons/compress-alt-ic
 import NodeLabel from '../../../components/nodes/labels/NodeLabel';
 import { Layer } from '../../../components/layers';
 import { GROUPS_LAYER, TOP_LAYER } from '../../../const';
-import { maxPadding, useCombineRefs, useHover, useSize } from '../../../utils';
-import { AnchorEnd, isGraph, LabelPosition, Node, NodeStyle, ScaleDetailsLevel } from '../../../types';
+import { useCombineRefs, useHover, useSize } from '../../../utils';
+import { AnchorEnd, isGraph, LabelPosition, Node, ScaleDetailsLevel } from '../../../types';
 import { useAnchor, useDragNode } from '../../../behavior';
 import { DagreLayoutOptions, TOP_TO_BOTTOM } from '../../../layouts';
 import TaskGroupSourceAnchor from '../anchors/TaskGroupSourceAnchor';
@@ -28,6 +28,8 @@ const DefaultTaskGroupExpanded: React.FunctionComponent<Omit<DefaultTaskGroupPro
       showLabel = true,
       showLabelOnHover,
       hideDetailsAtMedium,
+      status,
+      GroupLabelComponent = NodeLabel,
       truncateLength,
       canDrop,
       dropTarget,
@@ -52,13 +54,14 @@ const DefaultTaskGroupExpanded: React.FunctionComponent<Omit<DefaultTaskGroupPro
       const [hovered, hoverRef] = useHover(200, 500);
       const [labelHover, labelHoverRef] = useHover(0);
       const dragLabelRef = useDragNode()[1];
-      const [labelSize, labelRef] = useSize([centerLabelOnEdge]);
       const refs = useCombineRefs<SVGPathElement>(hoverRef, dragNodeRef);
       const isHover = hover !== undefined ? hover : hovered || labelHover;
+      const [labelSize, labelRef] = useSize([centerLabelOnEdge]);
       const verticalLayout = (element.getGraph().getLayoutOptions?.() as DagreLayoutOptions)?.rankdir === TOP_TO_BOTTOM;
       const groupLabelPosition = labelPosition ?? element.getLabelPosition() ?? LabelPosition.bottom;
       let parent = element.getParent();
       const detailsLevel = element.getGraph().getDetailsLevel();
+
       let altGroup = false;
       while (!isGraph(parent)) {
         altGroup = !altGroup;
@@ -105,23 +108,7 @@ const DefaultTaskGroupExpanded: React.FunctionComponent<Omit<DefaultTaskGroupPro
         AnchorEnd.target
       );
 
-      const children = element.getNodes().filter((c) => c.isVisible());
-
-      // cast to number and coerce
-      const padding = maxPadding(element.getStyle<NodeStyle>().padding ?? 17);
-
-      const { minX, minY, maxX, maxY } = children.reduce(
-        (acc, child) => {
-          const bounds = child.getBounds();
-          return {
-            minX: Math.min(acc.minX, bounds.x - padding),
-            minY: Math.min(acc.minY, bounds.y - padding),
-            maxX: Math.max(acc.maxX, bounds.x + bounds.width + padding),
-            maxY: Math.max(acc.maxY, bounds.y + bounds.height + padding)
-          };
-        },
-        { minX: Infinity, minY: Infinity, maxX: 0, maxY: 0 }
-      );
+      const bounds = element.getBounds();
 
       const [labelX, labelY] = React.useMemo(() => {
         if (!showLabel || !(label || element.getLabel())) {
@@ -129,17 +116,29 @@ const DefaultTaskGroupExpanded: React.FunctionComponent<Omit<DefaultTaskGroupPro
         }
         switch (groupLabelPosition) {
           case LabelPosition.top:
-            return [minX + (maxX - minX) / 2, -minY + (centerLabelOnEdge ? 0 : labelOffset)];
+            return [bounds.x + bounds.width / 2, -bounds.y + (centerLabelOnEdge ? 0 : labelOffset)];
           case LabelPosition.right:
-            return [maxX + (centerLabelOnEdge ? 0 : labelOffset), minY + (maxY - minY) / 2];
+            return [bounds.x + bounds.width + (centerLabelOnEdge ? 0 : labelOffset), bounds.y + bounds.height / 2];
           case LabelPosition.left:
-            return [centerLabelOnEdge ? minX : labelOffset, minY + (maxY - minY) / 2];
+            return [centerLabelOnEdge ? bounds.x : labelOffset, bounds.y + bounds.height / 2];
           case LabelPosition.bottom:
           default:
-            return [minX + (maxX - minX) / 2, maxY + (centerLabelOnEdge ? 0 : labelOffset)];
+            return [bounds.x + bounds.width / 2, bounds.y + bounds.height + (centerLabelOnEdge ? 0 : labelOffset)];
         }
-      }, [showLabel, label, element, groupLabelPosition, minX, maxX, minY, centerLabelOnEdge, labelOffset, maxY]);
+      }, [
+        showLabel,
+        label,
+        element,
+        groupLabelPosition,
+        bounds.x,
+        bounds.width,
+        bounds.y,
+        bounds.height,
+        centerLabelOnEdge,
+        labelOffset
+      ]);
 
+      const children = element.getNodes().filter((c) => c.isVisible());
       if (children.length === 0) {
         return null;
       }
@@ -170,17 +169,20 @@ const DefaultTaskGroupExpanded: React.FunctionComponent<Omit<DefaultTaskGroupPro
 
       const groupLabel = labelShown ? (
         <g ref={labelHoverRef} transform={isHover ? `scale(${labelScale})` : undefined}>
-          <NodeLabel
+          <GroupLabelComponent
+            element={element}
             boxRef={labelRef}
             className={styles.topologyGroupLabel}
             x={labelX * labelPositionScale}
             y={labelY * labelPositionScale}
             position={labelPosition}
             centerLabelOnEdge={centerLabelOnEdge}
+            runStatus={status}
             paddingX={8}
             paddingY={5}
             dragRef={dragNodeRef ? dragLabelRef : undefined}
             status={element.getNodeStatus()}
+            selected={selected}
             secondaryLabel={secondaryLabel}
             truncateLength={truncateLength}
             badge={badge}
@@ -194,12 +196,12 @@ const DefaultTaskGroupExpanded: React.FunctionComponent<Omit<DefaultTaskGroupPro
             labelIconPadding={labelIconPadding}
             onContextMenu={onContextMenu}
             contextMenuOpen={contextMenuOpen}
-            hover={isHover}
+            hover={isHover || labelHover}
             actionIcon={collapsible ? <CollapseIcon /> : undefined}
             onActionIconClick={() => onCollapseChange(element, true)}
           >
             {label || element.getLabel()}
-          </NodeLabel>
+          </GroupLabelComponent>
         </g>
       ) : null;
 
@@ -208,10 +210,10 @@ const DefaultTaskGroupExpanded: React.FunctionComponent<Omit<DefaultTaskGroupPro
           <Layer id={GROUPS_LAYER}>
             <g ref={refs} onContextMenu={onContextMenu} onClick={onSelect} className={innerGroupClassName}>
               <rect
-                x={minX}
-                y={minY}
-                width={maxX - minX}
-                height={maxY - minY}
+                x={bounds.x}
+                y={bounds.y}
+                width={bounds.width}
+                height={bounds.height}
                 className={styles.topologyGroupBackground}
               />
             </g>

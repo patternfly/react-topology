@@ -9,9 +9,10 @@ import LabelBadge from './LabelBadge';
 import LabelContextMenu from './LabelContextMenu';
 import LabelIcon from './LabelIcon';
 import LabelActionIcon from './LabelActionIcon';
-import { BadgeLocation, LabelPosition, NodeStatus } from '../../../types';
+import { BadgeLocation, LabelPosition, Node, NodeStatus } from '../../../types';
 
-type NodeLabelProps = {
+export type NodeLabelProps = {
+  element?: Node;
   children?: string;
   className?: string;
   paddingX?: number;

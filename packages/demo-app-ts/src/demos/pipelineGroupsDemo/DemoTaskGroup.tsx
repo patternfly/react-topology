@@ -12,7 +12,8 @@ import {
   EdgeCreationTypes,
   useHover,
   ScaleDetailsLevel,
-  RunStatus
+  RunStatus,
+  TaskGroupPillLabel
 } from '@patternfly/react-topology';
 import { DEFAULT_TASK_HEIGHT, GROUP_TASK_WIDTH } from './createDemoPipelineGroupsNodes';
 
@@ -42,6 +43,7 @@ const DemoTaskGroup: React.FunctionComponent<DemoTaskGroupProps> = ({ element, .
         collapsible
         collapsedWidth={GROUP_TASK_WIDTH}
         collapsedHeight={DEFAULT_TASK_HEIGHT}
+        GroupLabelComponent={TaskGroupPillLabel}
         element={element as Node}
         centerLabelOnEdge
         recreateLayoutOnCollapseChange
