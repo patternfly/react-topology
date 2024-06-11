@@ -43,6 +43,7 @@ const DemoTaskGroup: React.FunctionComponent<DemoTaskGroupProps> = ({ element, .
         collapsedWidth={GROUP_TASK_WIDTH}
         collapsedHeight={DEFAULT_TASK_HEIGHT}
         element={element as Node}
+        centerLabelOnEdge
         recreateLayoutOnCollapseChange
         getEdgeCreationTypes={getEdgeCreationTypes}
         scaleNode={hover && detailsLevel !== ScaleDetailsLevel.high}

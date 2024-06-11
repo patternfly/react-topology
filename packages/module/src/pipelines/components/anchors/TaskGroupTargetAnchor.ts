@@ -4,10 +4,12 @@ import { Point } from '../../../geom';
 
 export default class TaskGroupTargetAnchor extends AbstractAnchor {
   private vertical = false;
+  private anchorOffset = 0;
 
-  constructor(owner: Node, vertical = false) {
+  constructor(owner: Node, vertical = false, offset: number = 0) {
     super(owner);
     this.vertical = vertical;
+    this.anchorOffset = offset;
   }
 
   getLocation(): Point {
@@ -18,8 +20,8 @@ export default class TaskGroupTargetAnchor extends AbstractAnchor {
     const bounds = this.owner.getBounds();
 
     if (this.vertical) {
-      return new Point(bounds.x + bounds.width / 2, bounds.y);
+      return new Point(bounds.x + bounds.width / 2, bounds.y - this.anchorOffset);
     }
-    return new Point(bounds.x, bounds.y + bounds.height / 2);
+    return new Point(bounds.x - this.anchorOffset, bounds.y + bounds.height / 2);
   }
 }

@@ -19,6 +19,8 @@ type NodeLabelProps = {
   x?: number;
   y?: number;
   position?: LabelPosition;
+  centerLabelOnEdge?: boolean;
+  boxRef?: React.Ref<SVGRectElement>;
   cornerRadius?: number;
   status?: NodeStatus;
   secondaryLabel?: string;
@@ -54,6 +56,7 @@ const NodeLabel: React.FunctionComponent<NodeLabelProps> = ({
   x = 0,
   y = 0,
   position = LabelPosition.bottom,
+  centerLabelOnEdge,
   secondaryLabel,
   status,
   badge,
@@ -76,6 +79,7 @@ const NodeLabel: React.FunctionComponent<NodeLabelProps> = ({
   actionIcon,
   actionIconClassName,
   onActionIconClick,
+  boxRef,
   ...other
 }) => {
   const [labelHover, labelHoverRef] = useHover();
@@ -123,26 +127,26 @@ const NodeLabel: React.FunctionComponent<NodeLabelProps> = ({
     const primaryWidth = iconSpace + badgeSpace + paddingX + textSize.width + actionSpace + contextSpace + paddingX;
     const secondaryWidth = secondaryLabel && secondaryTextSize ? secondaryTextSize.width + 2 * paddingX : 0;
     const width = Math.max(primaryWidth, secondaryWidth);
+    const backgroundHeight =
+      height + (secondaryLabel && secondaryTextSize ? secondaryTextSize.height + paddingY * 2 : 0);
 
     let startX: number;
     let startY: number;
     if (position === LabelPosition.top) {
       startX = x - width / 2;
-      startY = -y - height - paddingY;
+      startY = -y - height - (centerLabelOnEdge ? -backgroundHeight / 2 : paddingY);
     } else if (position === LabelPosition.right) {
-      startX = x + iconSpace;
+      startX = x + iconSpace - (centerLabelOnEdge ? width / 2 : 0);
       startY = y - height / 2;
     } else if (position === LabelPosition.left) {
-      startX = -width - paddingX;
-      startY = y - height / 2 + paddingY;
+      startX = centerLabelOnEdge ? x - width / 2 : -width - paddingX;
+      startY = y - height / 2;
     } else {
       startX = x - width / 2 + iconSpace / 2;
-      startY = y;
+      startY = y - (centerLabelOnEdge ? backgroundHeight / 2 : 0);
     }
     const actionStartX = iconSpace + badgeSpace + paddingX + textSize.width + paddingX;
     const contextStartX = actionStartX + actionSpace;
-    const backgroundHeight =
-      height + (secondaryLabel && secondaryTextSize ? secondaryTextSize.height + paddingY * 2 : 0);
     let badgeStartX = 0;
     let badgeStartY = 0;
     if (badgeSize) {
@@ -183,6 +187,7 @@ const NodeLabel: React.FunctionComponent<NodeLabelProps> = ({
     contextSize,
     secondaryLabel,
     secondaryTextSize,
+    centerLabelOnEdge,
     position,
     x,
     y
@@ -200,8 +205,9 @@ const NodeLabel: React.FunctionComponent<NodeLabelProps> = ({
       <NodeShadows />
       {textSize && (
         <rect
+          ref={boxRef}
           className={css(styles.topologyNodeLabelBackground)}
-          key={`rect-${filterId}`} // update key to force remount on filter update
+          key={`rect-${filterId}-${width}`} // update key to force remount on filter or size update
           filter={filterId && createSvgIdUrl(filterId)}
           x={0}
           y={0}

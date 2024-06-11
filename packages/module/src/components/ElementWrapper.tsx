@@ -9,6 +9,7 @@ import { useDndManager } from '../behavior/useDndManager';
 
 interface ElementWrapperProps {
   element: Graph | Edge | Node;
+  level?: number; // used for groups to set z-index keeping child groups drawn on top of their parent.
 }
 
 const NodeElementComponent: React.FunctionComponent<{ element: Node }> = observer(({ element }) => {
@@ -44,7 +45,7 @@ const ElementComponent: React.FunctionComponent<ElementWrapperProps> = observer(
   return null;
 });
 
-const ElementChildren: React.FunctionComponent<ElementWrapperProps> = observer(({ element }) => (
+const ElementChildren: React.FunctionComponent<ElementWrapperProps> = observer(({ element, level }) => (
   <>
     {element
       .getChildren()
@@ -56,12 +57,12 @@ const ElementChildren: React.FunctionComponent<ElementWrapperProps> = observer((
       .getChildren()
       .filter(isNode)
       .map((e) => (
-        <ElementWrapper key={e.getId()} element={e} />
+        <ElementWrapper key={e.getId()} element={e} level={level} />
       ))}
   </>
 ));
 
-const ElementWrapper: React.FunctionComponent<ElementWrapperProps> = observer(({ element }) => {
+const ElementWrapper: React.FunctionComponent<ElementWrapperProps> = observer(({ element, level = 0 }) => {
   if (!element.isVisible()) {
     if (!isNode(element) || element.isDimensionsInitialized()) {
       return null;
@@ -116,9 +117,9 @@ const ElementWrapper: React.FunctionComponent<ElementWrapperProps> = observer(({
     );
   }
   return (
-    <g {...commonAttrs}>
+    <g {...commonAttrs} style={{ zIndex: level }}>
       <ElementComponent element={element} />
-      <ElementChildren element={element} />
+      <ElementChildren element={element} level={level + 1} />
     </g>
   );
 });

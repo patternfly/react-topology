@@ -6,7 +6,7 @@ import CollapseIcon from '@patternfly/react-icons/dist/esm/icons/compress-alt-ic
 import NodeLabel from '../../../components/nodes/labels/NodeLabel';
 import { Layer } from '../../../components/layers';
 import { GROUPS_LAYER, TOP_LAYER } from '../../../const';
-import { maxPadding, useCombineRefs, useHover } from '../../../utils';
+import { maxPadding, useCombineRefs, useHover, useSize } from '../../../utils';
 import { AnchorEnd, isGraph, LabelPosition, Node, NodeStyle, ScaleDetailsLevel } from '../../../types';
 import { useAnchor, useDragNode } from '../../../behavior';
 import { DagreLayoutOptions, TOP_TO_BOTTOM } from '../../../layouts';
@@ -42,6 +42,7 @@ const DefaultTaskGroupExpanded: React.FunctionComponent<Omit<DefaultTaskGroupPro
       badgeClassName,
       badgeLocation,
       labelOffset = 17,
+      centerLabelOnEdge,
       labelIconClass,
       labelIcon,
       labelIconPadding,
@@ -51,6 +52,7 @@ const DefaultTaskGroupExpanded: React.FunctionComponent<Omit<DefaultTaskGroupPro
       const [hovered, hoverRef] = useHover(200, 500);
       const [labelHover, labelHoverRef] = useHover(0);
       const dragLabelRef = useDragNode()[1];
+      const [labelSize, labelRef] = useSize([centerLabelOnEdge]);
       const refs = useCombineRefs<SVGPathElement>(hoverRef, dragNodeRef);
       const isHover = hover !== undefined ? hover : hovered || labelHover;
       const verticalLayout = (element.getGraph().getLayoutOptions?.() as DagreLayoutOptions)?.rankdir === TOP_TO_BOTTOM;
@@ -62,13 +64,44 @@ const DefaultTaskGroupExpanded: React.FunctionComponent<Omit<DefaultTaskGroupPro
         altGroup = !altGroup;
         parent = parent.getParent();
       }
+      const labelShown =
+        showLabel &&
+        (!hideDetailsAtMedium || detailsLevel === ScaleDetailsLevel.high || (isHover && showLabelOnHover)) &&
+        (label || element.getLabel());
 
+      const anchorOffset = verticalLayout ? labelSize?.height / 2 : labelSize?.width / 2;
       useAnchor(
-        React.useCallback((node: Node) => new TaskGroupSourceAnchor(node, verticalLayout), [verticalLayout]),
+        React.useCallback(
+          (node: Node) =>
+            new TaskGroupSourceAnchor(
+              node,
+              verticalLayout,
+              labelShown &&
+              ((centerLabelOnEdge && labelPosition === LabelPosition.bottom && verticalLayout) ||
+                (labelPosition === LabelPosition.right && !verticalLayout)) &&
+              labelSize
+                ? anchorOffset
+                : 0
+            ),
+          [labelShown, anchorOffset, centerLabelOnEdge, labelPosition, labelSize, verticalLayout]
+        ),
         AnchorEnd.source
       );
       useAnchor(
-        React.useCallback((node: Node) => new TaskGroupTargetAnchor(node, verticalLayout), [verticalLayout]),
+        React.useCallback(
+          (node: Node) =>
+            new TaskGroupTargetAnchor(
+              node,
+              verticalLayout,
+              labelShown &&
+              ((centerLabelOnEdge && labelPosition === LabelPosition.top && verticalLayout) ||
+                (labelPosition === LabelPosition.left && !verticalLayout)) &&
+              labelSize
+                ? anchorOffset
+                : 0
+            ),
+          [labelShown, anchorOffset, centerLabelOnEdge, labelPosition, labelSize, verticalLayout]
+        ),
         AnchorEnd.target
       );
 
@@ -96,14 +129,16 @@ const DefaultTaskGroupExpanded: React.FunctionComponent<Omit<DefaultTaskGroupPro
         }
         switch (groupLabelPosition) {
           case LabelPosition.top:
-            return [minX + (maxX - minX) / 2, -minY + labelOffset];
+            return [minX + (maxX - minX) / 2, -minY + (centerLabelOnEdge ? 0 : labelOffset)];
           case LabelPosition.right:
-            return [maxX + labelOffset, minY + (maxY - minY) / 2];
+            return [maxX + (centerLabelOnEdge ? 0 : labelOffset), minY + (maxY - minY) / 2];
+          case LabelPosition.left:
+            return [centerLabelOnEdge ? minX : labelOffset, minY + (maxY - minY) / 2];
           case LabelPosition.bottom:
           default:
-            return [minX + (maxX - minX) / 2, maxY + labelOffset];
+            return [minX + (maxX - minX) / 2, maxY + (centerLabelOnEdge ? 0 : labelOffset)];
         }
-      }, [element, label, labelOffset, groupLabelPosition, maxX, maxY, minX, minY, showLabel]);
+      }, [showLabel, label, element, groupLabelPosition, minX, maxX, minY, centerLabelOnEdge, labelOffset, maxY]);
 
       if (children.length === 0) {
         return null;
@@ -133,41 +168,40 @@ const DefaultTaskGroupExpanded: React.FunctionComponent<Omit<DefaultTaskGroupPro
       const labelScale = detailsLevel !== ScaleDetailsLevel.high ? Math.min(1 / scale, 1 / medScale) : 1;
       const labelPositionScale = detailsLevel !== ScaleDetailsLevel.high ? 1 / labelScale : 1;
 
-      const groupLabel =
-        showLabel &&
-        (!hideDetailsAtMedium || detailsLevel === ScaleDetailsLevel.high || (isHover && showLabelOnHover)) &&
-        (label || element.getLabel()) ? (
-          <g ref={labelHoverRef} transform={isHover ? `scale(${labelScale})` : undefined}>
-            <NodeLabel
-              className={styles.topologyGroupLabel}
-              x={labelX * labelPositionScale}
-              y={labelY * labelPositionScale}
-              position={labelPosition}
-              paddingX={8}
-              paddingY={5}
-              dragRef={dragNodeRef ? dragLabelRef : undefined}
-              status={element.getNodeStatus()}
-              secondaryLabel={secondaryLabel}
-              truncateLength={truncateLength}
-              badge={badge}
-              badgeColor={badgeColor}
-              badgeTextColor={badgeTextColor}
-              badgeBorderColor={badgeBorderColor}
-              badgeClassName={badgeClassName}
-              badgeLocation={badgeLocation}
-              labelIconClass={labelIconClass}
-              labelIcon={labelIcon}
-              labelIconPadding={labelIconPadding}
-              onContextMenu={onContextMenu}
-              contextMenuOpen={contextMenuOpen}
-              hover={isHover}
-              actionIcon={collapsible ? <CollapseIcon /> : undefined}
-              onActionIconClick={() => onCollapseChange(element, true)}
-            >
-              {label || element.getLabel()}
-            </NodeLabel>
-          </g>
-        ) : null;
+      const groupLabel = labelShown ? (
+        <g ref={labelHoverRef} transform={isHover ? `scale(${labelScale})` : undefined}>
+          <NodeLabel
+            boxRef={labelRef}
+            className={styles.topologyGroupLabel}
+            x={labelX * labelPositionScale}
+            y={labelY * labelPositionScale}
+            position={labelPosition}
+            centerLabelOnEdge={centerLabelOnEdge}
+            paddingX={8}
+            paddingY={5}
+            dragRef={dragNodeRef ? dragLabelRef : undefined}
+            status={element.getNodeStatus()}
+            secondaryLabel={secondaryLabel}
+            truncateLength={truncateLength}
+            badge={badge}
+            badgeColor={badgeColor}
+            badgeTextColor={badgeTextColor}
+            badgeBorderColor={badgeBorderColor}
+            badgeClassName={badgeClassName}
+            badgeLocation={badgeLocation}
+            labelIconClass={labelIconClass}
+            labelIcon={labelIcon}
+            labelIconPadding={labelIconPadding}
+            onContextMenu={onContextMenu}
+            contextMenuOpen={contextMenuOpen}
+            hover={isHover}
+            actionIcon={collapsible ? <CollapseIcon /> : undefined}
+            onActionIconClick={() => onCollapseChange(element, true)}
+          >
+            {label || element.getLabel()}
+          </NodeLabel>
+        </g>
+      ) : null;
 
       return (
         <g onContextMenu={onContextMenu} onClick={onSelect} className={groupClassName}>
