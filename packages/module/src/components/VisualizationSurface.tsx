@@ -28,7 +28,7 @@ const VisualizationSurface: React.FunctionComponent<VisualizationSurfaceProps> =
   state
 }: VisualizationSurfaceProps) => {
   const controller = useVisualizationController();
-  const timerId = React.useRef<NodeJS.Timer>();
+  const timerId = React.useRef<NodeJS.Timeout>();
 
   const debounceMeasure = React.useCallback((func: (contentRect: ContentRect) => void, delay?: number) => {
     return (contentRect: ContentRect) => {

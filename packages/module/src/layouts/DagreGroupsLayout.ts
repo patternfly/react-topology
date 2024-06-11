@@ -1,4 +1,4 @@
-import * as dagre from 'dagre';
+import * as dagre from '@dagrejs/dagre';
 import { Edge, Graph, GRAPH_LAYOUT_END_EVENT, Layout, Node } from '../types';
 import { BaseLayout, LAYOUT_DEFAULTS } from './BaseLayout';
 import { LayoutLink } from './LayoutLink';
