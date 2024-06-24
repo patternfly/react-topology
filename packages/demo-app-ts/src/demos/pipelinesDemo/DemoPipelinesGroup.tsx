@@ -4,7 +4,6 @@ import {
   GraphElement,
   LabelPosition,
   observer,
-  ScaleDetailsLevel,
   WithContextMenuProps,
   WithDragNodeProps,
   WithSelectionProps
@@ -18,14 +17,14 @@ type DemoPipelinesGroupProps = {
 
 const DemoPipelinesGroup: React.FunctionComponent<DemoPipelinesGroupProps> = ({ element }) => {
   const data = element.getData();
-  const detailsLevel = element.getGraph().getDetailsLevel();
 
   return (
     <DefaultTaskGroup
       element={element}
       collapsible={false}
-      showLabel={detailsLevel === ScaleDetailsLevel.high}
       labelPosition={LabelPosition.top}
+      showLabelOnHover
+      hideDetailsAtMedium
       badge={data?.badge}
     />
   );
