@@ -207,7 +207,7 @@ class App extends React.Component<{}, AppState> {
 
     return (
       <Router>
-        <Page header={AppHeader} sidebar={AppSidebar} isManagedSidebar mainContainerId={this.pageId}>
+        <Page masthead={AppHeader} sidebar={AppSidebar} isManagedSidebar mainContainerId={this.pageId}>
           {this.getPages()}
         </Page>
       </Router>
