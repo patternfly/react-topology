@@ -39,8 +39,6 @@ import './topology-example.css';
 
 # Introduction
 
-**Note:** Topology lives in its own package at [`@patternfly/react-topology`](https://www.npmjs.com/package/@patternfly/react-topology).
-
 A **toolbar** places controls within a panel at the top of a Topology view.
 
 ## Using a toolbar

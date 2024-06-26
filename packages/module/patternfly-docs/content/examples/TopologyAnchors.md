@@ -28,8 +28,6 @@ import './topology-example.css';
 
 # Introduction
 
-**Note:** Topology lives in its own package at [`@patternfly/react-topology`](https://www.npmjs.com/package/@patternfly/react-topology).
-
 An **anchor** is the point at which an edge connects to a node.
 
 By default, nodes use a `CenterAnchor`, which refers to the center of the bounds of the node. You can use different anchors for different node shapes.

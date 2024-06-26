@@ -28,8 +28,6 @@ import './topology-example.css';
 
 # Introduction
 
-**Note:** Topology lives in its own package at [`@patternfly/react-topology`](https://www.npmjs.com/package/@patternfly/react-topology).
-
 A **node** is an element within a Topology view that represents your data point, including processes or services.
 
 ## Using custom nodes

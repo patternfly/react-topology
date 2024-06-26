@@ -28,8 +28,6 @@ import './topology-example.css';
 
 # Introduction
 
-**Note:** Topology lives in its own package at [`@patternfly/react-topology`](https://www.npmjs.com/package/@patternfly/react-topology).
-
 **Selection** functionality enables users to select nodes and edges in a Topology view.
 
 ## Using selection

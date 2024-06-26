@@ -36,8 +36,6 @@ import './topology-pipelines-example.css';
 
 # Introduction
 
-**Note:** Topology lives in its own package at [`@patternfly/react-topology`](https://www.npmjs.com/package/@patternfly/react-topology).
-
 A **pipeline** displays a series of connected tasks, shown in the order that they occur.
 
 ## Using pipelines

@@ -28,8 +28,6 @@ import './topology-example.css';
 
 # Introduction
 
-**Note:** Topology lives in its own package at [`@patternfly/react-topology`](https://www.npmjs.com/package/@patternfly/react-topology).
-
 **Pan and zoom** functionality provides users with additional methods of navigating in a Topology view.
 
 ## Using pan and zoom

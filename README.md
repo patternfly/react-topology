@@ -1,8 +1,8 @@
 # PatternFly Topology
 
-This package provides the resources necessary to use PatternFly Topology, an open source utility built off of [@patternfly/react-core](https://www.npmjs.com/package/@patternfly/react-core) that you can use to create a visual representation of all the applications within your project, their build status, and the components and services associated with them.
+This package provides the resources necessary to use PatternFly Topology, an open source utility that you can use to create a visual representation of all the applications within your project, their build status, and the components and services associated with them.
 
-Topology is based on PatternFly 5 components from https://github.com/patternfly/patternfly-react.
+Topology utilizes some of PatternFly's React components https://github.com/patternfly/patternfly-react.
 
 Documentation for Topology and its features is available on [the PatternFly website.](www.patternfly.org/topology/about-topology)
 
@@ -209,7 +209,6 @@ Continue reading for instructions on how to build and run the demo app.
 In order to run the demo app, you need to make sure the following prerequisites are met. 
 
 1. Make sure that you have yarn installed, as outlined in [the general Topology prerequisites.](#prerequisites) 
-1. Make sure that you have the PatternFly React library installed. [Follow these instructions if you need to install this package.](https://github.com/patternfly/patternfly-react?tab=readme-ov-file#install-and-configure-patternfly-react)
 1. If you haven’t already, [fork the Topology project.](https://github.com/patternfly/react-topology)
 
 ### Running the demo app
@@ -230,12 +229,7 @@ cd packages/demo-app-ts
 yarn start:demo-app:hot
 ```
 
-3. You will receive a message confirming that the app is running, as well the URL that you can enter in your browser to load the app:
-
-```
-<i> [webpack-dev-server] Project is running at:
-<i> [webpack-dev-server] Loopback: http://localhost:3000/
-```
+3. You will receive a message confirming that the app is running. To view the locally running workspace, visit http://localhost:8008/.
 
 4. Explore the demo app in your browser:
 

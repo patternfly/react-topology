@@ -35,8 +35,6 @@ import './topology-example.css';
 
 # Introduction
 
-**Note:** Topology lives in its own package at [`@patternfly/react-topology`](https://www.npmjs.com/package/@patternfly/react-topology).
-
 A **control bar** adds visualization controls to a Topology view, so that users can more easily explore the graph layout.
 
 ## Using a control bar

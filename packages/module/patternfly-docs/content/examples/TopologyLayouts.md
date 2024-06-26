@@ -45,8 +45,6 @@ import './topology-example.css';
 
 # Introduction
 
-**Note:** Topology lives in its own package at [`@patternfly/react-topology`](https://www.npmjs.com/package/@patternfly/react-topology).
-
 A **layout** helps position the nodes in a Topology view, according to different visualization structures.
 
 There are many algorithms available for positioning nodes, based on factors like the side of nodes, distance between nodes, edges, and so on. The following layouts are available for you to use in your Topology views.

@@ -37,8 +37,6 @@ import './topology-example.css';
 
 # Introduction
 
-**Note:** Topology lives in its own package at [`@patternfly/react-topology`](https://www.npmjs.com/package/@patternfly/react-topology).
-
 **Drag and drop** functionality allows users to move Topology view elements as needed.
 
 ## Drag and drop

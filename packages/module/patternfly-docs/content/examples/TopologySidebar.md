@@ -31,8 +31,6 @@ import './topology-example.css';
 
 # Introduction
 
-**Note:** Topology lives in its own package at [`@patternfly/react-topology`](https://www.npmjs.com/package/@patternfly/react-topology).
-
 A **side bar** is a menu that is displayed in a side drawer within a Topology view.
 
 ## Using a side bar

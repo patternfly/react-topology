@@ -10,7 +10,12 @@ In order to run the demo app, you need to make sure the following prerequisites 
 
 1. Make sure that you have yarn installed, as outlined in [the general Topology prerequisites.](#prerequisites) 
 1. Make sure that you have the PatternFly React library installed. [Follow these instructions if you need to install this package.](https://github.com/patternfly/patternfly-react?tab=readme-ov-file#install-and-configure-patternfly-react)
-1. If you haven’t already, [fork the Topology project.](https://github.com/patternfly/react-topology)
+1. If you haven’t already, clone [the Topology project](https://github.com/patternfly/react-topology) and navigate to your local directory:
+
+``` 
+git clone https://github.com/patternfly/react-topology.git
+cd react-topology
+```
 
 ### Running the demo app
 
