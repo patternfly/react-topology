@@ -29,14 +29,23 @@ import Icon2 from '@patternfly/react-icons/dist/esm/icons/folder-open-icon';
 
 import './topology-example.css';
 
-### Topology with a side bar
+# Introduction
 
-To add a sidebar, wrap your `VisualizationProvider` with the `TopologyView` component, which accepts `sideBar` as a prop.
+A **side bar** is a menu that is displayed in a side drawer within a Topology view.
 
-Pass the `TopologySideBar` component to the `sideBar` prop. `TopologySideBar` should accept the following props:
+## Using a side bar
 
-- `show`: logic to show the sidebar, e.g. if a node is selected
-- `onClose`: handle the user closing the window, e.g. unselect the current selection
+To add a sidebar to a Topology view:
+
+1. Wrap your `VisualizationProvider` with the `<TopologyView>` component, which accepts `sideBar` as a property.
+
+1. Pass the `<TopologySideBar>` component to the `sideBar` property. `<TopologySideBar>` should accept the following properties:
+    - **`show`:** Logic to show the sidebar.
+      - For example, you may display the side bar when a node is selected.
+    - **`onClose`:** Handles the behavior that should be triggered when users close the side bar.
+      - For example, you may deselect the current selection.
+
+### Example
 
 ```ts file='./TopologySidebarDemo.tsx'
 ```
