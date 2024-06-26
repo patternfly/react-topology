@@ -214,7 +214,7 @@ In order to run the demo app, you need to make sure the following prerequisites 
 
 ### Running the demo app
 
-Once you’ve set up the prerequisites, you can follow these steps to run the demo app on your local machine
+Once you’ve set up the prerequisites, you can follow these steps to run the docs workspace or the demo app on your local machine
 
 1. In a terminal, type the following commands to start the docs workspace:
 

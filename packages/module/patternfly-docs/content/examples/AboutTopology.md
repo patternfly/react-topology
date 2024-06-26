@@ -31,7 +31,7 @@ import './topology-example.css';
 
 PatternFly's **Topology** is an open source utility built off of [@patternfly/react-core](https://www.npmjs.com/package/@patternfly/react-core) that you can use to create a visual representation of all the applications within your project, their build status, and the components and services associated with them. Creating these visuals can help document and communicate the intricacies of the processes behind your product.
 
-To create a Topology view for your product, you can create a simple layout of nodes, which represents your data points, and connecting edges, which represent the relationships between nodes. Beyond this basis, you can continue to customize and enhance your Topology view to fit the specific needs of your product.
+To create a Topology view for your application, you can create a simple layout of nodes, which represents your data points, and connecting edges, which represent the relationships between nodes. Beyond this basis, you can continue to customize and enhance your Topology view to fit the specific needs of your application.
 
 ## Prerequisites
 

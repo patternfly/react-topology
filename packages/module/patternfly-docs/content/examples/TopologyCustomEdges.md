@@ -38,7 +38,7 @@ import './topology-example.css';
 
 **Note:** Topology lives in its own package at [`@patternfly/react-topology`](https://www.npmjs.com/package/@patternfly/react-topology).
 
-An **edge** is a node connector, typically represented by an arrow.
+An **edge** is used to indicate a relationship between nodes. Using arrow endpoints can show directional (or bi-directional) relationships.
 
 ## Edge styles
 
