@@ -56,8 +56,6 @@ export interface TaskNodeProps {
   badgeBorderColor?: string;
   /** Additional classes to use for the label's badge */
   badgeClassName?: string;
-  /** @deprecated Use badgePopoverParams instead */
-  badgePopoverProps?: string;
   /** Set to use a tooltip on the badge, takes precedence over the badgePopoverParams */
   badgeTooltip?: React.ReactNode;
   /** Set to use a popover on the badge, ignored if the badgeTooltip parameter is set */
@@ -80,8 +78,6 @@ export interface TaskNodeProps {
   toolTip?: React.ReactNode;
   /** Tooltip properties to pass along to the node's tooltip */
   toolTipProps?: Omit<TooltipProps, 'content'>;
-  /** @deprecated Flag if the node has a 'when expression' */
-  hasWhenExpression?: boolean;
   /** Size of the when expression indicator */
   whenSize?: number;
   /** Distance from the when expression indicator to the node */
@@ -114,11 +110,9 @@ const TaskNodeInner: React.FC<TaskNodeInnerProps> = observer(
     className,
     statusIconSize = STATUS_ICON_SIZE,
     scaleNode,
-    badgePopoverProps,
     toolTip,
     toolTipProps,
     disableTooltip = false,
-    hasWhenExpression = false,
     whenSize = 0,
     whenOffset = 0,
     ...rest
@@ -132,17 +126,6 @@ const TaskNodeInner: React.FC<TaskNodeInnerProps> = observer(
 
     const detailsLevel = element.getGraph().getDetailsLevel();
     const verticalLayout = (element.getGraph().getLayoutOptions?.() as DagreLayoutOptions)?.rankdir === TOP_TO_BOTTOM;
-
-    if (badgePopoverProps) {
-      // eslint-disable-next-line no-console
-      console.warn('badgePopoverProps is deprecated. Use badgePopoverParams instead.');
-    }
-    if (hasWhenExpression) {
-      // eslint-disable-next-line no-console
-      console.warn(
-        'hasWhenExpression is deprecated. Set whenSize and whenOffset only when showing the when expression.'
-      );
-    }
 
     useAnchor(
       React.useCallback(
@@ -240,7 +223,6 @@ const TaskNode: React.FC<TaskNodeProps> = ({
   taskIconPadding = 4,
   truncateLength = 14,
   disableTooltip = false,
-  hasWhenExpression = false,
   whenSize = 0,
   whenOffset = 0,
   ...rest
@@ -260,7 +242,6 @@ const TaskNode: React.FC<TaskNodeProps> = ({
       taskIconPadding={taskIconPadding}
       truncateLength={truncateLength}
       disableTooltip={disableTooltip}
-      hasWhenExpression={hasWhenExpression}
       whenSize={whenSize}
       whenOffset={whenOffset}
       {...rest}

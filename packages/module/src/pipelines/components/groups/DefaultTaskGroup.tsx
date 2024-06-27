@@ -99,6 +99,8 @@ export interface DefaultTaskGroupProps {
   collapsedShadowCount?: number;
   /** Shadow offset for the collapsed group */
   collapsedShadowOffset?: number;
+  /** Radius of the border on expanded groups. Defaults to 16px */
+  borderRadius?: number;
   /** Flag if the element selected. Part of WithSelectionProps */
   selected?: boolean;
   /** Function to call when the element should become selected (or deselected). Part of WithSelectionProps */

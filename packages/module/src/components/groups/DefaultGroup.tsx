@@ -84,6 +84,8 @@ interface DefaultGroupProps {
   contextMenuOpen?: boolean;
   /** Flag indicating whether to use hull layout or rect layout for expanded groups. Defaults to hull (true) */
   hulledOutline?: boolean;
+  /** Border radius for rectangular groups when expanded. Defaults to 16px */
+  borderRadius?: number;
 }
 
 type DefaultGroupInnerProps = Omit<DefaultGroupProps, 'element'> & { element: Node };

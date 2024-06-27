@@ -43,3 +43,10 @@
     transform: rotate(360deg);
   }
 }
+
+#ts-demo-app-page-id {
+  flex: 1
+}
+.pf-v6-c-tab-content {
+  flex: 1;
+}

@@ -14,10 +14,6 @@ import {
 } from './dnd-types';
 import { useDndDrag, WithDndDragProps } from './useDndDrag';
 
-export interface WithBendpoint {
-  sourceDragRef: ConnectDragSource;
-}
-
 export const useBendpoint = <DropResult, CollectedProps, Props = {}>(
   point: Point,
   spec?: Omit<
@@ -103,8 +99,3 @@ export const withBendpoint =
     Component.displayName = `withBendpoint(${WrappedComponent.displayName || WrappedComponent.name})`;
     return observer(Component);
   };
-
-/**
- * @deprecated Use withBendpoint instead
- */
-export const WithBendpoint = withBendpoint;
