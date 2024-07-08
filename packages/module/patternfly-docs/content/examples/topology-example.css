@@ -12,14 +12,14 @@
   }
 }
 
+.pf-theme-dark .ws-extensions-t-about-topology,
 .pf-theme-dark .ws-extensions-t-anchors,
 .pf-theme-dark .ws-extensions-t-control-bar,
 .pf-theme-dark .ws-extensions-t-context-menu,
 .pf-theme-dark .ws-extensions-t-custom-edges,
 .pf-theme-dark .ws-extensions-t-custom-nodes,
-.pf-theme-dark .ws-extensions-t-getting-started,
 .pf-theme-dark .ws-extensions-t-layouts,
-.pf-theme-dark .ws-extensions-t-panzoom,
+.pf-theme-dark .ws-extensions-t-pan-and-zoom,
 .pf-theme-dark .ws-extensions-t-selection,
 .pf-theme-dark .ws-extensions-t-sidebar,
 .pf-theme-dark .ws-extensions-t-toolbar {
