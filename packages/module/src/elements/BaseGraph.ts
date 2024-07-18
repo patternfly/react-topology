@@ -227,8 +227,6 @@ export default class BaseGraph<E extends GraphModel = GraphModel, D = any>
   }
 
   setAllChildrenCollapsedState(parent: Node, collapsed: boolean): void {
-    // eslint-disable-next-line no-console
-    console.log(parent.getAllNodeChildren(false));
     parent.getAllNodeChildren(false).forEach((node) => {
       if (node.isGroup()) {
         node.setCollapsed(collapsed);
