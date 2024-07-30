@@ -5,10 +5,9 @@ import {
   DropdownItem,
   DropdownList,
   Flex,
+  FlexItem,
   MenuToggle,
   MenuToggleElement,
-  Split,
-  SplitItem,
   TextInput,
   ToolbarItem,
   Tooltip
@@ -29,11 +28,11 @@ const OptionsContextBar: React.FC<{ controller: Controller }> = observer(({ cont
   };
 
   const layoutDropdown = (
-    <Split>
-      <SplitItem>
+    <Flex flexWrap={{ default: 'nowrap' }} gap={{ default: 'gapSm' }} alignItems={{ default: 'alignItemsCenter' }}>
+      <FlexItem>
         <label className="pf-v6-u-display-inline-block pf-v6-u-mr-md pf-v6-u-mt-sm">Layout:</label>
-      </SplitItem>
-      <SplitItem>
+      </FlexItem>
+      <FlexItem>
         <Dropdown
           toggle={(toggleRef: React.Ref<MenuToggleElement>) => (
             <MenuToggle ref={toggleRef} onClick={() => setLayoutDropdownOpen(!layoutDropdownOpen)}>
@@ -70,8 +69,8 @@ const OptionsContextBar: React.FC<{ controller: Controller }> = observer(({ cont
             </DropdownItem>
           </DropdownList>
         </Dropdown>
-      </SplitItem>
-    </Split>
+      </FlexItem>
+    </Flex>
   );
 
   const saveModel = () => {
@@ -135,7 +134,7 @@ const OptionsContextBar: React.FC<{ controller: Controller }> = observer(({ cont
   };
 
   return (
-    <Flex flexWrap={{ default: 'wrap' }} gap={{ default: 'gapMd' }}>
+    <Flex flexWrap={{ default: 'wrap' }} gap={{ default: 'gapMd' }} alignItems={{ default: 'alignItemsCenter' }}>
       <Flex>
         <ToolbarItem>{layoutDropdown}</ToolbarItem>
         <ToolbarItem>

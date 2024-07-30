@@ -6,8 +6,7 @@
 }
 
 .pf-ri__topology-demo .pf-topology-visualization-surface {
-  border: 1px solid var(--pf-t--global--border--color--100);
-  border-top: none;
+  border: 1px solid var(--pf-t--global--border--color--default);
 }
 
 .pf-ri__topology-demo .pf-v6-c-tab-content {
@@ -23,6 +22,7 @@
 .pf-ri__topology-demo .pf-v6-c-toolbar {
   --pf-v6-c-toolbar__expandable-content--lg--PaddingBottom: 0;
   --pf-v6-c-toolbar--PaddingBottom: 0;
+  --pf-v6-c-toolbar--PaddingBlockStart: var(--pf-t--global--spacer--300);
 }
 .pf-ri__topology-demo .pf-v6-c-toolbar__item .pf-v6-l-flex {
   --pf-v6-l-flex--FlexWrap: no-wrap;
@@ -42,21 +42,21 @@
 }
 
 .pf-ri-topology__node__background {
-  fill: var(--pf-t--color--gray--40);
-  stroke-width: 1px;
-  stroke: var(--pf-t--color--black);
+  fill: var(--pf-t--global--background--color--floating--default);
+  stroke-width: var(--pf-t--global--border--width--regular);
+  stroke: var(--pf-t--global--border--color--default);
 }
 
 .pf-ri-topology__node__background.pf-m-selected  {
-  fill: var(--pf-t--color--blue--50);
+  fill: var(--pf-t--global--color--brand--default);
 }
 
 .pf-ri-topology__node__background.pf-m-hover  {
-  fill: var(--pf-t--color--green--40);
+  fill: var(--pf-t--global--border--color--nonstatus--green--hover);
 }
 
 .pf-ri-topology__node__background.pf-m-drop-target {
-  fill: var(--pf-t--color--blue--20);
+  fill: var(--pf-t--global--color--nonstatus--blue--default);
 }
 
 .pf-v6-c-page__main-section#\/topology-demo-page-section,
@@ -72,7 +72,7 @@
   fill: var(--pf-t--color--red--50);
 }
 .topology-demo-badge > text {
-  fill: var(--pf-t--global--color--nonstatus--gold--200);
+  fill: var(--pf-t--global--text--color--inverse);
 }
 
 .pf-v6-c-toolbar__content.pf-m-hidden {

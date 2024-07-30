@@ -5,8 +5,6 @@ import {
   DropdownList,
   MenuToggle,
   MenuToggleElement,
-  Split,
-  SplitItem,
   ToolbarItem
 } from '@patternfly/react-core';
 // eslint-disable-next-line patternfly-react/import-tokens-icons
@@ -257,11 +255,9 @@ export const LayoutsDemo: React.FC = () => {
   }, [controller, layout]);
 
   const layoutDropdown = (
-    <Split>
-      <SplitItem>
-        <label className="pf-v6-u-display-inline-block pf-v6-u-mr-md pf-v6-u-mt-sm">Layout</label>
-      </SplitItem>
-      <SplitItem>
+    <>
+      <ToolbarItem variant="label">Layout</ToolbarItem>
+      <ToolbarItem>
         <Dropdown
           toggle={(toggleRef: React.Ref<MenuToggleElement>) => (
             <MenuToggle ref={toggleRef} onClick={() => setLayoutDropdownOpen(!layoutDropdownOpen)}>
@@ -317,8 +313,8 @@ export const LayoutsDemo: React.FC = () => {
             </DropdownItem>
           </DropdownList>
         </Dropdown>
-      </SplitItem>
-    </Split>
+      </ToolbarItem>
+    </>
   );
 
   return (

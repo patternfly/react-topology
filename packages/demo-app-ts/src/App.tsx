@@ -74,7 +74,12 @@ class App extends React.Component<{}, AppState> {
                 <Route
                   path={`/${demo.id}-nav-link/${subDemo.id}-nav-link`}
                   render={() => (
-                    <PageSection style={{ zIndex: 2 }} id={`/${demo.id}-nav-link/${subDemo.id}-nav-link`}>
+                    <PageSection
+                      isFilled
+                      hasBodyWrapper={false}
+                      style={{ zIndex: 2 }}
+                      id={`/${demo.id}-nav-link/${subDemo.id}-nav-link`}
+                    >
                       {React.createElement(subDemo.componentType)}
                     </PageSection>
                   )}
@@ -87,7 +92,7 @@ class App extends React.Component<{}, AppState> {
               <Route
                 path={`/${demo.id}-nav-link`}
                 render={() => (
-                  <PageSection style={{ zIndex: 2 }} id={`/${demo.id}-page-section`}>
+                  <PageSection isFilled hasBodyWrapper={false} style={{ zIndex: 2 }} id={`/${demo.id}-page-section`}>
                     {React.createElement(demo.componentType)}
                   </PageSection>
                 )}
@@ -101,7 +106,7 @@ class App extends React.Component<{}, AppState> {
           <Route
             path="/"
             render={() => (
-              <PageSection style={{ zIndex: 2 }} id={`/${defaultDemo.id}-page-section`}>
+              <PageSection isFilled hasBodyWrapper={false} style={{ zIndex: 2 }} id={`/${defaultDemo.id}-page-section`}>
                 {React.createElement(defaultDemo.componentType)}
               </PageSection>
             )}
@@ -151,19 +156,19 @@ class App extends React.Component<{}, AppState> {
 
     const AppHeader = (
       <Masthead>
-        <MastheadToggle>
-          <PageToggleButton
-            variant="plain"
-            aria-label="Global navigation"
-            isSidebarOpen={isNavOpen}
-            onSidebarToggle={() => this.setState({ isNavOpen: !isNavOpen })}
-          >
-            <BarsIcon />
-          </PageToggleButton>
-        </MastheadToggle>
         <MastheadMain>
-          <MastheadBrand component="a">
-            <Brand src={imgBrand} alt="Patternfly Logo" heights={{ default: '36px' }} />
+          <MastheadToggle>
+            <PageToggleButton
+              variant="plain"
+              aria-label="Global navigation"
+              isSidebarOpen={isNavOpen}
+              onSidebarToggle={() => this.setState({ isNavOpen: !isNavOpen })}
+            >
+              <BarsIcon />
+            </PageToggleButton>
+          </MastheadToggle>
+          <MastheadBrand>
+            <Brand src={imgBrand} alt="Patternfly Logo" heights={{ default: '40px' }} />
           </MastheadBrand>
         </MastheadMain>
         <MastheadContent>{AppToolbar}</MastheadContent>
@@ -207,7 +212,7 @@ class App extends React.Component<{}, AppState> {
 
     return (
       <Router>
-        <Page masthead={AppHeader} sidebar={AppSidebar} isManagedSidebar mainContainerId={this.pageId}>
+        <Page isContentFilled masthead={AppHeader} sidebar={AppSidebar} isManagedSidebar mainContainerId={this.pageId}>
           {this.getPages()}
         </Page>
       </Router>
