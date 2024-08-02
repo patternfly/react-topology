@@ -57,6 +57,7 @@ const TaskPill: React.FC<TaskPillProps> = observer(
     badgeTooltip,
     badgePopoverProps,
     badgePopoverParams,
+    customStatusIcon,
     nameLabelClass,
     taskIconClass,
     taskIcon,
@@ -319,7 +320,7 @@ const TaskPill: React.FC<TaskPillProps> = observer(
                   (status === RunStatus.Running || status === RunStatus.InProgress) && styles.modifiers.spin
                 )}
               >
-                <StatusIcon status={status} />
+                {customStatusIcon ?? <StatusIcon status={status} />}
               </g>
             </g>
           ) : null}
@@ -384,7 +385,7 @@ const TaskPill: React.FC<TaskPillProps> = observer(
                 (status === RunStatus.Running || status === RunStatus.InProgress) && styles.modifiers.spin
               )}
             >
-              <StatusIcon status={status} />
+              {customStatusIcon ?? <StatusIcon status={status} />}
             </g>
           </g>
         )}
