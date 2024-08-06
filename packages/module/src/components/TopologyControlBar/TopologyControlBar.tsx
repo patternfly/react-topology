@@ -364,7 +364,7 @@ export const TopologyControlBar: React.FunctionComponent<TopologyControlBarProps
   return (
     <GenerateId prefix="pf-topology-control-bar-">
       {(randomId) => (
-        <Toolbar className={className} style={{ backgroundColor: 'transparent', padding: 0 }} id={randomId}>
+        <Toolbar className={className} style={{ backgroundColor: 'transparent' }} id={randomId}>
           <ToolbarContent>
             <ToolbarGroup gap={{ default: 'gapNone' }}>
               {controlButtons.map((button: TopologyControlButton) =>

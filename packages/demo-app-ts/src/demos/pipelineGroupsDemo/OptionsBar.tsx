@@ -1,5 +1,5 @@
 import React from 'react';
-import { Radio, Text, ToolbarItem } from '@patternfly/react-core';
+import { Radio, Content, ToolbarItem } from '@patternfly/react-core';
 import { observer } from '@patternfly/react-topology';
 import { PipelineGroupsDemoContext } from './PipelineGroupsDemoContext';
 
@@ -9,7 +9,7 @@ const OptionsBar: React.FC = observer(() => {
   return (
     <>
       <ToolbarItem>
-        <Text className="pf-u-mr-sm">Layout:</Text>
+        <Content className="pf-u-mr-sm">Layout:</Content>
       </ToolbarItem>
       <ToolbarItem>
         <Radio
