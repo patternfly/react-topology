@@ -1,5 +1,5 @@
 import * as dagre from '@dagrejs/dagre';
-import { Edge, Graph, GRAPH_LAYOUT_END_EVENT, Layout, Node } from '../types';
+import { Edge, Graph, GRAPH_LAYOUT_END_EVENT, isNode, Layout, Node } from '../types';
 import { BaseLayout, LAYOUT_DEFAULTS } from './BaseLayout';
 import { LayoutLink } from './LayoutLink';
 import { LayoutNode } from './LayoutNode';
@@ -120,7 +120,7 @@ export class DagreGroupsLayout extends BaseLayout implements Layout {
           (n) =>
             n.element.getParent()?.getId() === parentGroup?.id ||
             (!parentGroup && n.element.getParent()?.getId() === graph.getId())
-        );
+        ) as DagreNode[];
         const layerEdges = this.edges.filter(
           (edge) =>
             (layerGroups.find((n) => n.id === edge.sourceNode.id) ||
@@ -129,20 +129,30 @@ export class DagreGroupsLayout extends BaseLayout implements Layout {
               layerNodes.find((n) => n.id === edge.targetNode.id))
         );
 
+        const dagreNodes: DagreNode[] = [];
+
         // Layout any child groups first
         layerGroups.forEach((group) => {
           doLayout(group);
 
           // Add the child group node (now with the correct dimensions) to the graph
           const dagreNode = new DagreNode(group.element, group.padding);
-          const updateNode = dagreNode.getUpdatableNode();
-          dagreGraph.setNode(group.id, updateNode);
+          dagreNodes.push(dagreNode);
         });
 
-        layerNodes?.forEach((node) => {
-          const updateNode = (node as DagreNode).getUpdatableNode();
-          dagreGraph.setNode(node.id, updateNode);
-        });
+        dagreNodes.push(...layerNodes);
+
+        // Set the nodes in the graph in the same order give to maintain ordering when groups are collapsed
+        this.graph
+          .getController()
+          .getElements()
+          .filter((e) => isNode(e))
+          .forEach((node) => {
+            const updateNode = dagreNodes.find((dagreNode) => dagreNode.id === node.getId());
+            if (updateNode) {
+              dagreGraph.setNode(updateNode.id, updateNode.getUpdatableNode());
+            }
+          });
 
         layerEdges?.forEach((dagreEdge) => {
           dagreGraph.setEdge(dagreEdge.source.id, dagreEdge.target.id, dagreEdge);
