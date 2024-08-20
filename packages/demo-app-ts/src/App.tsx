@@ -168,7 +168,7 @@ class App extends React.Component<{}, AppState> {
               <BarsIcon />
             </PageToggleButton>
           </MastheadToggle>
-          <MastheadBrand data-codemods>
+          <MastheadBrand>
             <MastheadLogo data-codemods>
               <Brand src={imgBrand} alt="Patternfly Logo" heights={{ default: '40px' }} />
             </MastheadLogo>
