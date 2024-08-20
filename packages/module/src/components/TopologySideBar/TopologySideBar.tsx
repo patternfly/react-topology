@@ -52,13 +52,12 @@ export const TopologySideBar: React.FunctionComponent<TopologySideBarProps> = ({
         <React.Fragment>
           {onClose && (
             <Button
+              icon={<TimesIcon />}
               className={css(styles.topologySideBarDismiss)}
               variant="plain"
               onClick={onClose as any}
               aria-label="Close"
-            >
-              <TimesIcon />
-            </Button>
+            />
           )}
           {header && <div className={styles.topologySideBarHeader}>{header}</div>}
           {children}

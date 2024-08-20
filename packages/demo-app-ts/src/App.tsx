@@ -19,8 +19,9 @@ import {
   MastheadToggle,
   PageToggleButton,
   MastheadContent,
-  MastheadBrand,
+  MastheadLogo,
   MastheadMain,
+  MastheadBrand,
   ToolbarContent
 } from '@patternfly/react-core';
 import { BarsIcon } from '@patternfly/react-icons/dist/esm/icons/bars-icon';
@@ -168,7 +169,9 @@ class App extends React.Component<{}, AppState> {
             </PageToggleButton>
           </MastheadToggle>
           <MastheadBrand>
-            <Brand src={imgBrand} alt="Patternfly Logo" heights={{ default: '40px' }} />
+            <MastheadLogo>
+              <Brand src={imgBrand} alt="Patternfly Logo" heights={{ default: '40px' }} />
+            </MastheadLogo>
           </MastheadBrand>
         </MastheadMain>
         <MastheadContent>{AppToolbar}</MastheadContent>
