@@ -5,7 +5,7 @@ export default abstract class AbstractAnchor<E extends Node = Node> implements A
   protected readonly owner: E;
 
   // Consumption of the offset depends on the concrete anchor implementation but it is
-  // indended that the reference point is moved by the offset relative to the point location
+  // intended that the reference point is moved by the offset relative to the point location
   // in the direction of the opposing reference point.
   protected readonly offset: number;
 
