@@ -29,6 +29,7 @@ const DefaultTaskGroupExpanded: React.FunctionComponent<Omit<DefaultTaskGroupPro
       showLabelOnHover,
       hideDetailsAtMedium,
       status,
+      customStatusIcon,
       GroupLabelComponent = NodeLabel,
       truncateLength,
       canDrop,
@@ -179,6 +180,7 @@ const DefaultTaskGroupExpanded: React.FunctionComponent<Omit<DefaultTaskGroupPro
             position={labelPosition}
             centerLabelOnEdge={centerLabelOnEdge}
             runStatus={status}
+            customStatusIcon={customStatusIcon}
             paddingX={8}
             paddingY={5}
             dragRef={dragNodeRef ? dragLabelRef : undefined}

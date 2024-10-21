@@ -53,6 +53,7 @@ const DemoTaskGroup: React.FunctionComponent<DemoTaskGroupProps> = ({ element, .
         hideDetailsAtMedium
         showStatusState
         status={data.status}
+        customStatusIcon={data.customStatusIcon}
         hiddenDetailsShownStatuses={[RunStatus.Succeeded]}
         {...rest}
       />

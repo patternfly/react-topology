@@ -39,6 +39,8 @@ export interface DefaultTaskGroupProps {
   dragRegroupable?: boolean;
   /** RunStatus to depict, supported on collapsed groups only. */
   status?: RunStatus;
+  /** Custom icon to use as the status icon */
+  customStatusIcon?: React.ReactNode;
   /** Flag indicating the status indicator, supported on collapsed groups only */
   showStatusState?: boolean;
   /** Statuses to show at when details are hidden, supported on collapsed groups only */

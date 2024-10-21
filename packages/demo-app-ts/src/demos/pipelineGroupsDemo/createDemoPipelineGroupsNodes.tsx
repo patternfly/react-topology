@@ -1,4 +1,6 @@
 /* eslint-disable camelcase */
+import React from 'react';
+import { BanIcon } from '@patternfly/react-icons';
 import { PipelineNodeModel, RunStatus } from '@patternfly/react-topology';
 
 export const NODE_PADDING_VERTICAL = 0;
@@ -112,7 +114,8 @@ export const createExecution3 = (runAfter?: string): [string, PipelineNodeModel[
     group: true,
     runAfterTasks: runAfter ? [runAfter] : [],
     data: {
-      status: RunStatus.Succeeded,
+      status: RunStatus.Failed,
+      customStatusIcon: <BanIcon />,
       isDependency: true
     }
   };
