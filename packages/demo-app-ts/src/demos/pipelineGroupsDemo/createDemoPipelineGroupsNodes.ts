@@ -159,7 +159,7 @@ export const createExecution3 = (runAfter?: string): [string, PipelineNodeModel[
     },
     runAfterTasks: [task_3_1.id],
     data: {
-      status: RunStatus.Succeeded,
+      status: RunStatus.Cancelled,
       isDependency: true
     }
   };
@@ -294,7 +294,7 @@ export const createExecution3 = (runAfter?: string): [string, PipelineNodeModel[
       padding: [NODE_PADDING_VERTICAL, NODE_PADDING_HORIZONTAL]
     },
     data: {
-      status: RunStatus.Succeeded,
+      status: RunStatus.Cancelled,
       isDependency: true
     }
   };

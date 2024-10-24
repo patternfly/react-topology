@@ -4,6 +4,7 @@ import {
   DEFAULT_LAYER,
   GraphElement,
   Layer,
+  RunStatus,
   ScaleDetailsLevel,
   TaskNode,
   TOP_LAYER,
@@ -11,6 +12,7 @@ import {
   WithContextMenuProps,
   WithSelectionProps
 } from '@patternfly/react-topology';
+import { BanIcon } from '@patternfly/react-icons';
 
 type DemoTaskNodeProps = {
   element: GraphElement;
@@ -31,6 +33,7 @@ const DemoTaskNode: React.FunctionComponent<DemoTaskNodeProps> = ({ element, ...
           showStatusState
           status={data.status}
           hideDetailsAtMedium
+          customStatusIcon={data.status === RunStatus.Cancelled ? <BanIcon /> : undefined}
           {...rest}
         />
       </g>
