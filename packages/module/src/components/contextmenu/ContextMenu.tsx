@@ -31,6 +31,7 @@ const ContextMenu: React.FunctionComponent<ContextMenuProps> = ({
         onSelect={handleOnRequestClose}
         toggle={() => <></>}
         className={css(topologyStyles.topologyContextMenuCDropdownMenu)}
+        popperProps={{ appendTo: 'inline' }}
       >
         {children}
       </Dropdown>
