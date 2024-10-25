@@ -43,6 +43,8 @@ export interface DefaultTaskGroupProps {
   showStatusState?: boolean;
   /** Statuses to show at when details are hidden, supported on collapsed groups only */
   hiddenDetailsShownStatuses?: RunStatus[];
+  /** Custom icon to use as the status icon (for collapsed groups, or if using a GroupLabelComponent that accepts a customStatus icon, such as TaskGroupPillLabel). */
+  customStatusIcon?: React.ReactNode;
   /** Flag indicating the node should be scaled, best on hover of the node at lowest scale level */
   scaleNode?: boolean;
   /** Flag to hide details at medium scale */

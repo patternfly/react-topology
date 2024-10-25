@@ -15,6 +15,7 @@ import {
   RunStatus,
   TaskGroupPillLabel
 } from '@patternfly/react-topology';
+import { BanIcon } from '@patternfly/react-icons';
 import { DEFAULT_TASK_HEIGHT, GROUP_TASK_WIDTH } from './createDemoPipelineGroupsNodes';
 
 type DemoTaskGroupProps = {
@@ -43,12 +44,18 @@ const DemoTaskGroup: React.FunctionComponent<DemoTaskGroupProps> = ({ element, .
         collapsible
         collapsedWidth={GROUP_TASK_WIDTH}
         collapsedHeight={DEFAULT_TASK_HEIGHT}
-        GroupLabelComponent={TaskGroupPillLabel}
+        GroupLabelComponent={(props) => (
+          <TaskGroupPillLabel
+            {...props}
+            customStatusIcon={data.status === RunStatus.Cancelled ? <BanIcon /> : undefined}
+          />
+        )}
         element={element as Node}
         centerLabelOnEdge
         recreateLayoutOnCollapseChange
         getEdgeCreationTypes={getEdgeCreationTypes}
         scaleNode={hover && detailsLevel !== ScaleDetailsLevel.high}
+        customStatusIcon={data.status === RunStatus.Cancelled ? <BanIcon /> : undefined}
         showLabelOnHover
         hideDetailsAtMedium
         showStatusState
