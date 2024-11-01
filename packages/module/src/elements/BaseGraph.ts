@@ -369,6 +369,81 @@ export default class BaseGraph<E extends GraphModel = GraphModel, D = any>
     }
   };
 
+  zoomToSelection = (startPoint: Point, endPoint: Point) => {
+    const currentScale = this.getScale();
+    const graphPosition = this.getPosition();
+
+    const x = (Math.min(startPoint.x, endPoint.x) - graphPosition.x) / currentScale;
+    const y = (Math.min(startPoint.y, endPoint.y) - graphPosition.y) / currentScale;
+    const width = Math.abs(endPoint.x - startPoint.x) / currentScale;
+    const height = Math.abs(endPoint.y - startPoint.y) / currentScale;
+
+    if (width < 10 || height < 10) {
+      return;
+    }
+
+    const { width: fullWidth, height: fullHeight } = this.getDimensions();
+
+    // compute the scale
+    const xScale = fullWidth / width;
+    const yScale = fullHeight / height;
+    const scale = Math.min(xScale, yScale);
+
+    // translate to center
+    const midX = x + width / 2;
+    const midY = y + height / 2;
+    const tx = fullWidth / 2 - midX * scale;
+    const ty = fullHeight / 2 - midY * scale;
+
+    this.setScale(scale);
+    this.setPosition(new Point(tx, ty));
+  };
+
+  isInBounds = (node: Node, bounds: Rect): boolean => {
+    const { x, y, width, height } = node.getBounds();
+    return (
+      x + width >= bounds.x && x <= bounds.x + bounds.width && y + height >= bounds.y && y <= bounds.y + bounds.height
+    );
+  };
+
+  childrenInBounds = (node: Node, bounds: Rect): Node[] => {
+    if (!node.isGroup() || node.isCollapsed()) {
+      return [];
+    }
+    const nodes: Node[] = [];
+    node.getChildren().forEach((child) => {
+      if (isNode(child)) {
+        if (this.isInBounds(child, bounds)) {
+          nodes.push(child);
+          nodes.push(...this.childrenInBounds(child, bounds));
+        }
+      }
+    });
+    return nodes;
+  };
+
+  nodesInSelection = (startPoint: Point, endPoint: Point): Node[] => {
+    const currentScale = this.getScale();
+    const graphPosition = this.getPosition();
+    const x = (Math.min(startPoint.x, endPoint.x) - graphPosition.x) / currentScale;
+    const y = (Math.min(startPoint.y, endPoint.y) - graphPosition.y) / currentScale;
+    const width = Math.abs(endPoint.x - startPoint.x) / currentScale;
+    const height = Math.abs(endPoint.y - startPoint.y) / currentScale;
+
+    const bounds = new Rect(x, y, width, height);
+
+    const selections: Node[] = [];
+
+    this.getNodes().forEach((child) => {
+      if (this.isInBounds(child, bounds)) {
+        selections.push(child);
+        selections.push(...this.childrenInBounds(child, bounds));
+      }
+    });
+
+    return selections;
+  };
+
   isNodeInView(element: Node<NodeModel, any>, { padding = 0 }): boolean {
     const graph = element.getGraph();
     const { x: viewX, y: viewY, width: viewWidth, height: viewHeight } = graph.getBounds();
