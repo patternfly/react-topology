@@ -71,6 +71,7 @@ const TaskPill: React.FC<TaskPillProps> = observer(
     hasWhenExpression = false,
     onContextMenu,
     contextMenuOpen,
+    hideContextMenuKebab,
     actionIcon,
     actionIconClassName,
     onActionIconClick,
@@ -160,7 +161,7 @@ const TaskPill: React.FC<TaskPillProps> = observer(
       const actionSpace = actionIcon && actionSize ? actionSize.width + paddingX : 0;
 
       const contextStartX = actionStartX + actionSpace;
-      const contextSpace = onContextMenu && contextSize ? contextSize.width + paddingX / 2 : 0;
+      const contextSpace = !hideContextMenuKebab && onContextMenu && contextSize ? contextSize.width + paddingX / 2 : 0;
 
       const pillWidth = contextStartX + contextSpace + paddingX / 2;
 
@@ -198,6 +199,7 @@ const TaskPill: React.FC<TaskPillProps> = observer(
       badge,
       actionIcon,
       actionSize,
+      hideContextMenuKebab,
       onContextMenu,
       contextSize,
       verticalLayout,
@@ -429,7 +431,7 @@ const TaskPill: React.FC<TaskPillProps> = observer(
             />
           </>
         )}
-        {textSize && onContextMenu && (
+        {textSize && onContextMenu && !hideContextMenuKebab && (
           <>
             <line
               className={css(topologyStyles.topologyNodeSeparator)}

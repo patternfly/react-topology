@@ -88,6 +88,7 @@ export interface GeneratorNodeOptions {
   badges?: boolean;
   icons?: boolean;
   contextMenus?: boolean;
+  hideKebabMenu?: boolean;
   hulledOutline?: boolean;
 }
 

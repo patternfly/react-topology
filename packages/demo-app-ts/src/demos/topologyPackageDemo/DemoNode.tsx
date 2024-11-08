@@ -180,6 +180,7 @@ const DemoNode: React.FunctionComponent<DemoNodeProps> = observer(
             showStatusDecorator={detailsLevel === ScaleDetailsLevel.high && options.showStatus}
             statusDecoratorTooltip={nodeElement.getNodeStatus()}
             onContextMenu={options.contextMenus ? onContextMenu : undefined}
+            hideContextMenuKebab={options.hideKebabMenu}
             onShowCreateConnector={detailsLevel !== ScaleDetailsLevel.low ? onShowCreateConnector : undefined}
             onHideCreateConnector={onHideCreateConnector}
             labelIcon={options.icons && LabelIcon && <LabelIcon noVerticalAlign />}
