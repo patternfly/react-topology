@@ -135,6 +135,7 @@ const StyleNode: React.FunctionComponent<StyleNodeProps> = ({
   const data = element.getData();
   const detailsLevel = element.getGraph().getDetailsLevel();
   const [hover, hoverRef] = useHover();
+  const focused = hover || contextMenuOpen;
 
   const passedData = React.useMemo(() => {
     const newData = { ...data };
@@ -154,18 +155,19 @@ const StyleNode: React.FunctionComponent<StyleNodeProps> = ({
 
   const LabelIcon = passedData.labelIcon;
   return (
-    <Layer id={hover ? TOP_LAYER : DEFAULT_LAYER}>
+    <Layer id={focused ? TOP_LAYER : DEFAULT_LAYER}>
       <g ref={hoverRef}>
         <DefaultNode
           element={element}
           scaleLabel={detailsLevel !== ScaleDetailsLevel.low}
-          scaleNode={hover && detailsLevel === ScaleDetailsLevel.low}
+          scaleNode={focused && detailsLevel === ScaleDetailsLevel.low}
+          raiseLabelOnHover={false}
           {...rest}
           {...passedData}
           dragging={dragging}
           regrouping={regrouping}
-          showLabel={hover || (detailsLevel !== ScaleDetailsLevel.low && showLabel)}
-          showStatusBackground={!hover && detailsLevel === ScaleDetailsLevel.low}
+          showLabel={focused || (detailsLevel !== ScaleDetailsLevel.low && showLabel)}
+          showStatusBackground={!focused && detailsLevel === ScaleDetailsLevel.low}
           showStatusDecorator={detailsLevel === ScaleDetailsLevel.high && passedData.showStatusDecorator}
           statusDecoratorTooltip={nodeElement.getNodeStatus()}
           onContextMenu={data.showContextMenu ? onContextMenu : undefined}
@@ -174,11 +176,11 @@ const StyleNode: React.FunctionComponent<StyleNodeProps> = ({
           onHideCreateConnector={onHideCreateConnector}
           labelIcon={LabelIcon && <LabelIcon noVerticalAlign />}
           attachments={
-            (hover || detailsLevel === ScaleDetailsLevel.high) &&
+            (focused || detailsLevel === ScaleDetailsLevel.high) &&
             renderDecorators(nodeElement, passedData, rest.getShapeDecoratorCenter)
           }
         >
-          {(hover || detailsLevel !== ScaleDetailsLevel.low) && renderIcon(passedData, nodeElement)}
+          {(focused || detailsLevel !== ScaleDetailsLevel.low) && renderIcon(passedData, nodeElement)}
         </DefaultNode>
       </g>
     </Layer>
