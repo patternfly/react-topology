@@ -72,7 +72,7 @@ const DemoTaskNode: React.FunctionComponent<DemoTaskNodeProps> = ({
   };
 
   return (
-    <Layer id={detailsLevel !== ScaleDetailsLevel.high && hover ? TOP_LAYER : DEFAULT_LAYER}>
+    <Layer id={detailsLevel !== ScaleDetailsLevel.high && (hover || contextMenuOpen) ? TOP_LAYER : DEFAULT_LAYER}>
       <g ref={hoverRef}>
         <TaskNode
           element={element}

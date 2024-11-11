@@ -86,7 +86,7 @@ const NodeLabel: React.FunctionComponent<NodeLabelProps> = ({
   const [labelHover, labelHoverRef] = useHover();
   const refs = useCombineRefs(dragRef, typeof truncateLength === 'number' ? labelHoverRef : undefined);
 
-  const [textSize, textRef] = useSize([children, truncateLength, className, labelHover]);
+  const [textSize, textRef] = useSize([children, truncateLength, className, labelHover, contextMenuOpen]);
   const [secondaryTextSize, secondaryTextRef] = useSize([secondaryLabel, truncateLength, className, labelHover]);
   const [badgeSize, badgeRef] = useSize([badge]);
   const [actionSize, actionRef] = useSize([actionIcon, paddingX]);
@@ -266,7 +266,9 @@ const NodeLabel: React.FunctionComponent<NodeLabelProps> = ({
         />
       )}
       <text {...other} ref={textRef} x={iconSpace + badgeSpace + paddingX} y={height / 2} dy="0.35em">
-        {truncateLength > 0 && !labelHover ? truncateMiddle(children, { length: truncateLength }) : children}
+        {truncateLength > 0 && !labelHover && !contextMenuOpen
+          ? truncateMiddle(children, { length: truncateLength })
+          : children}
       </text>
       {textSize && actionIcon && (
         <>
