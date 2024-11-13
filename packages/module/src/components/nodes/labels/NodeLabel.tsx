@@ -43,6 +43,7 @@ export type NodeLabelProps = {
   badgeBorderColor?: string;
   badgeClassName?: string;
   badgeLocation?: BadgeLocation;
+  hideContextMenuKebab?: boolean;
 } & Partial<WithContextMenuProps>;
 
 /**
@@ -77,6 +78,7 @@ const NodeLabel: React.FunctionComponent<NodeLabelProps> = ({
   dropTarget,
   onContextMenu,
   contextMenuOpen,
+  hideContextMenuKebab,
   actionIcon,
   actionIconClassName,
   onActionIconClick,
@@ -124,7 +126,7 @@ const NodeLabel: React.FunctionComponent<NodeLabelProps> = ({
     const height = Math.max(textSize.height, badgeSize?.height ?? 0) + paddingY * 2;
     const iconSpace = labelIconClass || labelIcon ? (height + paddingY * 0.5) / 2 : 0;
     const actionSpace = actionIcon && actionSize ? actionSize.width : 0;
-    const contextSpace = onContextMenu && contextSize ? contextSize.width : 0;
+    const contextSpace = !hideContextMenuKebab && onContextMenu && contextSize ? contextSize.width : 0;
     const primaryWidth = iconSpace + badgeSpace + paddingX + textSize.width + actionSpace + contextSpace + paddingX;
     const secondaryWidth = secondaryLabel && secondaryTextSize ? secondaryTextSize.width + 2 * paddingX : 0;
     const width = Math.max(primaryWidth, secondaryWidth);
@@ -184,6 +186,7 @@ const NodeLabel: React.FunctionComponent<NodeLabelProps> = ({
     labelIcon,
     actionIcon,
     actionSize,
+    hideContextMenuKebab,
     onContextMenu,
     contextSize,
     secondaryLabel,
@@ -293,7 +296,7 @@ const NodeLabel: React.FunctionComponent<NodeLabelProps> = ({
           />
         </>
       )}
-      {textSize && onContextMenu && (
+      {textSize && onContextMenu && !hideContextMenuKebab && (
         <>
           <line
             className={css(styles.topologyNodeSeparator)}

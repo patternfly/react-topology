@@ -120,6 +120,8 @@ interface DefaultNodeProps {
   contextMenuOpen?: boolean;
   /** Flag indicating the label should move to the top layer when the node is hovered, set to `false` if you are already using TOP_LAYER on hover */
   raiseLabelOnHover?: boolean; // TODO: Update default to be false, assume demo code will be followed
+  /** Hide context menu kebab for the node  */
+  hideContextMenuKebab?: boolean;
 }
 
 const SCALE_UP_TIME = 200;
@@ -169,7 +171,8 @@ const DefaultNodeInner: React.FunctionComponent<DefaultNodeInnerProps> = observe
     onShowCreateConnector,
     onContextMenu,
     contextMenuOpen,
-    raiseLabelOnHover = true
+    raiseLabelOnHover = true,
+    hideContextMenuKebab
   }) => {
     const [hovered, hoverRef] = useHover();
     const status = nodeStatus || element.getNodeStatus();
@@ -370,6 +373,7 @@ const DefaultNodeInner: React.FunctionComponent<DefaultNodeInnerProps> = observe
               badgeLocation={badgeLocation}
               onContextMenu={onContextMenu}
               contextMenuOpen={contextMenuOpen}
+              hideContextMenuKebab={hideContextMenuKebab}
               hover={isHover}
               labelIconClass={labelIconClass}
               labelIcon={labelIcon}
