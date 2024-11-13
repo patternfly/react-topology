@@ -161,6 +161,9 @@
   --pf-topology-default-create-connector--m-hover--line--Stroke: var(--pf-v5-global--Color--100);
   --pf-topology-default-create-connector--m-hover--arrow--Fill: var(--pf-v5-global--Color--100);
   --pf-topology-default-create-connector--m-hover--arrow--Stroke: var(--pf-v5-global--Color--100);
+
+  --pf-topology__area-select-rect--Fill: var(--pf-v5-global--palette--black-500);
+  --pf-topology__area-select-rect--Opacity: 0.4;
 }
 
 /* DARK THEME OVERRIDES */
@@ -245,6 +248,7 @@
   --pf-topology__edge__tag__text--Fill: var(--pf-v5-global--palette--black-900);
   --pf-topology__edge__tag__text--Stroke: var(--pf-v5-global--palette--black-900);
 
+  --pf-topology__area-select-rect--Fill: var(--pf-v5-global--palette--black-300);
 }
 
 .pf-topology-visualization-surface {
@@ -861,3 +865,7 @@
   fill: var(--pf-topology__create-connector-color--Fill);
 }
 
+.pf-topology-area-select-rect {
+  fill: var(--pf-topology__area-select-rect--Fill);
+  opacity: var(--pf-topology__area-select-rect--Opacity);
+}

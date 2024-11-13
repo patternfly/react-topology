@@ -12,7 +12,11 @@ import {
   Visualization,
   VisualizationProvider,
   VisualizationSurface,
-  observer
+  observer,
+  GraphAreaSelectedEventListener,
+  GRAPH_AREA_SELECTED_EVENT,
+  GraphAreaDraggingEvent,
+  GRAPH_AREA_DRAGGING_EVENT
 } from '@patternfly/react-topology';
 import defaultLayoutFactory from '../../layouts/defaultLayoutFactory';
 import defaultComponentFactory from '../../components/defaultComponentFactory';
@@ -23,6 +27,7 @@ import { DemoContext } from './DemoContext';
 import demoComponentFactory from './demoComponentFactory';
 import { graphPositionChangeListener, layoutEndListener } from './listeners';
 import DemoControlBar from '../DemoControlBar';
+import AreaDragHint from './AreaDragHint';
 
 interface TopologyViewComponentProps {
   useSidebar: boolean;
@@ -32,6 +37,7 @@ interface TopologyViewComponentProps {
 const TopologyViewComponent: React.FunctionComponent<TopologyViewComponentProps> = observer(
   ({ useSidebar, sideBarResizable = false }) => {
     const [selectedIds, setSelectedIds] = React.useState<string[]>([]);
+    const [showAreaDragHint, setShowAreaDragHint] = React.useState<boolean>(false);
     const controller = useVisualizationController();
     const options = React.useContext(DemoContext);
 
@@ -57,6 +63,31 @@ const TopologyViewComponent: React.FunctionComponent<TopologyViewComponentProps>
 
     useEventListener<SelectionEventListener>(SELECTION_EVENT, (ids) => {
       setSelectedIds(ids);
+    });
+
+    useEventListener<GraphAreaSelectedEventListener>(
+      GRAPH_AREA_SELECTED_EVENT,
+      ({ graph, modifier, startPoint, endPoint }) => {
+        if (modifier === 'ctrlKey') {
+          graph.zoomToSelection(startPoint, endPoint);
+          return;
+        }
+        if (modifier === 'shiftKey') {
+          const selections = graph.nodesInSelection(startPoint, endPoint);
+          setSelectedIds(
+            selections.reduce((acc, node) => {
+              if (!node.isGroup()) {
+                acc.push(node.getId());
+              }
+              return acc;
+            }, [])
+          );
+        }
+      }
+    );
+
+    useEventListener<GraphAreaDraggingEvent>(GRAPH_AREA_DRAGGING_EVENT, ({ isDragging }) => {
+      setShowAreaDragHint(isDragging);
     });
 
     React.useEffect(() => {
@@ -111,6 +142,7 @@ const TopologyViewComponent: React.FunctionComponent<TopologyViewComponentProps>
         sideBarOpen={useSidebar && !!selectedIds?.length}
         sideBarResizable={sideBarResizable}
       >
+        {showAreaDragHint ? <AreaDragHint /> : null}
         <VisualizationSurface state={{ selectedIds }} />
       </TopologyView>
     );

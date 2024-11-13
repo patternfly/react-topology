@@ -5,7 +5,7 @@ import { action, autorun, IReactionDisposer } from 'mobx';
 import ElementContext from '../utils/ElementContext';
 import useCallbackRef from '../utils/useCallbackRef';
 import Point from '../geom/Point';
-import { Graph, isGraph, ModelKind } from '../types';
+import { Graph, GRAPH_AREA_DRAGGING_EVENT, isGraph, ModelKind } from '../types';
 import { ATTR_DATA_KIND } from '../const';
 
 export type PanZoomRef = (node: SVGGElement | null) => void;
@@ -38,12 +38,25 @@ export const usePanZoom = (): PanZoomRef => {
         .on(
           'zoom',
           action((event: d3.D3ZoomEvent<any, any>) => {
+            if (event.sourceEvent?.type === 'mousemove') {
+              elementRef.current
+                .getController()
+                .fireEvent(GRAPH_AREA_DRAGGING_EVENT, { graph: elementRef.current, isDragging: true });
+            }
             elementRef.current.setPosition(new Point(event.transform.x, event.transform.y));
             elementRef.current.setScale(event.transform.k);
           })
         )
+        .on(
+          'end',
+          action(() => {
+            elementRef.current
+              .getController()
+              .fireEvent(GRAPH_AREA_DRAGGING_EVENT, { graph: elementRef.current, isDragging: false });
+          })
+        )
         .filter((event: React.MouseEvent) => {
-          if (event.ctrlKey || event.button) {
+          if (event.ctrlKey || event.shiftKey || event.altKey || event.button) {
             return false;
           }
           // only allow zoom from double clicking the graph directly

@@ -10,8 +10,9 @@ import {
   ModelKind,
   DragObjectWithType,
   Node,
-  withPanZoom,
   GraphComponent,
+  withPanZoom,
+  withAreaSelection,
   withCreateConnector,
   Graph,
   isNode,
@@ -60,7 +61,9 @@ const demoComponentFactory: ComponentFactory = (
   type: string
 ): React.ComponentType<{ element: GraphElement }> | undefined => {
   if (kind === ModelKind.graph) {
-    return withDndDrop(graphDropTargetSpec([NODE_DRAG_TYPE]))(withPanZoom()(GraphComponent));
+    return withDndDrop(graphDropTargetSpec([NODE_DRAG_TYPE]))(
+      withPanZoom()(withAreaSelection(['ctrlKey', 'shiftKey'])(GraphComponent))
+    );
   }
   switch (type) {
     case 'node':
