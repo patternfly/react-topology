@@ -1,16 +1,20 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
 import { Graph, isGraph } from '../types';
+import styles from '../css/topology-components';
 import { WithPanZoomProps } from '../behavior/usePanZoom';
+import { WithAreaSelectionProps } from '../behavior/useAreaSelection';
 import { WithDndDropProps } from '../behavior/useDndDrop';
 import { WithSelectionProps } from '../behavior/useSelection';
 import { WithContextMenuProps } from '../behavior/withContextMenu';
+import useCombineRefs from '../utils/useCombineRefs';
 import LayersProvider from './layers/LayersProvider';
 import ElementWrapper from './ElementWrapper';
 import { GraphElementProps } from './factories';
 
 type GraphComponentProps = GraphElementProps &
   WithPanZoomProps &
+  WithAreaSelectionProps &
   WithDndDropProps &
   WithSelectionProps &
   WithContextMenuProps;
@@ -39,10 +43,15 @@ const Inner: React.FunctionComponent<{ element: Graph }> = React.memo(
 const GraphComponent: React.FunctionComponent<GraphComponentProps> = ({
   element,
   panZoomRef,
+  areaSelectionRef,
   dndDropRef,
   onSelect,
-  onContextMenu
+  onContextMenu,
+  isAreaSelectDragging,
+  areaSelectDragStart,
+  areaSelectDragEnd
 }) => {
+  const zoomRefs = useCombineRefs(panZoomRef, areaSelectionRef);
   if (!isGraph(element)) {
     return null;
   }
@@ -60,9 +69,18 @@ const GraphComponent: React.FunctionComponent<GraphComponentProps> = ({
         onClick={onSelect}
         onContextMenu={onContextMenu}
       />
-      <g data-surface="true" ref={panZoomRef} transform={`translate(${x}, ${y}) scale(${graphElement.getScale()})`}>
+      <g data-surface="true" ref={zoomRefs} transform={`translate(${x}, ${y}) scale(${graphElement.getScale()})`}>
         <Inner element={graphElement} />
       </g>
+      {isAreaSelectDragging && areaSelectDragStart && areaSelectDragEnd ? (
+        <rect
+          className={styles.topologyAreaSelectRect}
+          x={Math.min(areaSelectDragStart.x, areaSelectDragEnd.x)}
+          y={Math.min(areaSelectDragStart.y, areaSelectDragEnd.y)}
+          width={Math.abs(areaSelectDragEnd.x - areaSelectDragStart.x)}
+          height={Math.abs(areaSelectDragEnd.y - areaSelectDragStart.y)}
+        />
+      ) : null}
     </>
   );
 };

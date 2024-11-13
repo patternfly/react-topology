@@ -6,6 +6,7 @@ export * from './useDndDrop';
 export * from './useDndManager';
 export * from './useDragNode';
 export * from './usePanZoom';
+export * from './useAreaSelection';
 export * from './useReconnect';
 export * from './useSelection';
 export * from './usePolygonAnchor';
