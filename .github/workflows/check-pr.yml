@@ -2,7 +2,6 @@ name: check-pr
 on:
   pull_request:
     branches:
-      - main
       - v5
 jobs:
   call-build-lint-test-workflow:
