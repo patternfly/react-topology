@@ -27,4 +27,4 @@ jobs:
         run: |
           cd packages/module
           npm version ${{ github.ref_name }} --git-tag-version false
-          npm publish --tag=latest
+          npm publish --tag=prerelease-v5
