@@ -1,7 +1,7 @@
 # PatternFly Topology
 
 This package provides the resources necessary to use PatternFly Topology, an open source utility that you can use to create a visual representation of all the applications within your project, their build status, and the components and services associated with them.
-
+  
 Topology utilizes some of PatternFly's React components https://github.com/patternfly/patternfly-react.
 
 Documentation for Topology and its features is available on [the PatternFly website.](www.patternfly.org/topology/about-topology)
