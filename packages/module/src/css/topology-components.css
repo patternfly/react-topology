@@ -149,10 +149,12 @@
   /* edge */
   --pf-topology__edge--Stroke: #707070;
   --pf-topology__edge--StrokeWidth: var(--pf-t--global--border--width--regular);
-  --pf-topology__edge--HoverStroke: var(--pf-t--global--border--color--hover);
+  --pf-topology__edge--HoverStroke: var(--pf-topology__edge--Stroke);
   --pf-topology__edge--ActiveStroke: var(--pf-t--global--border--color--clicked);
   --pf-topology__edge--ActiveStrokeWidth: var(--pf-t--global--border--width--strong);
   --pf-topology__edge--InteractiveStroke: var(--pf-t--global--border--color--brand--default);
+  --pf-topology__edge--m-selected--background--Stroke: var(--pf-topology__edge--ActiveStroke);
+  --pf-topology__edge--m-selected--background--Opacity: 0.3;
 
   --pf-topology__edge--m-info--EdgeStroke: var(--pf-t--global--border--color--brand--default);
   --pf-topology__edge--m-success--EdgeStroke: var(--pf-t--global--border--color--status--success--default);
@@ -164,8 +166,7 @@
   --pf-topology__edge--m-warning--EdgeFill: var(--pf-t--global--border--color--status--warning--default);
   --pf-topology__edge--m-danger--EdgeFill: var(--pf-t--global--border--color--status--danger--default);
 
-  --pf-topology__edge--m-selected--background--Stroke: var(--pf-t--global--border--color--default);
-  --pf-topology__edge--m-hover--background--Stroke: var(--pf-t--global--border--color--nonstatus--blue--default);
+  --pf-topology__edge--m-hover--background--Stroke: var(--pf-t--global--border--color--default);
 
   --pf-topology__edge__tag__text--Fill: var(--pf-t--global--text--color--inverse);
   --pf-topology__edge__tag__text--Stroke: var(--pf-t--global--text--color--inverse);
@@ -667,6 +668,7 @@
 }
 .pf-topology__edge.pf-m-selected .pf-topology__edge__background {
   stroke: var(--pf-topology__edge--m-selected--background--Stroke);
+  opacity: var(--pf-topology__edge--m-selected--background--Opacity);
 }
 .pf-topology__edge.pf-m-hover .pf-topology__edge__background {
   stroke: var(--pf-topology__edge--m-hover--background--Stroke);
