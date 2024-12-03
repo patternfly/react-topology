@@ -32,6 +32,7 @@ type DefaultGroupExpandedProps = {
   secondaryLabel?: string;
   showLabel?: boolean; // Defaults to true
   showLabelOnHover?: boolean;
+  hideContextMenuKebab?: boolean;
   truncateLength?: number; // Defaults to 13
   badge?: string;
   badgeColor?: string;
@@ -128,6 +129,7 @@ const DefaultGroupExpanded: React.FunctionComponent<DefaultGroupExpandedProps> =
   dropTarget,
   onContextMenu,
   contextMenuOpen,
+  hideContextMenuKebab,
   dragging,
   dragNodeRef,
   badge,
@@ -270,6 +272,7 @@ const DefaultGroupExpanded: React.FunctionComponent<DefaultGroupExpandedProps> =
           labelIconPadding={labelIconPadding}
           onContextMenu={onContextMenu}
           contextMenuOpen={contextMenuOpen}
+          hideContextMenuKebab={hideContextMenuKebab}
           hover={isHover || labelHover}
           actionIcon={collapsible ? <CollapseIcon /> : undefined}
           onActionIconClick={() => onCollapseChange(element, true)}
