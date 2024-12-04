@@ -38,8 +38,10 @@ const TaskBadge = React.forwardRef<SVGRectElement, LabelBadgeProps>(
       height += paddingY * 2;
       rect = (
         <rect
-          fill={badgeColor || (badgeClassName ? undefined : defaultBadgeFill.value)}
-          stroke={badgeBorderColor || (badgeClassName ? undefined : defaultBadgeBorder.value)}
+          style={{
+            fill: badgeColor || (badgeClassName ? undefined : defaultBadgeFill.value),
+            stroke: badgeBorderColor || (badgeClassName ? undefined : defaultBadgeBorder.value)
+          }}
           ref={iconRef}
           x={0}
           width={width + paddingX * 2}
@@ -55,7 +57,9 @@ const TaskBadge = React.forwardRef<SVGRectElement, LabelBadgeProps>(
         {rect}
         {typeof badge === 'string' ? (
           <text
-            fill={badgeTextColor || badgeClassName ? undefined : defaultBadgeTextColor.value}
+            style={{
+              fill: badgeTextColor || badgeClassName ? undefined : defaultBadgeTextColor.value
+            }}
             ref={textRef}
             x={width / 2 + paddingX}
             y={height / 2}

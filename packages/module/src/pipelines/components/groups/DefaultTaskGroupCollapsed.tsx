@@ -22,7 +22,6 @@ const DefaultTaskGroupCollapsed: React.FunctionComponent<DefaultTaskGroupCollaps
   return (
     <TaskNode
       element={element}
-      {...rest}
       actionIcon={collapsible ? <ExpandIcon /> : undefined}
       onActionIconClick={() => onCollapseChange(element, false)}
       shadowCount={shadowCount}
