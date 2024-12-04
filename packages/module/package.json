@@ -1,6 +1,6 @@
 {
     "name": "@patternfly/react-topology",
-    "version": "6.0.0-prerelease.0",
+    "version": "6.1.0-prerelease.2",
     "description": "Provide patternfly components, styles, and utilities for displaying a topology view",
     "main": "dist/js/index.js",
     "module": "dist/esm/index.js",
