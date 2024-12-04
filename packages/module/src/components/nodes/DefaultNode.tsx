@@ -118,6 +118,10 @@ interface DefaultNodeProps {
   onContextMenu?: (e: React.MouseEvent) => void;
   /** Flag indicating that the context menu for the node is currently open  */
   contextMenuOpen?: boolean;
+  /** Flag indicating the label should move to the top layer when the node is hovered, set to `false` if you are already using TOP_LAYER on hover */
+  raiseLabelOnHover?: boolean; // TODO: Update default to be false, assume demo code will be followed
+  /** Hide context menu kebab for the node  */
+  hideContextMenuKebab?: boolean;
 }
 
 const SCALE_UP_TIME = 200;
@@ -166,7 +170,9 @@ const DefaultNodeInner: React.FunctionComponent<DefaultNodeInnerProps> = observe
     onHideCreateConnector,
     onShowCreateConnector,
     onContextMenu,
-    contextMenuOpen
+    contextMenuOpen,
+    raiseLabelOnHover = true,
+    hideContextMenuKebab
   }) => {
     const [hovered, hoverRef] = useHover();
     const status = nodeStatus || element.getNodeStatus();
@@ -317,23 +323,73 @@ const DefaultNodeInner: React.FunctionComponent<DefaultNodeInnerProps> = observe
       return { translateX, translateY };
     }, [element, nodeScale, scaleNode]);
 
-    let labelX;
-    let labelY;
-    const labelPaddingX = 8;
-    const labelPaddingY = 4;
-    if (nodeLabelPosition === LabelPosition.right) {
-      labelX = (width + labelPaddingX) * labelPositionScale;
-      labelY = height / 2;
-    } else if (nodeLabelPosition === LabelPosition.left) {
-      labelX = 0;
-      labelY = height / 2 - labelPaddingY;
-    } else if (nodeLabelPosition === LabelPosition.top) {
-      labelX = width / 2;
-      labelY = labelPaddingY + labelPaddingY / 2;
-    } else {
-      labelX = (width / 2) * labelPositionScale;
-      labelY = height + labelPaddingY + labelPaddingY / 2;
-    }
+    const renderLabel = () => {
+      if (!showLabel || !(label || element.getLabel())) {
+        return null;
+      }
+
+      let labelX;
+      let labelY;
+      const labelPaddingX = 8;
+      const labelPaddingY = 4;
+      if (nodeLabelPosition === LabelPosition.right) {
+        labelX = (width + labelPaddingX) * labelPositionScale;
+        labelY = height / 2;
+      } else if (nodeLabelPosition === LabelPosition.left) {
+        labelX = 0;
+        labelY = height / 2 - labelPaddingY;
+      } else if (nodeLabelPosition === LabelPosition.top) {
+        labelX = width / 2;
+        labelY = labelPaddingY + labelPaddingY / 2;
+      } else {
+        labelX = (width / 2) * labelPositionScale;
+        labelY = height + labelPaddingY + labelPaddingY / 2;
+      }
+
+      const nodeLabel = (
+        <g
+          transform={
+            raiseLabelOnHover && isHover
+              ? `${scaleNode ? `translate(${translateX}, ${translateY})` : ''} scale(${nodeScale})`
+              : undefined
+          }
+        >
+          <g transform={`scale(${labelScale})`}>
+            <NodeLabel
+              className={css(styles.topologyNodeLabel, labelClassName)}
+              x={labelX}
+              y={labelY * labelPositionScale}
+              position={nodeLabelPosition}
+              paddingX={8}
+              paddingY={4}
+              secondaryLabel={secondaryLabel}
+              truncateLength={truncateLength}
+              status={status}
+              badge={badge}
+              badgeColor={badgeColor}
+              badgeTextColor={badgeTextColor}
+              badgeBorderColor={badgeBorderColor}
+              badgeClassName={badgeClassName}
+              badgeLocation={badgeLocation}
+              onContextMenu={onContextMenu}
+              contextMenuOpen={contextMenuOpen}
+              hideContextMenuKebab={hideContextMenuKebab}
+              hover={isHover}
+              labelIconClass={labelIconClass}
+              labelIcon={labelIcon}
+              labelIconPadding={labelIconPadding}
+            >
+              {label || element.getLabel()}
+            </NodeLabel>
+          </g>
+        </g>
+      );
+      if (isHover && raiseLabelOnHover) {
+        return <Layer id={TOP_LAYER}>{nodeLabel}</Layer>;
+      }
+      return nodeLabel;
+    };
+
     return (
       <g
         className={groupClassName}
@@ -351,46 +407,7 @@ const DefaultNodeInner: React.FunctionComponent<DefaultNodeInnerProps> = observe
               filter={filter}
             />
           )}
-          {showLabel && (label || element.getLabel()) && (
-            <Layer id={isHover ? TOP_LAYER : undefined}>
-              <g
-                className={groupClassName}
-                transform={
-                  isHover
-                    ? `${scaleNode ? `translate(${translateX}, ${translateY})` : ''} scale(${nodeScale})`
-                    : undefined
-                }
-              >
-                <g transform={`scale(${labelScale})`}>
-                  <NodeLabel
-                    className={css(styles.topologyNodeLabel, labelClassName)}
-                    x={labelX}
-                    y={labelY * labelPositionScale}
-                    position={nodeLabelPosition}
-                    paddingX={8}
-                    paddingY={4}
-                    secondaryLabel={secondaryLabel}
-                    truncateLength={truncateLength}
-                    status={status}
-                    badge={badge}
-                    badgeColor={badgeColor}
-                    badgeTextColor={badgeTextColor}
-                    badgeBorderColor={badgeBorderColor}
-                    badgeClassName={badgeClassName}
-                    badgeLocation={badgeLocation}
-                    onContextMenu={onContextMenu}
-                    contextMenuOpen={contextMenuOpen}
-                    hover={isHover}
-                    labelIconClass={labelIconClass}
-                    labelIcon={labelIcon}
-                    labelIconPadding={labelIconPadding}
-                  >
-                    {label || element.getLabel()}
-                  </NodeLabel>
-                </g>
-              </g>
-            </Layer>
-          )}
+          {renderLabel()}
           {children}
         </g>
         {statusDecorator}

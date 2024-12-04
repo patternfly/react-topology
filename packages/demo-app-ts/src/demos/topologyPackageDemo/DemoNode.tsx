@@ -147,12 +147,13 @@ const getShapeComponent = (shape: NodeShape): React.FunctionComponent<ShapeProps
 };
 
 const DemoNode: React.FunctionComponent<DemoNodeProps> = observer(
-  ({ element, onContextMenu, dragging, onShowCreateConnector, onHideCreateConnector, ...rest }) => {
+  ({ element, onContextMenu, dragging, contextMenuOpen, onShowCreateConnector, onHideCreateConnector, ...rest }) => {
     const options = React.useContext(DemoContext).nodeOptions;
     const nodeElement = element as Node;
     const data = element.getData() as GeneratedNodeData;
     const detailsLevel = element.getGraph().getDetailsLevel();
     const [hover, hoverRef] = useHover();
+    const focused = hover || contextMenuOpen;
 
     React.useEffect(() => {
       if (detailsLevel === ScaleDetailsLevel.low) {
@@ -164,19 +165,22 @@ const DemoNode: React.FunctionComponent<DemoNodeProps> = observer(
     const LabelIcon = data.index % 2 === 1 ? (SignOutAltIcon as any) : undefined;
 
     return (
-      <Layer id={hover ? TOP_LAYER : DEFAULT_LAYER}>
+      <Layer id={focused ? TOP_LAYER : DEFAULT_LAYER}>
         <g ref={hoverRef}>
           <DefaultNode
             element={element}
             scaleLabel={detailsLevel !== ScaleDetailsLevel.low}
-            scaleNode={hover && detailsLevel === ScaleDetailsLevel.low}
+            scaleNode={focused && detailsLevel === ScaleDetailsLevel.low}
+            contextMenuOpen={contextMenuOpen}
             {...rest}
             dragging={dragging}
-            showLabel={hover || (detailsLevel !== ScaleDetailsLevel.low && options.labels)}
-            showStatusBackground={!hover && detailsLevel === ScaleDetailsLevel.low}
+            showLabel={focused || (detailsLevel !== ScaleDetailsLevel.low && options.labels)}
+            raiseLabelOnHover={false}
+            showStatusBackground={!focused && detailsLevel === ScaleDetailsLevel.low}
             showStatusDecorator={detailsLevel === ScaleDetailsLevel.high && options.showStatus}
             statusDecoratorTooltip={nodeElement.getNodeStatus()}
             onContextMenu={options.contextMenus ? onContextMenu : undefined}
+            hideContextMenuKebab={options.hideKebabMenu}
             onShowCreateConnector={detailsLevel !== ScaleDetailsLevel.low ? onShowCreateConnector : undefined}
             onHideCreateConnector={onHideCreateConnector}
             labelIcon={options.icons && LabelIcon && <LabelIcon noVerticalAlign />}
@@ -186,12 +190,12 @@ const DemoNode: React.FunctionComponent<DemoNodeProps> = observer(
             getCustomShape={options.showShapes ? () => getShapeComponent(data.shape) : undefined}
             badge={options.badges ? data.objectType : undefined}
             attachments={
-              (hover || detailsLevel === ScaleDetailsLevel.high) &&
+              (focused || detailsLevel === ScaleDetailsLevel.high) &&
               options.showDecorators &&
               renderDecorators(options, nodeElement, rest.getShapeDecoratorCenter)
             }
           >
-            {(hover || detailsLevel !== ScaleDetailsLevel.low) && renderIcon(data, nodeElement)}
+            {(focused || detailsLevel !== ScaleDetailsLevel.low) && renderIcon(data, nodeElement)}
           </DefaultNode>
         </g>
       </Layer>

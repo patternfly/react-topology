@@ -202,6 +202,11 @@
   --pf-topology-default-create-connector--m-hover--line--Stroke: var(--pf-t--global--border--color--default);
   --pf-topology-default-create-connector--m-hover--arrow--Fill: var(--pf-t--global--border--color--default);
   --pf-topology-default-create-connector--m-hover--arrow--Stroke: var(--pf-t--global--border--color--default);
+
+  --pf-topology__area-select-rect--Fill: var(--pf-t--global--border--color--clicked);
+  --pf-topology__area-select-rect--Stroke: var(--pf-t--global--color--brand--clicked);
+  --pf-topology__area-select-rect--StrokeWidth: var(--pf-t--global--border--width--regular);
+  --pf-topology__area-select-rect--Opacity: 0.3;
 }
 
 .pf-topology-visualization-surface {
@@ -864,4 +869,12 @@
 
 .pf-topology-default-create-connector__create__cursor {
   fill: var(--pf-topology__create-connector-color--Fill);
+}
+
+.pf-topology-area-select-rect {
+  fill: var(--pf-topology__area-select-rect--Fill);
+  opacity: var(--pf-topology__area-select-rect--Opacity);
+  stroke: var(--pf-topology__area-select-rect--Stroke);
+  stroke-width: var(--pf-topology__area-select-rect--StrokeWidth);
+  border: 1px dashed;
 }

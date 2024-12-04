@@ -43,6 +43,7 @@ export type NodeLabelProps = {
   badgeBorderColor?: string;
   badgeClassName?: string;
   badgeLocation?: BadgeLocation;
+  hideContextMenuKebab?: boolean;
 } & Partial<WithContextMenuProps>;
 
 /**
@@ -77,6 +78,7 @@ const NodeLabel: React.FunctionComponent<NodeLabelProps> = ({
   dropTarget,
   onContextMenu,
   contextMenuOpen,
+  hideContextMenuKebab,
   actionIcon,
   actionIconClassName,
   onActionIconClick,
@@ -86,7 +88,7 @@ const NodeLabel: React.FunctionComponent<NodeLabelProps> = ({
   const [labelHover, labelHoverRef] = useHover();
   const refs = useCombineRefs(dragRef, typeof truncateLength === 'number' ? labelHoverRef : undefined);
 
-  const [textSize, textRef] = useSize([children, truncateLength, className, labelHover]);
+  const [textSize, textRef] = useSize([children, truncateLength, className, labelHover, contextMenuOpen]);
   const [secondaryTextSize, secondaryTextRef] = useSize([secondaryLabel, truncateLength, className, labelHover]);
   const [badgeSize, badgeRef] = useSize([badge]);
   const [actionSize, actionRef] = useSize([actionIcon, paddingX]);
@@ -124,7 +126,7 @@ const NodeLabel: React.FunctionComponent<NodeLabelProps> = ({
     const height = Math.max(textSize.height, badgeSize?.height ?? 0) + paddingY * 2;
     const iconSpace = labelIconClass || labelIcon ? (height + paddingY * 0.5) / 2 : 0;
     const actionSpace = actionIcon && actionSize ? actionSize.width : 0;
-    const contextSpace = onContextMenu && contextSize ? contextSize.width : 0;
+    const contextSpace = !hideContextMenuKebab && onContextMenu && contextSize ? contextSize.width : 0;
     const primaryWidth = iconSpace + badgeSpace + paddingX + textSize.width + actionSpace + contextSpace + paddingX;
     const secondaryWidth = secondaryLabel && secondaryTextSize ? secondaryTextSize.width + 2 * paddingX : 0;
     const width = Math.max(primaryWidth, secondaryWidth);
@@ -184,6 +186,7 @@ const NodeLabel: React.FunctionComponent<NodeLabelProps> = ({
     labelIcon,
     actionIcon,
     actionSize,
+    hideContextMenuKebab,
     onContextMenu,
     contextSize,
     secondaryLabel,
@@ -266,7 +269,9 @@ const NodeLabel: React.FunctionComponent<NodeLabelProps> = ({
         />
       )}
       <text {...other} ref={textRef} x={iconSpace + badgeSpace + paddingX} y={height / 2} dy="0.35em">
-        {truncateLength > 0 && !labelHover ? truncateMiddle(children, { length: truncateLength }) : children}
+        {truncateLength > 0 && !labelHover && !contextMenuOpen
+          ? truncateMiddle(children, { length: truncateLength })
+          : children}
       </text>
       {textSize && actionIcon && (
         <>
@@ -291,7 +296,7 @@ const NodeLabel: React.FunctionComponent<NodeLabelProps> = ({
           />
         </>
       )}
-      {textSize && onContextMenu && (
+      {textSize && onContextMenu && !hideContextMenuKebab && (
         <>
           <line
             className={css(styles.topologyNodeSeparator)}

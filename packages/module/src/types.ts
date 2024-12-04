@@ -287,6 +287,8 @@ export interface Graph<E extends GraphModel = GraphModel, D = any> extends Graph
   fit(padding?: number, node?: Node): void;
   centerInView(nodeElement: Node): void;
   panIntoView(element: Node, options?: { offset?: number; minimumVisible?: number }): void;
+  zoomToSelection(startPoint: Point, endPoint: Point): void;
+  nodesInSelection(startPoint: Point, endPoint: Point): Node[];
   isNodeInView(element: Node, options?: { padding: number }): boolean;
   expandAll(): void;
   collapseAll(): void;
@@ -356,6 +358,13 @@ export type NodeCollapseChangeEventListener = EventListener<[{ node: Node }]>;
 
 export type GraphLayoutEndEventListener = EventListener<[{ graph: Graph }]>;
 
+export type ModifierKey = 'ctrlKey' | 'shiftKey' | 'altKey';
+
+export type GraphAreaDraggingEvent = EventListener<[{ graph: Graph; isDragging: boolean }]>;
+export type GraphAreaSelectedEventListener = EventListener<
+  [{ graph: Graph; modifier: ModifierKey; startPoint: Point; endPoint: Point }]
+>;
+
 export const ADD_CHILD_EVENT = 'element-add-child';
 export const ELEMENT_VISIBILITY_CHANGE_EVENT = 'element-visibility-change';
 export const REMOVE_CHILD_EVENT = 'element-remove-child';
@@ -363,3 +372,5 @@ export const NODE_COLLAPSE_CHANGE_EVENT = 'node-collapse-change';
 export const NODE_POSITIONED_EVENT = 'node-positioned';
 export const GRAPH_LAYOUT_END_EVENT = 'graph-layout-end';
 export const GRAPH_POSITION_CHANGE_EVENT = 'graph-position-change';
+export const GRAPH_AREA_DRAGGING_EVENT = 'graph-area-dragging';
+export const GRAPH_AREA_SELECTED_EVENT = 'graph-area-selected';

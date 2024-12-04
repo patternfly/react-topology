@@ -96,6 +96,8 @@ export interface TaskNodeProps {
   onContextMenu?: (e: React.MouseEvent) => void;
   /** Flag indicating that the context menu for the node is currently open  */
   contextMenuOpen?: boolean;
+  /** Hide context menu kebab for the node  */
+  hideContextMenuKebab?: boolean;
   /** Number of shadowed pills to show  */
   shadowCount?: number;
   /** Offset for each shadow  */

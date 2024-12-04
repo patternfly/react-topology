@@ -127,6 +127,17 @@ const OptionsContextBar: React.FC = observer(() => {
           </SelectOption>
           <SelectOption
             hasCheckbox
+            value="Hide context kebab menu"
+            isSelected={options.nodeOptions.hideKebabMenu}
+            isDisabled={!options.nodeOptions.contextMenus}
+            onClick={() =>
+              options.setNodeOptions({ ...options.nodeOptions, hideKebabMenu: !options.nodeOptions.hideKebabMenu })
+            }
+          >
+            Hide kebab for context menu
+          </SelectOption>
+          <SelectOption
+            hasCheckbox
             value="Rectangle Groups"
             isSelected={!options.nodeOptions.hulledOutline}
             onClick={() =>
