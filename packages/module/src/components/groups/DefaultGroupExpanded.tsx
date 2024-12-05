@@ -40,6 +40,7 @@ type DefaultGroupExpandedProps = {
   badgeBorderColor?: string;
   badgeClassName?: string;
   badgeLocation?: BadgeLocation;
+  labelClassName?: string;
   labelIconClass?: string; // Icon to show in label
   labelIcon?: string;
   labelPosition?: LabelPosition;
@@ -138,6 +139,7 @@ const DefaultGroupExpanded: React.FunctionComponent<DefaultGroupExpandedProps> =
   badgeBorderColor,
   badgeClassName,
   badgeLocation,
+  labelClassName,
   labelIconClass,
   labelIcon,
   labelPosition,
@@ -252,7 +254,7 @@ const DefaultGroupExpanded: React.FunctionComponent<DefaultGroupExpandedProps> =
     (showLabel || (showLabelOnHover && isHover)) && (label || element.getLabel()) ? (
       <g ref={labelHoverRef} transform={isHover ? `scale(${labelScale})` : undefined}>
         <NodeLabel
-          className={styles.topologyGroupLabel}
+          className={css(styles.topologyGroupLabel, labelClassName)}
           x={startX * labelPositionScale}
           y={startY * labelPositionScale}
           paddingX={8}

@@ -44,6 +44,7 @@ type DefaultGroupCollapsedProps = {
   badgeBorderColor?: string;
   badgeClassName?: string;
   badgeLocation?: BadgeLocation;
+  labelClassName?: string;
 } & CollapsibleGroupProps &
   WithDragNodeProps &
   WithSelectionProps &
@@ -84,7 +85,8 @@ const DefaultGroupCollapsed: React.FunctionComponent<DefaultGroupCollapsedProps>
   badgeLocation,
   labelIconClass,
   labelIcon,
-  labelIconPadding
+  labelIconPadding,
+  labelClassName
 }) => {
   const [hovered, hoverRef] = useHover();
   const [labelHover, labelHoverRef] = useHover();
@@ -156,7 +158,7 @@ const DefaultGroupCollapsed: React.FunctionComponent<DefaultGroupCollapsedProps>
       )}
       {showLabel && (
         <NodeLabel
-          className={styles.topologyGroupLabel}
+          className={css(styles.topologyGroupLabel, labelClassName)}
           x={collapsedWidth / 2}
           y={labelPosition === LabelPosition.top ? collapsedHeight / 2 - collapsedHeight : collapsedHeight + 6}
           paddingX={8}
