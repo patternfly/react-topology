@@ -82,6 +82,8 @@ interface DefaultGroupProps {
   onContextMenu?: (e: React.MouseEvent) => void;
   /** Flag indicating that the context menu for the node is currently open  */
   contextMenuOpen?: boolean;
+  /** Hide context menu kebab for the group  */
+  hideContextMenuKebab?: boolean;
   /** Flag indicating whether to use hull layout or rect layout for expanded groups. Defaults to hull (true) */
   hulledOutline?: boolean;
 }

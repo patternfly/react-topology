@@ -32,6 +32,7 @@ type DefaultGroupCollapsedProps = {
   label?: string; // Defaults to element.getLabel()
   secondaryLabel?: string;
   showLabel?: boolean; // Defaults to true
+  hideContextMenuKebab?: boolean;
   labelPosition?: LabelPosition; // Defaults to bottom
   truncateLength?: number; // Defaults to 13
   labelIconClass?: string; // Icon to show in label
@@ -72,6 +73,7 @@ const DefaultGroupCollapsed: React.FunctionComponent<DefaultGroupCollapsedProps>
   dropTarget,
   onContextMenu,
   contextMenuOpen,
+  hideContextMenuKebab,
   dragging,
   labelPosition,
   badge,
@@ -174,6 +176,7 @@ const DefaultGroupCollapsed: React.FunctionComponent<DefaultGroupCollapsedProps>
           labelIconPadding={labelIconPadding}
           onContextMenu={onContextMenu}
           contextMenuOpen={contextMenuOpen}
+          hideContextMenuKebab={hideContextMenuKebab}
           hover={isHover || labelHover}
           actionIcon={collapsible ? <ExpandIcon /> : undefined}
           onActionIconClick={() => onCollapseChange(element, false)}
