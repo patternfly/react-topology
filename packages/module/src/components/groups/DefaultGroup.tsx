@@ -32,6 +32,8 @@ interface DefaultGroupProps {
   secondaryLabel?: string;
   /** Flag to show the label */
   showLabel?: boolean; // Defaults to true
+  /** Additional classes to add to the label */
+  labelClassName?: string;
   /** Flag to show the label when hovering (effects expanded only) */
   showLabelOnHover?: boolean;
   /** Position of the label, top or bottom. Defaults to element.getLabelPosition() or bottom */
