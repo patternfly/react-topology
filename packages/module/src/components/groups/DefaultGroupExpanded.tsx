@@ -32,6 +32,7 @@ type DefaultGroupExpandedProps = {
   secondaryLabel?: string;
   showLabel?: boolean; // Defaults to true
   showLabelOnHover?: boolean;
+  hideContextMenuKebab?: boolean;
   truncateLength?: number; // Defaults to 13
   badge?: string;
   badgeColor?: string;
@@ -39,6 +40,7 @@ type DefaultGroupExpandedProps = {
   badgeBorderColor?: string;
   badgeClassName?: string;
   badgeLocation?: BadgeLocation;
+  labelClassName?: string;
   labelIconClass?: string; // Icon to show in label
   labelIcon?: string;
   labelPosition?: LabelPosition;
@@ -129,6 +131,7 @@ const DefaultGroupExpanded: React.FunctionComponent<DefaultGroupExpandedProps> =
   dropTarget,
   onContextMenu,
   contextMenuOpen,
+  hideContextMenuKebab,
   dragging,
   dragNodeRef,
   badge,
@@ -137,6 +140,7 @@ const DefaultGroupExpanded: React.FunctionComponent<DefaultGroupExpandedProps> =
   badgeBorderColor,
   badgeClassName,
   badgeLocation,
+  labelClassName,
   labelIconClass,
   labelIcon,
   labelPosition,
@@ -252,7 +256,7 @@ const DefaultGroupExpanded: React.FunctionComponent<DefaultGroupExpandedProps> =
     (showLabel || (showLabelOnHover && isHover)) && (label || element.getLabel()) ? (
       <g ref={labelHoverRef} transform={isHover ? `scale(${labelScale})` : undefined}>
         <NodeLabel
-          className={styles.topologyGroupLabel}
+          className={css(styles.topologyGroupLabel, labelClassName)}
           x={startX * labelPositionScale}
           y={startY * labelPositionScale}
           paddingX={8}
@@ -272,6 +276,7 @@ const DefaultGroupExpanded: React.FunctionComponent<DefaultGroupExpandedProps> =
           labelIconPadding={labelIconPadding}
           onContextMenu={onContextMenu}
           contextMenuOpen={contextMenuOpen}
+          hideContextMenuKebab={hideContextMenuKebab}
           hover={isHover || labelHover}
           actionIcon={collapsible ? <CollapseIcon /> : undefined}
           onActionIconClick={() => onCollapseChange(element, true)}

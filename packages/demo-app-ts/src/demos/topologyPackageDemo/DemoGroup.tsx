@@ -51,7 +51,8 @@ const DemoGroup: React.FunctionComponent<DemoGroupProps> = ({ element, onContext
   return (
     <DefaultGroup
       {...rest}
-      onContextMenu={data.showContextMenu ? onContextMenu : undefined}
+      onContextMenu={options.contextMenus ? onContextMenu : undefined}
+      hideContextMenuKebab={options.hideKebabMenu}
       element={element}
       collapsible
       collapsedWidth={DEFAULT_NODE_SIZE}
