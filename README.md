@@ -27,7 +27,7 @@ To use Topology, you will need to have both [Node Active LTS](https://github.com
 
 ## Installing Topology
 
-Once you have all of the prequisites, you can install the Topology package with Yarn or npm:
+Once you have all of the prerequisites, you can install the Topology package with Yarn or npm:
 
 1. Using Yarn:
 
