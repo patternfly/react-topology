@@ -43,7 +43,7 @@ yarn start:demo-app:hot
 <i> [webpack-dev-server] Loopback: http://localhost:3000/
 ```
 
-4. Explore the demo app in your browser:
+4. Explore the demo app in [your browser](http://localhost:3000/)
 
 ![Demo app landing page.](../../packages/module/patternfly-docs/content/examples/img/topology-demo-app.png)
 
