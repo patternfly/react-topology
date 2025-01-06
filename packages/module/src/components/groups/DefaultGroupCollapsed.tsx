@@ -32,6 +32,7 @@ type DefaultGroupCollapsedProps = {
   label?: string; // Defaults to element.getLabel()
   secondaryLabel?: string;
   showLabel?: boolean; // Defaults to true
+  hideContextMenuKebab?: boolean;
   labelPosition?: LabelPosition; // Defaults to bottom
   truncateLength?: number; // Defaults to 13
   labelIconClass?: string; // Icon to show in label
@@ -43,6 +44,7 @@ type DefaultGroupCollapsedProps = {
   badgeBorderColor?: string;
   badgeClassName?: string;
   badgeLocation?: BadgeLocation;
+  labelClassName?: string;
 } & CollapsibleGroupProps &
   WithDragNodeProps &
   WithSelectionProps &
@@ -72,6 +74,7 @@ const DefaultGroupCollapsed: React.FunctionComponent<DefaultGroupCollapsedProps>
   dropTarget,
   onContextMenu,
   contextMenuOpen,
+  hideContextMenuKebab,
   dragging,
   labelPosition,
   badge,
@@ -82,7 +85,8 @@ const DefaultGroupCollapsed: React.FunctionComponent<DefaultGroupCollapsedProps>
   badgeLocation,
   labelIconClass,
   labelIcon,
-  labelIconPadding
+  labelIconPadding,
+  labelClassName
 }) => {
   const [hovered, hoverRef] = useHover();
   const [labelHover, labelHoverRef] = useHover();
@@ -154,7 +158,7 @@ const DefaultGroupCollapsed: React.FunctionComponent<DefaultGroupCollapsedProps>
       )}
       {showLabel && (
         <NodeLabel
-          className={styles.topologyGroupLabel}
+          className={css(styles.topologyGroupLabel, labelClassName)}
           x={collapsedWidth / 2}
           y={labelPosition === LabelPosition.top ? collapsedHeight / 2 - collapsedHeight : collapsedHeight + 6}
           paddingX={8}
@@ -174,6 +178,7 @@ const DefaultGroupCollapsed: React.FunctionComponent<DefaultGroupCollapsedProps>
           labelIconPadding={labelIconPadding}
           onContextMenu={onContextMenu}
           contextMenuOpen={contextMenuOpen}
+          hideContextMenuKebab={hideContextMenuKebab}
           hover={isHover || labelHover}
           actionIcon={collapsible ? <ExpandIcon /> : undefined}
           onActionIconClick={() => onCollapseChange(element, false)}
