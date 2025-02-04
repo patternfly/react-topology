@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Dropdown, DropdownItem } from '@patternfly/react-core';
+import { Menu, DropdownItem } from '@patternfly/react-core';
 import AngleRightIcon from '@patternfly/react-icons/dist/esm/icons/angle-right-icon';
 import { css } from '@patternfly/react-styles';
 import topologyStyles from '../../css/topology-components';
@@ -10,6 +10,17 @@ interface ContextSubMenuItemProps {
   label: React.ReactNode;
   children: React.ReactNode[];
 }
+
+/**
+ * Check if an event target implements the [DOM Node interface][1].
+ * Needed to prevent runtime errors where the event target is not a DOM node,
+ * but `contains` is still called on it.
+ *
+ * [1]: https://developer.mozilla.org/en-US/docs/Web/API/Node
+ */
+const implementsDOMNode = (node: any): boolean => {
+  return node && typeof node === 'object' && node.nodeType && node.nodeName;
+};
 
 const ContextSubMenuItem: React.FunctionComponent<ContextSubMenuItemProps> = ({ label, children, ...other }) => {
   const nodeRef = React.useRef<HTMLButtonElement>(null);
@@ -29,7 +40,10 @@ const ContextSubMenuItem: React.FunctionComponent<ContextSubMenuItemProps> = ({ 
         onMouseEnter={() => setOpen(true)}
         onMouseLeave={(e) => {
           // if the mouse leaves this item, close the sub menu only if the mouse did not enter the sub menu itself
-          if (!subMenuRef.current || !subMenuRef.current.contains(e.relatedTarget as Node)) {
+          if (
+            !subMenuRef.current ||
+            (implementsDOMNode(e.relatedTarget) && !subMenuRef.current.contains(e.relatedTarget as Node))
+          ) {
             setOpen(false);
           }
         }}
@@ -51,22 +65,21 @@ const ContextSubMenuItem: React.FunctionComponent<ContextSubMenuItemProps> = ({ 
         closeOnOutsideClick
         onRequestClose={(e) => {
           // only close the sub menu if clicking anywhere outside the menu item that owns the sub menu
-          if (!e || !nodeRef.current || !nodeRef.current.contains(e.target as Node)) {
+          if (!e || !nodeRef.current || (implementsDOMNode(e.target) && !nodeRef.current.contains(e.target as Node))) {
             setOpen(false);
           }
         }}
         reference={referenceCb}
-        // use the parent node to capture the li
-        container={nodeRef.current ? nodeRef.current.parentElement : nodeRef.current}
+        container={nodeRef.current?.closest('.pf-v6-c-menu__content')}
         returnFocus
       >
-        <div
-          ref={subMenuRef}
-          role="presentation"
-          className="pf-v6-c-dropdown pf-m-expanded"
+        <Menu
           onMouseLeave={(e) => {
             // only close the sub menu if the mouse does not enter the item
-            if (!nodeRef.current || !nodeRef.current.contains(e.relatedTarget as Node)) {
+            if (
+              !nodeRef.current ||
+              (implementsDOMNode(e.relatedTarget) && !nodeRef.current.contains(e.relatedTarget as Node))
+            ) {
               setOpen(false);
             }
           }}
@@ -77,11 +90,12 @@ const ContextSubMenuItem: React.FunctionComponent<ContextSubMenuItemProps> = ({ 
               e.stopPropagation();
             }
           }}
+          ref={subMenuRef}
+          role="presentation"
+          isNavFlyout
         >
-          <Dropdown toggle={() => <></>} className={css(topologyStyles.topologyContextMenuCDropdownMenu)}>
-            {children}
-          </Dropdown>
-        </div>
+          {children}
+        </Menu>
       </Popper>
     </>
   );
