@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
 import {
   Page,
   Nav,
@@ -66,18 +66,18 @@ class App extends React.Component<{}, AppState> {
       undefined
     );
     return (
-      <Switch>
+      <Routes>
         {Demos.reduce((acc, demo) => {
           if (demo.demos) {
             demo.demos.forEach((subDemo) => {
               acc.push(
                 <Route
                   path={`/${demo.id}-nav-link/${subDemo.id}-nav-link`}
-                  render={() => (
+                  element={
                     <PageSection style={{ zIndex: 2 }} id={`/${demo.id}-nav-link/${subDemo.id}-nav-link`}>
                       {React.createElement(subDemo.componentType)}
                     </PageSection>
-                  )}
+                  }
                   key={demo.id}
                 />
               );
@@ -86,11 +86,11 @@ class App extends React.Component<{}, AppState> {
             acc.push(
               <Route
                 path={`/${demo.id}-nav-link`}
-                render={() => (
+                element={
                   <PageSection style={{ zIndex: 2 }} id={`/${demo.id}-page-section`}>
                     {React.createElement(demo.componentType)}
                   </PageSection>
-                )}
+                }
                 key={demo.id}
               />
             );
@@ -100,15 +100,15 @@ class App extends React.Component<{}, AppState> {
         {defaultDemo ? (
           <Route
             path="/"
-            render={() => (
+            element={
               <PageSection style={{ zIndex: 2 }} id={`/${defaultDemo.id}-page-section`}>
                 {React.createElement(defaultDemo.componentType)}
               </PageSection>
-            )}
+            }
             key={defaultDemo.id}
           />
         ) : null}
-      </Switch>
+      </Routes>
     );
   };
 
