@@ -18,7 +18,7 @@ interface ContextSubMenuItemProps {
  *
  * [1]: https://developer.mozilla.org/en-US/docs/Web/API/Node
  */
-const implementsDOMNode = (node: any): boolean => {
+const implementsDOMNode = (node: any): node is Node => {
   return node && typeof node === 'object' && node.nodeType && node.nodeName;
 };
 
@@ -42,7 +42,7 @@ const ContextSubMenuItem: React.FunctionComponent<ContextSubMenuItemProps> = ({ 
           // if the mouse leaves this item, close the sub menu only if the mouse did not enter the sub menu itself
           if (
             !subMenuRef.current ||
-            (implementsDOMNode(e.relatedTarget) && !subMenuRef.current.contains(e.relatedTarget as Node))
+            (implementsDOMNode(e.relatedTarget) && !subMenuRef.current.contains(e.relatedTarget))
           ) {
             setOpen(false);
           }
@@ -65,7 +65,7 @@ const ContextSubMenuItem: React.FunctionComponent<ContextSubMenuItemProps> = ({ 
         closeOnOutsideClick
         onRequestClose={(e) => {
           // only close the sub menu if clicking anywhere outside the menu item that owns the sub menu
-          if (!e || !nodeRef.current || (implementsDOMNode(e.target) && !nodeRef.current.contains(e.target as Node))) {
+          if (!e || !nodeRef.current || (implementsDOMNode(e.target) && !nodeRef.current.contains(e.target))) {
             setOpen(false);
           }
         }}
@@ -78,7 +78,7 @@ const ContextSubMenuItem: React.FunctionComponent<ContextSubMenuItemProps> = ({ 
             // only close the sub menu if the mouse does not enter the item
             if (
               !nodeRef.current ||
-              (implementsDOMNode(e.relatedTarget) && !nodeRef.current.contains(e.relatedTarget as Node))
+              (implementsDOMNode(e.relatedTarget) && !nodeRef.current.contains(e.relatedTarget))
             ) {
               setOpen(false);
             }
