@@ -25,6 +25,14 @@ const ContextMenu: React.FunctionComponent<ContextMenuProps> = ({
     onRequestClose ? onRequestClose() : setOpen(false);
   }, [onRequestClose]);
 
+  React.useEffect(() => {
+    if (isOpen) {
+      setOpen(false);
+      requestAnimationFrame(() => setOpen(true));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [children]);
+
   return (
     <Popper {...other} closeOnEsc closeOnOutsideClick open={isOpen} onRequestClose={handleOnRequestClose}>
       <Dropdown
