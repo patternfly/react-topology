@@ -155,6 +155,8 @@
   --pf-topology__edge--InteractiveStroke: var(--pf-t--global--border--color--brand--default);
   --pf-topology__edge--m-selected--background--Stroke: var(--pf-topology__edge--ActiveStroke);
   --pf-topology__edge--m-selected--background--Opacity: 0.3;
+  --pf-topology__edge--m-drop-target--Stroke: var(--pf-t--global--border--color--brand--default);
+  --pf-topology__edge--m-drop-target--StrokeWidth: var(--pf-t--global--border--width--strong);
 
   --pf-topology__edge--m-info--EdgeStroke: var(--pf-t--global--border--color--brand--default);
   --pf-topology__edge--m-success--EdgeStroke: var(--pf-t--global--border--color--status--success--default);
@@ -705,6 +707,14 @@
 .pf-topology__edge__link.pf-m-dashed-xl {
   stroke-dasharray: 32 2;
   stroke-dashoffset: 34;
+}
+
+.pf-topology__edge__link.pf-m-drop-target {
+  stroke-dasharray: 2;
+  stroke-dashoffset: 2;
+  stroke: var(--pf-t--global--border--color--hover);
+  stroke-width: var(--pf-t--global--border--width--strong);
+
 }
 
 @keyframes pf-topology__edge__dash {

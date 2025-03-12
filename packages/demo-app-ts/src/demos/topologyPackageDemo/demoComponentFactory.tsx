@@ -25,7 +25,14 @@ import {
   groupDropTargetSpec,
   graphDropTargetSpec,
   NODE_DRAG_TYPE,
-  CREATE_CONNECTOR_DROP_TYPE
+  CREATE_CONNECTOR_DROP_TYPE,
+  edgeDropTargetSpec,
+  DragSourceSpec,
+  DragSpecOperationType,
+  EditableDragOperationType,
+  GraphElementProps,
+  isEdge,
+  Model
 } from '@patternfly/react-topology';
 import CustomPathNode from '../../components/CustomPathNode';
 import CustomPolygonNode from '../../components/CustomPolygonNode';
@@ -39,6 +46,55 @@ const CONNECTOR_TARGET_DROP = 'connector-target-drop';
 interface EdgeProps {
   element: Edge;
 }
+
+/* Extend the util 'nodeDragSourceSpec' to also handle dropping a node on an edge to split the edge */
+const nodeDragSourceEdgeExtensionSpec = (
+  type: string,
+  allowRegroup: boolean = true,
+  canEdit: boolean = false
+): DragSourceSpec<
+  DragObjectWithType,
+  DragSpecOperationType<EditableDragOperationType>,
+  GraphElement,
+  {
+    dragging?: boolean;
+    regrouping?: boolean;
+  },
+  GraphElementProps & { canEdit?: boolean }
+> => {
+  const standardSpec = nodeDragSourceSpec(type, allowRegroup, canEdit);
+  return {
+    ...standardSpec,
+    end: async (dropResult, monitor, props) => {
+      if (!monitor.isCancelled() && isEdge(dropResult) && props && monitor.didDrop()) {
+        const droppedEdge = dropResult as Edge;
+        const model = droppedEdge.getController().toModel();
+
+        const newEdge1 = {
+          type: droppedEdge.getType(),
+          id: `${droppedEdge.getSource().getId()}--${props.element.getId()}`,
+          source: droppedEdge.getSource().getId(),
+          target: props.element.getId(),
+          data: droppedEdge.getData()
+        };
+        const newEdge2 = {
+          type: droppedEdge.getType(),
+          id: `${props.element.getId()}--${droppedEdge.getTarget().getId()}`,
+          source: props.element.getId(),
+          target: droppedEdge.getTarget().getId(),
+          data: droppedEdge.getData()
+        };
+        const updateModel: Model = {
+          edges: [...model.edges.filter((e) => e.id !== droppedEdge.getId()), newEdge1, newEdge2],
+          nodes: model.nodes
+        };
+        droppedEdge.getController().fromModel(updateModel, true);
+        return undefined;
+      }
+      return standardSpec.end(dropResult, monitor, props);
+    }
+  };
+};
 
 const contextMenuItem = (label: string, i: number): React.ReactElement => {
   if (label === '-') {
@@ -89,7 +145,7 @@ const demoComponentFactory: ComponentFactory = (
       })(
         withDndDrop(nodeDropTargetSpec([CONNECTOR_SOURCE_DROP, CONNECTOR_TARGET_DROP, CREATE_CONNECTOR_DROP_TYPE]))(
           withContextMenu(() => defaultMenu)(
-            withDragNode(nodeDragSourceSpec('node', true, true))(withSelection()(DemoNode))
+            withDragNode(nodeDragSourceEdgeExtensionSpec('node', true, true))(withSelection()(DemoNode))
           )
         )
       );
@@ -136,7 +192,11 @@ const demoComponentFactory: ComponentFactory = (
           collect: (monitor) => ({
             dragging: monitor.isDragging()
           })
-        })(withContextMenu(() => defaultMenu)(withSelection()(DemoEdge)))
+        })(
+          withDndDrop<Node, any, { droppable?: boolean; hover?: boolean; canDrop?: boolean }, EdgeProps>(
+            edgeDropTargetSpec
+          )(withContextMenu(() => defaultMenu)(withSelection()(DemoEdge)))
+        )
       );
     default:
       return undefined;
