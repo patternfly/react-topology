@@ -17,36 +17,10 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: '18'
-      - uses: actions/cache@v2
-        id: yarn-cache
-        name: Cache npm deps
-        with:
-          path: |
-           node_modules
-           **/node_modules
-           ~/.cache/Cypress
-          key: ${{ runner.os }}-yarn-14-${{ secrets.CACHE_VERSION }}-${{ hashFiles('yarn.lock') }}
       - run: yarn install --frozen-lockfile
-        if: steps.yarn-cache.outputs.cache-hit != 'true'
-      - uses: actions/cache@v2
-        id: css-in-js-cache
-        name: Cache css in js files
-        with:
-          path: |
-            packages/module/src/css
-          key: ${{ runner.os }}-css-14-${{ secrets.CACHE_VERSION }}-${{ hashFiles('packages/module/src/css/*') }}
       - name: generate
         run: cd packages/module && yarn generate
-        if: steps.css-in-js-cache.outputs.cache-hit != 'true'
-      - uses: actions/cache@v2
-        id: dist
-        name: Cache dist
-        with:
-          path: |
-            packages/*/dist
-          key: ${{ runner.os }}-dist-14-${{ secrets.CACHE_VERSION }}-${{ hashFiles('yarn.lock', 'package.json', 'packages/*/*', '!packages/*/dist', '!packages/*/node_modules') }}
       - name: Build dist
         run: yarn build
-        if: steps.dist.outputs.cache-hit != 'true'
       - name: Release to NPM
         run: cd packages/module && npx semantic-release@19.0.5
