@@ -4,7 +4,6 @@ module.exports = {
   modulePathIgnorePatterns: [
     '<rootDir>/packages/*.*/dist/*.*',
     '<rootDir>/packages/*.*/public/*.*',
-    '<rootDir>/packages/*.*/.cache/*.*'
   ],
   roots: ['<rootDir>/packages'],
   transform: {
