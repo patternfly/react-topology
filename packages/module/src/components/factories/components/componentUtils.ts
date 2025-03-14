@@ -278,6 +278,20 @@ const edgeDragSourceSpec = (
   })
 });
 
+const edgeDropTargetSpec: DropTargetSpec<any, any, { droppable: boolean; dropTarget: boolean; canDrop: boolean }, any> =
+  {
+    accept: [NODE_DRAG_TYPE],
+    canDrop: (item, monitor, props) =>
+      !!props &&
+      (props.element as Edge).getSource().getId() !== item.id &&
+      (props.element as Edge).getTarget().getId() !== item.id,
+    collect: (monitor) => ({
+      droppable: monitor.isDragging(),
+      dropTarget: monitor.isOver(),
+      canDrop: monitor.canDrop()
+    })
+  };
+
 const noDropTargetSpec: DropTargetSpec<GraphElement, any, {}, { element: GraphElement }> = {
   accept: [NODE_DRAG_TYPE, EDGE_DRAG_TYPE, CREATE_CONNECTOR_DROP_TYPE],
   canDrop: () => false
@@ -291,6 +305,7 @@ export {
   graphDropTargetSpec,
   groupDropTargetSpec,
   edgeDragSourceSpec,
+  edgeDropTargetSpec,
   noDropTargetSpec,
   REGROUP_OPERATION,
   MOVE_CONNECTOR_DROP_TYPE,

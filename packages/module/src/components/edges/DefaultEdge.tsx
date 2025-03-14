@@ -10,8 +10,8 @@ import {
   NodeStatus,
   ScaleDetailsLevel
 } from '../../types';
-import { ConnectDragSource, OnSelect } from '../../behavior';
-import { getClosestVisibleParent, useHover } from '../../utils';
+import { ConnectDragSource, ConnectDropTarget, OnSelect } from '../../behavior';
+import { getClosestVisibleParent, useCombineRefs, useHover } from '../../utils';
 import { Layer } from '../layers';
 import { css } from '@patternfly/react-styles';
 import styles from '../../css/topology-components';
@@ -65,6 +65,12 @@ interface DefaultEdgeProps {
   sourceDragRef?: ConnectDragSource;
   /** Ref to use to start the drag of the end of the edge. Part of WithTargetDragProps */
   targetDragRef?: ConnectDragSource;
+  /** A ref to add to the node for dropping. Part of WithDndDropProps */
+  dndDropRef?: ConnectDropTarget;
+  /** Flag if the current drag operation can be dropped on the edge */
+  canDrop?: boolean;
+  /** Flag if the node is the current drop target */
+  dropTarget?: boolean;
   /** Flag indicating if the element is selected. Part of WithSelectionProps */
   selected?: boolean;
   /** Function to call when the element should become selected (or deselected). Part of WithSelectionProps */
@@ -83,6 +89,9 @@ const DefaultEdgeInner: React.FunctionComponent<DefaultEdgeInnerProps> = observe
     dragging,
     sourceDragRef,
     targetDragRef,
+    dndDropRef,
+    canDrop,
+    dropTarget,
     edgeStyle,
     animationDuration,
     onShowRemoveConnector,
@@ -105,10 +114,10 @@ const DefaultEdgeInner: React.FunctionComponent<DefaultEdgeInnerProps> = observe
     onContextMenu
   }) => {
     const [hover, hoverRef] = useHover();
+    const edgeRef = useCombineRefs(hoverRef, dndDropRef);
     const startPoint = element.getStartPoint();
     const endPoint = element.getEndPoint();
 
-    // eslint-disable-next-line patternfly-react/no-layout-effect
     React.useLayoutEffect(() => {
       if (hover && !dragging) {
         onShowRemoveConnector && onShowRemoveConnector();
@@ -136,7 +145,12 @@ const DefaultEdgeInner: React.FunctionComponent<DefaultEdgeInnerProps> = observe
     );
 
     const edgeAnimationDuration = animationDuration ?? getEdgeAnimationDuration(element.getEdgeAnimationSpeed());
-    const linkClassName = css(styles.topologyEdgeLink, getEdgeStyleClassModifier(edgeStyle || element.getEdgeStyle()));
+    const linkClassName = css(
+      styles.topologyEdgeLink,
+      canDrop && 'pf-m-highlight',
+      canDrop && dropTarget && 'pf-m-drop-target',
+      getEdgeStyleClassModifier(edgeStyle || element.getEdgeStyle())
+    );
 
     const bendpoints = element.getBendpoints();
 
@@ -164,7 +178,7 @@ const DefaultEdgeInner: React.FunctionComponent<DefaultEdgeInnerProps> = observe
     return (
       <Layer id={dragging || hover ? TOP_LAYER : undefined}>
         <g
-          ref={hoverRef}
+          ref={edgeRef}
           data-test-id="edge-handler"
           className={groupClassName}
           onClick={onSelect}
