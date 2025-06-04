@@ -73,7 +73,7 @@ const VisualizationSurface: React.FunctionComponent<VisualizationSurfaceProps> =
     <Wrapper client onResize={onMeasure}>
       {({ measureRef }: { measureRef: React.LegacyRef<any> }) => (
         <div data-test-id="topology" className={css(styles.topologyVisualizationSurface)} ref={measureRef}>
-          // render an outer div because react-measure doesn't seem to fire events properly on svg resize
+          {/* render an outer div because react-measure doesn't seem to fire events properly on svg resize */}
           <svg className={css(styles.topologyVisualizationSurfaceSvg)} onContextMenu={stopEvent}>
             <SVGDefsProvider>
               <ElementWrapper element={graph} />
