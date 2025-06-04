@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { Component } from 'react';
 import SVGDefsContext, { SVGDefsContextProps } from './SVGDefsContext';
 import { SVGDefsSetter } from './SVGDefsSetter';
 
@@ -16,7 +16,7 @@ export type SVGDefsSetterProps = SVGDefsContextProps & SVGDefsProps;
  * The assumption must be that there is not a single owner but many owners and therefore each
  * owner must be contributing the same def.
  */
-export default class SVGDefs extends React.Component<SVGDefsProps> {
+export default class SVGDefs extends Component<SVGDefsProps> {
   shouldComponentUpdate() {
     return false;
   }

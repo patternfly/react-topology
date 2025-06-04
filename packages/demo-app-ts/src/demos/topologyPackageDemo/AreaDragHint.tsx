@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { InfoCircleIcon, MouseIcon } from '@patternfly/react-icons';
 
 import './AreaDragHint.css';

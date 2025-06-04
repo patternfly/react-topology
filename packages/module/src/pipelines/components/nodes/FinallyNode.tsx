@@ -1,4 +1,3 @@
-import * as React from 'react';
 import TaskNode, { TaskNodeProps } from './TaskNode';
 
 const FinallyNode: React.FC<TaskNodeProps> = (props) => (

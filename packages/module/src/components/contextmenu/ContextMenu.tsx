@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { Dropdown } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import topologyStyles from '../../css/topology-components';
@@ -16,16 +16,16 @@ const ContextMenu: React.FunctionComponent<ContextMenuProps> = ({
   onRequestClose,
   ...other
 }) => {
-  const [isOpen, setOpen] = React.useState(!!open);
-  React.useEffect(() => {
+  const [isOpen, setOpen] = useState(!!open);
+  useEffect(() => {
     setOpen(open);
   }, [open]);
 
-  const handleOnRequestClose = React.useCallback(() => {
+  const handleOnRequestClose = useCallback(() => {
     onRequestClose ? onRequestClose() : setOpen(false);
   }, [onRequestClose]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (isOpen) {
       setOpen(false);
       requestAnimationFrame(() => setOpen(true));

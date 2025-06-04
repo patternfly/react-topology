@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState, useMemo } from 'react';
 
 // eslint-disable-next-line patternfly-react/import-tokens-icons
 import { RegionsIcon as Icon1 } from '@patternfly/react-icons';
@@ -208,9 +208,9 @@ const EDGES: EdgeModel[] = [
 ];
 
 export const TopologyCustomEdgeDemo: React.FC = () => {
-  const [selectedIds, setSelectedIds] = React.useState<string[]>([]);
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
-  const controller = React.useMemo(() => {
+  const controller = useMemo(() => {
     const model: Model = {
       nodes: NODES,
       edges: EDGES,

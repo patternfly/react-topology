@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useMemo, useEffect } from 'react';
 import {
   Decorator,
   DEFAULT_DECORATOR_RADIUS,
@@ -137,7 +137,7 @@ const StyleNode: React.FunctionComponent<StyleNodeProps> = ({
   const [hover, hoverRef] = useHover();
   const focused = hover || contextMenuOpen;
 
-  const passedData = React.useMemo(() => {
+  const passedData = useMemo(() => {
     const newData = { ...data };
     Object.keys(newData).forEach((key) => {
       if (newData[key] === undefined) {
@@ -147,7 +147,7 @@ const StyleNode: React.FunctionComponent<StyleNodeProps> = ({
     return newData;
   }, [data]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (detailsLevel === ScaleDetailsLevel.low) {
       onHideCreateConnector && onHideCreateConnector();
     }

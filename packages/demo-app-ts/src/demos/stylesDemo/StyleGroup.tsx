@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useMemo } from 'react';
 import {
   DefaultGroup,
   GraphElement,
@@ -64,7 +64,7 @@ const StyleGroup: React.FunctionComponent<StyleGroupProps> = ({
     );
   };
 
-  const passedData = React.useMemo(() => {
+  const passedData = useMemo(() => {
     const newData = { ...data };
     Object.keys(newData).forEach((key) => {
       if (newData[key] === undefined) {

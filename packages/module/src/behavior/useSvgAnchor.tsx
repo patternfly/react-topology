@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useContext, useCallback } from 'react';
 import { action } from 'mobx';
 import { isNode, AnchorEnd } from '../types';
 import ElementContext from '../utils/ElementContext';
@@ -10,12 +10,12 @@ export const useSvgAnchor = (
   end: AnchorEnd = AnchorEnd.both,
   type: string = ''
 ): ((node: SVGElement | null) => void) => {
-  const element = React.useContext(ElementContext);
+  const element = useContext(ElementContext);
   if (!isNode(element)) {
     throw new Error('useSvgAnchor must be used within the scope of a Node');
   }
 
-  return React.useCallback<SvgAnchorRef>(
+  return useCallback<SvgAnchorRef>(
     (node: SVGElement | null) => {
       const actionFn = action((node: SVGElement | null) => {
         if (node) {

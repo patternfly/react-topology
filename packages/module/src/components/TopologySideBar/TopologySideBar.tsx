@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState, useEffect, Fragment } from 'react';
 
 import { css } from '@patternfly/react-styles';
 import styles from '../../css/topology-side-bar';
@@ -29,9 +29,9 @@ export const TopologySideBar: React.FunctionComponent<TopologySideBarProps> = ({
   children = null,
   ...otherProps
 }: TopologySideBarProps) => {
-  const [isIn, setIsIn] = React.useState<boolean>(false);
+  const [isIn, setIsIn] = useState<boolean>(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     let timer: any = null;
 
     if (isIn !== show) {
@@ -49,7 +49,7 @@ export const TopologySideBar: React.FunctionComponent<TopologySideBarProps> = ({
   return (
     <div {...otherProps} role="dialog" className={classNames}>
       {(resizable || show) && (
-        <React.Fragment>
+        <Fragment>
           {onClose && (
             <Button
               icon={<TimesIcon />}
@@ -61,7 +61,7 @@ export const TopologySideBar: React.FunctionComponent<TopologySideBarProps> = ({
           )}
           {header && <div className={styles.topologySideBarHeader}>{header}</div>}
           {children}
-        </React.Fragment>
+        </Fragment>
       )}
     </div>
   );

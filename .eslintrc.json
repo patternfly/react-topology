@@ -9,6 +9,7 @@
     "plugin:react/recommended",
     "plugin:react-hooks/recommended",
     "plugin:@typescript-eslint/recommended",
+    "plugin:react/jsx-runtime",
     "prettier"
   ],
   "overrides": [
@@ -31,13 +32,7 @@
       "version": "detect"
     }
   },
-  "plugins": [
-    "react",
-    "react-hooks",
-    "@typescript-eslint",
-    "patternfly-react",
-    "prettier"
-  ],
+  "plugins": ["react", "react-hooks", "@typescript-eslint", "patternfly-react", "prettier"],
   "rules": {
     "@typescript-eslint/adjacent-overload-signatures": "error",
     "@typescript-eslint/array-type": "error",

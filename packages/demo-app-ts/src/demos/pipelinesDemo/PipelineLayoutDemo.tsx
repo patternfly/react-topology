@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState, useContext, useEffect, memo } from 'react';
 import {
   Graph,
   Layout,
@@ -36,10 +36,10 @@ const VERTICAL_SUFFIX = '_Vertical';
 const PIPELINE_LAYOUT = 'PipelineLayout';
 
 const TopologyPipelineLayout: React.FC = observer(() => {
-  const [selectedIds, setSelectedIds] = React.useState<string[]>();
+  const [selectedIds, setSelectedIds] = useState<string[]>();
 
   const controller = useVisualizationController();
-  const pipelineOptions = React.useContext(PipelineDemoContext);
+  const pipelineOptions = useContext(PipelineDemoContext);
   const pipelineNodes = useDemoPipelineNodes(
     pipelineOptions.showContextMenus,
     pipelineOptions.showBadges,
@@ -48,7 +48,7 @@ const TopologyPipelineLayout: React.FC = observer(() => {
     pipelineOptions.showGroups
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     const spacerNodes = getSpacerNodes(pipelineNodes);
     const nodes = [...pipelineNodes, ...spacerNodes];
     const edgeType = pipelineOptions.showGroups ? GROUPED_EDGE_TYPE : DEFAULT_EDGE_TYPE;
@@ -93,7 +93,7 @@ const TopologyPipelineLayout: React.FC = observer(() => {
 
 TopologyPipelineLayout.displayName = 'TopologyPipelineLayout';
 
-export const PipelineLayoutDemo = React.memo(() => {
+export const PipelineLayoutDemo = memo(() => {
   const controller = new Visualization();
   controller.setFitToScreenOnLayout(true);
   controller.registerComponentFactory(pipelineComponentFactory);

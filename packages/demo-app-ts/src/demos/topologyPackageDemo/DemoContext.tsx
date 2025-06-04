@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { createContext } from 'react';
 import { action, makeObservable, observable } from 'mobx';
 import { LabelPosition } from '@patternfly/react-topology';
 import { GeneratorEdgeOptions, GeneratorNodeOptions } from './generator';
@@ -113,4 +113,4 @@ export class DemoModel {
   };
 }
 
-export const DemoContext = React.createContext<DemoModel>(new DemoModel());
+export const DemoContext = createContext<DemoModel>(new DemoModel());

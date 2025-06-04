@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useEffect } from 'react';
 import { observer } from 'mobx-react';
 import {
   WithCreateConnectorProps,
@@ -28,7 +28,7 @@ type CustomCircleNodeProps = {
 
 const CustomCircle: React.FunctionComponent<ShapeProps> = ({ element, className }) => {
   useAnchor(EllipseAnchor);
-  React.useEffect(() => {
+  useEffect(() => {
     // init height
     element.setDimensions(new Dimensions(40, 40));
   }, [element]);

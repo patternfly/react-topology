@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { observer } from '../../../mobx-exports';
 import { GraphElement } from '../../../types';
 

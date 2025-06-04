@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { forwardRef } from 'react';
 import { useSize } from '../../../utils';
 import { css } from '@patternfly/react-styles';
 import styles from '../../../css/topology-components';
@@ -16,7 +16,7 @@ interface LabelActionIconProps {
   paddingY: number;
 }
 
-const LabelActionIcon = React.forwardRef<SVGRectElement, LabelActionIconProps>(
+const LabelActionIcon = forwardRef<SVGRectElement, LabelActionIconProps>(
   ({ icon, onClick, className, x, y, paddingX, height, iconOffsetX = 0, iconOffsetY = 0 }, actionRef) => {
     const [iconSize, iconRef] = useSize([icon, paddingX]);
     const iconWidth = iconSize?.width ?? 0;

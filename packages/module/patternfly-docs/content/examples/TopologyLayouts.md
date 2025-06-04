@@ -4,6 +4,7 @@ section: topology
 sourceLink: https://github.com/patternfly/react-topology/blob/main/packages/module/patternfly-docs/content/examples/TopologyLayoutsDemo.tsx
 ---
 
+import { useState, useMemo, useEffect } from 'react';
 import {
   action,
   createTopologyControlButtons,

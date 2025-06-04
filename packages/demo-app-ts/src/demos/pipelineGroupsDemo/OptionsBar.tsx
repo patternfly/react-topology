@@ -1,10 +1,10 @@
-import React from 'react';
+import { useContext } from 'react';
 import { Radio, Content, ToolbarItem } from '@patternfly/react-core';
 import { observer } from '@patternfly/react-topology';
 import { PipelineGroupsDemoContext } from './PipelineGroupsDemoContext';
 
 const OptionsBar: React.FC = observer(() => {
-  const pipelineOptions = React.useContext(PipelineGroupsDemoContext);
+  const pipelineOptions = useContext(PipelineGroupsDemoContext);
 
   return (
     <>

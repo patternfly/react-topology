@@ -1,7 +1,7 @@
-import * as React from 'react';
+import { Component } from 'react';
 import SVGDefsContext from './SVGDefsContext';
 import { SVGDefsSetterProps } from './SVGDefs';
-export class SVGDefsSetter extends React.Component<SVGDefsSetterProps> {
+export class SVGDefsSetter extends Component<SVGDefsSetterProps> {
   static displayName = 'SVGDefsSetter';
   static contextType = SVGDefsContext;
   context!: React.ContextType<typeof SVGDefsContext>;

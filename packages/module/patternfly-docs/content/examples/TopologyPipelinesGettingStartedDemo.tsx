@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useEffect } from 'react';
 import {
   TopologyView,
   Visualization,
@@ -119,7 +119,7 @@ const pipelineComponentFactory = (kind: ModelKind, type: string) => {
 
 export const PipelineTasks: React.FC = () => {
   const controller = useVisualizationController();
-  React.useEffect(() => {
+  useEffect(() => {
     controller.fromModel(
       {
         graph: {

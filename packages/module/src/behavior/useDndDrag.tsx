@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useContext, useRef, useMemo, useCallback, useEffect } from 'react';
 import * as d3 from 'd3';
 import { action, computed, comparer, runInAction } from 'mobx';
 import { observer } from 'mobx-react';
@@ -75,22 +75,22 @@ export const useDndDrag = <
   spec: DragSourceSpec<DragObject, DragSpecOperationType<DragOperationWithType>, DropResult, CollectedProps, Props>,
   props?: Props
 ): [CollectedProps, ConnectDragSource] => {
-  const specRef = React.useRef(spec);
+  const specRef = useRef(spec);
   specRef.current = spec;
 
-  const propsRef = React.useRef<Props>(props != null ? props : (EMPTY_PROPS as Props));
+  const propsRef = useRef<Props>(props != null ? props : (EMPTY_PROPS as Props));
   propsRef.current = props != null ? props : (EMPTY_PROPS as Props);
 
   const dndManager = useDndManager();
 
-  const element = React.useContext(ElementContext);
-  const elementRef = React.useRef(element);
+  const element = useContext(ElementContext);
+  const elementRef = useRef(element);
   elementRef.current = element;
 
-  const idRef = React.useRef<string>();
+  const idRef = useRef<string>(null);
 
   // source monitor
-  const monitor = React.useMemo(() => {
+  const monitor = useMemo(() => {
     const sourceMonitor: DragSourceMonitor = {
       getHandlerId: (): string | undefined => idRef.current,
       receiveHandlerId: (sourceId: string | undefined): void => {
@@ -110,12 +110,12 @@ export const useDndDrag = <
     return sourceMonitor;
   }, [dndManager]);
 
-  const createKeyHandlerId = React.useCallback(
+  const createKeyHandlerId = useCallback(
     (event: string = '') => `${event}.useDndDrag-${monitor.getHandlerId()}`,
     [monitor]
   );
 
-  React.useEffect(
+  useEffect(
     () => () => {
       if (canUseDOM) {
         d3.select(document).on(createKeyHandlerId(), null);
@@ -129,7 +129,7 @@ export const useDndDrag = <
   );
 
   const refCallback: DragElementWrapper = useCallbackRef<DragElementWrapper>(
-    React.useCallback(
+    useCallback(
       (node: SVGElement | Element | null) => {
         let ownerDocument: Document;
         if (node) {
@@ -255,7 +255,7 @@ export const useDndDrag = <
     )
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     const dragSource: DragSource = {
       type: spec.item.type,
       canCancel: () => {
@@ -293,7 +293,7 @@ export const useDndDrag = <
     return unregister;
   }, [spec.item.type, dndManager, monitor]);
 
-  const collected = React.useMemo(
+  const collected = useMemo(
     () =>
       computed(() => (spec.collect ? spec.collect(monitor, propsRef.current) : ({} as any as CollectedProps)), {
         equals: comparer.shallow

@@ -5,6 +5,7 @@ sortValue: 23
 sourceLink: https://github.com/patternfly/react-topology/blob/main/packages/module/patternfly-docs/content/examples/TopologyContextMenuDemo.tsx
 ---
 
+import { useMemo } from 'react';
 import {
   ColaLayout,
   ContextMenuItem,

@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { observer } from 'mobx-react';
 import { css } from '@patternfly/react-styles';
 import styles from '../../../css/topology-components';

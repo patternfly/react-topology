@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useCallback, useState } from 'react';
 import {
   Model,
   ModelKind,
@@ -41,7 +41,7 @@ const layoutStory =
 
     // support pan zoom and drag
     useComponentFactory(
-      React.useCallback<ComponentFactory>((kind: string, type: string) => {
+      useCallback<ComponentFactory>((kind: string, type: string) => {
         if (kind === ModelKind.graph) {
           return withPanZoom()(GraphComponent);
         }
@@ -66,7 +66,7 @@ export const Dagre = withTopologySetup(layoutStory(getModel('Dagre')));
 export const Cola = withTopologySetup(layoutStory(getModel('Cola')));
 
 export const Layouts: React.FunctionComponent = () => {
-  const [activeKey, setActiveKey] = React.useState<string | number>(0);
+  const [activeKey, setActiveKey] = useState<string | number>(0);
 
   const handleTabClick = (_event: React.MouseEvent<HTMLElement, MouseEvent>, tabIndex: string | number) => {
     setActiveKey(tabIndex);

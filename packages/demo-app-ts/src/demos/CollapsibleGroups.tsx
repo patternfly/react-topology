@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState, useEffect } from 'react';
 import { action } from 'mobx';
 import {
   TopologyView,
@@ -117,12 +117,12 @@ interface TopologyViewComponentProps {
 }
 
 const TopologyViewComponent: React.FunctionComponent<TopologyViewComponentProps> = ({ vis }) => {
-  const [selectedIds, setSelectedIds] = React.useState<string[]>();
-  const [collapseBlue, setCollapseBlue] = React.useState<boolean>(false);
-  const [collapseLightBlue, setCollapseLightBlue] = React.useState<boolean>(false);
-  const [collapseCyan, setCollapseCyan] = React.useState<boolean>(false);
-  const [collapseOrange, setCollapseOrange] = React.useState<boolean>(false);
-  const [collapsePink, setCollapsePink] = React.useState<boolean>(false);
+  const [selectedIds, setSelectedIds] = useState<string[]>();
+  const [collapseBlue, setCollapseBlue] = useState<boolean>(false);
+  const [collapseLightBlue, setCollapseLightBlue] = useState<boolean>(false);
+  const [collapseCyan, setCollapseCyan] = useState<boolean>(false);
+  const [collapseOrange, setCollapseOrange] = useState<boolean>(false);
+  const [collapsePink, setCollapsePink] = useState<boolean>(false);
 
   useEventListener<SelectionEventListener>(SELECTION_EVENT, (ids) => {
     setSelectedIds(ids);
@@ -183,7 +183,7 @@ const TopologyViewComponent: React.FunctionComponent<TopologyViewComponentProps>
     </>
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     action(() => {
       const collapsedTypes: string[] = [];
       if (collapseBlue) {

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { isValidElement, useState, useMemo, useRef, useCallback } from 'react';
 import { observer } from 'mobx-react';
 import { css } from '@patternfly/react-styles';
 import styles from '../css/topology-components';
@@ -76,7 +76,7 @@ interface PromptData {
 }
 
 const isReactElementArray = (choices: ConnectorChoice[] | React.ReactElement[]): choices is React.ReactElement[] =>
-  React.isValidElement(choices[0]);
+  isValidElement(choices[0]);
 
 const DEFAULT_HANDLE_ANGLE = Math.PI / 180;
 const DEFAULT_HANDLE_ANGLE_TOP = 1.5 * Math.PI;
@@ -96,11 +96,11 @@ const CreateConnectorWidget: React.FunctionComponent<CreateConnectorWidgetProps>
     dragOperation,
     hideConnectorMenu
   } = props;
-  const [prompt, setPrompt] = React.useState<PromptData | null>(null);
-  const [active, setActive] = React.useState(false);
-  const hintsRef = React.useRef<string[] | undefined>();
+  const [prompt, setPrompt] = useState<PromptData | null>(null);
+  const [active, setActive] = useState(false);
+  const hintsRef = useRef<string[] | undefined>(undefined);
 
-  const spec = React.useMemo(() => {
+  const spec = useMemo(() => {
     const dragSourceSpec: DragSourceSpec<
       DragObjectWithType,
       DragSpecOperationType<DragOperationWithType>,
@@ -250,11 +250,11 @@ export const withCreateConnector =
   ) =>
   (WrappedComponent: React.ComponentType<P>) => {
     const Component: React.FunctionComponent<Omit<P, keyof WithCreateConnectorProps>> = (props) => {
-      const [show, setShow] = React.useState(false);
-      const [alive, setKeepAlive] = React.useState(false);
-      const onShowCreateConnector = React.useCallback(() => setShow(true), []);
-      const onHideCreateConnector = React.useCallback(() => setShow(false), []);
-      const onKeepAlive = React.useCallback((isAlive: boolean) => setKeepAlive(isAlive), [setKeepAlive]);
+      const [show, setShow] = useState(false);
+      const [alive, setKeepAlive] = useState(false);
+      const onShowCreateConnector = useCallback(() => setShow(true), []);
+      const onHideCreateConnector = useCallback(() => setShow(false), []);
+      const onKeepAlive = useCallback((isAlive: boolean) => setKeepAlive(isAlive), [setKeepAlive]);
       return (
         <>
           <WrappedComponent

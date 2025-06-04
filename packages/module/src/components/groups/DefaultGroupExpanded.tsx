@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useRef } from 'react';
 import { observer } from 'mobx-react';
 import { polygonHull } from 'd3-polygon';
 import { css } from '@patternfly/react-styles';
@@ -156,9 +156,9 @@ const DefaultGroupExpanded: React.FunctionComponent<DefaultGroupExpandedProps> =
   const isHover = hover !== undefined ? hover : hovered || labelHover;
   const anchorRef = useSvgAnchor();
   const outlineRef = useCombineRefs(dndDropRef, anchorRef);
-  const labelLocation = React.useRef<PointWithSize>();
-  const pathRef = React.useRef<string>();
-  const boxRef = React.useRef<Rect | null>(null);
+  const labelLocation = useRef<PointWithSize>(null);
+  const pathRef = useRef<string>(null);
+  const boxRef = useRef<Rect | null>(null);
 
   let parent = element.getParent();
   let altGroup = false;

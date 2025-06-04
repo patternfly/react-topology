@@ -5,6 +5,7 @@ sortValue: 22
 sourceLink: https://github.com/patternfly/react-topology/blob/main/packages/module/patternfly-docs/content/examples/TopologyPanZoomDemo.tsx
 ---
 
+import { useState, useMemo } from 'react';
 import {
   ColaLayout,
   DefaultEdge,

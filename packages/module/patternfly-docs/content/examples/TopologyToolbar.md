@@ -6,6 +6,7 @@ sourceLink: https://github.com/patternfly/react-topology/blob/main/packages/modu
 propComponents: ['TopologyView']
 ---
 
+import { useState, useMemo } from 'react';
 import {
   BadgeLocation,
   ColaLayout,

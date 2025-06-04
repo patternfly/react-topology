@@ -1,6 +1,6 @@
 import { css } from '@patternfly/react-styles';
 import styles from '../../../css/topology-components';
-import * as React from 'react';
+import { useMemo } from 'react';
 import { PointTuple } from '../../../types';
 import { getHullPath, TRAPEZOID_CORNER_RADIUS, ShapeProps } from './shapeUtils';
 import { usePolygonAnchor } from '../../../behavior';
@@ -32,7 +32,7 @@ const Trapezoid: React.FunctionComponent<TrapezoidProps> = ({
   cornerRadius = TRAPEZOID_CORNER_RADIUS,
   dndDropRef
 }) => {
-  const [polygonPoints, points] = React.useMemo(() => {
+  const [polygonPoints, points] = useMemo(() => {
     const polygonPoints: PointTuple[] = getTrapezoidPoints(width, height, cornerRadius, true);
 
     const path = cornerRadius

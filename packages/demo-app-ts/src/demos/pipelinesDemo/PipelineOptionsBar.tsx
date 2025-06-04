@@ -1,10 +1,10 @@
-import React from 'react';
+import { useContext } from 'react';
 import { Checkbox, ToolbarItem } from '@patternfly/react-core';
 import { observer } from '@patternfly/react-topology';
 import { PipelineDemoContext } from './PipelineDemoContext';
 
 const PipelineOptionsBar: React.FC<{ isLayout?: boolean }> = observer(({ isLayout = false }) => {
-  const pipelineOptions = React.useContext(PipelineDemoContext);
+  const pipelineOptions = useContext(PipelineDemoContext);
 
   return (
     <>

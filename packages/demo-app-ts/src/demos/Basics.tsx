@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useMemo, useCallback, useState } from 'react';
 import {
   DefaultNode,
   Model,
@@ -17,7 +17,7 @@ import { Tab, Tabs, TabTitleText } from '@patternfly/react-core';
 export const SingleNode = withTopologySetup(() => {
   useComponentFactory(defaultComponentFactory);
   useModel(
-    React.useMemo(
+    useMemo(
       (): Model => ({
         graph: {
           id: 'g1',
@@ -43,7 +43,7 @@ export const SingleNode = withTopologySetup(() => {
 export const SingleEdge = withTopologySetup(() => {
   useComponentFactory(defaultComponentFactory);
   useModel(
-    React.useMemo(
+    useMemo(
       (): Model => ({
         graph: {
           id: 'g1',
@@ -89,7 +89,7 @@ export const SingleEdge = withTopologySetup(() => {
 export const MultiEdge = withTopologySetup(() => {
   useComponentFactory(defaultComponentFactory);
   useComponentFactory(
-    React.useCallback<ComponentFactory>((kind) => {
+    useCallback<ComponentFactory>((kind) => {
       if (kind === ModelKind.node) {
         return withDragNode()(DefaultNode);
       }
@@ -97,7 +97,7 @@ export const MultiEdge = withTopologySetup(() => {
     }, [])
   );
   useModel(
-    React.useMemo(
+    useMemo(
       (): Model => ({
         graph: {
           id: 'g1',
@@ -193,7 +193,7 @@ const groupStory =
   () => {
     useComponentFactory(defaultComponentFactory);
     useModel(
-      React.useMemo(
+      useMemo(
         (): Model => ({
           graph: {
             id: 'g1',
@@ -247,7 +247,7 @@ export const GroupHull = withTopologySetup(groupStory('group-hull'));
 export const AutoSizeNode = withTopologySetup(() => {
   useComponentFactory(defaultComponentFactory);
   useComponentFactory(
-    React.useCallback<ComponentFactory>((kind, type) => {
+    useCallback<ComponentFactory>((kind, type) => {
       if (type === 'autoSize-circle') {
         return CustomCircleNode;
       }
@@ -258,7 +258,7 @@ export const AutoSizeNode = withTopologySetup(() => {
     }, [])
   );
   useModel(
-    React.useMemo(
+    useMemo(
       (): Model => ({
         graph: {
           id: 'g1',
@@ -317,7 +317,7 @@ export const AutoSizeNode = withTopologySetup(() => {
 });
 
 export const Basics: React.FunctionComponent = () => {
-  const [activeKey, setActiveKey] = React.useState<string | number>(0);
+  const [activeKey, setActiveKey] = useState<string | number>(0);
 
   const handleTabClick = (_event: React.MouseEvent<HTMLElement, MouseEvent>, tabIndex: string | number) => {
     setActiveKey(tabIndex);

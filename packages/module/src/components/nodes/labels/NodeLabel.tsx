@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useMemo } from 'react';
 import { css } from '@patternfly/react-styles';
 import styles from '../../../css/topology-components';
 import { truncateMiddle } from '../../../utils/truncate-middle';
@@ -106,7 +106,7 @@ const NodeLabel: React.FunctionComponent<NodeLabelProps> = ({
     contextStartX,
     iconSpace,
     badgeSpace
-  } = React.useMemo(() => {
+  } = useMemo(() => {
     if (!textSize) {
       return {
         width: 0,

@@ -1,6 +1,6 @@
-import * as React from 'react';
+import { Fragment, PureComponent } from 'react';
 import { DefsState, DefsMap } from './SVGDefsProvider';
-export class Defs extends React.PureComponent<{}, DefsState> {
+export class Defs extends PureComponent<{}, DefsState> {
   constructor(props: {}) {
     super(props);
     this.state = {};
@@ -14,7 +14,7 @@ export class Defs extends React.PureComponent<{}, DefsState> {
     return defs ? (
       <defs>
         {Object.keys(defs).map((id) => (
-          <React.Fragment key={id}>{defs[id].node}</React.Fragment>
+          <Fragment key={id}>{defs[id].node}</Fragment>
         ))}
       </defs>
     ) : null;

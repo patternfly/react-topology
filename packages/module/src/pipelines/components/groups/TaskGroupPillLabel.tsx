@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useMemo } from 'react';
 import { observer } from 'mobx-react';
 import styles from '../../../css/topology-components';
 import TaskPill, { TaskPillProps } from '../nodes/TaskPill';
@@ -47,7 +47,7 @@ const TaskGroupPillLabel: React.FC<TaskGroupPillLabelProps> = ({
   const labelScale = detailsLevel !== ScaleDetailsLevel.high ? Math.min(1 / scale, 1 / medScale) : 1;
   const labelPositionScale = detailsLevel !== ScaleDetailsLevel.high ? 1 / labelScale : 1;
 
-  const { startX, startY } = React.useMemo(() => {
+  const { startX, startY } = useMemo(() => {
     let startX: number;
     let startY: number;
     const scaledWidth = labelWidth / labelPositionScale;

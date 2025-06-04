@@ -6,6 +6,7 @@ sourceLink: https://github.com/patternfly/react-topology/blob/main/packages/modu
 propComponents: ['TopologySideBar', 'TopologyView']
 ---
 
+import { useState, useMemo } from 'react';
 import {
   ColaLayout,
   DefaultEdge,

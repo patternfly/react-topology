@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { forwardRef } from 'react';
 import EllipsisVIcon from '@patternfly/react-icons/dist/esm/icons/ellipsis-v-icon';
 import { WithContextMenuProps } from '../../../behavior';
 import LabelActionIcon from './LabelActionIcon';
@@ -12,7 +12,7 @@ type LabelContextMenuProps = {
   paddingY: number;
 } & WithContextMenuProps;
 
-const LabelContextMenu = React.forwardRef<SVGRectElement, LabelContextMenuProps>(
+const LabelContextMenu = forwardRef<SVGRectElement, LabelContextMenuProps>(
   ({ onContextMenu, className, x, y, paddingX, paddingY, height }, menuRef) => (
     <LabelActionIcon
       ref={menuRef}

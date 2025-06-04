@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useEffect } from 'react';
 import classNames from 'classnames';
 import { observer } from 'mobx-react';
 import {
@@ -52,7 +52,7 @@ const DemoDefaultNode: React.FunctionComponent<DemoDefaultNodeProps> = ({
   });
   const ShapeComponent = (getCustomShape && getCustomShape(nodeElement)) || getShapeComponent(nodeElement);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (hover) {
       onShowCreateConnector && onShowCreateConnector();
     } else {

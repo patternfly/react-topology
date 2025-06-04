@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { createContext } from 'react';
 import { makeObservable, observable, action } from 'mobx';
 
 export class PipelineGroupsDemoModel {
@@ -19,4 +19,4 @@ export class PipelineGroupsDemoModel {
   };
 }
 
-export const PipelineGroupsDemoContext = React.createContext<PipelineGroupsDemoModel>(new PipelineGroupsDemoModel());
+export const PipelineGroupsDemoContext = createContext<PipelineGroupsDemoModel>(new PipelineGroupsDemoModel());

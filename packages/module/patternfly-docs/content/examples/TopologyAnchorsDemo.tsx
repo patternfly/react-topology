@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useMemo } from 'react';
 import {
   AbstractAnchor,
   AnchorEnd,
@@ -151,7 +151,7 @@ const EDGES = [
 ];
 
 export const TopologyCustomNodeDemo: React.FC = () => {
-  const controller = React.useMemo(() => {
+  const controller = useMemo(() => {
     const model: Model = {
       nodes: NODES,
       edges: EDGES,

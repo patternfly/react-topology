@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useMemo, useState } from 'react';
 import { Tab, Tabs, TabTitleText } from '@patternfly/react-core';
 import {
   BadgeLocation,
@@ -40,7 +40,7 @@ export const NodeStyles = withTopologySetup(() => {
   useComponentFactory(defaultComponentFactory);
   useComponentFactory(stylesComponentFactory);
   useModel(
-    React.useMemo(
+    useMemo(
       (): Model => ({
         graph: {
           id: 'g1',
@@ -58,7 +58,7 @@ export const NodeHoverStyles = withTopologySetup(() => {
   useComponentFactory(defaultComponentFactory);
   useComponentFactory(stylesComponentFactory);
   useModel(
-    React.useMemo(
+    useMemo(
       (): Model => ({
         graph: {
           id: 'g1',
@@ -76,7 +76,7 @@ export const NodeSelectedStyles = withTopologySetup(() => {
   useComponentFactory(defaultComponentFactory);
   useComponentFactory(stylesComponentFactory);
   useModel(
-    React.useMemo(
+    useMemo(
       (): Model => ({
         graph: {
           id: 'g1',
@@ -94,7 +94,7 @@ export const NodeStatusDecoratorStyles = withTopologySetup(() => {
   useComponentFactory(defaultComponentFactory);
   useComponentFactory(stylesComponentFactory);
   useModel(
-    React.useMemo(
+    useMemo(
       (): Model => ({
         graph: {
           id: 'g1',
@@ -118,7 +118,7 @@ export const NodeDecoratorStyles = withTopologySetup(() => {
   nodes.forEach((n) => (n.data.labelPosition = LabelPosition.bottom));
   nodes2.forEach((n) => (n.data.showDecorators = true));
   useModel(
-    React.useMemo(
+    useMemo(
       (): Model => ({
         graph: {
           id: 'g1',
@@ -136,7 +136,7 @@ export const NodeLabelStyles = withTopologySetup(() => {
   useComponentFactory(defaultComponentFactory);
   useComponentFactory(stylesComponentFactory);
   useModel(
-    React.useMemo(
+    useMemo(
       (): Model => ({
         graph: {
           id: 'g1',
@@ -154,7 +154,7 @@ export const NodeLabelHoverStyles = withTopologySetup(() => {
   useComponentFactory(defaultComponentFactory);
   useComponentFactory(stylesComponentFactory);
   useModel(
-    React.useMemo(
+    useMemo(
       (): Model => ({
         graph: {
           id: 'g1',
@@ -172,7 +172,7 @@ export const NodeLabelSelectedStyles = withTopologySetup(() => {
   useComponentFactory(defaultComponentFactory);
   useComponentFactory(stylesComponentFactory);
   useModel(
-    React.useMemo(
+    useMemo(
       (): Model => ({
         graph: {
           id: 'g1',
@@ -190,7 +190,7 @@ export const NodeHorizontalLabelStyles = withTopologySetup(() => {
   useComponentFactory(defaultComponentFactory);
   useComponentFactory(stylesComponentFactory);
   useModel(
-    React.useMemo(
+    useMemo(
       (): Model => ({
         graph: {
           id: 'g1',
@@ -208,7 +208,7 @@ export const NodeBadgedLabelStyles = withTopologySetup(() => {
   useComponentFactory(defaultComponentFactory);
   useComponentFactory(stylesComponentFactory);
   useModel(
-    React.useMemo(
+    useMemo(
       (): Model => ({
         graph: {
           id: 'g1',
@@ -231,7 +231,7 @@ export const NodeContextMenuLabelStyles = withTopologySetup(() => {
   useComponentFactory(defaultComponentFactory);
   useComponentFactory(stylesComponentFactory);
   useModel(
-    React.useMemo(
+    useMemo(
       (): Model => ({
         graph: {
           id: 'g1',
@@ -253,7 +253,7 @@ export const NodeIconLabelStyles = withTopologySetup(() => {
   useComponentFactory(defaultComponentFactory);
   useComponentFactory(stylesComponentFactory);
   useModel(
-    React.useMemo(
+    useMemo(
       (): Model => ({
         graph: {
           id: 'g1',
@@ -863,7 +863,7 @@ export const EdgeTerminalTagStyles = withTopologySetup(() => {
 });
 
 export const StyleNodes: React.FunctionComponent = () => {
-  const [activeKey, setActiveKey] = React.useState<string | number>(0);
+  const [activeKey, setActiveKey] = useState<string | number>(0);
 
   const handleTabClick = (_event: React.MouseEvent<HTMLElement, MouseEvent>, tabIndex: string | number) => {
     setActiveKey(tabIndex);
@@ -893,7 +893,7 @@ export const StyleNodes: React.FunctionComponent = () => {
 };
 
 export const StyleLabels: React.FunctionComponent = () => {
-  const [activeKey, setActiveKey] = React.useState<string | number>(0);
+  const [activeKey, setActiveKey] = useState<string | number>(0);
 
   const handleTabClick = (_event: React.MouseEvent<HTMLElement, MouseEvent>, tabIndex: string | number) => {
     setActiveKey(tabIndex);
@@ -932,7 +932,7 @@ export const StyleLabels: React.FunctionComponent = () => {
 };
 
 export const StyleGroups: React.FunctionComponent = () => {
-  const [activeKey, setActiveKey] = React.useState<string | number>(0);
+  const [activeKey, setActiveKey] = useState<string | number>(0);
 
   const handleTabClick = (_event: React.MouseEvent<HTMLElement, MouseEvent>, tabIndex: string | number) => {
     setActiveKey(tabIndex);
@@ -965,7 +965,7 @@ export const StyleGroups: React.FunctionComponent = () => {
 };
 
 export const StyleEdges: React.FunctionComponent = () => {
-  const [activeKey, setActiveKey] = React.useState<string | number>(0);
+  const [activeKey, setActiveKey] = useState<string | number>(0);
 
   const handleTabClick = (_event: React.MouseEvent<HTMLElement, MouseEvent>, tabIndex: string | number) => {
     setActiveKey(tabIndex);

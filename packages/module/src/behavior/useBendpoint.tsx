@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useContext, useRef, useMemo, useCallback } from 'react';
 import { action } from 'mobx';
 import * as d3 from 'd3';
 import { observer } from 'mobx-react';
@@ -22,17 +22,17 @@ export const useBendpoint = <DropResult, CollectedProps, Props = {}>(
   >,
   props?: Props
 ): [CollectedProps, ConnectDragSource] => {
-  const element = React.useContext(ElementContext);
+  const element = useContext(ElementContext);
   if (!isEdge(element)) {
     throw new Error('useBendpoint must be used within the scope of an Edge');
   }
-  const elementRef = React.useRef(element);
+  const elementRef = useRef(element);
   elementRef.current = element;
-  const pointRef = React.useRef(point);
+  const pointRef = useRef(point);
   pointRef.current = point;
 
   const [connect, dragRef] = useDndDrag(
-    React.useMemo(() => {
+    useMemo(() => {
       const sourceSpec: DragSourceSpec<any, any, any, any, Props> = {
         item: { type: '#useBendpoint#' },
         begin: (monitor, p) => (spec && spec.begin ? spec.begin(monitor, p) : undefined),
@@ -52,7 +52,7 @@ export const useBendpoint = <DropResult, CollectedProps, Props = {}>(
   );
 
   // argh react events don't play nice with d3 pan zoom double click event
-  const ref = React.useCallback<ConnectDragSource>(
+  const ref = useCallback<ConnectDragSource>(
     (node) => {
       d3.select(node).on(
         'click',

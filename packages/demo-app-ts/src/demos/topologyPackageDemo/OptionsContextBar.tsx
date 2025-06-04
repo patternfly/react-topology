@@ -1,4 +1,4 @@
-import React from 'react';
+import { useContext, useState } from 'react';
 import {
   Button,
   Flex,
@@ -15,13 +15,13 @@ import { observer } from '@patternfly/react-topology';
 import { DemoContext } from './DemoContext';
 
 const OptionsContextBar: React.FC = observer(() => {
-  const options = React.useContext(DemoContext);
-  const [nodeOptionsOpen, setNodeOptionsOpen] = React.useState<boolean>(false);
-  const [edgeOptionsOpen, setEdgeOptionsOpen] = React.useState<boolean>(false);
-  const [numNodes, setNumNodes] = React.useState<number>(options.creationCounts.numNodes);
-  const [numEdges, setNumEdges] = React.useState<number>(options.creationCounts.numEdges);
-  const [numGroups, setNumGroups] = React.useState<number>(options.creationCounts.numGroups);
-  const [nestedLevel, setNestedLevel] = React.useState<number>(options.creationCounts.nestedLevel);
+  const options = useContext(DemoContext);
+  const [nodeOptionsOpen, setNodeOptionsOpen] = useState<boolean>(false);
+  const [edgeOptionsOpen, setEdgeOptionsOpen] = useState<boolean>(false);
+  const [numNodes, setNumNodes] = useState<number>(options.creationCounts.numNodes);
+  const [numEdges, setNumEdges] = useState<number>(options.creationCounts.numEdges);
+  const [numGroups, setNumGroups] = useState<number>(options.creationCounts.numGroups);
+  const [nestedLevel, setNestedLevel] = useState<number>(options.creationCounts.nestedLevel);
 
   const renderNodeOptionsDropdown = () => {
     const nodeOptionsToggle = (toggleRef: React.Ref<MenuToggleElement>) => (

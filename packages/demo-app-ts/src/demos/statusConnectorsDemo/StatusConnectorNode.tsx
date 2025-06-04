@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useMemo } from 'react';
 import { observer } from 'mobx-react';
 import { css } from '@patternfly/react-styles';
 import styles from '@patternfly/react-topology/dist/esm/css/topology-components';
@@ -33,7 +33,7 @@ const StatusConnectorNode: React.FunctionComponent<StatusConnectorNodeProps> = (
   const secondaryWidth = secondarySize?.width ?? 0;
   const secondaryHeight = secondarySize?.height ?? 0;
 
-  const { height, textStartX, width } = React.useMemo(() => {
+  const { height, textStartX, width } = useMemo(() => {
     if (!textSize) {
       return {
         height: 0,

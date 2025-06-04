@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useMemo } from 'react';
 import { observer } from 'mobx-react';
 import { DefaultEdge, Edge, WithContextMenuProps, WithSelectionProps } from '@patternfly/react-topology';
 
@@ -10,7 +10,7 @@ type StyleEdgeProps = {
 const StyleEdge: React.FunctionComponent<StyleEdgeProps> = ({ element, onContextMenu, contextMenuOpen, ...rest }) => {
   const data = element.getData();
 
-  const passedData = React.useMemo(() => {
+  const passedData = useMemo(() => {
     const newData = { ...data };
     Object.keys(newData).forEach((key) => {
       if (newData[key] === undefined) {

@@ -1,4 +1,3 @@
-import * as React from 'react';
 // eslint-disable-next-line patternfly-react/import-tokens-icons
 import { t_color_black as globalBlack1000 } from '@patternfly/react-tokens/dist/js/t_color_black';
 import { SVGDefs } from '../defs';

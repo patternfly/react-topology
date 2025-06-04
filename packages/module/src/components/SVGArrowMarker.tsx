@@ -1,4 +1,3 @@
-import * as React from 'react';
 import SVGDefs from './defs/SVGDefs';
 
 interface SVGArrowMarkerProps {

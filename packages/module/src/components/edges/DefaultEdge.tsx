@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useLayoutEffect } from 'react';
 import { observer } from 'mobx-react';
 import {
   Edge,
@@ -118,7 +118,7 @@ const DefaultEdgeInner: React.FunctionComponent<DefaultEdgeInnerProps> = observe
     const startPoint = element.getStartPoint();
     const endPoint = element.getEndPoint();
 
-    React.useLayoutEffect(() => {
+    useLayoutEffect(() => {
       if (hover && !dragging) {
         onShowRemoveConnector && onShowRemoveConnector();
       } else {

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useMemo } from 'react';
 import { css } from '@patternfly/react-styles';
 import styles from '../../../css/topology-components';
 import { PointTuple } from '../../../types';
@@ -27,7 +27,7 @@ const Rhombus: React.FunctionComponent<RhombusProps> = ({
 }) => {
   const anchorRef = useSvgAnchor();
   const refs = useCombineRefs(dndDropRef, anchorRef);
-  const points = React.useMemo(() => {
+  const points = useMemo(() => {
     const polygonPoints: PointTuple[] = getRhombusPoints(width, height, cornerRadius / 2);
 
     return cornerRadius

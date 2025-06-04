@@ -1,4 +1,3 @@
-import * as React from 'react';
 import SVGDefs from '../SVGDefs';
 
 // This mock simply renders the `defs` in place.

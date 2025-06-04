@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import { Tab, Tabs, TabTitleText } from '@patternfly/react-core';
 import {
   Model,
@@ -32,7 +32,7 @@ export const Dnd = withTopologySetup(() => {
   useComponentFactory(defaultComponentFactory);
   // support pan zoom and drag
   useComponentFactory(
-    React.useCallback<ComponentFactory>((kind, type) => {
+    useCallback<ComponentFactory>((kind, type) => {
       if (kind === ModelKind.graph) {
         return withPanZoom()(GraphComponent);
       }
@@ -74,7 +74,7 @@ export const Dnd = withTopologySetup(() => {
     }, [])
   );
   useModel(
-    React.useMemo(
+    useMemo(
       (): Model => ({
         graph: {
           id: 'g1',
@@ -151,7 +151,7 @@ export const DndShiftRegroup = withTopologySetup(() => {
   useComponentFactory(defaultComponentFactory);
   // support pan zoom and drag
   useComponentFactory(
-    React.useCallback<ComponentFactory>((kind, type) => {
+    useCallback<ComponentFactory>((kind, type) => {
       if (kind === ModelKind.graph) {
         return withPanZoom()(GraphComponent);
       }
@@ -184,7 +184,7 @@ export const DndShiftRegroup = withTopologySetup(() => {
     }, [])
   );
   useModel(
-    React.useMemo(
+    useMemo(
       (): Model => ({
         graph: {
           id: 'g1',
@@ -261,7 +261,7 @@ export const DndEdges = withTopologySetup(() => {
   useComponentFactory(defaultComponentFactory);
   // support pan zoom and drag
   useComponentFactory(
-    React.useCallback<ComponentFactory>((kind, type) => {
+    useCallback<ComponentFactory>((kind, type) => {
       if (kind === ModelKind.graph) {
         return withPanZoom()(GraphComponent);
       }
@@ -336,7 +336,7 @@ export const DndEdges = withTopologySetup(() => {
     }, [])
   );
   useModel(
-    React.useMemo(
+    useMemo(
       (): Model => ({
         graph: {
           id: 'g1',
@@ -418,7 +418,7 @@ export const DndEdges = withTopologySetup(() => {
 });
 
 export const DragAndDrop: React.FunctionComponent = () => {
-  const [activeKey, setActiveKey] = React.useState<string | number>(0);
+  const [activeKey, setActiveKey] = useState<string | number>(0);
 
   const handleTabClick = (_event: React.MouseEvent<HTMLElement, MouseEvent>, tabIndex: string | number) => {
     setActiveKey(tabIndex);

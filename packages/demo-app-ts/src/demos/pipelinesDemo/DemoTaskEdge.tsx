@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useContext } from 'react';
 import { observer } from 'mobx-react';
 import { Edge, EdgeTerminalType, GraphElement, TaskEdge } from '@patternfly/react-topology';
 import { PipelineDemoContext } from './PipelineDemoContext';
@@ -8,7 +8,7 @@ interface DemoTaskEdgeProps {
 }
 
 const DemoTaskEdge: React.FunctionComponent<DemoTaskEdgeProps> = ({ element, ...props }) => {
-  const pipelineOptions = React.useContext(PipelineDemoContext);
+  const pipelineOptions = useContext(PipelineDemoContext);
 
   return (
     <TaskEdge

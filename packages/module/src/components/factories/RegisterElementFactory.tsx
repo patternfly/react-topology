@@ -1,4 +1,3 @@
-import * as React from 'react';
 import useElementFactory from '../../hooks/useElementFactory';
 import { ElementFactory } from '../../types';
 

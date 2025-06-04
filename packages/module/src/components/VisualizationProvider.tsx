@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useRef } from 'react';
 import ControllerContext from '../utils/ControllerContext';
 import { Controller } from '../types';
 import { Visualization } from '../Visualization';
@@ -14,7 +14,7 @@ const VisualizationProvider: React.FunctionComponent<VisualizationProviderProps>
   controller,
   children
 }: VisualizationProviderProps) => {
-  const controllerRef = React.useRef<Controller>();
+  const controllerRef = useRef<Controller>(null);
   if (controller && controllerRef.current !== controller) {
     controllerRef.current = controller;
   } else if (!controllerRef.current) {

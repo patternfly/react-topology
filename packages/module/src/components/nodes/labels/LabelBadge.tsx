@@ -1,5 +1,5 @@
 /* eslint patternfly-react/import-tokens-icons: 0 */
-import * as React from 'react';
+import { forwardRef } from 'react';
 import { css } from '@patternfly/react-styles';
 import { t_color_blue_10 as defaultBadgeFill } from '@patternfly/react-tokens/dist/js/t_color_blue_10';
 import { t_color_blue_30 as defaultBadgeBorder } from '@patternfly/react-tokens/dist/js/t_color_blue_30';
@@ -21,7 +21,7 @@ interface LabelBadgeProps {
   innerRef?: React.Ref<SVGGElement>;
 }
 
-const LabelBadge = React.forwardRef<SVGRectElement, LabelBadgeProps>(
+const LabelBadge = forwardRef<SVGRectElement, LabelBadgeProps>(
   ({ badge, badgeTextColor, badgeColor, badgeBorderColor, badgeClassName, className, x, y, innerRef }, iconRef) => {
     const [textSize, textRef] = useSize([]);
     const classes = css(styles.topologyNodeLabelBadge, badgeClassName && badgeClassName, className && className);

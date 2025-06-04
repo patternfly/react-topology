@@ -78,7 +78,7 @@ To use Topology out of the box, follow these steps:
 ## Example
 
 ```ts
-import * as React from 'react';
+import { memo, useState, useMemo } from 'react';
 import {
   EdgeStyle,
   Model,
@@ -172,10 +172,10 @@ const EDGES = [
   }
 ];
 
-export const TopologyBaselineDemo = React.memo(() => {
-  const [selectedIds, setSelectedIds] = React.useState<string[]>([]);
+export const TopologyBaselineDemo = memo(() => {
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
-  const controller = React.useMemo(() => {
+  const controller = useMemo(() => {
     const model: Model = {
       nodes: NODES,
       edges: EDGES,

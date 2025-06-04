@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { EdgeTerminalType, GraphElement } from '../../../types';
 import { DefaultEdge } from '../../../components';
 

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useRef } from 'react';
 import { Tooltip, TooltipPosition } from '@patternfly/react-core';
 import TrashIcon from '@patternfly/react-icons/dist/esm/icons/trash-icon';
 import Point from '../geom/Point';
@@ -31,7 +31,7 @@ const DefaultRemoveConnector: React.FunctionComponent<DefaultRemoveConnectorProp
   onRemove,
   size = 14
 }) => {
-  const DefaultRemoveConnectorRef = React.useRef();
+  const DefaultRemoveConnectorRef = useRef(null);
   return (
     <Tooltip
       triggerRef={DefaultRemoveConnectorRef}

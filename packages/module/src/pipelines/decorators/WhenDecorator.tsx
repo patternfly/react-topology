@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useRef, useMemo } from 'react';
 import { Tooltip } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import styles from '../../css/topology-pipelines';
@@ -56,11 +56,11 @@ export const WhenDecorator: React.FC<WhenDecoratorProps> = observer(
     disableTooltip = false
   }: WhenDecoratorProps) => {
     const nodeElement = element as Node;
-    const diamondNodeRef = React.useRef();
+    const diamondNodeRef = useRef(null);
     const { height: taskHeight, width: taskWidth } = nodeElement.getBounds();
     const verticalLayout = (element.getGraph().getLayoutOptions?.() as DagreLayoutOptions)?.rankdir === TOP_TO_BOTTOM;
 
-    const points = React.useMemo(() => {
+    const points = useMemo(() => {
       if (verticalLayout) {
         const y = -topOffset;
         const startX = taskWidth / 2;
