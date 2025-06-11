@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useContext } from 'react';
 import { observer } from 'mobx-react';
 import {
   DEFAULT_LAYER,
@@ -46,7 +46,7 @@ const DemoTaskNode: React.FunctionComponent<DemoTaskNodeProps> = ({
   contextMenuOpen,
   ...rest
 }) => {
-  const pipelineOptions = React.useContext(PipelineDemoContext);
+  const pipelineOptions = useContext(PipelineDemoContext);
   const nodeElement = element as Node;
   const data = element.getData();
   const [hover, hoverRef] = useHover();

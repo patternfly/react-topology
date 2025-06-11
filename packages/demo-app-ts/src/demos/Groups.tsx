@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useMemo, useCallback } from 'react';
 import { observer } from 'mobx-react';
 import {
   Model,
@@ -44,7 +44,7 @@ export const ComplexGroup = withTopologySetup(() => {
   useLayoutFactory(defaultLayoutFactory);
   useComponentFactory(defaultComponentFactory);
   useComponentFactory(
-    React.useCallback<ComponentFactory>((kind, type) => {
+    useCallback<ComponentFactory>((kind, type) => {
       if (type === 'service') {
         return withDragNode()(GroupWithDecorator);
       }
@@ -56,7 +56,7 @@ export const ComplexGroup = withTopologySetup(() => {
   );
 
   useModel(
-    React.useMemo(
+    useMemo(
       (): Model => ({
         graph: {
           id: 'g1',

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useContext, useState, useRef } from 'react';
 import * as d3 from 'd3';
 import { observer } from 'mobx-react';
 import { action } from 'mobx';
@@ -15,13 +15,13 @@ const propagateAreaSelectionMouseEvent = (e: Event): void => {
 };
 
 export const useAreaSelection = (modifiers: ModifierKey[] = ['ctrlKey']): WithAreaSelectionProps => {
-  const element = React.useContext(ElementContext);
-  const [draggingState, setDraggingState] = React.useState<Omit<WithAreaSelectionProps, 'areaSelectionRef'>>({});
+  const element = useContext(ElementContext);
+  const [draggingState, setDraggingState] = useState<Omit<WithAreaSelectionProps, 'areaSelectionRef'>>({});
 
   if (!isGraph(element)) {
     throw new Error('useAreaSelection must be used within the scope of a Graph');
   }
-  const elementRef = React.useRef<Graph>(element);
+  const elementRef = useRef<Graph>(element);
   elementRef.current = element;
 
   const areaSelectionRef = useCallbackRef<AreaSelectionRef>((node: SVGGElement | null) => {

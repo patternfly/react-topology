@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useCallback, useMemo } from 'react';
 import { observer } from 'mobx-react';
 import { css } from '@patternfly/react-styles';
 import styles from '../../../css/topology-components';
@@ -75,7 +75,7 @@ const DefaultTaskGroupExpanded: React.FunctionComponent<Omit<DefaultTaskGroupPro
 
       const anchorOffset = verticalLayout ? labelSize?.height / 2 : labelSize?.width / 2;
       useAnchor(
-        React.useCallback(
+        useCallback(
           (node: Node) =>
             new TaskGroupSourceAnchor(
               node,
@@ -92,7 +92,7 @@ const DefaultTaskGroupExpanded: React.FunctionComponent<Omit<DefaultTaskGroupPro
         AnchorEnd.source
       );
       useAnchor(
-        React.useCallback(
+        useCallback(
           (node: Node) =>
             new TaskGroupTargetAnchor(
               node,
@@ -111,7 +111,7 @@ const DefaultTaskGroupExpanded: React.FunctionComponent<Omit<DefaultTaskGroupPro
 
       const bounds = element.getBounds();
 
-      const [labelX, labelY] = React.useMemo(() => {
+      const [labelX, labelY] = useMemo(() => {
         if (!showLabel || !(label || element.getLabel())) {
           return [0, 0];
         }

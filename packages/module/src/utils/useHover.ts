@@ -1,15 +1,15 @@
-import * as React from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
 import useCallbackRef from './useCallbackRef';
 
 const useHover = <T extends Element>(
   delayIn: number = 200,
   delayOut: number = 200
 ): [boolean, (node: T) => (() => void) | undefined] => {
-  const [hover, setHover] = React.useState<boolean>(false);
-  const mountRef = React.useRef(true);
+  const [hover, setHover] = useState<boolean>(false);
+  const mountRef = useRef(true);
 
   // need to ensure we do not start the unset timer on unmount
-  React.useEffect(
+  useEffect(
     () => () => {
       mountRef.current = false;
     },
@@ -17,10 +17,10 @@ const useHover = <T extends Element>(
   );
 
   // The unset handle needs to be referred by listeners in different closures.
-  const unsetHandle = React.useRef<any>();
+  const unsetHandle = useRef<any>(null);
 
   const callbackRef = useCallbackRef(
-    React.useCallback(
+    useCallback(
       (node: T) => {
         if (node) {
           // store locally instead of a ref because it only needs to be referred by inner closures

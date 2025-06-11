@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { createRef, Component } from 'react';
 import SVGDefsContext, { SVGDefsContextProps } from './SVGDefsContext';
 import { Defs } from './Defs';
 
@@ -23,8 +23,8 @@ export interface SVGDefsProviderProps {
  * This helps decouple the parent implementation from the children and ensures that duplicate defs entries,
  * such as filters, are eliminated.
  */
-class SVGDefsProvider extends React.Component<SVGDefsProviderProps> {
-  private readonly defsRef = React.createRef<Defs>();
+class SVGDefsProvider extends Component<SVGDefsProviderProps> {
+  private readonly defsRef = createRef<Defs>();
 
   private readonly defs: DefsMap = {};
 

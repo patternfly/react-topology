@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useRef, useEffect } from 'react';
 import { observer } from 'mobx-react';
 import Dimensions from '../geom/Dimensions';
 import { Node } from '../types';
@@ -9,8 +9,8 @@ interface ComputeElementDimensionsProps {
 }
 
 const ComputeElementDimensions: React.FunctionComponent<ComputeElementDimensionsProps> = ({ element, children }) => {
-  const gRef = React.useRef<SVGGElement>(null);
-  React.useEffect(() => {
+  const gRef = useRef<SVGGElement>(null);
+  useEffect(() => {
     if (gRef.current && !element.isDimensionsInitialized()) {
       const { width, height } = gRef.current.getBBox();
       element.setDimensions(new Dimensions(width, height));

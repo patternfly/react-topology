@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useMemo } from 'react';
 import {
   DEFAULT_FINALLY_NODE_TYPE,
   DEFAULT_TASK_NODE_TYPE,
@@ -47,7 +47,7 @@ export const useDemoPipelineNodes = (
   layout?: string,
   showGroups = false
 ): PipelineNodeModel[] =>
-  React.useMemo(() => {
+  useMemo(() => {
     // Create a task node for each task status
     const tasks = TASK_STATUSES.map((status, index) => {
       // Set all the standard fields

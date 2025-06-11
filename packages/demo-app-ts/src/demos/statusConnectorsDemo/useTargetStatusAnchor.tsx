@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useContext, useCallback } from 'react';
 import { action, observable } from 'mobx';
 import { AbstractAnchor, AnchorEnd, ElementContext, isNode, Node, Point } from '@patternfly/react-topology';
 
@@ -38,12 +38,12 @@ export const useTargetStatusAnchor = (
   type: string = '',
   offset: number = 0
 ): ((node: SVGElement | null) => void) => {
-  const element = React.useContext(ElementContext);
+  const element = useContext(ElementContext);
   if (!isNode(element)) {
     throw new Error('useSvgAnchor must be used within the scope of a Node');
   }
 
-  return React.useCallback<SvgAnchorRef>(
+  return useCallback<SvgAnchorRef>(
     (node: SVGElement | null) => {
       const actionFn = action((node: SVGElement | null) => {
         if (node) {

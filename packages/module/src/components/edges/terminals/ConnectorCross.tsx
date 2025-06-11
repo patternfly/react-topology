@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { css } from '@patternfly/react-styles';
 import styles from '../../../css/topology-components';
 import Point from '../../../geom/Point';

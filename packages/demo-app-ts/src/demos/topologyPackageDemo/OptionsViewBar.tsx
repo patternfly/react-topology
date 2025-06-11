@@ -1,4 +1,4 @@
-import React from 'react';
+import { useContext, useState, useRef } from 'react';
 import {
   Button,
   Dropdown,
@@ -16,11 +16,11 @@ import { Controller, Model, observer } from '@patternfly/react-topology';
 import { DemoContext } from './DemoContext';
 
 const OptionsContextBar: React.FC<{ controller: Controller }> = observer(({ controller }) => {
-  const options = React.useContext(DemoContext);
-  const [layoutDropdownOpen, setLayoutDropdownOpen] = React.useState(false);
-  const [savedModel, setSavedModel] = React.useState<Model>();
-  const [modelSaved, setModelSaved] = React.useState<boolean>(false);
-  const newNodeCount = React.useRef(0);
+  const options = useContext(DemoContext);
+  const [layoutDropdownOpen, setLayoutDropdownOpen] = useState(false);
+  const [savedModel, setSavedModel] = useState<Model>();
+  const [modelSaved, setModelSaved] = useState<boolean>(false);
+  const newNodeCount = useRef(0);
 
   const updateLayout = (newLayout: string) => {
     options.setLayout(newLayout);

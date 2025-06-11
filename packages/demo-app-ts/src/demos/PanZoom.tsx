@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useCallback, useEffect } from 'react';
 import { reaction } from 'mobx';
 import {
   Model,
@@ -50,7 +50,7 @@ const model: Model = {
 export const PanZoom: React.FunctionComponent = withTopologySetup(() => {
   useComponentFactory(defaultComponentFactory);
   useComponentFactory(
-    React.useCallback<ComponentFactory>((kind) => {
+    useCallback<ComponentFactory>((kind) => {
       if (kind === ModelKind.graph) {
         return withPanZoom()(GraphComponent);
       }
@@ -59,7 +59,7 @@ export const PanZoom: React.FunctionComponent = withTopologySetup(() => {
   );
   const controller = useVisualizationController();
 
-  React.useEffect(() => {
+  useEffect(() => {
     reaction(
       () => {
         if (!controller.hasGraph()) {

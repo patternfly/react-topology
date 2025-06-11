@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useRef } from 'react';
 import { observer } from 'mobx-react';
 import {
   useCombineRefs,
@@ -39,7 +39,7 @@ const DemoDefaultGroup: React.FunctionComponent<GroupProps> = ({
 }) => {
   const nodeElement = element as Node;
   useAnchor(RectAnchor);
-  const boxRef = React.useRef<Rect | null>(null);
+  const boxRef = useRef<Rect | null>(null);
   const refs = useCombineRefs<SVGRectElement>(dragNodeRef, dndDragRef, dndDropRef);
 
   if (!droppable || !boxRef.current) {

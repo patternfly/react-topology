@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useContext } from 'react';
 import { observer } from 'mobx-react';
 import {
   DefaultEdge,
@@ -17,7 +17,7 @@ type DemoEdgeProps = {
   WithSelectionProps;
 
 const DemoEdge: React.FunctionComponent<DemoEdgeProps> = ({ element, ...rest }) => {
-  const options = React.useContext(DemoContext).edgeOptions;
+  const options = useContext(DemoContext).edgeOptions;
   const data = element.getData();
 
   return (

@@ -1,24 +1,24 @@
-import * as React from 'react';
+import { useRef, useState, useCallback, useEffect } from 'react';
 import { reaction } from 'mobx';
 import useVisualizationController from './useVisualizationController';
 
 const useVisualizationState = <S extends any>(key: string, initialState?: S): [S, (value: S) => void] => {
-  const keyRef = React.useRef(key);
+  const keyRef = useRef(key);
   if (keyRef.current !== key) {
     throw new Error(`State key change disallowed: ${keyRef.current} => ${key}`);
   }
 
-  const [state, setState] = React.useState<S>(initialState);
+  const [state, setState] = useState<S>(initialState);
   const controller = useVisualizationController();
 
-  const setControllerState = React.useCallback(
+  const setControllerState = useCallback(
     (value?: S): void => {
       controller.setState({ [keyRef.current]: value });
     },
     [controller]
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     // init the controller state
     setControllerState(initialState);
 

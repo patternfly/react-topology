@@ -1,5 +1,3 @@
-import * as React from 'react';
-
 import { render } from '@testing-library/react';
 
 import SVGDefs, { SVGDefsSetterProps } from '../SVGDefs';

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState } from 'react';
 import { observer } from 'mobx-react';
 import {
   Edge,
@@ -25,7 +25,7 @@ interface BendpointProps {
 }
 
 const Bendpoint: React.FunctionComponent<BendpointProps> = observer(({ point }) => {
-  const [hover, setHover] = React.useState(false);
+  const [hover, setHover] = useState(false);
   const [, ref] = useBendpoint(point);
   return (
     <circle

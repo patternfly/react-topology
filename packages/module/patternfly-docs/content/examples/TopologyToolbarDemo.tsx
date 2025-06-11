@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState, useMemo } from 'react';
 import { MenuToggle, MenuToggleElement, Select, SelectList, SelectOption, ToolbarItem } from '@patternfly/react-core';
 import { RegionsIcon as Icon1, FolderOpenIcon as Icon2 } from '@patternfly/react-icons';
 import {
@@ -232,11 +232,11 @@ export const DefaultViewOptions: ViewOptions = {
   showBadges: false
 };
 export const ToolbarDemo: React.FC = () => {
-  const [viewOptionsOpen, setViewOptionsOpen] = React.useState<boolean>(false);
-  const [viewOptions, setViewOptions] = React.useState<ViewOptions>(DefaultViewOptions);
-  const [selectedIds, setSelectedIds] = React.useState<string[]>([]);
+  const [viewOptionsOpen, setViewOptionsOpen] = useState<boolean>(false);
+  const [viewOptions, setViewOptions] = useState<ViewOptions>(DefaultViewOptions);
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
-  const controller = React.useMemo(() => {
+  const controller = useMemo(() => {
     const model: Model = {
       nodes: NODES,
       edges: EDGES,

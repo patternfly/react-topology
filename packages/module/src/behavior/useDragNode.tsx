@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useContext, useRef, useMemo } from 'react';
 import { action } from 'mobx';
 import { observer } from 'mobx-react';
 import ElementContext from '../utils/ElementContext';
@@ -41,17 +41,17 @@ export const useDragNode = <
   },
   props?: Props
 ): [CollectedProps, ConnectDragSource] => {
-  const element = React.useContext(ElementContext);
+  const element = useContext(ElementContext);
   if (!isNode(element)) {
     throw new Error('useDragNode must be used within the scope of a Node');
   }
-  const elementRef = React.useRef(element);
+  const elementRef = useRef(element);
   elementRef.current = element;
 
   const dndManager = useDndManager();
 
   return useDndDrag(
-    React.useMemo(() => {
+    useMemo(() => {
       const sourceSpec: DragSourceSpec<any, any, any, any, Props> = {
         item: (spec && spec.item) || { type: '#useDragNode#' },
         operation: (monitor: DragSourceMonitor, p: Props) => {

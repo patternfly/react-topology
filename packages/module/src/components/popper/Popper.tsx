@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useRef, useState, useCallback, useEffect } from 'react';
 import PopperJS, { PopperOptions } from 'popper.js';
 import useCombineRefs from '../../utils/useCombineRefs';
 import Portal from './Portal';
@@ -99,15 +99,15 @@ const Popper: React.FunctionComponent<PopperProps> = ({
 }) => {
   const controlled = typeof open === 'boolean';
   const openProp = controlled ? open || false : true;
-  const nodeRef = React.useRef<Element>();
-  const popperRef = React.useRef<PopperJS>(null);
+  const nodeRef = useRef<Element>(null);
+  const popperRef = useRef<PopperJS>(null);
   const popperRefs = useCombineRefs<PopperJS>(popperRef, popperRefIn);
-  const [isOpen, setOpenState] = React.useState(openProp);
-  const focusRef = React.useRef<Element | null>();
-  const onRequestCloseRef = React.useRef(onRequestClose);
+  const [isOpen, setOpenState] = useState(openProp);
+  const focusRef = useRef<Element | null>(null);
+  const onRequestCloseRef = useRef(onRequestClose);
   onRequestCloseRef.current = onRequestClose;
 
-  const setOpen = React.useCallback(
+  const setOpen = useCallback(
     (newOpen: boolean) => {
       if (returnFocus && newOpen !== isOpen) {
         if (newOpen) {
@@ -123,11 +123,11 @@ const Popper: React.FunctionComponent<PopperProps> = ({
     [returnFocus, isOpen]
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     setOpen(openProp);
   }, [openProp, setOpen]);
 
-  const onKeyDown = React.useCallback(
+  const onKeyDown = useCallback(
     (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         controlled ? onRequestCloseRef.current && onRequestCloseRef.current() : setOpen(false);
@@ -136,7 +136,7 @@ const Popper: React.FunctionComponent<PopperProps> = ({
     [controlled, setOpen]
   );
 
-  const onClickOutside = React.useCallback(
+  const onClickOutside = useCallback(
     (e: Event) => {
       if (!nodeRef.current || (e.target instanceof Node && !nodeRef.current.contains(e.target))) {
         controlled ? onRequestCloseRef.current && onRequestCloseRef.current(e) : setOpen(false);
@@ -145,7 +145,7 @@ const Popper: React.FunctionComponent<PopperProps> = ({
     [controlled, setOpen]
   );
 
-  const destroy = React.useCallback(() => {
+  const destroy = useCallback(() => {
     if (popperRef.current) {
       popperRef.current.destroy();
       popperRefs(null);
@@ -155,7 +155,7 @@ const Popper: React.FunctionComponent<PopperProps> = ({
     }
   }, [onClickOutside, onKeyDown, popperRefs]);
 
-  const initialize = React.useCallback(() => {
+  const initialize = useCallback(() => {
     if (!nodeRef.current || !reference || !isOpen) {
       return;
     }
@@ -196,7 +196,7 @@ const Popper: React.FunctionComponent<PopperProps> = ({
     onClickOutside
   ]);
 
-  const nodeRefCallback = React.useCallback<React.RefCallback<HTMLDivElement>>(
+  const nodeRefCallback = useCallback<React.RefCallback<HTMLDivElement>>(
     (node) => {
       nodeRef.current = node;
       initialize();
@@ -204,18 +204,18 @@ const Popper: React.FunctionComponent<PopperProps> = ({
     [initialize]
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     initialize();
   }, [initialize]);
 
-  React.useEffect(
+  useEffect(
     () => () => {
       destroy();
     },
     [destroy]
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!isOpen) {
       destroy();
     }

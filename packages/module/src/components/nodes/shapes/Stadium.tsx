@@ -1,6 +1,6 @@
 import { css } from '@patternfly/react-styles';
 import styles from '../../../css/topology-components';
-import * as React from 'react';
+import { useMemo } from 'react';
 import { useSvgAnchor } from '../../../behavior';
 import { getHullPath, ShapeProps } from './shapeUtils';
 import { PointTuple } from '../../../types';
@@ -22,7 +22,7 @@ const Stadium: React.FunctionComponent<ShapeProps> = ({
 }) => {
   const anchorRef = useSvgAnchor();
   const refs = useCombineRefs(dndDropRef, anchorRef);
-  const points = React.useMemo(() => getHullPath(getStadiumPoints(width, height / 2), height / 2), [height, width]);
+  const points = useMemo(() => getHullPath(getStadiumPoints(width, height / 2), height / 2), [height, width]);
 
   return <path className={className} ref={refs} d={points} filter={filter} />;
 };

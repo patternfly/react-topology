@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { memo } from 'react';
 import { observer } from 'mobx-react';
 import { Graph, isGraph } from '../types';
 import styles from '../css/topology-components';
@@ -32,7 +32,7 @@ const ElementChildren: React.FunctionComponent<{ element: Graph }> = observer(({
 ));
 
 // This inner Component will prevent re-rendering layers when the transform changes
-const Inner: React.FunctionComponent<{ element: Graph }> = React.memo(
+const Inner: React.FunctionComponent<{ element: Graph }> = memo(
   observer(({ element }) => (
     <LayersProvider layers={element.getLayers()}>
       <ElementChildren element={element} />

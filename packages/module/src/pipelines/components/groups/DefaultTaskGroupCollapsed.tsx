@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { observer } from 'mobx-react';
 import ExpandIcon from '@patternfly/react-icons/dist/esm/icons/expand-alt-icon';
 import { CollapsibleGroupProps } from '../../../components';

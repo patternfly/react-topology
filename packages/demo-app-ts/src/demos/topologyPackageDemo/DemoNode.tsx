@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useEffect, useContext } from 'react';
 import {
   Decorator,
   DEFAULT_DECORATOR_RADIUS,
@@ -148,14 +148,14 @@ const getShapeComponent = (shape: NodeShape): React.FunctionComponent<ShapeProps
 
 const DemoNode: React.FunctionComponent<DemoNodeProps> = observer(
   ({ element, onContextMenu, dragging, contextMenuOpen, onShowCreateConnector, onHideCreateConnector, ...rest }) => {
-    const options = React.useContext(DemoContext).nodeOptions;
+    const options = useContext(DemoContext).nodeOptions;
     const nodeElement = element as Node;
     const data = element.getData() as GeneratedNodeData;
     const detailsLevel = element.getGraph().getDetailsLevel();
     const [hover, hoverRef] = useHover();
     const focused = hover || contextMenuOpen;
 
-    React.useEffect(() => {
+    useEffect(() => {
       if (detailsLevel === ScaleDetailsLevel.low) {
         onHideCreateConnector && onHideCreateConnector();
       }

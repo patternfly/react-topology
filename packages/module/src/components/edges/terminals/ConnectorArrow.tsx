@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useMemo } from 'react';
 import { css } from '@patternfly/react-styles';
 import styles from '../../../css/topology-components';
 import Point from '../../../geom/Point';
@@ -25,7 +25,7 @@ const ConnectorArrow: React.FunctionComponent<ConnectorArrowProps> = ({
   size = 14,
   dragRef
 }) => {
-  const polygonPoints = React.useMemo(
+  const polygonPoints = useMemo(
     () =>
       pointsStringFromPoints([
         [0, size / 2],
@@ -35,7 +35,7 @@ const ConnectorArrow: React.FunctionComponent<ConnectorArrowProps> = ({
     [size]
   );
 
-  const boundingPoints = React.useMemo(() => {
+  const boundingPoints = useMemo(() => {
     if (startPoint || !endPoint) {
       return null;
     }

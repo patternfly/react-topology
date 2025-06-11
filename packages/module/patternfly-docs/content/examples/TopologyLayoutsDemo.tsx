@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import {
   Dropdown,
   DropdownItem,
@@ -207,10 +207,10 @@ const customComponentFactory: ComponentFactory = (kind: ModelKind, type: string)
 };
 
 export const LayoutsDemo: React.FC = () => {
-  const [layoutDropdownOpen, setLayoutDropdownOpen] = React.useState(false);
-  const [layout, setLayout] = React.useState<string>('ColaNoForce');
+  const [layoutDropdownOpen, setLayoutDropdownOpen] = useState(false);
+  const [layout, setLayout] = useState<string>('ColaNoForce');
 
-  const controller = React.useMemo(() => {
+  const controller = useMemo(() => {
     const model: Model = {
       nodes: NODES,
       edges: EDGES,
@@ -238,7 +238,7 @@ export const LayoutsDemo: React.FC = () => {
     setLayoutDropdownOpen(false);
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (controller && controller.getGraph().getLayout() !== layout) {
       const model: Model = {
         nodes: NODES,

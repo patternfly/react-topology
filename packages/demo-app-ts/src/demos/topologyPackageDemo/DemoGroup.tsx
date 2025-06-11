@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useContext } from 'react';
 import {
   DefaultGroup,
   GraphElement,
@@ -23,7 +23,7 @@ type DemoGroupProps = {
   WithSelectionProps;
 
 const DemoGroup: React.FunctionComponent<DemoGroupProps> = ({ element, onContextMenu, ...rest }) => {
-  const options = React.useContext(DemoContext).nodeOptions;
+  const options = useContext(DemoContext).nodeOptions;
   const groupElement = element as Node;
   const data = element.getData();
   const detailsLevel = element.getGraph().getDetailsLevel();

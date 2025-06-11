@@ -7,6 +7,7 @@ propComponents: ['TaskNode', 'TaskEdge', 'WhenDecorator']
 functions: { 'packages/module/src/pipelines/utils/utils.ts': ['getSpacerNodes', 'getEdgesFromNodes'] }
 ---
 
+import { useEffect } from 'react';
 import {
   TopologyView,
   Visualization,

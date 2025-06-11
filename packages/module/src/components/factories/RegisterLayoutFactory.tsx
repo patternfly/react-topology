@@ -1,4 +1,3 @@
-import * as React from 'react';
 import useLayoutFactory from '../../hooks/useLayoutFactory';
 import { LayoutFactory } from '../../types';
 

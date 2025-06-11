@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { HEXAGON_CORNER_RADIUS, ShapeProps } from './shapeUtils';
 import { SidedShape } from './index';
 

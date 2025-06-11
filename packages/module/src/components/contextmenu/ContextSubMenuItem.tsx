@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useRef, useState, useCallback } from 'react';
 import { Menu, DropdownItem } from '@patternfly/react-core';
 import AngleRightIcon from '@patternfly/react-icons/dist/esm/icons/angle-right-icon';
 import { css } from '@patternfly/react-styles';
@@ -23,10 +23,10 @@ const implementsDOMNode = (node: any): node is Node => {
 };
 
 const ContextSubMenuItem: React.FunctionComponent<ContextSubMenuItemProps> = ({ label, children, ...other }) => {
-  const nodeRef = React.useRef<HTMLButtonElement>(null);
-  const subMenuRef = React.useRef<HTMLDivElement>(null);
-  const [open, setOpen] = React.useState(false);
-  const referenceCb = React.useCallback(() => nodeRef.current || { x: 0, y: 0 }, []);
+  const nodeRef = useRef<HTMLButtonElement>(null);
+  const subMenuRef = useRef<HTMLDivElement>(null);
+  const [open, setOpen] = useState(false);
+  const referenceCb = useCallback(() => nodeRef.current || { x: 0, y: 0 }, []);
 
   return (
     <>

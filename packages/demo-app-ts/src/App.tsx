@@ -1,4 +1,4 @@
-import React from 'react';
+import { createElement } from 'react';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import {
   Page,
@@ -81,7 +81,7 @@ class App extends React.Component<{}, AppState> {
                       style={{ zIndex: 2 }}
                       id={`/${demo.id}-nav-link/${subDemo.id}-nav-link`}
                     >
-                      {React.createElement(subDemo.componentType)}
+                      {createElement(subDemo.componentType)}
                     </PageSection>
                   )}
                   key={demo.id}
@@ -94,7 +94,7 @@ class App extends React.Component<{}, AppState> {
                 path={`/${demo.id}-nav-link`}
                 render={() => (
                   <PageSection isFilled hasBodyWrapper={false} style={{ zIndex: 2 }} id={`/${demo.id}-page-section`}>
-                    {React.createElement(demo.componentType)}
+                    {createElement(demo.componentType)}
                   </PageSection>
                 )}
                 key={demo.id}
@@ -108,7 +108,7 @@ class App extends React.Component<{}, AppState> {
             path="/"
             render={() => (
               <PageSection isFilled hasBodyWrapper={false} style={{ zIndex: 2 }} id={`/${defaultDemo.id}-page-section`}>
-                {React.createElement(defaultDemo.componentType)}
+                {createElement(defaultDemo.componentType)}
               </PageSection>
             )}
             key={defaultDemo.id}

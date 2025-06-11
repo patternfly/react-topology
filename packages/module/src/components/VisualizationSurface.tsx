@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useRef, useCallback, useEffect, useMemo } from 'react';
 import { action } from 'mobx';
 // https://github.com/mobxjs/mobx-react#observer-batching
 import 'mobx-react/batchingForReactDom';
@@ -28,9 +28,9 @@ const VisualizationSurface: React.FunctionComponent<VisualizationSurfaceProps> =
   state
 }: VisualizationSurfaceProps) => {
   const controller = useVisualizationController();
-  const timerId = React.useRef<NodeJS.Timeout>();
+  const timerId = useRef<NodeJS.Timeout>(null);
 
-  const debounceMeasure = React.useCallback((func: (contentRect: ContentRect) => void, delay?: number) => {
+  const debounceMeasure = useCallback((func: (contentRect: ContentRect) => void, delay?: number) => {
     return (contentRect: ContentRect) => {
       if (!timerId.current) {
         func(contentRect);
@@ -41,11 +41,11 @@ const VisualizationSurface: React.FunctionComponent<VisualizationSurfaceProps> =
     };
   }, []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     state && controller.setState(state);
   }, [controller, state]);
 
-  const onMeasure = React.useMemo(
+  const onMeasure = useMemo(
     () =>
       debounceMeasure(
         action((contentRect: ContentRect) => {
@@ -57,7 +57,7 @@ const VisualizationSurface: React.FunctionComponent<VisualizationSurfaceProps> =
   );
 
   // dispose of onMeasure
-  React.useEffect(() => () => clearTimeout(timerId.current), [onMeasure]);
+  useEffect(() => () => clearTimeout(timerId.current), [onMeasure]);
 
   if (!controller.hasGraph()) {
     return null;
@@ -65,11 +65,15 @@ const VisualizationSurface: React.FunctionComponent<VisualizationSurfaceProps> =
 
   const graph = controller.getGraph();
 
+  // TODO: We need to replace react-measure as it doesn't support React 19. The following
+  // casting helps to get topology to build with React 19 versions
+  const Wrapper = ReactMeasure as any;
+
   return (
-    <ReactMeasure client onResize={onMeasure}>
+    <Wrapper client onResize={onMeasure}>
       {({ measureRef }: { measureRef: React.LegacyRef<any> }) => (
-        // render an outer div because react-measure doesn't seem to fire events properly on svg resize
         <div data-test-id="topology" className={css(styles.topologyVisualizationSurface)} ref={measureRef}>
+          {/* render an outer div because react-measure doesn't seem to fire events properly on svg resize */}
           <svg className={css(styles.topologyVisualizationSurfaceSvg)} onContextMenu={stopEvent}>
             <SVGDefsProvider>
               <ElementWrapper element={graph} />
@@ -77,7 +81,7 @@ const VisualizationSurface: React.FunctionComponent<VisualizationSurfaceProps> =
           </svg>
         </div>
       )}
-    </ReactMeasure>
+    </Wrapper>
   );
 };
 

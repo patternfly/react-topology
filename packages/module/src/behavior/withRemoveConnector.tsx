@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState, useCallback } from 'react';
 import { observer } from 'mobx-react';
 import { Edge } from '../types';
 import DefaultRemoveConnector from '../components/DefaultRemoveConnector';
@@ -31,9 +31,9 @@ export const withRemoveConnector =
   ) =>
   (WrappedComponent: React.ComponentType<P>) => {
     const Component: React.FunctionComponent<Omit<P, keyof WithRemoveConnectorProps>> = (props) => {
-      const [show, setShow] = React.useState(false);
-      const onShowRemoveConnector = React.useCallback(() => setShow(true), []);
-      const onHideRemoveConnector = React.useCallback(() => setShow(false), []);
+      const [show, setShow] = useState(false);
+      const onShowRemoveConnector = useCallback(() => setShow(true), []);
+      const onHideRemoveConnector = useCallback(() => setShow(false), []);
 
       return (
         <WrappedComponent

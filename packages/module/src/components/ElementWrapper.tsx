@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useMemo } from 'react';
 import { observer } from 'mobx-react';
 import { computed } from 'mobx';
 import ElementContext from '../utils/ElementContext';
@@ -17,7 +17,7 @@ const NodeElementComponent: React.FunctionComponent<{ element: Node }> = observe
   const isDragging = dndManager.isDragging();
   const dragItem = dndManager.getItem();
   const controller = element.hasController() && element.getController();
-  const isVisible = React.useMemo(
+  const isVisible = useMemo(
     () => computed(() => controller && controller.shouldRenderNode(element)),
     [element, controller]
   );
@@ -33,7 +33,7 @@ const ElementComponent: React.FunctionComponent<ElementWrapperProps> = observer(
   const type = element.getType();
   const controller = element.hasController() && element.getController();
 
-  const Component = React.useMemo(() => controller && controller.getComponent(kind, type), [controller, kind, type]);
+  const Component = useMemo(() => controller && controller.getComponent(kind, type), [controller, kind, type]);
 
   if (Component) {
     return (

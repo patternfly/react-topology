@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useRef, useMemo, useCallback } from 'react';
 import { css } from '@patternfly/react-styles';
 import styles from '../../../css/topology-pipelines';
 import topologyStyles from '../../../css/topology-components';
@@ -80,16 +80,16 @@ const TaskPill: React.FC<TaskPillProps> = observer(
     y
   }) => {
     const [hovered] = useHover();
-    const taskIconComponentRef = React.useRef();
+    const taskIconComponentRef = useRef(null);
     const isHover = hover !== undefined ? hover : hovered;
     const label = truncateMiddle(element.getLabel(), { length: truncateLength, omission: '...' });
     const [textSize, textRef] = useSize([label, className]);
-    const nameLabelTriggerRef = React.useRef();
+    const nameLabelTriggerRef = useRef(null);
     const nameLabelRef = useCombineRefs(textRef, nameLabelTriggerRef);
     const [statusSize, statusRef] = useSize([status, showStatusState, statusIconSize]);
     const [leadSize, leadIconRef] = useSize([leadIcon]);
     const [badgeSize, badgeRef] = useSize([badge]);
-    const badgeLabelTriggerRef = React.useRef();
+    const badgeLabelTriggerRef = useRef(null);
     const [actionSize, actionRef] = useSize([actionIcon, paddingX]);
     const [contextSize, contextRef] = useSize([onContextMenu, paddingX]);
     const detailsLevel = element.getGraph().getDetailsLevel();
@@ -110,7 +110,7 @@ const TaskPill: React.FC<TaskPillProps> = observer(
       iconStartX,
       leadIconStartX,
       offsetX
-    } = React.useMemo(() => {
+    } = useMemo(() => {
       if (!textSize) {
         return {
           height: 0,
@@ -217,7 +217,7 @@ const TaskPill: React.FC<TaskPillProps> = observer(
     );
 
     // Force an update of the given pillRef when dependencies change
-    const pillUpdatedRef = React.useCallback(
+    const pillUpdatedRef = useCallback(
       (node: SVGGraphicsElement): void => {
         pillRef(node);
       },

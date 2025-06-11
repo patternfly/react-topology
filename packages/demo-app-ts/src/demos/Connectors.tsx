@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import {
   Model,
   ModelKind,
@@ -38,7 +38,7 @@ import { Tab, Tabs, TabTitleText } from '@patternfly/react-core';
 export const Reconnect = withTopologySetup(() => {
   useComponentFactory(defaultComponentFactory);
   useComponentFactory(
-    React.useCallback<ComponentFactory>((kind) => {
+    useCallback<ComponentFactory>((kind) => {
       if (kind === ModelKind.graph) {
         return withPanZoom()(GraphComponent);
       }
@@ -96,7 +96,7 @@ export const Reconnect = withTopologySetup(() => {
     }, [])
   );
   useModel(
-    React.useMemo(
+    useMemo(
       (): Model => ({
         graph: {
           id: 'g1',
@@ -158,7 +158,7 @@ type ColorChoice = ConnectorChoice & {
 };
 
 export const CreateConnector = withTopologySetup(() => {
-  const model = React.useMemo(
+  const model = useMemo(
     (): Model => ({
       graph: {
         id: 'g1',
@@ -196,7 +196,7 @@ export const CreateConnector = withTopologySetup(() => {
   const controller = useVisualizationController();
   useComponentFactory(defaultComponentFactory);
   useComponentFactory(
-    React.useCallback<ComponentFactory>(
+    useCallback<ComponentFactory>(
       (kind) => {
         if (kind === ModelKind.graph) {
           return withDndDrop({
@@ -295,7 +295,7 @@ const NodeWithPointAnchor: React.FunctionComponent<{ element: GraphElement } & W
 export const Anchors = withTopologySetup(() => {
   useComponentFactory(defaultComponentFactory);
   useComponentFactory(
-    React.useCallback<ComponentFactory>((kind) => {
+    useCallback<ComponentFactory>((kind) => {
       if (kind === ModelKind.node) {
         return withDragNode()(NodeWithPointAnchor);
       }
@@ -303,7 +303,7 @@ export const Anchors = withTopologySetup(() => {
     }, [])
   );
   useModel(
-    React.useMemo(
+    useMemo(
       (): Model => ({
         graph: {
           id: 'g1',
@@ -357,7 +357,7 @@ export const Anchors = withTopologySetup(() => {
 });
 
 export const Connectors: React.FunctionComponent = () => {
-  const [activeKey, setActiveKey] = React.useState<string | number>(0);
+  const [activeKey, setActiveKey] = useState<string | number>(0);
 
   const handleTabClick = (_event: React.MouseEvent<HTMLElement, MouseEvent>, tabIndex: string | number) => {
     setActiveKey(tabIndex);

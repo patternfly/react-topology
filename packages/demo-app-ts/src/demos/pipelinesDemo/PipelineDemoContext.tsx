@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { createContext } from 'react';
 import { makeObservable, observable, action } from 'mobx';
 
 export class PipelineDemoModel {
@@ -89,4 +89,4 @@ export class PipelineDemoModel {
   };
 }
 
-export const PipelineDemoContext = React.createContext<PipelineDemoModel>(new PipelineDemoModel());
+export const PipelineDemoContext = createContext<PipelineDemoModel>(new PipelineDemoModel());

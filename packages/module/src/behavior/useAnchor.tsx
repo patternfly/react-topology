@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useContext, useCallback, useEffect } from 'react';
 import { runInAction } from 'mobx';
 import { observer } from 'mobx-react';
 import { isNode, Anchor, Node, AnchorEnd } from '../types';
@@ -11,11 +11,11 @@ export const useAnchor = (
   end: AnchorEnd = AnchorEnd.both,
   type?: string
 ): void => {
-  const element = React.useContext(ElementContext);
+  const element = useContext(ElementContext);
   if (!isNode(element)) {
     throw new Error('useAnchor must be used within the scope of a Node');
   }
-  React.useEffect(() => {
+  useEffect(() => {
     runInAction(() => {
       const anchor = anchorCallback.prototype ? new (anchorCallback as any)(element) : (anchorCallback as any)(element);
       if (anchor) {
@@ -30,7 +30,7 @@ export const withAnchor =
   (WrappedComponent: React.ComponentType<P>) => {
     const Component: React.FunctionComponent<P> = (props) => {
       useAnchor(
-        React.useCallback(() => anchor, []),
+        useCallback(() => anchor, []),
         end,
         type
       );

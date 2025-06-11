@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useRef, useMemo, useContext, useEffect } from 'react';
 import * as d3 from 'd3';
 import { observer } from 'mobx-react';
 import { pointInSvgPath } from 'point-in-svg-path';
@@ -28,18 +28,18 @@ export const useDndDrop = <
   spec: DropTargetSpec<DragObject, DropResult, CollectedProps, Props>,
   props?: Props
 ): [CollectedProps, ConnectDropTarget] => {
-  const specRef = React.useRef(spec);
+  const specRef = useRef(spec);
   specRef.current = spec;
 
-  const propsRef = React.useRef(props != null ? props : (EMPTY_PROPS as Props));
+  const propsRef = useRef(props != null ? props : (EMPTY_PROPS as Props));
   propsRef.current = props != null ? props : (EMPTY_PROPS as Props);
 
   const dndManager = useDndManager();
 
-  const nodeRef = React.useRef<SVGElement | null>(null);
-  const idRef = React.useRef<string>();
+  const nodeRef = useRef<SVGElement | null>(null);
+  const idRef = useRef<string | null>(null);
 
-  const monitor = React.useMemo((): DropTargetMonitor => {
+  const monitor = useMemo((): DropTargetMonitor => {
     const targetMonitor: DropTargetMonitor = {
       getHandlerId: (): string | undefined => idRef.current,
       receiveHandlerId: (sourceId: string | undefined): void => {
@@ -63,11 +63,11 @@ export const useDndDrop = <
     return targetMonitor;
   }, [dndManager]);
 
-  const element = React.useContext(ElementContext);
-  const elementRef = React.useRef(element);
+  const element = useContext(ElementContext);
+  const elementRef = useRef(element);
   elementRef.current = element;
 
-  React.useEffect(() => {
+  useEffect(() => {
     const dropTarget: DropTarget = {
       type: spec.accept,
       dropHint: () => {
@@ -162,7 +162,7 @@ export const useDndDrop = <
     return unregister;
   }, [spec.accept, dndManager, monitor]);
 
-  const collected = React.useMemo(
+  const collected = useMemo(
     () =>
       computed(() => (spec.collect ? spec.collect(monitor, propsRef.current) : ({} as any as CollectedProps)), {
         equals: comparer.shallow

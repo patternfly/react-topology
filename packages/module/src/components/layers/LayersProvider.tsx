@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { Component } from 'react';
 import { DEFAULT_LAYER } from '../../const';
 import LayersContext from './LayersContext';
 
@@ -11,7 +11,7 @@ interface State {
   [id: string]: Element;
 }
 
-export default class LayersProvider extends React.Component<LayersProviderProps, State> {
+export default class LayersProvider extends Component<LayersProviderProps, State> {
   constructor(props: LayersProviderProps) {
     super(props);
     this.state = {};

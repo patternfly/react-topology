@@ -1,4 +1,3 @@
-import * as React from 'react';
 import useComponentFactory from '../../hooks/useComponentFactory';
 import { ComponentFactory } from '../../types';
 

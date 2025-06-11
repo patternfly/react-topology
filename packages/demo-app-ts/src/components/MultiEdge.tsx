@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { observer } from 'mobx-react';
 import { Edge, vecSum, vecScale, unitNormal, GraphElement } from '@patternfly/react-topology';
 

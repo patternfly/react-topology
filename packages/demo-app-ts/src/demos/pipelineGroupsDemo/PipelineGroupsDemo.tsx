@@ -1,4 +1,4 @@
-import React from 'react';
+import { useContext, useState, useEffect, useCallback } from 'react';
 import {
   Graph,
   Layout,
@@ -37,8 +37,8 @@ import DemoControlBar from '../DemoControlBar';
 
 const TopologyPipelineGroups: React.FC<{ nodes: PipelineNodeModel[] }> = observer(({ nodes }) => {
   const controller = useVisualizationController();
-  const options = React.useContext(PipelineGroupsDemoContext);
-  const [selectedIds, setSelectedIds] = React.useState<string[]>();
+  const options = useContext(PipelineGroupsDemoContext);
+  const [selectedIds, setSelectedIds] = useState<string[]>();
 
   useEventListener<SelectionEventListener>(SELECTION_EVENT, (ids) => {
     if (ids?.[0]) {
@@ -63,7 +63,7 @@ const TopologyPipelineGroups: React.FC<{ nodes: PipelineNodeModel[] }> = observe
     setSelectedIds(ids);
   });
 
-  React.useEffect(() => {
+  useEffect(() => {
     const pipelineNodes = addSpacerNodes(nodes);
     const edges = getEdgesFromNodes(pipelineNodes, DEFAULT_SPACER_NODE_TYPE, 'edge', 'edge');
 
@@ -83,7 +83,7 @@ const TopologyPipelineGroups: React.FC<{ nodes: PipelineNodeModel[] }> = observe
     );
   }, [controller, nodes, options.verticalLayout]);
 
-  const collapseAllCallback = React.useCallback(
+  const collapseAllCallback = useCallback(
     (collapseAll: boolean) => {
       // First, expand/collapse all nodes
       collapseAll ? controller.getGraph().collapseAll() : controller.getGraph().expandAll();

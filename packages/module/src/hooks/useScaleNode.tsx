@@ -1,12 +1,12 @@
-import * as React from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 const useScaleNode = (scaleNode: boolean, scale: number, scaleUpTime: number = 200): number => {
-  const [nodeScale, setNodeScale] = React.useState<number>(1);
-  const animationRef = React.useRef<number>();
-  const scaleGoal = React.useRef<number>(1);
-  const nodeScaled = React.useRef<boolean>(false);
+  const [nodeScale, setNodeScale] = useState<number>(1);
+  const animationRef = useRef<number>(null);
+  const scaleGoal = useRef<number>(1);
+  const nodeScaled = useRef<boolean>(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!scaleNode || scale >= 1) {
       setNodeScale(1);
       nodeScaled.current = false;

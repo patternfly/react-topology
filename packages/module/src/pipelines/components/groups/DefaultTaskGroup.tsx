@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { observer } from 'mobx-react';
 import { OnSelect, WithDndDragProps, ConnectDragSource, ConnectDropTarget } from '../../../behavior';
 import { ShapeProps } from '../../../components';

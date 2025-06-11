@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useContext, useState, useCallback, useEffect } from 'react';
 import { observer } from 'mobx-react';
 import { Spinner } from '@patternfly/react-core';
 import { GraphElement as TopologyElement } from '../types';
@@ -22,10 +22,10 @@ export const withContextMenu =
   ) =>
   <P extends WithContextMenuProps>(WrappedComponent: React.ComponentType<P>) => {
     const Component: React.FunctionComponent<Omit<P, keyof WithContextMenuProps>> = (props) => {
-      const element = React.useContext(ElementContext);
-      const [reference, setReference] = React.useState<Reference | null>(null);
-      const [elementActions, setElementActions] = React.useState<React.ReactElement[] | null>(null);
-      const onContextMenu = React.useCallback((e: React.MouseEvent) => {
+      const element = useContext(ElementContext);
+      const [reference, setReference] = useState<Reference | null>(null);
+      const [elementActions, setElementActions] = useState<React.ReactElement[] | null>(null);
+      const onContextMenu = useCallback((e: React.MouseEvent) => {
         e.preventDefault();
         e.stopPropagation();
         setReference(
@@ -38,7 +38,7 @@ export const withContextMenu =
         );
       }, []);
 
-      React.useEffect(() => {
+      useEffect(() => {
         if (reference) {
           const actionsElements = actions(element as E);
           Promise.resolve(actionsElements).then((resultActions) => {

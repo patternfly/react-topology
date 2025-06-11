@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useRef, useCallback, useEffect } from 'react';
 import { action } from 'mobx';
 import { TooltipProps } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
@@ -121,7 +121,7 @@ const TaskNodeInner: React.FC<TaskNodeInnerProps> = observer(
   }) => {
     const [hovered, hoverRef] = useHover();
     // const isHover = hover !== undefined ? hover : hovered;
-    const taskRef = React.useRef();
+    const taskRef = useRef(null);
     const [pillSize, pillRef] = useSize();
     const pillWidth = pillSize?.width || 0;
     const { width } = element.getBounds();
@@ -130,7 +130,7 @@ const TaskNodeInner: React.FC<TaskNodeInnerProps> = observer(
     const verticalLayout = (element.getGraph().getLayoutOptions?.() as DagreLayoutOptions)?.rankdir === TOP_TO_BOTTOM;
 
     useAnchor(
-      React.useCallback(
+      useCallback(
         (node: Node) => new TaskNodeSourceAnchor(node, detailsLevel, statusIconSize + 4, verticalLayout),
         // Include scaleNode to cause an update when it changes
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -139,7 +139,7 @@ const TaskNodeInner: React.FC<TaskNodeInnerProps> = observer(
       AnchorEnd.source
     );
     useAnchor(
-      React.useCallback(
+      useCallback(
         (node: Node) =>
           new TaskNodeTargetAnchor(node, whenSize + whenOffset, detailsLevel, statusIconSize + 4, verticalLayout),
         // Include scaleNode to cause an update when it changes
@@ -149,7 +149,7 @@ const TaskNodeInner: React.FC<TaskNodeInnerProps> = observer(
       AnchorEnd.target
     );
 
-    React.useEffect(() => {
+    useEffect(() => {
       const sourceEdges = element.getSourceEdges();
       action(() => {
         const indent = detailsLevel === ScaleDetailsLevel.high && !verticalLayout ? width - pillWidth : 0;

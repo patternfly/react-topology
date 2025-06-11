@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useRef } from 'react';
 import { css } from '@patternfly/react-styles';
 import styles from '../css/topology-components';
 import AddCircleOIcon from '@patternfly/react-icons/dist/esm/icons/add-circle-o-icon';
@@ -27,7 +27,7 @@ const DefaultCreateConnector: React.FunctionComponent<DefaultCreateConnectorProp
   tipContents,
   className
 }) => {
-  const iconRef = React.useRef();
+  const iconRef = useRef(null);
   const classes = css(
     styles.topologyDefaultCreateConnector,
     className,

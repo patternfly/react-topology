@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useRef } from 'react';
 import { observer } from 'mobx-react';
 import { polygonHull } from 'd3-polygon';
 import {
@@ -45,7 +45,7 @@ const GroupHull: React.FunctionComponent<GroupHullProps> = ({
   canDrop
 }) => {
   const nodeElement = element as Node;
-  const pathRef = React.useRef<string | null>(null);
+  const pathRef = useRef<string | null>(null);
   const refs = useCombineRefs<SVGPathElement | SVGRectElement>(dragNodeRef, dndDragRef, dndDropRef);
   useAnchor(RectAnchor);
 

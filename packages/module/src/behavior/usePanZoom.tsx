@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useContext, useRef } from 'react';
 import * as d3 from 'd3';
 import { observer } from 'mobx-react';
 import { action, autorun, IReactionDisposer } from 'mobx';
@@ -16,11 +16,11 @@ const propagatePanZoomMouseEvent = (e: Event): void => {
 };
 
 export const usePanZoom = (): PanZoomRef => {
-  const element = React.useContext(ElementContext);
+  const element = useContext(ElementContext);
   if (!isGraph(element)) {
     throw new Error('usePanZoom must be used within the scope of a Graph');
   }
-  const elementRef = React.useRef<Graph>(element);
+  const elementRef = useRef<Graph>(element);
   elementRef.current = element;
 
   return useCallbackRef<PanZoomRef>((node: SVGGElement | null) => {

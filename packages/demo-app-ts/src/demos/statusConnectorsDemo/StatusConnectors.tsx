@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState, useEffect, memo } from 'react';
 import {
   DagreLayout,
   EdgeModel,
@@ -57,9 +57,9 @@ const defaultLayoutFactory: LayoutFactory = (type: string, graph: Graph): Layout
 
 export const StatusConnectorsDemo: React.FunctionComponent = () => {
   const controller = useVisualizationController();
-  const [selectedIds, setSelectedIds] = React.useState<string[]>([]);
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const nodes: NodeModel[] = [
       {
         id: '1',
@@ -203,7 +203,7 @@ export const StatusConnectorsDemo: React.FunctionComponent = () => {
   );
 };
 
-export const StatusConnectors = React.memo(() => {
+export const StatusConnectors = memo(() => {
   const controller = new Visualization();
   controller.registerLayoutFactory(defaultLayoutFactory);
   controller.registerComponentFactory(defaultComponentFactory);

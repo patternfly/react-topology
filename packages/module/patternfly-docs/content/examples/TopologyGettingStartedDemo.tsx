@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState, useMemo } from 'react';
 import {
   ColaLayout,
   ComponentFactory,
@@ -128,9 +128,9 @@ const EDGES = [
 ];
 
 export const TopologyGettingStartedDemo: React.FC = () => {
-  const [selectedIds, setSelectedIds] = React.useState<string[]>([]);
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
-  const controller = React.useMemo(() => {
+  const controller = useMemo(() => {
     const model: Model = {
       nodes: NODES,
       edges: EDGES,

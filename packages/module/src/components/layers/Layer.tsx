@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useContext, useRef, useEffect } from 'react';
 import { observer } from 'mobx-react';
 import { createPortal } from 'react-dom';
 import ElementContext from '../../utils/ElementContext';
@@ -39,11 +39,11 @@ const compare = (a: ChildNode, b: ChildNode): number => {
 };
 
 const LayerDelegate: React.FunctionComponent<LayerDelegateProps> = observer(({ id, children, orderKey }) => {
-  const getLayerNode = React.useContext(LayersContext);
+  const getLayerNode = useContext(LayersContext);
   const layerNode = getLayerNode(id);
 
-  const element = React.useContext(ElementContext);
-  const nodeRef = React.useRef<SVGGElement | null>(null);
+  const element = useContext(ElementContext);
+  const nodeRef = useRef<SVGGElement | null>(null);
   let order: unknown;
   if (id && orderKey == null) {
     order = element.getOrderKey();
@@ -51,7 +51,7 @@ const LayerDelegate: React.FunctionComponent<LayerDelegateProps> = observer(({ i
     order = orderKey;
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     // TODO use bisection search
     if (nodeRef.current && layerNode != null) {
       nodeRef.current[ORDER_KEY] = order;

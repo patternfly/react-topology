@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useMemo } from 'react';
 import Point from '../../geom/Point';
 import { css } from '@patternfly/react-styles';
 import styles from '../../css/topology-components';
@@ -26,7 +26,7 @@ const DefaultConnectorTag: React.FunctionComponent<DefaultConnectorTagProps> = (
   ...other
 }) => {
   const [textSize, textRef] = useSize([tag, className]);
-  const { width, height, startX, startY } = React.useMemo(() => {
+  const { width, height, startX, startY } = useMemo(() => {
     if (!textSize) {
       return {
         width: 0,

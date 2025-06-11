@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { forwardRef } from 'react';
 import { css } from '@patternfly/react-styles';
 import styles from '../../../css/topology-components';
 
@@ -14,7 +14,7 @@ interface LabelIconProps {
   innerRef?: React.Ref<SVGGElement>;
 }
 
-const LabelIcon = React.forwardRef<SVGCircleElement, LabelIconProps>(
+const LabelIcon = forwardRef<SVGCircleElement, LabelIconProps>(
   ({ className, x, y, width, height, iconClass, icon, padding = 4, innerRef }, circleRef) => {
     const radius = width / 2;
     const cx = x - radius;

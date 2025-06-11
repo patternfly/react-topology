@@ -1,4 +1,4 @@
-import React from 'react';
+import { useCallback, useMemo } from 'react';
 import {
   Model,
   ModelKind,
@@ -22,7 +22,7 @@ export const Shapes = withTopologySetup(() => {
   useComponentFactory(shapesComponentFactory);
   // support pan zoom and drag
   useComponentFactory(
-    React.useCallback<ComponentFactory>((kind, type) => {
+    useCallback<ComponentFactory>((kind, type) => {
       if (kind === ModelKind.graph) {
         return withPanZoom()(GraphComponent);
       }
@@ -33,7 +33,7 @@ export const Shapes = withTopologySetup(() => {
     }, [])
   );
   useModel(
-    React.useMemo(
+    useMemo(
       (): Model => ({
         graph: {
           id: 'g1',

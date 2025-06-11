@@ -1,4 +1,3 @@
-import * as React from 'react';
 import SvgDropShadowFilter from '../svg/SvgDropShadowFilter';
 
 export const NODE_SHADOW_FILTER_ID = 'NodeShadowsFilterId';

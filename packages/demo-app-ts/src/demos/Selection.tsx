@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useCallback, useState } from 'react';
 import {
   Model,
   ModelKind,
@@ -53,7 +53,7 @@ const twoNodeModel: Model = {
 
 export const UncontrolledSelection: React.FunctionComponent = withTopologySetup(() => {
   useComponentFactory(
-    React.useCallback<ComponentFactory>((kind, type) => {
+    useCallback<ComponentFactory>((kind, type) => {
       const widget = defaultComponentFactory(kind, type);
       if (kind === ModelKind.node || kind === ModelKind.graph) {
         // TODO fix any type
@@ -64,7 +64,7 @@ export const UncontrolledSelection: React.FunctionComponent = withTopologySetup(
   );
   useEventListener(
     SELECTION_EVENT,
-    React.useCallback<SelectionEventListener>(([id]) => {
+    useCallback<SelectionEventListener>(([id]) => {
       // eslint-disable-next-line no-console
       console.log(`Selection event`, id);
     }, [])
@@ -77,7 +77,7 @@ UncontrolledSelection.displayName = 'UncontrolledSelection';
 export const ControlledSelection = withTopologySetup(() => {
   const [, setSelectedIds] = useVisualizationState(SELECTION_STATE);
   useComponentFactory(
-    React.useCallback<ComponentFactory>((kind, type) => {
+    useCallback<ComponentFactory>((kind, type) => {
       const widget = defaultComponentFactory(kind, type);
       if (kind === ModelKind.node || kind === ModelKind.graph) {
         // TODO fix any type
@@ -88,7 +88,7 @@ export const ControlledSelection = withTopologySetup(() => {
   );
   useEventListener(
     SELECTION_EVENT,
-    React.useCallback<SelectionEventListener>(
+    useCallback<SelectionEventListener>(
       (ids) => {
         // eslint-disable-next-line no-console
         console.log(`Selection event`, ids);
@@ -104,7 +104,7 @@ export const ControlledSelection = withTopologySetup(() => {
 export const MultiSelect: React.FunctionComponent = withTopologySetup(() => {
   useModel(twoNodeModel);
   useComponentFactory(
-    React.useCallback<ComponentFactory>((kind, type) => {
+    useCallback<ComponentFactory>((kind, type) => {
       const widget = defaultComponentFactory(kind, type);
       if (kind === ModelKind.node || kind === ModelKind.graph) {
         // TODO fix any type
@@ -115,7 +115,7 @@ export const MultiSelect: React.FunctionComponent = withTopologySetup(() => {
   );
   useEventListener(
     SELECTION_EVENT,
-    React.useCallback<SelectionEventListener>((ids) => {
+    useCallback<SelectionEventListener>((ids) => {
       // eslint-disable-next-line no-console
       console.log(`Selection event`, ids);
     }, [])
@@ -148,7 +148,7 @@ for (let i = 1; i <= 100; i++) {
 export const Performance: React.FunctionComponent = withTopologySetup(() => {
   useModel(perfModel);
   useComponentFactory(
-    React.useCallback<ComponentFactory>((kind, type) => {
+    useCallback<ComponentFactory>((kind, type) => {
       const widget = defaultComponentFactory(kind, type);
       if (kind === ModelKind.node || kind === ModelKind.graph) {
         // TODO fix any type
@@ -162,7 +162,7 @@ export const Performance: React.FunctionComponent = withTopologySetup(() => {
 Performance.displayName = 'Performance';
 
 export const Selection: React.FunctionComponent = () => {
-  const [activeKey, setActiveKey] = React.useState<string | number>(0);
+  const [activeKey, setActiveKey] = useState<string | number>(0);
 
   const handleTabClick = (_event: React.MouseEvent<HTMLElement, MouseEvent>, tabIndex: string | number) => {
     setActiveKey(tabIndex);

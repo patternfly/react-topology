@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { Node, NodeShape, PointTuple, TopologyQuadrant } from '../../../types';
 import { polygonHull } from 'd3-polygon';
 import { hullPath, pointTuplesToPath } from '../../../utils';

@@ -6,6 +6,7 @@ sourceLink: https://github.com/patternfly/react-topology/blob/main/packages/modu
 propComponents: ['DefaultEdge']
 ---
 
+import { useState, useMemo } from 'react';
 import {
   ColaLayout,
   CREATE_CONNECTOR_DROP_TYPE,

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState, useRef, useCallback } from 'react';
 
 interface Size {
   width: number;
@@ -8,11 +8,11 @@ interface Size {
 const EMPTY: any[] = [];
 
 export const useSize = (dependencies: any[] = EMPTY): [Size | undefined, (node: SVGGraphicsElement) => void] => {
-  const [size, setSize] = React.useState<Size>();
-  const sizeRef = React.useRef<Size | undefined>();
+  const [size, setSize] = useState<Size>();
+  const sizeRef = useRef<Size | undefined>(undefined);
   sizeRef.current = size;
 
-  const callbackRef = React.useCallback((node: SVGGraphicsElement): void => {
+  const callbackRef = useCallback((node: SVGGraphicsElement): void => {
     if (node != null) {
       const bb = node.getBBox();
       if (!sizeRef.current || sizeRef.current.width !== bb.width || sizeRef.current.height !== bb.height) {

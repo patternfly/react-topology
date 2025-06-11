@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useContext, useRef, useMemo, useCallback } from 'react';
 import { action, computed } from 'mobx';
 import { observer } from 'mobx-react';
 import { EventListener } from '../types';
@@ -22,11 +22,11 @@ interface Options {
 }
 
 export const useSelection = ({ multiSelect, controlled, raiseOnSelect = true }: Options = {}): [boolean, OnSelect] => {
-  const element = React.useContext(ElementContext);
-  const elementRef = React.useRef(element);
+  const element = useContext(ElementContext);
+  const elementRef = useRef(element);
   elementRef.current = element;
 
-  const selected = React.useMemo(
+  const selected = useMemo(
     () =>
       computed(() => {
         const { selectedIds } = element.getController().getState<SelectionHandlerState>();
@@ -35,7 +35,7 @@ export const useSelection = ({ multiSelect, controlled, raiseOnSelect = true }: 
     [element]
   );
 
-  const onSelect = React.useCallback(
+  const onSelect = useCallback(
     (e: React.MouseEvent): void => {
       const actionFn = action((e: React.MouseEvent): void => {
         e.stopPropagation();

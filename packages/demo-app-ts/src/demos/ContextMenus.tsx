@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import {
   ContextMenu,
   ContextMenuItem,
@@ -42,7 +42,7 @@ export const UncontrolledContextMenu = () => (
 );
 
 export const ControlledContextMenu = () => {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   return (
     <>
       <button type="button" onClick={() => setOpen(true)} style={{ marginTop: 20 }}>
@@ -58,7 +58,7 @@ export const ControlledContextMenu = () => {
 export const ContextMenuOnNode = withTopologySetup(() => {
   useComponentFactory(defaultComponentFactory);
   useComponentFactory(
-    React.useCallback<ComponentFactory>((kind) => {
+    useCallback<ComponentFactory>((kind) => {
       if (kind === ModelKind.graph) {
         return withPanZoom()(GraphComponent);
       }
@@ -69,7 +69,7 @@ export const ContextMenuOnNode = withTopologySetup(() => {
     }, [])
   );
   useModel(
-    React.useMemo(
+    useMemo(
       (): Model => ({
         graph: {
           id: 'g1',
@@ -102,7 +102,7 @@ const createDelayedMenu = (): Promise<React.ReactElement[]> => {
 export const ContextMenuPromise = withTopologySetup(() => {
   useComponentFactory(defaultComponentFactory);
   useComponentFactory(
-    React.useCallback<ComponentFactory>((kind) => {
+    useCallback<ComponentFactory>((kind) => {
       if (kind === ModelKind.graph) {
         return withPanZoom()(GraphComponent);
       }
@@ -113,7 +113,7 @@ export const ContextMenuPromise = withTopologySetup(() => {
     }, [])
   );
   useModel(
-    React.useMemo(
+    useMemo(
       (): Model => ({
         graph: {
           id: 'g1',
@@ -137,7 +137,7 @@ export const ContextMenuPromise = withTopologySetup(() => {
 });
 
 export const ContextMenus: React.FunctionComponent = () => {
-  const [activeKey, setActiveKey] = React.useState<string | number>(0);
+  const [activeKey, setActiveKey] = useState<string | number>(0);
 
   const handleTabClick = (_event: React.MouseEvent<HTMLElement, MouseEvent>, tabIndex: string | number) => {
     setActiveKey(tabIndex);

@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState, useContext, useEffect, memo } from 'react';
 import {
   observer,
   TopologyView,
@@ -18,17 +18,17 @@ import PipelineOptionsBar from './PipelineOptionsBar';
 export const TASKS_TITLE = 'Tasks';
 
 export const PipelineTasks: React.FC = observer(() => {
-  const [selectedIds, setSelectedIds] = React.useState<string[]>();
+  const [selectedIds, setSelectedIds] = useState<string[]>();
 
   const controller = useVisualizationController();
-  const pipelineOptions = React.useContext(PipelineDemoContext);
+  const pipelineOptions = useContext(PipelineDemoContext);
   const pipelineNodes = useDemoPipelineNodes(
     pipelineOptions.showContextMenus,
     pipelineOptions.showBadges,
     pipelineOptions.showIcons
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     controller.fromModel(
       {
         graph: {
@@ -56,7 +56,7 @@ export const PipelineTasks: React.FC = observer(() => {
 
 PipelineTasks.displayName = 'PipelineTasks';
 
-export const PipelineTasksDemo = React.memo(() => {
+export const PipelineTasksDemo = memo(() => {
   const controller = new Visualization();
   controller.registerComponentFactory(pipelineComponentFactory);
   return (

@@ -1,5 +1,5 @@
 import { Node } from '../../types';
-import * as React from 'react';
+
 import { ShapeProps } from '../nodes';
 
 export interface CollapsibleGroupProps {

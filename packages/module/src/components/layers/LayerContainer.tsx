@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useContext, forwardRef } from 'react';
 import { observer } from 'mobx-react';
 import ElementContext from '../../utils/ElementContext';
 import { isNode } from '../../types';
@@ -10,7 +10,7 @@ interface LayerContainerProps {
 
 const LayerContainer: React.ForwardRefRenderFunction<SVGGElement, LayerContainerProps> = ({ children }, ref) => {
   // accumulate parent positions
-  const element = React.useContext(ElementContext);
+  const element = useContext(ElementContext);
   let p = element;
   let x = 0;
   let y = 0;
@@ -34,4 +34,4 @@ const LayerContainer: React.ForwardRefRenderFunction<SVGGElement, LayerContainer
   );
 };
 
-export default observer(React.forwardRef(LayerContainer));
+export default observer(forwardRef(LayerContainer));
