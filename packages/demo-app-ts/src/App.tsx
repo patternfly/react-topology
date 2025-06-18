@@ -1,4 +1,4 @@
-import { createElement } from 'react';
+import { createElement, Component } from 'react';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import {
   Page,
@@ -35,7 +35,7 @@ interface AppState {
   isDarkTheme: boolean;
 }
 
-class App extends React.Component<{}, AppState> {
+class App extends Component<{}, AppState> {
   state: AppState = {
     activeItem: Demos.reduce(
       (active, demo) => active || (demo.isDefault ? demo.id : demo.demos?.find((subDemo) => subDemo.isDefault)?.id),
