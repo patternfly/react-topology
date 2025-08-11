@@ -214,3 +214,9 @@ See the instructions to install and run the demo app, here: [Demo README.md](pac
 ## Need help?
 
 If you find a bug, have a request, or have any questions about Topology that aren't answered in our documentation, please [reach out to us on Slack.](https://patternfly.slack.com/archives/CK7URGJ2W)
+
+## Contributing to Topology
+
+### AI-assisted development guidelines
+
+Please reference [PatternFly's AI-assisted development guidelines](https://github.com/patternfly/.github/blob/main/CONTRIBUTING.md) if you'd like to contribute code generated using AI.
