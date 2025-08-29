@@ -300,7 +300,7 @@ const TaskPill: React.FC<TaskPillProps> = observer(
             r={statusBackgroundRadius}
           />
           {status && (!hiddenDetailsShownStatuses || hiddenDetailsShownStatuses.includes(status)) ? (
-            <g transform={`translate(4, 4)`}>
+            <g transform={`translate(5, 5)`}>
               <g
                 className={css(
                   styles.topologyPipelinesStatusIcon,
