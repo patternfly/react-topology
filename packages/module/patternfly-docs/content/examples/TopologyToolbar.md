@@ -1,6 +1,7 @@
 ---
 id: Toolbar
-section: topology
+section: extensions
+subsection: topology
 sortValue: 32
 sourceLink: https://github.com/patternfly/react-topology/blob/main/packages/module/patternfly-docs/content/examples/TopologyToolbarDemo.tsx
 propComponents: ['TopologyView']
