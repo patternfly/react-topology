@@ -174,7 +174,9 @@ const DefaultNodeInner: React.FunctionComponent<DefaultNodeInnerProps> = observe
     raiseLabelOnHover = true,
     hideContextMenuKebab
   }) => {
-    const [hovered, hoverRef] = useHover();
+    const [nodeHovered, hoverRef] = useHover();
+    const [labelHovered, labelRef] = useHover();
+    const hovered = nodeHovered || labelHovered;
     const status = nodeStatus || element.getNodeStatus();
     const refs = useCombineRefs<SVGEllipseElement>(hoverRef, dragNodeRef);
     const { width, height } = element.getDimensions();
@@ -348,6 +350,7 @@ const DefaultNodeInner: React.FunctionComponent<DefaultNodeInnerProps> = observe
 
       const nodeLabel = (
         <g
+          ref={labelRef}
           transform={
             raiseLabelOnHover && isHover
               ? `${scaleNode ? `translate(${translateX}, ${translateY})` : ''} scale(${nodeScale})`
