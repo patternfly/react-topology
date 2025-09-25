@@ -31,7 +31,8 @@ import {
   EditableDragOperationType,
   GraphElementProps,
   isEdge,
-  Model
+  Model,
+  ContextSubMenuItem
 } from '@patternfly/react-topology';
 import CustomPathNode from '../../components/CustomPathNode';
 import CustomPolygonNode from '../../components/CustomPolygonNode';
@@ -99,8 +100,16 @@ const contextMenuItem = (label: string, i: number): React.ReactElement => {
   if (label === '-') {
     return <ContextMenuSeparator component="li" key={`separator:${i.toString()}`} />;
   }
+  if (label === 'Second') {
+    return (
+      <ContextSubMenuItem label={label} key={label}>
+        <ContextMenuItem onClick={() => alert(`Selected: ${label} 1`)}>{`${label} subitem number 1`}</ContextMenuItem>
+        <ContextMenuItem onClick={() => alert(`Selected: ${label} 2`)}>{`${label} subitem number 2`}</ContextMenuItem>
+        <ContextMenuItem onClick={() => alert(`Selected: ${label} 3`)}>{`${label} subitem number 3`}</ContextMenuItem>
+      </ContextSubMenuItem>
+    );
+  }
   return (
-    // eslint-disable-next-line no-alert
     <ContextMenuItem key={label} onClick={() => alert(`Selected: ${label}`)}>
       {label}
     </ContextMenuItem>
@@ -117,7 +126,7 @@ const demoComponentFactory: ComponentFactory = (
 ): React.ComponentType<{ element: GraphElement }> | undefined => {
   if (kind === ModelKind.graph) {
     return withDndDrop(graphDropTargetSpec([NODE_DRAG_TYPE]))(
-      withPanZoom()(withAreaSelection(['ctrlKey', 'shiftKey'])(GraphComponent))
+      withPanZoom()(withAreaSelection(['ctrlKey', 'shiftKey'])(withContextMenu(() => defaultMenu)(GraphComponent)))
     );
   }
   switch (type) {

@@ -59,6 +59,7 @@ const ContextSubMenuItem: React.FunctionComponent<ContextSubMenuItemProps> = ({ 
         <AngleRightIcon className={css(topologyStyles.topologyContextSubMenuArrow)} />
       </DropdownItem>
       <Popper
+        className={css(topologyStyles.topologyContextSubMenuContainer)}
         open={open}
         placement="right-start"
         closeOnEsc
