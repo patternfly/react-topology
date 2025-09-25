@@ -385,7 +385,11 @@ const DefaultNodeInner: React.FunctionComponent<DefaultNodeInnerProps> = observe
         </g>
       );
       if (isHover && raiseLabelOnHover) {
-        return <Layer id={TOP_LAYER}>{nodeLabel}</Layer>;
+        return (
+          <Layer id={TOP_LAYER}>
+            <g className={groupClassName}>{nodeLabel}</g>
+          </Layer>
+        );
       }
       return nodeLabel;
     };
