@@ -239,6 +239,10 @@
   padding-right: var(--pf-t--global--spacer--lg) !important;
 }
 
+.pf-topology-context-sub-menu__container .pf-v6-c-menu__list-item {
+    min-width: auto;
+}
+
 .pf-topology-context-sub-menu__arrow {
   position: absolute;
   right: var(--pf-t--global--spacer--xs);
