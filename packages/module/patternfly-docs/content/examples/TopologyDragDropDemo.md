@@ -1,6 +1,7 @@
 ---
 id: Drag and drop
-section: topology
+section: extensions
+subsection: topology
 sortValue: 24
 sourceLink: https://github.com/patternfly/react-topology/blob/main/packages/module/patternfly-docs/content/examples/TopologyDragDropDemo.tsx
 propComponents: ['DefaultNode', 'DefaultEdge', 'withDndDrop']

@@ -1,6 +1,7 @@
 ---
 id: About Topology
-section: topology
+section: extensions
+subsection: topology
 sortValue: 1
 sourceLink: https://github.com/patternfly/react-topology/blob/main/packages/module/patternfly-docs/content/examples/TopologyGettingStartedDemo.tsx
 propComponents: ['VisualizationProvider', 'VisualizationSurface']

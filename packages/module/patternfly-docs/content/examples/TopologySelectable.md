@@ -1,6 +1,7 @@
 ---
 id: Selection
-section: topology
+section: extensions
+subsection: topology
 sortValue: 21
 sourceLink: https://github.com/patternfly/react-topology/blob/main/packages/module/patternfly-docs/content/examples/TopologySelectableDemo.tsx
 ---

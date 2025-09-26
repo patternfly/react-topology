@@ -1,6 +1,7 @@
 ---
 id: Layouts
-section: topology
+section: extensions
+subsection: topology
 sourceLink: https://github.com/patternfly/react-topology/blob/main/packages/module/patternfly-docs/content/examples/TopologyLayoutsDemo.tsx
 ---
 
@@ -52,7 +53,7 @@ There are many algorithms available for positioning nodes, based on factors like
 
 - **Force:** Built on top of the d3-force layout provided by [d3/d3-force](https://github.com/d3/d3-force).
 - **Dagre:** Built on top of the dagrejs dagre layout provided by [dagrejs/dagre](https://github.com/dagrejs/dagre).
-- **Cola:** Built on top of the WebCola layout provided by [tgdwyer/WebCola](://github.com/tgdwyer/WebCola). 
+- **Cola:** Built on top of the WebCola layout provided by [tgdwyer/WebCola](https://github.com/tgdwyer/WebCola). 
   - This layout uses `force simulation` by default, but can be turned off by setting the options `layoutOnDrag` flag to "false".
 - **ColaGroups:** Uses the cola layout recursively on each group, so that the group's children locations are set before the group's location is set relative to other groups or nodes at its level.
 - **Grid:** Orders nodes in a grid, making the grid as `square` as possible.
