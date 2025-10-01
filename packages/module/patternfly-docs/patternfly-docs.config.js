@@ -2,5 +2,8 @@
 module.exports = {
   sideNavItems: [{ section: 'topology' }],
   topNavItems: [],
-  port: 8008
+  port: 8008,
+  hasThemeSwitcher: true,
+  hasHighContrastSwitcher: true,
+  hasRTLSwitcher: true
 };
