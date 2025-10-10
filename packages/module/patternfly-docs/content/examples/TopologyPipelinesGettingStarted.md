@@ -1,6 +1,7 @@
 ---
 id: Pipelines
-section: topology
+section: extensions
+subsection: topology
 sortValue: 71
 sourceLink: https://github.com/patternfly/react-topology/blob/main/packages/module/patternfly-docs/content/examples/TopologyPipelinesGettingStartedDemo.tsx
 propComponents: ['TaskNode', 'TaskEdge', 'WhenDecorator']
