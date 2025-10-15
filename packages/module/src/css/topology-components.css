@@ -125,15 +125,19 @@
   --pf-topology__group--m-selected--topology__group__background--Fill: var(--pf-t--global--background--color--secondary--default);
 
   --pf-topology__group__background--Fill: var(--pf-t--global--background--color--secondary--default);
-  --pf-topology__group__background--Stroke: var(--pf-t--global--border--color--default);
-  --pf-topology__group__background--StrokeWidth: 5px;
+  --pf-topology__group__background--Stroke: var(--pf-t--global--border--color--main--default);
+  --pf-topology__group__background--StrokeWidth--base: var(--pf-t--global--border--width--extra-strong);
+  --pf-topology__group__background--StrokeWidth: var(--pf-topology__group__background--StrokeWidth--base);
 
   --pf-topology__group--m-alt-group--topology__group__background--Fill: var(--pf-t--global--background--color--primary--default);
   --pf-topology__group--m-alt-group--topology__group__background--Stroke: var(--pf-t--global--border--color--default);
 
   --pf-topology__group--m-selected--topology__group__background--Stroke: var(--pf-t--global--border--color--clicked);
+  --pf-topology__group--m-selected--topology__group__background--StrokeWidth: calc(var(--pf-topology__group__background--StrokeWidth--base) + var(--pf-t--global--border--width--high-contrast--strong));
   --pf-topology__group--m-hover--topology__group__background--Stroke: var(--pf-t--global--border--color--hover);
+  --pf-topology__group--m-hover--topology__group__background--StrokeWidth: calc(var(--pf-topology__group__background--StrokeWidth--base) + var(--pf-t--global--border--width--high-contrast--regular));
   --pf-topology__group--m-selected--m-hover--topology__group__background--Stroke: var(--pf-t--global--border--color--hover);
+  --pf-topology__group--m-selected--m-hover--topology__group__background--StrokeWidth: calc(var(--pf-topology__group__background--StrokeWidth--base) + var(--pf-t--global--border--width--high-contrast--regular));
   --pf-topology__group--m-drop-target--topology__group__background--Fill: var(--pf-t--global--color--nonstatus--blue--default);
   --pf-topology__group--m-drop-target--topology__group__background--Stroke: var(--pf-t--global--border--color--brand--default);
   --pf-topology__group__collapsed-badge__node__label__badge__rect--Fill: var(--pf-t--global--background--color--floating--default);
@@ -147,7 +151,7 @@
   --pf-topology__group--m-selected--group__label__node__label__background--Fill: var(--pf-t--global--color--brand--default);
 
   /* edge */
-  --pf-topology__edge--Stroke: #707070;
+  --pf-topology__edge--Stroke: var(--pf-t--global--border--color--on-secondary);
   --pf-topology__edge--StrokeWidth: var(--pf-t--global--border--width--regular);
   --pf-topology__edge--HoverStroke: var(--pf-topology__edge--Stroke);
   --pf-topology__edge--ActiveStroke: var(--pf-t--global--border--color--clicked);
@@ -577,16 +581,19 @@
 .pf-topology__group.pf-m-selected .pf-topology__group__background {
   --pf-topology__group__background--Fill: var(--pf-topology__group--m-selected--topology__group__background--Fill);
   --pf-topology__group__background--Stroke: var(--pf-topology__group--m-selected--topology__group__background--Stroke);
+  --pf-topology__group__background--StrokeWidth: var(--pf-topology__group--m-selected--topology__group__background--StrokeWidth);
 }
 
 .pf-topology__group.pf-m-hover .pf-topology__group__background {
   --pf-topology__group__background--Stroke: var(--pf-topology__group--m-hover--topology__group__background--Stroke);
+  --pf-topology__group__background--StrokeWidth: var(--pf-topology__group--m-hover--topology__group__background--StrokeWidth);
   --pf-topology__group__label__node__label__background--Stroke: var(--pf-topology__group--m-hover--topology__group__background--Stroke);
 }
 
 .pf-topology__group.pf-m-hover.pf-m-selected .pf-topology__group__background {
   --pf-topology__group__background--Fill: var(--pf-topology__group--m-selected--topology__group__background--Fill);
   --pf-topology__group__background--Stroke: var(--pf-topology__group--m-selected--m-hover--topology__group__background--Stroke);
+  --pf-topology__group__background--StrokeWidth: var(--pf-topology__group--m-selected--m-hover--topology__group__background--StrokeWidth);
   --pf-topology__group__label__node__label__background--Stroke: var(--pf-topology__group--m-selected--m-hover--topology__group__background--Stroke);
 }
 
