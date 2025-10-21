@@ -21,7 +21,7 @@ jobs:
           git log origin/main..HEAD --format="%b"
       # Yes, we really want to checkout the PR
       # Injected by generate-workflows.js
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v4
         with:
           node-version: '20'
       - run: corepack enable
