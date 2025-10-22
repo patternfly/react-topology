@@ -16,7 +16,7 @@ jobs:
           fi
       - uses: actions/setup-node@v1
         with:
-          node-version: '18'
+          node-version: '20'
       - run: yarn install --frozen-lockfile
       - name: generate
         run: cd packages/module && yarn generate
@@ -37,7 +37,7 @@ jobs:
           fi
       - uses: actions/setup-node@v1
         with:
-          node-version: '18'
+          node-version: '20'
       - run: yarn install --frozen-lockfile
       - name: ESLint
         run: yarn lint:js
@@ -59,7 +59,7 @@ jobs:
           fi
       - uses: actions/setup-node@v1
         with:
-          node-version: '18'
+          node-version: '20'
       - run: yarn install --frozen-lockfile
       - name: generate
         run: cd packages/module && yarn generate
@@ -83,7 +83,7 @@ jobs:
           fi
       - uses: actions/setup-node@v1
         with:
-          node-version: '18'
+          node-version: '20'
       - run: yarn install --frozen-lockfile
       - name: generate
         run: cd packages/module && yarn generate

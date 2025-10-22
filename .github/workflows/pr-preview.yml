@@ -23,7 +23,7 @@ jobs:
       # Injected by generate-workflows.js
       - uses: actions/setup-node@v1
         with:
-          node-version: '18'
+          node-version: '20'
       - run: yarn install --frozen-lockfile
       - run: yarn lint:js
         name: Lint JS
