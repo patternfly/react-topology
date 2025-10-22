@@ -17,7 +17,8 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: '20'
-      - run: yarn install --frozen-lockfile
+      - run: corepack enable
+      - run: yarn install --immutable
       - name: generate
         run: cd packages/module && yarn generate
       - name: Build dist
