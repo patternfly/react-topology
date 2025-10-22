@@ -39,6 +39,7 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: '20'
+      - run: corepack enable
       - run: yarn install --immutable
       - name: ESLint
         run: yarn lint:js
@@ -61,6 +62,7 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: '20'
+      - run: corepack enable
       - run: yarn install --immutable
       - name: generate
         run: cd packages/module && yarn generate
@@ -85,6 +87,7 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: '20'
+      - run: corepack enable
       - run: yarn install --immutable
       - name: generate
         run: cd packages/module && yarn generate
