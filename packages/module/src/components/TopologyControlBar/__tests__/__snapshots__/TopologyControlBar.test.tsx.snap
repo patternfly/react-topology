@@ -97,7 +97,7 @@ exports[`TopologyControlBar should accept button options correctly 1`] = `
               style="display: contents;"
             >
               <button
-                aria-disabled="false"
+                aria-disabled="true"
                 class="pf-v6-c-button pf-m-tertiary pf-topology-control-bar__button pf-m-disabled"
                 data-ouia-component-id="OUIA-Generated-Button-tertiary-8"
                 data-ouia-component-type="PF6/Button"
