@@ -4,6 +4,5 @@ module.exports = {
   topNavItems: [],
   port: 8008,
   hasThemeSwitcher: true,
-  hasHighContrastSwitcher: true,
-  hasRTLSwitcher: true
+  hasHighContrastSwitcher: true
 };
