@@ -1,6 +1,7 @@
 ---
 id: Pan and zoom
-section: topology
+section: extensions
+subsection: topology
 sortValue: 22
 sourceLink: https://github.com/patternfly/react-topology/blob/main/packages/module/patternfly-docs/content/examples/TopologyPanZoomDemo.tsx
 ---
