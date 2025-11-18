@@ -4,7 +4,7 @@ This package provides the resources necessary to use PatternFly Topology, an ope
 
 Topology utilizes some of PatternFly's React components https://github.com/patternfly/patternfly-react. 
 
-Documentation for Topology and its features is available on [the PatternFly website.](www.patternfly.org/topology/about-topology)
+Documentation for Topology and its features is available on [the PatternFly website.](www.patternfly.org/extensions/topology/overview)
 
 ## Table of contents
 
