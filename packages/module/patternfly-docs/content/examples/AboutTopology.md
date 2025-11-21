@@ -27,29 +27,29 @@ import Icon2 from '@patternfly/react-icons/dist/esm/icons/folder-open-icon';
 
 import './topology-example.css';
 
-# Introduction
-
 **Note:** Topology lives in its own package at [`@patternfly/react-topology`](https://www.npmjs.com/package/@patternfly/react-topology).
 
-PatternFly's **Topology** is an open source utility built off of [@patternfly/react-core](https://www.npmjs.com/package/@patternfly/react-core) that you can use to create a visual representation of all the applications within your project, their build status, and the components and services associated with them. Creating these visuals can help document and communicate the intricacies of the processes behind your product.
+PatternFly's **Topology** is an open source utility built off of [@patternfly/react-core](https://www.npmjs.com/package/@patternfly/react-core) that allows you to create a visual representation of complex application architectures. You can map applications, their build status, and the components and services associated with them. Creating these visuals helps document and communicate the intricacies of the processes behind your product.
 
-To create a Topology view for your application, you can create a simple layout of nodes, which represents your data points, and connecting edges, which represent the relationships between nodes. Beyond this basis, you can continue to customize and enhance your Topology view to fit the specific needs of your application.
+To create a Topology view for your application, you can create a simple layout of nodes (data points) and connecting edges (relationships). Beyond this basis, you can continue to customize and enhance your Topology view to fit the specific needs of your application.
 
-## Prerequisites
+---
 
-To use Topology, you will need to have both [Node Active LTS](https://github.com/nodejs/Release#release-schedule) and [Yarn](https://yarnpkg.com/) installed.
+## How do I use Topology? 
 
-1. Install and develop with the most up-to-date version of Node Active LTS. For example, to develop with Node 8, you would use the following commands:
+### Prerequisites
+
+1. Install and develop with the most up-to-date version of [Node Active LTS](https://github.com/nodejs/Release#release-schedule). For example, to develop with Node 8, you would use the following commands:
 
     ```
     nvm install 8
     nvm use 8
     ```
-2. Install and use version 1.6.0 or later of Yarn.
+2. Install and use version 1.6.0 or later of [Yarn](https://yarnpkg.com/).
 
-## Installing Topology
+### Get started
 
-Once you have all of the prequisites, you can install the Topology package with Yarn or npm:
+Once you have all of the prerequisites, you can install the Topology package with Yarn or npm:
 
 1. Using Yarn:
    
@@ -62,9 +62,7 @@ Once you have all of the prequisites, you can install the Topology package with 
     npm install @patternfly/react-topology --save
     ```
 
-## Initial setup and usage
-
-To use Topology out of the box, follow these steps: 
+Once installed, you must configure the data model and controller through the following steps:
 
 1. First transform your back-end data into a [Model](https://github.com/patternfly/react-topology/blob/main/packages/module/src/types.ts) object. This will contain the information needed to display the nodes and edges in your Topology view. Each node and edge contains a set of properties used by Topology, as well as a data field, which Topology can be used to customize the nodes and edges.
 
@@ -96,13 +94,14 @@ To use Topology out of the box, follow these steps:
 
 1. Use `<VisualizationSurface>` to provide the SVG component required for your topology components. `<VisualizationSurface>` can take a state parameter, which enables you to pass your state settings to the controller.
 
-## Demo app
+---
 
-To help you better understand and visualize the different Topology components, we have created an interactive demo, [which is contained in the react-topology repository.](https://github.com/patternfly/react-topology/tree/main/packages/demo-app-ts)
+## Explore the demo application
 
-You can run the demo app [by following these instructions.](https://github.com/patternfly/react-topology?tab=readme-ov-file#demo-app)
+To help you better understand and visualize the different Topology components, we have created an interactive demo, [which is contained in the react-topology repository](https://github.com/patternfly/react-topology/tree/main/packages/demo-app-ts).
 
-### Example
+You can run the demo app [by following these instructions](https://github.com/patternfly/react-topology?tab=readme-ov-file#demo-app).
 
+## Example
 ```ts file='./TopologyGettingStartedDemo.tsx'
 ```
