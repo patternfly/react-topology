@@ -19,6 +19,7 @@ import {
 import defaultComponentFactory from '../../components/defaultComponentFactory';
 import statusConnectorsComponentFactory from './statusConnectorsComponentFactory';
 import DemoControlBar from '../DemoControlBar';
+import { LayoutType } from '../../layouts/defaultLayoutFactory';
 
 const DEFAULT_CHAR_WIDTH = 8;
 const DEFAULT_NODE_SIZE = 75;
@@ -184,7 +185,7 @@ export const StatusConnectorsDemo: React.FunctionComponent = () => {
     const graph = {
       id: 'g1',
       type: 'graph',
-      layout: 'Dagre'
+      layout: LayoutType.Dagre
     };
 
     const model = { graph, nodes, edges };

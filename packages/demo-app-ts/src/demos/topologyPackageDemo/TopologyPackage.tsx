@@ -47,7 +47,8 @@ const TopologyViewComponent: FunctionComponent<TopologyViewComponentProps> = obs
         options.creationCounts.numNodes,
         options.creationCounts.numGroups,
         options.creationCounts.numEdges,
-        options.creationCounts.nestedLevel
+        options.creationCounts.nestedLevel,
+        options.layout
       );
 
       const model = {
@@ -60,6 +61,7 @@ const TopologyViewComponent: FunctionComponent<TopologyViewComponentProps> = obs
       };
 
       controller.fromModel(model, true);
+      controller.getGraph().layout();
     }, [controller, options.creationCounts, options.layout]);
 
     // Once we have the graph, run the layout. This ensures the graph size is set (by the initial size observation in VisualizationSurface)
@@ -120,14 +122,14 @@ const TopologyViewComponent: FunctionComponent<TopologyViewComponentProps> = obs
     }, [selectedIds, controller]);
 
     useEffect(() => {
-      controller.addEventListener(GRAPH_POSITION_CHANGE_EVENT, graphPositionChangeListener);
-      controller.addEventListener(GRAPH_LAYOUT_END_EVENT, layoutEndListener);
-
-      return () => {
+      if (options.logEvents) {
+        controller.addEventListener(GRAPH_POSITION_CHANGE_EVENT, graphPositionChangeListener);
+        controller.addEventListener(GRAPH_LAYOUT_END_EVENT, layoutEndListener);
+      } else {
         controller.removeEventListener(GRAPH_POSITION_CHANGE_EVENT, graphPositionChangeListener);
         controller.removeEventListener(GRAPH_LAYOUT_END_EVENT, layoutEndListener);
-      };
-    }, [controller]);
+      }
+    }, [controller, options.logEvents]);
 
     useEffect(() => {
       controller.getGraph().setDetailsLevelThresholds({

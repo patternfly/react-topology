@@ -2,6 +2,7 @@ import { createContext } from 'react';
 import { action, makeObservable, observable } from 'mobx';
 import { LabelPosition } from '@patternfly/react-topology';
 import { GeneratorEdgeOptions, GeneratorNodeOptions } from './generator';
+import { LayoutType } from '../../layouts/defaultLayoutFactory';
 
 export class DemoModel {
   protected nodeOptionsP: GeneratorNodeOptions = {
@@ -29,9 +30,11 @@ export class DemoModel {
     numGroups: 1,
     nestedLevel: 0
   };
-  protected layoutP: string = 'ColaNoForce';
+  protected layoutP: string = LayoutType.ColaNoForce;
   protected medScaleP: number = 0.5;
   protected lowScaleP: number = 0.3;
+
+  protected logEventsP: boolean = false;
 
   constructor() {
     makeObservable<
@@ -42,12 +45,14 @@ export class DemoModel {
       | 'layoutP'
       | 'medScaleP'
       | 'lowScaleP'
+      | 'logEventsP'
       | 'setNodeOptions'
       | 'setEdgeOptions'
       | 'setCreationCounts'
       | 'setLayout'
       | 'setMedScale'
       | 'setLowScale'
+      | 'setLogEvents'
     >(this, {
       nodeOptionsP: observable.ref,
       edgeOptionsP: observable.shallow,
@@ -55,12 +60,14 @@ export class DemoModel {
       layoutP: observable,
       medScaleP: observable,
       lowScaleP: observable,
+      logEventsP: observable,
       setNodeOptions: action,
       setEdgeOptions: action,
       setCreationCounts: action,
       setLayout: action,
       setMedScale: action,
-      setLowScale: action
+      setLowScale: action,
+      setLogEvents: action
     });
   }
 
@@ -110,6 +117,12 @@ export class DemoModel {
   }
   public setLowScale = (scale: number): void => {
     this.lowScaleP = scale;
+  };
+  public get logEvents(): boolean {
+    return this.logEventsP;
+  }
+  public setLogEvents = (log: boolean): void => {
+    this.logEventsP = log;
   };
 }
 

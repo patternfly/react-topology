@@ -9,6 +9,7 @@ import {
   NodeShape,
   NodeStatus
 } from '@patternfly/react-topology';
+import { LayoutType } from '../../layouts/defaultLayoutFactory';
 
 export const DEFAULT_NODE_SIZE = 75;
 
@@ -120,7 +121,8 @@ export const generateDataModel = (
   numNodes: number,
   numGroups: number,
   numEdges: number,
-  groupDepth: number = 0
+  groupDepth: number = 0,
+  layout: string = ''
 ): Model => {
   const groups: NodeModel[] = [];
   const nodes: NodeModel[] = [];
@@ -166,25 +168,137 @@ export const generateDataModel = (
     nodes.push(createNode(i));
   }
 
-  const nodesPerGroup = Math.floor((numNodes - 2) / numGroups);
-  for (let i = 0; i < numGroups; i++) {
-    createGroup(nodes.slice(i * nodesPerGroup, (i + 1) * nodesPerGroup), 'Group', i + 1);
-  }
+  // For Dagre layouts we need special edge creation to make it sensible
+  if (layout === LayoutType.Dagre || layout === LayoutType.DagreHorizontal) {
+    // Compute numLevels such that every parent has at least 2 children
+    // For a binary tree: total nodes for L levels = 2^L - 1, so L = floor(log2(n + 1))
+    const maxLevels = layout === LayoutType.Dagre ? 5 : 12;
+    const numLevels = Math.min(maxLevels, Math.max(1, Math.floor(Math.log2(numNodes + 1))));
 
-  for (let i = 0; i < numEdges; i++) {
-    const sourceNum = getRandomNode(numNodes);
-    const targetNum = getRandomNode(numNodes, sourceNum);
-    const edge = {
-      id: `edge-${nodes[sourceNum].id}-${nodes[targetNum].id}`,
-      type: 'edge',
-      source: nodes[sourceNum].id,
-      target: nodes[targetNum].id,
-      data: {
-        index: i,
-        tag: '250kbs'
+    // Distribute nodes across levels ensuring all levels are populated
+    // First, calculate nodes per level to ensure we reach all levels
+    const levels: number[][] = [];
+    let nodeIndex = 0;
+
+    // Start with 1 node at top, then grow each level but cap growth to ensure all levels get nodes
+    // const baseNodesPerLevel = Math.max(1, Math.floor(numNodes / numLevels));
+    let remainingNodes = numNodes;
+
+    for (let level = 0; level < numLevels; level++) {
+      const remainingLevels = numLevels - level;
+      // Ensure we leave at least 2 nodes for each remaining level (except first level)
+      const minNodesForRemainingLevels = (remainingLevels - 1) * 2;
+      const maxForThisLevel = Math.max(1, remainingNodes - minNodesForRemainingLevels);
+      // First level gets 1 node, subsequent levels get at least 2 nodes
+      const minNodes = level === 0 ? 1 : 2;
+      const targetNodes =
+        level === 0
+          ? 1
+          : Math.min(Math.max(minNodes, Math.floor(remainingNodes / remainingLevels) + 1), maxForThisLevel);
+      const nodesAtLevel = Math.max(minNodes, Math.min(targetNodes, remainingNodes));
+
+      levels.push([]);
+      for (let j = 0; j < nodesAtLevel && nodeIndex < numNodes; j++) {
+        levels[level].push(nodeIndex++);
+        remainingNodes--;
       }
-    };
-    edges.push(edge);
+    }
+
+    const lowestLevel = levels.length - 1;
+
+    // Handle any remaining dangling nodes by adding them to the lowest level
+    if (nodeIndex < numNodes) {
+      while (nodeIndex < numNodes) {
+        levels[lowestLevel].push(nodeIndex++);
+      }
+    }
+
+    // Create edges connecting each parent to its children
+    // Ensure every parent that has children has at least 2 children
+    // Track children by parent for grouping siblings
+    const childrenByParent: Map<number, number[]> = new Map();
+    const nodesWithChildren: Set<number> = new Set();
+
+    let i = 0;
+    for (let level = 0; level < lowestLevel; level++) {
+      const parents = levels[level];
+      const children = levels[level + 1];
+
+      if (children.length < 2) {
+        // Not enough children to give any parent at least 2
+        break;
+      }
+
+      // Limit parents to those who can have at least 2 children each
+      const maxParentsWithChildren = Math.floor(children.length / 2);
+      const parentsWithChildren = parents.slice(0, maxParentsWithChildren);
+
+      if (parentsWithChildren.length === 0) {
+        break;
+      }
+
+      // Distribute children evenly, ensuring at least 2 per parent
+      const childrenPerParent = Math.max(2, Math.ceil(children.length / parentsWithChildren.length));
+      let childIdx = 0;
+
+      for (const sourceNum of parentsWithChildren) {
+        if (!childrenByParent.has(sourceNum)) {
+          childrenByParent.set(sourceNum, []);
+        }
+
+        for (let c = 0; c < childrenPerParent && childIdx < children.length; c++) {
+          const targetNum = children[childIdx++];
+          childrenByParent.get(sourceNum)?.push(targetNum);
+          if (!nodesWithChildren.has(sourceNum)) {
+            nodesWithChildren.add(sourceNum);
+          }
+
+          const edge = {
+            id: `edge-${nodes[sourceNum].id}-${nodes[targetNum].id}`,
+            type: 'edge',
+            source: nodes[sourceNum].id,
+            target: nodes[targetNum].id,
+            data: {
+              index: i++,
+              tag: '250kbs'
+            }
+          };
+          edges.push(edge);
+        }
+      }
+    }
+
+    // Create groups for leaf nodes
+    let groupIndex = 1;
+    childrenByParent.forEach((childIndices) => {
+      // Filter to only include leaf nodes (nodes with no children)
+      const leafChildren = childIndices.filter((idx) => !nodesWithChildren.has(idx));
+      if (leafChildren.length >= 1) {
+        const siblingNodes = leafChildren.map((idx) => nodes[idx]);
+        createGroup(siblingNodes, 'Group', groupIndex++);
+      }
+    });
+  } else {
+    const nodesPerGroup = Math.floor((numNodes - 2) / numGroups);
+    for (let i = 0; i < numGroups; i++) {
+      createGroup(nodes.slice(i * nodesPerGroup, (i + 1) * nodesPerGroup), 'Group', i + 1);
+    }
+
+    for (let i = 0; i < numEdges; i++) {
+      const sourceNum = getRandomNode(numNodes);
+      const targetNum = getRandomNode(numNodes, sourceNum);
+      const edge = {
+        id: `edge-${nodes[sourceNum].id}-${nodes[targetNum].id}`,
+        type: 'edge',
+        source: nodes[sourceNum].id,
+        target: nodes[targetNum].id,
+        data: {
+          index: i,
+          tag: '250kbs'
+        }
+      };
+      edges.push(edge);
+    }
   }
 
   nodes.push(...groups);

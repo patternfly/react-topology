@@ -1,6 +1,7 @@
 import { useContext, useState, useRef } from 'react';
 import {
   Button,
+  Checkbox,
   Dropdown,
   DropdownItem,
   DropdownList,
@@ -14,6 +15,19 @@ import {
 } from '@patternfly/react-core';
 import { Controller, Model, observer } from '@patternfly/react-topology';
 import { DemoContext } from './DemoContext';
+import { LayoutType } from '../../layouts/defaultLayoutFactory';
+
+const LayoutTitles: Record<string, string> = {
+  [LayoutType.BreadthFirst]: 'Breadth First',
+  [LayoutType.Cola]: 'Cola',
+  [LayoutType.ColaGroups]: 'Cola Groups',
+  [LayoutType.ColaNoForce]: 'Cola No Force',
+  [LayoutType.Concentric]: 'Concentric',
+  [LayoutType.Dagre]: 'Dagre',
+  [LayoutType.DagreHorizontal]: 'Dagre Horizontal',
+  [LayoutType.Force]: 'Force',
+  [LayoutType.Grid]: 'Grid'
+};
 
 const OptionsContextBar: React.FC<{ controller: Controller }> = observer(({ controller }) => {
   const options = useContext(DemoContext);
@@ -36,36 +50,39 @@ const OptionsContextBar: React.FC<{ controller: Controller }> = observer(({ cont
         <Dropdown
           toggle={(toggleRef: React.Ref<MenuToggleElement>) => (
             <MenuToggle ref={toggleRef} onClick={() => setLayoutDropdownOpen(!layoutDropdownOpen)}>
-              {options.layout}
+              {LayoutTitles[options.layout]}
             </MenuToggle>
           )}
           isOpen={layoutDropdownOpen}
           onOpenChange={(isOpen) => setLayoutDropdownOpen(isOpen)}
         >
           <DropdownList>
-            <DropdownItem key={1} onClick={() => updateLayout('Force')}>
-              Force
+            <DropdownItem key={1} onClick={() => updateLayout(LayoutType.Force)}>
+              {LayoutTitles[LayoutType.Force]}
             </DropdownItem>
-            <DropdownItem key={2} onClick={() => updateLayout('Dagre')}>
-              Dagre
+            <DropdownItem key={2} onClick={() => updateLayout(LayoutType.Dagre)}>
+              {LayoutTitles[LayoutType.Dagre]}
             </DropdownItem>
-            <DropdownItem key={3} onClick={() => updateLayout('Cola')}>
-              Cola
+            <DropdownItem key={9} onClick={() => updateLayout(LayoutType.DagreHorizontal)}>
+              {LayoutTitles[LayoutType.DagreHorizontal]}
             </DropdownItem>
-            <DropdownItem key={8} onClick={() => updateLayout('ColaGroups')}>
-              ColaGroups
+            <DropdownItem key={3} onClick={() => updateLayout(LayoutType.Cola)}>
+              {LayoutTitles[LayoutType.Cola]}
             </DropdownItem>
-            <DropdownItem key={4} onClick={() => updateLayout('ColaNoForce')}>
-              ColaNoForce
+            <DropdownItem key={8} onClick={() => updateLayout(LayoutType.ColaGroups)}>
+              {LayoutTitles[LayoutType.ColaGroups]}
             </DropdownItem>
-            <DropdownItem key={5} onClick={() => updateLayout('Grid')}>
-              Grid
+            <DropdownItem key={4} onClick={() => updateLayout(LayoutType.ColaNoForce)}>
+              {LayoutTitles[LayoutType.ColaNoForce]}
             </DropdownItem>
-            <DropdownItem key={6} onClick={() => updateLayout('Concentric')}>
-              Concentric
+            <DropdownItem key={5} onClick={() => updateLayout(LayoutType.Grid)}>
+              {LayoutTitles[LayoutType.Grid]}
             </DropdownItem>
-            <DropdownItem key={7} onClick={() => updateLayout('BreadthFirst')}>
-              BreadthFirst
+            <DropdownItem key={6} onClick={() => updateLayout(LayoutType.Concentric)}>
+              {LayoutTitles[LayoutType.Concentric]}
+            </DropdownItem>
+            <DropdownItem key={7} onClick={() => updateLayout(LayoutType.BreadthFirst)}>
+              {LayoutTitles[LayoutType.BreadthFirst]}
             </DropdownItem>
           </DropdownList>
         </Dropdown>
@@ -192,6 +209,14 @@ const OptionsContextBar: React.FC<{ controller: Controller }> = observer(({ cont
             />
           </Flex>
         </Flex>
+      </ToolbarItem>
+      <ToolbarItem>
+        <Checkbox
+          id="log-switch"
+          isChecked={options.logEvents}
+          onChange={(_event, checked) => options.setLogEvents(checked)}
+          label="Log events"
+        />
       </ToolbarItem>
     </Flex>
   );

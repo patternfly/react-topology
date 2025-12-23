@@ -8,26 +8,41 @@ import {
   DagreLayout,
   GridLayout,
   BreadthFirstLayout,
-  ColaGroupsLayout
+  ColaGroupsLayout,
+  LEFT_TO_RIGHT
 } from '@patternfly/react-topology';
+
+export enum LayoutType {
+  BreadthFirst = 'BreadthFirst',
+  ColaGroups = 'ColaGroupsLayout',
+  Cola = 'ColaLayout',
+  ColaNoForce = 'ColaNoForceLayout',
+  Concentric = 'ConcentricLayout',
+  Dagre = 'DagreLayout',
+  DagreHorizontal = 'DagreHorizontalLayout',
+  Force = 'ForceLayout',
+  Grid = 'GridLayout'
+}
 
 const defaultLayoutFactory: LayoutFactory = (type: string, graph: Graph): Layout | undefined => {
   switch (type) {
-    case 'BreadthFirst':
+    case LayoutType.BreadthFirst:
       return new BreadthFirstLayout(graph);
-    case 'Cola':
+    case LayoutType.Cola:
       return new ColaLayout(graph);
-    case 'ColaNoForce':
+    case LayoutType.ColaNoForce:
       return new ColaLayout(graph, { layoutOnDrag: false });
-    case 'Concentric':
+    case LayoutType.Concentric:
       return new ConcentricLayout(graph);
-    case 'Dagre':
+    case LayoutType.Dagre:
       return new DagreLayout(graph);
-    case 'Force':
+    case LayoutType.DagreHorizontal:
+      return new DagreLayout(graph, { rankdir: LEFT_TO_RIGHT });
+    case LayoutType.Force:
       return new ForceLayout(graph);
-    case 'Grid':
+    case LayoutType.Grid:
       return new GridLayout(graph);
-    case 'ColaGroups':
+    case LayoutType.ColaGroups:
       return new ColaGroupsLayout(graph, { layoutOnDrag: false });
     default:
       return new ColaLayout(graph, { layoutOnDrag: false });
