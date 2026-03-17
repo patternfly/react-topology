@@ -202,6 +202,19 @@ const OptionsContextBar: React.FC = observer(() => {
         >
           Tags
         </SelectOption>
+        <SelectOption
+          value="Freeze Edge During Node Drag"
+          hasCheckbox
+          isSelected={options.edgeOptions.freezeEdgeDuringNodeDrag}
+          onClick={() =>
+            options.setEdgeOptions({
+              ...options.edgeOptions,
+              freezeEdgeDuringNodeDrag: !options.edgeOptions.freezeEdgeDuringNodeDrag
+            })
+          }
+        >
+          Freeze Edge During Node Drag
+        </SelectOption>
       </SelectList>
     );
     const edgeOptionsToggle = (toggleRef: React.Ref<MenuToggleElement>) => (

@@ -99,6 +99,7 @@ export interface GeneratorEdgeOptions {
   showAnimations?: boolean;
   showTags?: boolean;
   terminalTypes?: boolean;
+  freezeEdgeDuringNodeDrag?: boolean;
 }
 
 const createNode = (index: number): NodeModel => ({

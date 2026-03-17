@@ -278,6 +278,19 @@ const edgeDragSourceSpec = (
   })
 });
 
+const edgeEndpointIsDragging = (monitor: any, props: EdgeComponentProps) => {
+  if (!monitor.isDragging()) {
+    return false;
+  }
+  if (monitor.getItemType() === NODE_DRAG_TYPE) {
+    return (
+      monitor.getItem().element.id === props.element.getSource().getId() ||
+      monitor.getItem().element.id === props.element.getTarget().getId()
+    );
+  }
+  return false;
+};
+
 const edgeDropTargetSpec: DropTargetSpec<any, any, { droppable: boolean; dropTarget: boolean; canDrop: boolean }, any> =
   {
     accept: [NODE_DRAG_TYPE],
@@ -285,10 +298,11 @@ const edgeDropTargetSpec: DropTargetSpec<any, any, { droppable: boolean; dropTar
       !!props &&
       (props.element as Edge).getSource().getId() !== item.id &&
       (props.element as Edge).getTarget().getId() !== item.id,
-    collect: (monitor) => ({
+    collect: (monitor, props) => ({
       droppable: monitor.isDragging(),
       dropTarget: monitor.isOver(),
-      canDrop: monitor.canDrop()
+      canDrop: monitor.canDrop(),
+      endpointDragging: edgeEndpointIsDragging(monitor, { element: props.element as Edge })
     })
   };
 

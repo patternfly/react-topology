@@ -666,6 +666,47 @@ export const EdgeStyles = withTopologySetup(() => {
   return null;
 });
 
+export const FreezedEdge = withTopologySetup(() => {
+  useComponentFactory(defaultComponentFactory);
+  useComponentFactory(stylesComponentFactory);
+  const nodes: NodeModel[] = createGroupNodes('edges-group');
+  const edges: EdgeModel[] = [];
+
+  const middleNodeIndex = nodes.length - 1;
+  nodes.forEach((item, index) => {
+    if (index === middleNodeIndex) {
+      return;
+    }
+    const endIndex = index < nodes.length - 2 ? index + 1 : 0;
+    edges.push({
+      id: `edge-${index}-${endIndex}`,
+      type: 'edge',
+      source: nodes[index].id,
+      target: nodes[endIndex].id,
+      edgeStyle: EDGE_STYLES[index % EDGE_STYLE_COUNT],
+      data: { freezeEdgeDuringNodeDrag: true }
+    });
+    edges.push({
+      id: `edge-${middleNodeIndex}-${index}`,
+      type: 'edge',
+      source: nodes[middleNodeIndex].id,
+      target: nodes[index].id,
+      edgeStyle: EdgeStyle.default,
+      data: { freezeEdgeDuringNodeDrag: true }
+    });
+  });
+
+  useModel({
+    graph: {
+      id: 'g1',
+      type: 'graph'
+    },
+    nodes,
+    edges
+  });
+  return null;
+});
+
 export const EdgeAnimationStyles = withTopologySetup(() => {
   useComponentFactory(defaultComponentFactory);
   useComponentFactory(stylesComponentFactory);
@@ -977,16 +1018,19 @@ export const StyleEdges: React.FunctionComponent = () => {
         <Tab eventKey={0} title={<TabTitleText>Edge Styles</TabTitleText>}>
           <EdgeStyles />
         </Tab>
-        <Tab eventKey={1} title={<TabTitleText>Animated Edges</TabTitleText>}>
+        <Tab eventKey={1} title={<TabTitleText>Freeze Edge When Dragging Node</TabTitleText>}>
+          <FreezedEdge />
+        </Tab>
+        <Tab eventKey={2} title={<TabTitleText>Animated Edges</TabTitleText>}>
           <EdgeAnimationStyles />
         </Tab>
-        <Tab eventKey={2} title={<TabTitleText>Edge Terminal Types</TabTitleText>}>
+        <Tab eventKey={3} title={<TabTitleText>Edge Terminal Types</TabTitleText>}>
           <EdgeTerminalStyles />
         </Tab>
-        <Tab eventKey={3} title={<TabTitleText>Edge Terminal Status</TabTitleText>}>
+        <Tab eventKey={4} title={<TabTitleText>Edge Terminal Status</TabTitleText>}>
           <EdgeTerminalStatusStyles />
         </Tab>
-        <Tab eventKey={4} title={<TabTitleText>Edge Terminal Tags</TabTitleText>}>
+        <Tab eventKey={5} title={<TabTitleText>Edge Terminal Tags</TabTitleText>}>
           <EdgeTerminalTagStyles />
         </Tab>
       </Tabs>

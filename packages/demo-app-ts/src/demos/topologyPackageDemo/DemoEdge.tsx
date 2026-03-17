@@ -37,6 +37,7 @@ const DemoEdge: React.FunctionComponent<DemoEdgeProps> = ({ element, ...rest }) 
       endTerminalStatus={options.showStatus && NODE_STATUSES[data.index % NODE_STATUSES.length]}
       tag={options.showTags ? data.tag : undefined}
       tagStatus={options.showStatus && NODE_STATUSES[data.index % NODE_STATUSES.length]}
+      freezeEdgeDuringNodeDrag={options.freezeEdgeDuringNodeDrag}
     />
   );
 };

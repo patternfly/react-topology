@@ -1,4 +1,4 @@
-import { useLayoutEffect } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 import { observer } from 'mobx-react';
 import {
   Edge,
@@ -71,6 +71,8 @@ interface DefaultEdgeProps {
   canDrop?: boolean;
   /** Flag if the node is the current drop target */
   dropTarget?: boolean;
+  /** Flag indicating if an edge endpoint is currently being dragged */
+  endpointDragging?: boolean;
   /** Flag indicating if the element is selected. Part of WithSelectionProps */
   selected?: boolean;
   /** Function to call when the element should become selected (or deselected). Part of WithSelectionProps */
@@ -79,6 +81,13 @@ interface DefaultEdgeProps {
   onContextMenu?: (e: React.MouseEvent) => void;
   /** Flag indicating that the context menu for the edge is currently open  */
   contextMenuOpen?: boolean;
+  /**
+   * When true, the edge path and terminals stay visually fixed (last position) while
+   * an associated node is being dragged. When false or omitted, the edge updates
+   * during drag as before. Can be set per edge via this prop, element state, or
+   * in the model as edge data: `data: { freezeEdgeDuringNodeDrag: true }`.
+   */
+  freezeEdgeDuringNodeDrag?: boolean;
 }
 
 type DefaultEdgeInnerProps = Omit<DefaultEdgeProps, 'element'> & { element: Edge };
@@ -92,6 +101,7 @@ const DefaultEdgeInner: React.FunctionComponent<DefaultEdgeInnerProps> = observe
     dndDropRef,
     canDrop,
     dropTarget,
+    endpointDragging,
     edgeStyle,
     animationDuration,
     onShowRemoveConnector,
@@ -111,12 +121,23 @@ const DefaultEdgeInner: React.FunctionComponent<DefaultEdgeInnerProps> = observe
     className,
     selected,
     onSelect,
-    onContextMenu
+    onContextMenu,
+    freezeEdgeDuringNodeDrag
   }) => {
+    const freezeDuringDrag =
+      freezeEdgeDuringNodeDrag ??
+      (element.getData() as { freezeEdgeDuringNodeDrag?: boolean } | undefined)?.freezeEdgeDuringNodeDrag ??
+      false;
+
     const [hover, hoverRef] = useHover();
     const edgeRef = useCombineRefs(hoverRef, dndDropRef);
     const startPoint = element.getStartPoint();
     const endPoint = element.getEndPoint();
+    const edgeDRef = useRef<string | null>(null);
+    const startPointRef = useRef<Point | null>(null);
+    const endPointRef = useRef<Point | null>(null);
+    const targetStartPointRef = useRef<Point | null>(null);
+    const targetEndPointRef = useRef<Point | null>(null);
 
     useLayoutEffect(() => {
       if (hover && !dragging) {
@@ -175,6 +196,23 @@ const DefaultEdgeInner: React.FunctionComponent<DefaultEdgeInnerProps> = observe
     const tagScale = hover && !(detailsLevel === ScaleDetailsLevel.high) ? Math.max(1, 1 / scale) : 1;
     const tagPositionScale = hover && !(detailsLevel === ScaleDetailsLevel.high) ? Math.min(1, scale) : 1;
 
+    const shouldFreeze = freezeDuringDrag && endpointDragging;
+
+    if (
+      !shouldFreeze ||
+      !edgeDRef.current ||
+      !startPointRef.current ||
+      !endPointRef.current ||
+      !targetStartPointRef.current ||
+      !targetEndPointRef.current
+    ) {
+      edgeDRef.current = d;
+      startPointRef.current = bendpoints[0] || endPoint;
+      endPointRef.current = startPoint;
+      targetStartPointRef.current = bendpoints[bendpoints.length - 1] || startPoint;
+      targetEndPointRef.current = endPoint;
+    }
+
     return (
       <Layer id={dragging || hover ? TOP_LAYER : undefined}>
         <g
@@ -190,7 +228,11 @@ const DefaultEdgeInner: React.FunctionComponent<DefaultEdgeInnerProps> = observe
             onMouseEnter={onShowRemoveConnector}
             onMouseLeave={onHideRemoveConnector}
           />
-          <path className={linkClassName} d={d} style={{ animationDuration: `${edgeAnimationDuration}s` }} />
+          <path
+            className={linkClassName}
+            d={edgeDRef.current}
+            style={{ animationDuration: `${edgeAnimationDuration}s` }}
+          />
           {showTag && (
             <g transform={`scale(${hover ? tagScale : 1})`}>
               <DefaultConnectorTag
@@ -211,6 +253,8 @@ const DefaultEdgeInner: React.FunctionComponent<DefaultEdgeInnerProps> = observe
             terminalType={startTerminalType}
             status={startTerminalStatus}
             highlight={dragging || hover}
+            startPoint={shouldFreeze ? startPointRef.current : undefined}
+            endPoint={shouldFreeze ? endPointRef.current : undefined}
           />
           <DefaultConnectorTerminal
             className={endTerminalClass}
@@ -221,6 +265,8 @@ const DefaultEdgeInner: React.FunctionComponent<DefaultEdgeInnerProps> = observe
             terminalType={endTerminalType}
             status={endTerminalStatus}
             highlight={dragging || hover}
+            startPoint={shouldFreeze ? targetStartPointRef.current : undefined}
+            endPoint={shouldFreeze ? targetEndPointRef.current : undefined}
           />
           {children}
         </g>

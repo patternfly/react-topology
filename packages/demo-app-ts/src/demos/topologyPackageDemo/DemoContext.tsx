@@ -22,7 +22,8 @@ export class DemoModel {
     showStatus: false,
     showAnimations: false,
     showTags: false,
-    terminalTypes: false
+    terminalTypes: false,
+    freezeEdgeDuringNodeDrag: false
   };
   protected creationCountsP: { numNodes: number; numEdges: number; numGroups: number; nestedLevel: number } = {
     numNodes: 6,

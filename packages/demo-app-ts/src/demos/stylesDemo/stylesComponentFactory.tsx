@@ -23,7 +23,8 @@ import {
   groupDropTargetSpec,
   graphDropTargetSpec,
   NODE_DRAG_TYPE,
-  CREATE_CONNECTOR_DROP_TYPE
+  CREATE_CONNECTOR_DROP_TYPE,
+  edgeDropTargetSpec
 } from '@patternfly/react-topology';
 import StyleNode from './StyleNode';
 import StyleGroup from './StyleGroup';
@@ -132,7 +133,11 @@ const stylesComponentFactory: ComponentFactory = (
           collect: (monitor) => ({
             dragging: monitor.isDragging()
           })
-        })(withContextMenu(() => defaultMenu)(withSelection()(StyleEdge)))
+        })(
+          withDndDrop<Node, any, { droppable?: boolean; hover?: boolean; canDrop?: boolean }, EdgeProps>(
+            edgeDropTargetSpec
+          )(withContextMenu(() => defaultMenu)(withSelection()(StyleEdge)))
+        )
       );
     default:
       return undefined;
