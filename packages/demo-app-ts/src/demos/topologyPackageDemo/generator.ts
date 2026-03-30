@@ -91,6 +91,7 @@ export interface GeneratorNodeOptions {
   contextMenus?: boolean;
   hideKebabMenu?: boolean;
   hulledOutline?: boolean;
+  showDragGhost?: boolean;
 }
 
 export interface GeneratorEdgeOptions {

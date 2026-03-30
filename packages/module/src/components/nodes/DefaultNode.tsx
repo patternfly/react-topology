@@ -6,7 +6,16 @@ import CheckCircleIcon from '@patternfly/react-icons/dist/esm/icons/check-circle
 import ExclamationCircleIcon from '@patternfly/react-icons/dist/esm/icons/exclamation-circle-icon';
 import ExclamationTriangleIcon from '@patternfly/react-icons/dist/esm/icons/exclamation-triangle-icon';
 import styles from '../../css/topology-components';
-import { BadgeLocation, GraphElement, isNode, LabelPosition, Node, NodeStatus, TopologyQuadrant } from '../../types';
+import {
+  BadgeLocation,
+  GraphElement,
+  isNode,
+  LabelPosition,
+  Node,
+  NodeStatus,
+  ScaleDetailsLevel,
+  TopologyQuadrant
+} from '../../types';
 import { ConnectDragSource, ConnectDropTarget, OnSelect, WithDndDragProps } from '../../behavior';
 import Decorator from '../decorators/Decorator';
 import { Layer } from '../layers';
@@ -122,9 +131,17 @@ interface DefaultNodeProps {
   raiseLabelOnHover?: boolean; // TODO: Update default to be false, assume demo code will be followed
   /** Hide context menu kebab for the node  */
   hideContextMenuKebab?: boolean;
+  /**
+   * When true, a non-interactive copy of the node is drawn at the pre-drag position while dragging.
+   * When false or omitted, only the live node is shown (default behavior).
+   */
+  showDragGhost?: boolean;
 }
 
 const SCALE_UP_TIME = 200;
+
+/** Scale factor for the drag ghost when the graph is not at low details level. */
+const DRAG_GHOST_SCALE = 0.7;
 
 type DefaultNodeInnerProps = Omit<DefaultNodeProps, 'element'> & { element: Node };
 
@@ -172,8 +189,10 @@ const DefaultNodeInner: React.FunctionComponent<DefaultNodeInnerProps> = observe
     onContextMenu,
     contextMenuOpen,
     raiseLabelOnHover = true,
-    hideContextMenuKebab
+    hideContextMenuKebab,
+    showDragGhost
   }) => {
+    const showDragGhostResolved = showDragGhost ?? false;
     const [nodeHovered, hoverRef] = useHover();
     const [labelHovered, labelRef] = useHover();
     const hovered = nodeHovered || labelHovered;
@@ -183,6 +202,8 @@ const DefaultNodeInner: React.FunctionComponent<DefaultNodeInnerProps> = observe
     const isHover = hover !== undefined ? hover : hovered;
     const [nodeScale, setNodeScale] = useState<number>(1);
     const decoratorRef = useRef(null);
+    const boxXRef = useRef<number | null>(null);
+    const boxYRef = useRef<number | null>(null);
 
     const statusDecorator = useMemo(() => {
       if (!status || !showStatusDecorator) {
@@ -258,6 +279,8 @@ const DefaultNodeInner: React.FunctionComponent<DefaultNodeInnerProps> = observe
 
     const nodeLabelPosition = labelPosition || element.getLabelPosition();
     const scale = element.getGraph().getScale();
+    const detailsLevel = element.getGraph().getDetailsLevel();
+    const isLowDetailsLevel = detailsLevel === ScaleDetailsLevel.low;
 
     const animationRef = useRef<number>(null);
     const scaleGoal = useRef<number>(1);
@@ -324,6 +347,12 @@ const DefaultNodeInner: React.FunctionComponent<DefaultNodeInnerProps> = observe
 
       return { translateX, translateY };
     }, [element, nodeScale, scaleNode]);
+
+    const box = element.getBounds();
+    if (!showDragGhostResolved || !dragging || boxXRef.current === null || boxYRef.current === null) {
+      boxXRef.current = box.x;
+      boxYRef.current = box.y;
+    }
 
     const renderLabel = () => {
       if (!showLabel || !(label || element.getLabel())) {
@@ -398,28 +427,55 @@ const DefaultNodeInner: React.FunctionComponent<DefaultNodeInnerProps> = observe
     };
 
     return (
-      <g
-        className={groupClassName}
-        transform={`${scaleNode ? `translate(${translateX}, ${translateY})` : ''} scale(${nodeScale})`}
-      >
-        <NodeShadows />
-        <g ref={refs} onClick={onSelect} onContextMenu={onContextMenu}>
-          {ShapeComponent && (
-            <ShapeComponent
-              className={backgroundClassName}
-              element={element}
-              width={width}
-              height={height}
-              dndDropRef={dndDropRef}
-              filter={filter}
-            />
-          )}
-          {renderLabel()}
-          {children}
+      <>
+        {dragging && showDragGhostResolved && (
+          <g
+            className={css(groupClassName, styles.modifiers.dragGhost)}
+            transform={`translate(${boxXRef.current - box.x}, ${boxYRef.current - box.y}) ${
+              isLowDetailsLevel ? '' : `scale(${DRAG_GHOST_SCALE})`
+            }`}
+          >
+            <NodeShadows />
+            <g>
+              {ShapeComponent && (
+                <ShapeComponent
+                  className={backgroundClassName}
+                  element={element}
+                  width={width}
+                  height={height}
+                  filter={filter}
+                />
+              )}
+              {!isLowDetailsLevel && renderLabel()}
+              {!isLowDetailsLevel && children}
+            </g>
+            {statusDecorator}
+            {attachments}
+          </g>
+        )}
+        <g
+          className={groupClassName}
+          transform={`${scaleNode ? `translate(${translateX}, ${translateY})` : ''} scale(${nodeScale})`}
+        >
+          <NodeShadows />
+          <g ref={refs} onClick={onSelect} onContextMenu={onContextMenu}>
+            {ShapeComponent && (
+              <ShapeComponent
+                className={backgroundClassName}
+                element={element}
+                width={width}
+                height={height}
+                dndDropRef={dndDropRef}
+                filter={filter}
+              />
+            )}
+            {renderLabel()}
+            {children}
+          </g>
+          {statusDecorator}
+          {attachments}
         </g>
-        {statusDecorator}
-        {attachments}
-      </g>
+      </>
     );
   }
 );

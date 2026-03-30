@@ -146,6 +146,16 @@ const OptionsContextBar: React.FC = observer(() => {
           >
             Rectangle Groups
           </SelectOption>
+          <SelectOption
+            hasCheckbox
+            value="Show Drag Ghost"
+            isSelected={options.nodeOptions.showDragGhost}
+            onClick={() =>
+              options.setNodeOptions({ ...options.nodeOptions, showDragGhost: !options.nodeOptions.showDragGhost })
+            }
+          >
+            Show Drag Ghost
+          </SelectOption>
         </SelectList>
       </Select>
     );

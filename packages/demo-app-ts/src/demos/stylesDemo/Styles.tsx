@@ -132,6 +132,32 @@ export const NodeDecoratorStyles = withTopologySetup(() => {
   return null;
 });
 
+export const NodeShowDragGhostStyles = withTopologySetup(() => {
+  useComponentFactory(defaultComponentFactory);
+  useComponentFactory(stylesComponentFactory);
+  const nodes: NodeModel[] = createGroupNodes();
+  const nodes2: NodeModel[] = createGroupNodes('2', 600);
+
+  nodes.forEach((n) => (n.data.showDecorators = true));
+  nodes.forEach((n) => (n.data.labelPosition = LabelPosition.bottom));
+  nodes.forEach((n) => (n.data.showDragGhost = true));
+  nodes2.forEach((n) => (n.data.showDecorators = true));
+  nodes2.forEach((n) => (n.data.showDragGhost = true));
+  useModel(
+    useMemo(
+      (): Model => ({
+        graph: {
+          id: 'g1',
+          type: 'graph'
+        },
+        nodes: [...nodes, ...nodes2]
+      }),
+      [nodes, nodes2]
+    )
+  );
+  return null;
+});
+
 export const NodeLabelStyles = withTopologySetup(() => {
   useComponentFactory(defaultComponentFactory);
   useComponentFactory(stylesComponentFactory);
@@ -927,6 +953,9 @@ export const StyleNodes: React.FunctionComponent = () => {
         </Tab>
         <Tab eventKey={4} title={<TabTitleText>Decorators</TabTitleText>}>
           <NodeDecoratorStyles />
+        </Tab>
+        <Tab eventKey={5} title={<TabTitleText>Show Drag Ghost While Dragging</TabTitleText>}>
+          <NodeShowDragGhostStyles />
         </Tab>
       </Tabs>
     </div>

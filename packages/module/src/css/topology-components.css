@@ -13,6 +13,7 @@
   --pf-topology__node__background--Stroke: var(--pf-t--global--border--color--default);
   --pf-topology__node__background--StrokeWidth: var(--pf-t--global--border--width--regular);
   --pf-topology__node--m-dragging--background--StrokeWidth: var(--pf-t--global--border--width--regular);
+  --pf-topology__node--m-drag-ghost--Opacity: 0.6;
 
   /* Status changes */
   --pf-topology__node--m-disabled--Background--Fill: var(--pf-t--global--background--color--disabled--default);
@@ -316,6 +317,10 @@
 
 .pf-topology__node.pf-m-dragging .pf-topology__node__background {
   cursor: grab;
+}
+
+.pf-topology__node.pf-m-drag-ghost {
+  opacity: var(--pf-topology__node--m-drag-ghost--Opacity);
 }
 
 .pf-topology__node.pf-m-selected .pf-topology__node__background {

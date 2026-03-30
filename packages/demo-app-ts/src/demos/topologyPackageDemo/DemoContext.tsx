@@ -15,7 +15,8 @@ export class DemoModel {
     badges: false,
     icons: false,
     contextMenus: false,
-    hulledOutline: true
+    hulledOutline: true,
+    showDragGhost: false
   };
   protected edgeOptionsP: GeneratorEdgeOptions = {
     showStyles: false,

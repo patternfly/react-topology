@@ -84,8 +84,7 @@ interface DefaultEdgeProps {
   /**
    * When true, the edge path and terminals stay visually fixed (last position) while
    * an associated node is being dragged. When false or omitted, the edge updates
-   * during drag as before. Can be set per edge via this prop, element state, or
-   * in the model as edge data: `data: { freezeEdgeDuringNodeDrag: true }`.
+   * during drag as before.
    */
   freezeEdgeDuringNodeDrag?: boolean;
 }
@@ -124,10 +123,7 @@ const DefaultEdgeInner: React.FunctionComponent<DefaultEdgeInnerProps> = observe
     onContextMenu,
     freezeEdgeDuringNodeDrag
   }) => {
-    const freezeDuringDrag =
-      freezeEdgeDuringNodeDrag ??
-      (element.getData() as { freezeEdgeDuringNodeDrag?: boolean } | undefined)?.freezeEdgeDuringNodeDrag ??
-      false;
+    const freezeDuringDrag = freezeEdgeDuringNodeDrag ?? false;
 
     const [hover, hoverRef] = useHover();
     const edgeRef = useCombineRefs(hoverRef, dndDropRef);

@@ -194,6 +194,7 @@ const DemoNode: React.FunctionComponent<DemoNodeProps> = observer(
               options.showDecorators &&
               renderDecorators(options, nodeElement, rest.getShapeDecoratorCenter)
             }
+            showDragGhost={options.showDragGhost}
           >
             {(focused || detailsLevel !== ScaleDetailsLevel.low) && renderIcon(data, nodeElement)}
           </DefaultNode>
