@@ -31,8 +31,8 @@ export const withContextMenu =
         setReference(
           atPoint
             ? {
-                x: e.pageX,
-                y: e.pageY
+                x: e.clientX,
+                y: e.clientY
               }
             : e.currentTarget
         );
