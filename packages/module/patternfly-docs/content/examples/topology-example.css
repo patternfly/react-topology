@@ -1,5 +1,10 @@
 [id^=ws-extensions-e-] {
   height: 600px;
+  margin: var(--pf-t--global--spacer--md);
+
+  .ws-example-page-wrapper & {
+    margin: 0;
+  }
 }
 
 .pf-topology-visualization-surface {
