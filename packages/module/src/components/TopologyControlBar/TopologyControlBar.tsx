@@ -7,12 +7,12 @@ import {
   GenerateId,
   Tooltip
 } from '@patternfly/react-core';
-import ExpandIcon from '@patternfly/react-icons/dist/esm/icons/expand-icon';
-import ExpandArrowsAltIcon from '@patternfly/react-icons/dist/esm/icons/expand-arrows-alt-icon';
-import SearchPlusIcon from '@patternfly/react-icons/dist/esm/icons/search-plus-icon';
-import SearchMinusIcon from '@patternfly/react-icons/dist/esm/icons/search-minus-icon';
-import CollapseIcon from '@patternfly/react-icons/dist/esm/icons/compress-alt-icon';
-import ExpandAltIcon from '@patternfly/react-icons/dist/esm/icons/expand-alt-icon';
+import ExpandIcon from '@patternfly/react-icons/dist/esm/icons/rh-ui-expand-icon';
+import ExpandArrowsAltIcon from '@patternfly/react-icons/dist/esm/icons/rh-ui-expand-arrows-icon';
+import SearchPlusIcon from '@patternfly/react-icons/dist/esm/icons/rh-ui-zoom-in-icon';
+import SearchMinusIcon from '@patternfly/react-icons/dist/esm/icons/rh-ui-zoom-out-icon';
+import CollapseIcon from '@patternfly/react-icons/dist/esm/icons/rh-ui-arrow-down-left-up-right-to-center-icon';
+import ExpandAltIcon from '@patternfly/react-icons/dist/esm/icons/rh-ui-arrow-up-right-down-left-from-center-icon';
 
 import '../../css/topology-controlbar';
 

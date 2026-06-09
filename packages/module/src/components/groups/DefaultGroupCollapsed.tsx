@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react';
 import { css } from '@patternfly/react-styles';
 import styles from '../../css/topology-components';
-import ExpandIcon from '@patternfly/react-icons/dist/esm/icons/expand-alt-icon';
+import ExpandIcon from '@patternfly/react-icons/dist/esm/icons/rh-ui-arrow-up-right-down-left-from-center-icon';
 import { Layer } from '../layers';
 import { GROUPS_LAYER } from '../../const';
 import { createSvgIdUrl, useCombineRefs, useHover, useSize } from '../../utils';

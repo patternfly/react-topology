@@ -2,9 +2,9 @@ import { useState, useRef, useMemo, useEffect } from 'react';
 import { observer } from 'mobx-react';
 import { css } from '@patternfly/react-styles';
 import { Tooltip, TooltipPosition } from '@patternfly/react-core';
-import CheckCircleIcon from '@patternfly/react-icons/dist/esm/icons/check-circle-icon';
-import ExclamationCircleIcon from '@patternfly/react-icons/dist/esm/icons/exclamation-circle-icon';
-import ExclamationTriangleIcon from '@patternfly/react-icons/dist/esm/icons/exclamation-triangle-icon';
+import CheckCircleIcon from '@patternfly/react-icons/dist/esm/icons/rh-ui-check-circle-fill-icon';
+import ExclamationCircleIcon from '@patternfly/react-icons/dist/esm/icons/rh-ui-error-fill-icon';
+import ExclamationTriangleIcon from '@patternfly/react-icons/dist/esm/icons/rh-ui-warning-fill-icon';
 import styles from '../../css/topology-components';
 import {
   BadgeLocation,

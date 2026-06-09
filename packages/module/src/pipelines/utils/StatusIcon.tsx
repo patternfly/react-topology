@@ -1,12 +1,12 @@
 import AngleDoubleRightIcon from '@patternfly/react-icons/dist/esm/icons/angle-double-right-icon';
-import ExclamationTriangleIcon from '@patternfly/react-icons/dist/esm/icons/exclamation-triangle-icon';
-import CheckCircleIcon from '@patternfly/react-icons/dist/esm/icons/check-circle-icon';
-import CircleIcon from '@patternfly/react-icons/dist/esm/icons/circle-icon';
-import ExclamationCircleIcon from '@patternfly/react-icons/dist/esm/icons/exclamation-circle-icon';
-import NotStartedIcon from '@patternfly/react-icons/dist/esm/icons/not-started-icon';
-import HourglassHalfIcon from '@patternfly/react-icons/dist/esm/icons/hourglass-half-icon';
-import SyncAltIcon from '@patternfly/react-icons/dist/esm/icons/sync-alt-icon';
-import InProgressIcon from '@patternfly/react-icons/dist/esm/icons/in-progress-icon';
+import ExclamationTriangleIcon from '@patternfly/react-icons/dist/esm/icons/rh-ui-warning-fill-icon';
+import CheckCircleIcon from '@patternfly/react-icons/dist/esm/icons/rh-ui-check-circle-fill-icon';
+import CircleIcon from '@patternfly/react-icons/dist/esm/icons/rh-ui-harvey-ball-100-icon';
+import ExclamationCircleIcon from '@patternfly/react-icons/dist/esm/icons/rh-ui-error-fill-icon';
+import NotStartedIcon from '@patternfly/react-icons/dist/esm/icons/rh-ui-not-started-icon';
+import HourglassHalfIcon from '@patternfly/react-icons/dist/esm/icons/rh-ui-hourglass-icon';
+import SyncAltIcon from '@patternfly/react-icons/dist/esm/icons/rh-ui-sync-alt-icon';
+import InProgressIcon from '@patternfly/react-icons/dist/esm/icons/rh-ui-in-progress-icon';
 import { RunStatus } from '../types';
 
 interface StatusIconProps {

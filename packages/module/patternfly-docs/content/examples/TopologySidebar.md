@@ -26,8 +26,8 @@ import {
   VisualizationSurface,
   withSelection
 } from '@patternfly/react-topology';
-import Icon1 from '@patternfly/react-icons/dist/esm/icons/regions-icon';
-import Icon2 from '@patternfly/react-icons/dist/esm/icons/folder-open-icon';
+import Icon1 from '@patternfly/react-icons/dist/esm/icons/rh-ui-regions-icon';
+import Icon2 from '@patternfly/react-icons/dist/esm/icons/rh-ui-folder-open-icon';
 
 import './topology-example.css';
 

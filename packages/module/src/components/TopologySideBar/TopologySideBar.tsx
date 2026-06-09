@@ -2,7 +2,7 @@ import { useState, useEffect, Fragment } from 'react';
 
 import { css } from '@patternfly/react-styles';
 import styles from '../../css/topology-side-bar';
-import TimesIcon from '@patternfly/react-icons/dist/esm/icons/times-icon';
+import TimesIcon from '@patternfly/react-icons/dist/esm/icons/rh-ui-close-icon';
 import { Button } from '@patternfly/react-core';
 
 export interface TopologySideBarProps {
