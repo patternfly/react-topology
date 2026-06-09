@@ -1,5 +1,5 @@
 import { forwardRef } from 'react';
-import EllipsisVIcon from '@patternfly/react-icons/dist/esm/icons/ellipsis-v-icon';
+import EllipsisVIcon from '@patternfly/react-icons/dist/esm/icons/rh-ui-ellipsis-vertical-fill-icon';
 import { WithContextMenuProps } from '../../../behavior';
 import LabelActionIcon from './LabelActionIcon';
 
