@@ -34,9 +34,9 @@
   },
   "dependencies": {
     "@dagrejs/dagre": "1.1.2",
-    "@patternfly/react-core": "^6.4.0",
-    "@patternfly/react-icons": "^6.4.0",
-    "@patternfly/react-styles": "^6.4.0",
+    "@patternfly/react-core": "^6.5.1",
+    "@patternfly/react-icons": "^6.5.1",
+    "@patternfly/react-styles": "^6.5.1",
     "@types/d3": "^7.4.0",
     "@types/d3-force": "^1.2.1",
     "d3": "^7.8.0",
@@ -52,11 +52,11 @@
     "react-dom": "^17 || ^18 || ^19"
   },
   "devDependencies": {
-    "@patternfly/documentation-framework": "^6.24.2",
-    "@patternfly/patternfly": "^6.4.0",
+    "@patternfly/documentation-framework": "^6.44.0",
+    "@patternfly/patternfly": "^6.5.2",
     "@patternfly/patternfly-a11y": "^4.3.1",
-    "@patternfly/react-code-editor": "^6.4.0",
-    "@patternfly/react-table": "^6.4.0",
+    "@patternfly/react-code-editor": "^6.5.1",
+    "@patternfly/react-table": "^6.5.1",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "camel-case": "^3.0.0",

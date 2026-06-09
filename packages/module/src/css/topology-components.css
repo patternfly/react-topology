@@ -10,7 +10,7 @@
   /* node */
   --pf-topology__node--Color: var(--pf-t--global--icon--color--regular);
   --pf-topology__node__background--Fill: var(--pf-t--global--background--color--floating--default);
-  --pf-topology__node__background--Stroke: var(--pf-t--global--border--color--default);
+  --pf-topology__node__background--Stroke: var(--pf-t--global--border--color--control--default);
   --pf-topology__node__background--StrokeWidth: var(--pf-t--global--border--width--regular);
   --pf-topology__node--m-dragging--background--StrokeWidth: var(--pf-t--global--border--width--regular);
   --pf-topology__node--m-drag-ghost--Opacity: 0.6;
@@ -36,7 +36,7 @@
 
 
   /* Hover changes */
-  --pf-topology__node--m-hover--background--Stroke: var(--pf-t--global--border--color--default);
+  --pf-topology__node--m-hover--background--Stroke: var(--pf-t--global--border--color--control--default);
   --pf-topology__node--m--hover--m-info--node__background--Stroke: var(--pf-t--global--border--color--nonstatus--blue--hover);
   --pf-topology__node--m--hover--m-success--node__background--Stroke: var(--pf-t--global--border--color--status--success--hover);
   --pf-topology__node--m--hover--m-warning--node__background--Stroke: var(--pf-t--global--border--color--status--warning--hover);
@@ -74,9 +74,9 @@
   --pf-topology__node--m-selected--m-danger--node__label__text--m-secondary--Fill: var(--pf-t--global--text--color--status--on-danger--default);
 
   --pf-topology__node__label__background--Fill: var(--pf-t--global--background--color--floating--default);
-  --pf-topology__node__label__background--Stroke: var(--pf-t--global--border--color--default);
+  --pf-topology__node__label__background--Stroke: var(--pf-t--global--border--color--control--default);
 
-  --pf-topology__node--m-hover--label__background--Stroke: var(--pf-t--global--border--color--default);
+  --pf-topology__node--m-hover--label__background--Stroke: var(--pf-t--global--border--color--control--default);
 
   --pf-topology__node--m-selected--node__label__background--Stroke: var(--pf-t--global--border--color--brand--default);
   --pf-topology__node--m-info--node__label__background--Stroke: var(--pf-t--global--border--color--nonstatus--blue--default);
@@ -113,7 +113,7 @@
 
   --pf-topology__node__label__badge__rect--StrokeWidth: var(--pf-t--global--border--width--regular);
 
-  --pf-topology__node__separator--Stroke: var(--pf-t--global--border--color--default);
+  --pf-topology__node__separator--Stroke: var(--pf-t--global--border--color--control--default);
   --pf-topology__node__separator--StrokeWidth: var(--pf-t--global--border--width--regular);
   --pf-topology__node--m-selected--separator--Stroke: var(--pf-t--global--border--color--default);
 
