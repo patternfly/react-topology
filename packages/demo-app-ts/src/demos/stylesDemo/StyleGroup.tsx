@@ -10,8 +10,8 @@ import {
   WithDragNodeProps,
   WithSelectionProps
 } from '@patternfly/react-topology';
-import AlternateIcon from '@patternfly/react-icons/dist/esm/icons/regions-icon';
-import DefaultIcon from '@patternfly/react-icons/dist/esm/icons/builder-image-icon';
+import RhUiRegionsIcon from '@patternfly/react-icons/dist/esm/icons/rh-ui-regions-icon';
+import RhUiCubesIcon from '@patternfly/react-icons/dist/esm/icons/rh-ui-cubes-icon';
 
 const ICON_PADDING = 20;
 
@@ -47,9 +47,9 @@ const StyleGroup: React.FunctionComponent<StyleGroupProps> = ({
   const getTypeIcon = (dataType?: DataTypes): any => {
     switch (dataType) {
       case DataTypes.Alternate:
-        return AlternateIcon;
+        return RhUiRegionsIcon;
       default:
-        return DefaultIcon;
+        return RhUiCubesIcon;
     }
   };
 

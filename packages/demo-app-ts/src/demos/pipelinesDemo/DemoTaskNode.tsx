@@ -16,8 +16,8 @@ import {
   WithSelectionProps
 } from '@patternfly/react-topology';
 import { PopoverProps } from '@patternfly/react-core';
-import { CubeIcon } from '@patternfly/react-icons/dist/esm/icons/cube-icon';
-import { ExternalLinkAltIcon } from '@patternfly/react-icons/dist/esm/icons/external-link-alt-icon';
+import { RhUiCubesIcon } from '@patternfly/react-icons/dist/esm/icons/rh-ui-cubes-icon';
+import { RhUiExternalLinkIcon } from '@patternfly/react-icons/dist/esm/icons/rh-ui-external-link-icon';
 import { logos } from '../../utils/logos';
 import { PipelineDemoContext } from './PipelineDemoContext';
 
@@ -32,9 +32,9 @@ const DEMO_TIP_TEXT =
 const getLeadIcon = (taskJobType: string) => {
   switch (taskJobType) {
     case 'cubes':
-      return <CubeIcon width={16} height={16} />;
+      return <RhUiCubesIcon width={16} height={16} />;
     case 'link':
-      return <ExternalLinkAltIcon width={16} height={16} />;
+      return <RhUiExternalLinkIcon width={16} height={16} />;
     default:
       return null;
   }
