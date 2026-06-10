@@ -1,5 +1,5 @@
 import { forwardRef } from 'react';
-import EllipsisVIcon from '@patternfly/react-icons/dist/esm/icons/rh-ui-ellipsis-vertical-fill-icon';
+import RhUiEllipsisVerticalFillIcon from '@patternfly/react-icons/dist/esm/icons/rh-ui-ellipsis-vertical-fill-icon';
 import { WithContextMenuProps } from '../../../behavior';
 import LabelActionIcon from './LabelActionIcon';
 
@@ -16,7 +16,7 @@ const LabelContextMenu = forwardRef<SVGRectElement, LabelContextMenuProps>(
   ({ onContextMenu, className, x, y, paddingX, paddingY, height }, menuRef) => (
     <LabelActionIcon
       ref={menuRef}
-      icon={<EllipsisVIcon />}
+      icon={<RhUiEllipsisVerticalFillIcon />}
       iconOffsetX={-6}
       className={className}
       onClick={onContextMenu}

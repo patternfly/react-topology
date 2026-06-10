@@ -2,7 +2,7 @@ import { useCallback, useMemo } from 'react';
 import { observer } from 'mobx-react';
 import { css } from '@patternfly/react-styles';
 import styles from '../../../css/topology-components';
-import CollapseIcon from '@patternfly/react-icons/dist/esm/icons/rh-ui-arrow-down-left-up-right-to-center-icon';
+import RhUiArrowDownLeftUpRightToCenterIcon from '@patternfly/react-icons/dist/esm/icons/rh-ui-arrow-down-left-up-right-to-center-icon';
 import NodeLabel from '../../../components/nodes/labels/NodeLabel';
 import { Layer } from '../../../components/layers';
 import { GROUPS_LAYER, TOP_LAYER } from '../../../const';
@@ -198,7 +198,7 @@ const DefaultTaskGroupExpanded: React.FunctionComponent<Omit<DefaultTaskGroupPro
             onContextMenu={onContextMenu}
             contextMenuOpen={contextMenuOpen}
             hover={isHover || labelHover}
-            actionIcon={collapsible ? <CollapseIcon /> : undefined}
+            actionIcon={collapsible ? <RhUiArrowDownLeftUpRightToCenterIcon /> : undefined}
             onActionIconClick={() => onCollapseChange(element, true)}
           >
             {label || element.getLabel()}

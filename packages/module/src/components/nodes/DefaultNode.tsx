@@ -2,9 +2,9 @@ import { useState, useRef, useMemo, useEffect } from 'react';
 import { observer } from 'mobx-react';
 import { css } from '@patternfly/react-styles';
 import { Tooltip, TooltipPosition } from '@patternfly/react-core';
-import CheckCircleIcon from '@patternfly/react-icons/dist/esm/icons/rh-ui-check-circle-fill-icon';
-import ExclamationCircleIcon from '@patternfly/react-icons/dist/esm/icons/rh-ui-error-fill-icon';
-import ExclamationTriangleIcon from '@patternfly/react-icons/dist/esm/icons/rh-ui-warning-fill-icon';
+import RhUiCheckCircleFillIcon from '@patternfly/react-icons/dist/esm/icons/rh-ui-check-circle-fill-icon';
+import RhUiErrorFillIcon from '@patternfly/react-icons/dist/esm/icons/rh-ui-error-fill-icon';
+import RhUiWarningFillIcon from '@patternfly/react-icons/dist/esm/icons/rh-ui-warning-fill-icon';
 import styles from '../../css/topology-components';
 import {
   BadgeLocation,
@@ -30,11 +30,11 @@ const StatusQuadrant = TopologyQuadrant.upperLeft;
 const getStatusIcon = (status: NodeStatus) => {
   switch (status) {
     case NodeStatus.danger:
-      return <ExclamationCircleIcon className="pf-m-danger" />;
+      return <RhUiErrorFillIcon className="pf-m-danger" />;
     case NodeStatus.warning:
-      return <ExclamationTriangleIcon className="pf-m-warning" />;
+      return <RhUiWarningFillIcon className="pf-m-warning" />;
     case NodeStatus.success:
-      return <CheckCircleIcon className="pf-m-success" />;
+      return <RhUiCheckCircleFillIcon className="pf-m-success" />;
     default:
       return null;
   }

@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import { polygonHull } from 'd3-polygon';
 import { css } from '@patternfly/react-styles';
 import styles from '../../css/topology-components';
-import CollapseIcon from '@patternfly/react-icons/dist/esm/icons/rh-ui-arrow-down-left-up-right-to-center-icon';
+import RhUiArrowDownLeftUpRightToCenterIcon from '@patternfly/react-icons/dist/esm/icons/rh-ui-arrow-down-left-up-right-to-center-icon';
 import NodeLabel from '../nodes/labels/NodeLabel';
 import { Layer } from '../layers';
 import { GROUPS_LAYER, TOP_LAYER } from '../../const';
@@ -278,7 +278,7 @@ const DefaultGroupExpanded: React.FunctionComponent<DefaultGroupExpandedProps> =
           contextMenuOpen={contextMenuOpen}
           hideContextMenuKebab={hideContextMenuKebab}
           hover={isHover || labelHover}
-          actionIcon={collapsible ? <CollapseIcon /> : undefined}
+          actionIcon={collapsible ? <RhUiArrowDownLeftUpRightToCenterIcon /> : undefined}
           onActionIconClick={() => onCollapseChange(element, true)}
         >
           {label || element.getLabel()}
