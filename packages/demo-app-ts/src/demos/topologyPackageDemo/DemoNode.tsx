@@ -34,7 +34,7 @@ import RhUiFolderOpenIcon from '@patternfly/react-icons/dist/esm/icons/rh-ui-fol
 import RhUiBlueprintIcon from '@patternfly/react-icons/dist/esm/icons/rh-ui-blueprint-icon';
 import RhUiPauseCircleIcon from '@patternfly/react-icons/dist/esm/icons/rh-ui-pause-circle-fill-icon';
 import RhUiThumbtackIcon from '@patternfly/react-icons/dist/esm/icons/rh-ui-thumbtack-fill-icon';
-import SignOutAltIcon from '@patternfly/react-icons/dist/esm/icons/skull-icon';
+import RhUiExperimentalIcon from '@patternfly/react-icons/dist/esm/icons/rh-ui-experimental-icon';
 import { SVGIconProps } from '@patternfly/react-icons/dist/esm/createIcon';
 import { DataTypes, GeneratedNodeData, GeneratorNodeOptions } from './generator';
 import { DemoContext } from './DemoContext';
@@ -162,7 +162,7 @@ const DemoNode: React.FunctionComponent<DemoNodeProps> = observer(
     }, [detailsLevel, onHideCreateConnector]);
 
     const labelIconClass = data.index % 2 === 0 && logos.get('icon-java');
-    const LabelIcon = data.index % 2 === 1 ? (SignOutAltIcon as any) : undefined;
+    const LabelIcon = data.index % 2 === 1 ? (RhUiExperimentalIcon as any) : undefined;
 
     return (
       <Layer id={focused ? TOP_LAYER : DEFAULT_LAYER}>
