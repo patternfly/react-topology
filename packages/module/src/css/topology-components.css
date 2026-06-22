@@ -48,7 +48,7 @@
   /* node decorators */
   --pf-topology__node_decorator--Color: var(--pf-t--global--icon--color--regular);
   --pf-topology__node__decorator__bg--Fill: var(--pf-t--global--background--color--floating--default);
-  --pf-topology__node__decorator__bg--Stroke: var(--pf-t--global--border--color--default);
+  --pf-topology__node__decorator__bg--Stroke: var(--pf-t--global--border--color--control--default);
   --pf-topology__node__decorator__bg--StrokeWidth: var(--pf-t--global--border--width--regular);
 
   --pf-topology__node__decorator__status--m-info--Color: var(--pf-t--global--icon--color--brand--default);
