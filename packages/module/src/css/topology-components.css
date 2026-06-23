@@ -102,7 +102,7 @@
 
   --pf-topology__node__label__icon__background--Fill: var(--pf-t--global--background--color--floating--default);
   --pf-topology__node__label__icon__background--StrokeWidth: var(--pf-t--global--border--width--regular);
-  --pf-topology__node__label__icon__background--Stroke: var(--pf-t--global--border--color--default);
+  --pf-topology__node__label__icon__background--Stroke: var(--pf-t--global--border--color--control--default);
 
   --pf-topology__node--m-selected--label__icon__background--Stroke: var(--pf-t--global--border--color--brand--default);
   --pf-topology__node--m-selected--label__icon__background--StrokeWidth: var(--pf-t--global--border--width--strong);
