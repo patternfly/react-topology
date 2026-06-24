@@ -24,7 +24,7 @@ import {
   MastheadBrand,
   ToolbarContent
 } from '@patternfly/react-core';
-import { BarsIcon } from '@patternfly/react-icons/dist/esm/icons/bars-icon';
+import { RhUiMenuBarsIcon } from '@patternfly/react-icons/dist/esm/icons/rh-ui-menu-bars-icon';
 import imgBrand from './assets/images/imgBrand.svg';
 import imgAvatar from './assets/images/imgAvatar.svg';
 import Demos from './Demos';
@@ -165,7 +165,7 @@ class App extends Component<{}, AppState> {
               isSidebarOpen={isNavOpen}
               onSidebarToggle={() => this.setState({ isNavOpen: !isNavOpen })}
             >
-              <BarsIcon />
+              <RhUiMenuBarsIcon />
             </PageToggleButton>
           </MastheadToggle>
           <MastheadBrand>

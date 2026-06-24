@@ -1,6 +1,6 @@
 import { useRef, useState, useCallback } from 'react';
 import { Menu, DropdownItem } from '@patternfly/react-core';
-import AngleRightIcon from '@patternfly/react-icons/dist/esm/icons/angle-right-icon';
+import RhUiCaretRightIcon from '@patternfly/react-icons/dist/esm/icons/rh-ui-caret-right-icon';
 import { css } from '@patternfly/react-styles';
 import topologyStyles from '../../css/topology-components';
 // FIXME fully qualified due to the effect of long build times on storybook
@@ -56,7 +56,7 @@ const ContextSubMenuItem: React.FunctionComponent<ContextSubMenuItemProps> = ({ 
         }}
       >
         {label}
-        <AngleRightIcon className={css(topologyStyles.topologyContextSubMenuArrow)} />
+        <RhUiCaretRightIcon className={css(topologyStyles.topologyContextSubMenuArrow)} />
       </DropdownItem>
       <Popper
         className={css(topologyStyles.topologyContextSubMenuContainer)}

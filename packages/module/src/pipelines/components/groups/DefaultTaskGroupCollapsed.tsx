@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react';
-import ExpandIcon from '@patternfly/react-icons/dist/esm/icons/expand-alt-icon';
+import RhUiArrowUpRightDownLeftFromCenterIcon from '@patternfly/react-icons/dist/esm/icons/rh-ui-arrow-up-right-down-left-from-center-icon';
 import { CollapsibleGroupProps } from '../../../components';
 import { Node } from '../../../types';
 import { TaskNode } from '../nodes';
@@ -21,7 +21,7 @@ const DefaultTaskGroupCollapsed: React.FunctionComponent<DefaultTaskGroupCollaps
   return (
     <TaskNode
       element={element}
-      actionIcon={collapsible ? <ExpandIcon /> : undefined}
+      actionIcon={collapsible ? <RhUiArrowUpRightDownLeftFromCenterIcon /> : undefined}
       onActionIconClick={() => onCollapseChange(element, false)}
       shadowCount={shadowCount}
       {...rest}

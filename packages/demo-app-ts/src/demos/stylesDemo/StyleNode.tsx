@@ -21,12 +21,12 @@ import {
   WithDragNodeProps,
   WithSelectionProps
 } from '@patternfly/react-topology';
-import DefaultIcon from '@patternfly/react-icons/dist/esm/icons/builder-image-icon';
-import AlternateIcon from '@patternfly/react-icons/dist/esm/icons/regions-icon';
-import FolderOpenIcon from '@patternfly/react-icons/dist/esm/icons/folder-open-icon';
-import BlueprintIcon from '@patternfly/react-icons/dist/esm/icons/blueprint-icon';
-import PauseCircle from '@patternfly/react-icons/dist/esm/icons/pause-circle-icon';
-import Thumbtack from '@patternfly/react-icons/dist/esm/icons/thumbtack-icon';
+import RhUiCubesIcon from '@patternfly/react-icons/dist/esm/icons/rh-ui-cubes-icon';
+import RhUiRegionsIcon from '@patternfly/react-icons/dist/esm/icons/rh-ui-regions-icon';
+import RhUiFolderOpenIcon from '@patternfly/react-icons/dist/esm/icons/rh-ui-folder-open-icon';
+import RhUiBlueprintIcon from '@patternfly/react-icons/dist/esm/icons/rh-ui-blueprint-icon';
+import RhUiPauseCircleIcon from '@patternfly/react-icons/dist/esm/icons/rh-ui-pause-circle-fill-icon';
+import RhUiThumbtackIcon from '@patternfly/react-icons/dist/esm/icons/rh-ui-thumbtack-fill-icon';
 import { SVGIconProps } from '@patternfly/react-icons/dist/esm/createIcon';
 
 export enum DataTypes {
@@ -52,9 +52,9 @@ type StyleNodeProps = {
 const getTypeIcon = (dataType?: DataTypes): any => {
   switch (dataType) {
     case DataTypes.Alternate:
-      return AlternateIcon;
+      return RhUiRegionsIcon;
     default:
-      return DefaultIcon;
+      return RhUiCubesIcon;
   }
 };
 
@@ -111,11 +111,11 @@ const renderDecorators = (
   return (
     <>
       {!nodeStatus || nodeStatus === NodeStatus.default
-        ? renderDecorator(element, TopologyQuadrant.upperLeft, <FolderOpenIcon />, getShapeDecoratorCenter)
+        ? renderDecorator(element, TopologyQuadrant.upperLeft, <RhUiFolderOpenIcon />, getShapeDecoratorCenter)
         : null}
-      {renderDecorator(element, TopologyQuadrant.upperRight, <BlueprintIcon />, getShapeDecoratorCenter)}
-      {renderDecorator(element, TopologyQuadrant.lowerLeft, <PauseCircle />, getShapeDecoratorCenter)}
-      {renderDecorator(element, TopologyQuadrant.lowerRight, <Thumbtack />, getShapeDecoratorCenter)}
+      {renderDecorator(element, TopologyQuadrant.upperRight, <RhUiBlueprintIcon />, getShapeDecoratorCenter)}
+      {renderDecorator(element, TopologyQuadrant.lowerLeft, <RhUiPauseCircleIcon />, getShapeDecoratorCenter)}
+      {renderDecorator(element, TopologyQuadrant.lowerRight, <RhUiThumbtackIcon />, getShapeDecoratorCenter)}
     </>
   );
 };

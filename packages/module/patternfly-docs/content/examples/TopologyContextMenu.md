@@ -25,7 +25,7 @@ import {
   withContextMenu
 } from '@patternfly/react-topology';
 
-import Icon1 from '@patternfly/react-icons/dist/esm/icons/regions-icon';
+import Icon1 from '@patternfly/react-icons/dist/esm/icons/rh-ui-regions-icon';
 import './topology-example.css';
 
 # Introduction

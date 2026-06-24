@@ -7,12 +7,12 @@ import {
   GenerateId,
   Tooltip
 } from '@patternfly/react-core';
-import ExpandIcon from '@patternfly/react-icons/dist/esm/icons/expand-icon';
-import ExpandArrowsAltIcon from '@patternfly/react-icons/dist/esm/icons/expand-arrows-alt-icon';
-import SearchPlusIcon from '@patternfly/react-icons/dist/esm/icons/search-plus-icon';
-import SearchMinusIcon from '@patternfly/react-icons/dist/esm/icons/search-minus-icon';
-import CollapseIcon from '@patternfly/react-icons/dist/esm/icons/compress-alt-icon';
-import ExpandAltIcon from '@patternfly/react-icons/dist/esm/icons/expand-alt-icon';
+import RhUiExpandIcon from '@patternfly/react-icons/dist/esm/icons/rh-ui-expand-icon';
+import RhUiExpandArrowsIcon from '@patternfly/react-icons/dist/esm/icons/rh-ui-expand-arrows-icon';
+import RhUiZoomInIcon from '@patternfly/react-icons/dist/esm/icons/rh-ui-zoom-in-icon';
+import RhUiZoomOutIcon from '@patternfly/react-icons/dist/esm/icons/rh-ui-zoom-out-icon';
+import RhUiArrowDownLeftUpRightToCenterIcon from '@patternfly/react-icons/dist/esm/icons/rh-ui-arrow-down-left-up-right-to-center-icon';
+import RhUiArrowUpRightDownLeftFromCenterIcon from '@patternfly/react-icons/dist/esm/icons/rh-ui-arrow-up-right-down-left-from-center-icon';
 
 import '../../css/topology-controlbar';
 
@@ -100,7 +100,7 @@ export interface TopologyControlButtonsOptions {
 /* Default options for creating control buttons */
 export const defaultControlButtonsOptions: TopologyControlButtonsOptions = {
   zoomIn: true,
-  zoomInIcon: <SearchPlusIcon />,
+  zoomInIcon: <RhUiZoomInIcon />,
   zoomInTip: 'Zoom In',
   zoomInAriaLabel: 'Zoom In',
   zoomInCallback: null,
@@ -108,7 +108,7 @@ export const defaultControlButtonsOptions: TopologyControlButtonsOptions = {
   zoomInHidden: false,
 
   zoomOut: true,
-  zoomOutIcon: <SearchMinusIcon />,
+  zoomOutIcon: <RhUiZoomOutIcon />,
   zoomOutTip: 'Zoom Out',
   zoomOutAriaLabel: 'Zoom Out',
   zoomOutCallback: null,
@@ -116,7 +116,7 @@ export const defaultControlButtonsOptions: TopologyControlButtonsOptions = {
   zoomOutHidden: false,
 
   fitToScreen: true,
-  fitToScreenIcon: <ExpandArrowsAltIcon />,
+  fitToScreenIcon: <RhUiExpandArrowsIcon />,
   fitToScreenTip: 'Fit to Screen',
   fitToScreenAriaLabel: 'Fit to Screen',
   fitToScreenCallback: null,
@@ -124,7 +124,7 @@ export const defaultControlButtonsOptions: TopologyControlButtonsOptions = {
   fitToScreenHidden: false,
 
   resetView: true,
-  resetViewIcon: <ExpandIcon />,
+  resetViewIcon: <RhUiExpandIcon />,
   resetViewTip: 'Reset View',
   resetViewAriaLabel: 'Reset View',
   resetViewCallback: null,
@@ -132,7 +132,7 @@ export const defaultControlButtonsOptions: TopologyControlButtonsOptions = {
   resetViewHidden: false,
 
   expandAll: false,
-  expandAllIcon: <ExpandAltIcon />,
+  expandAllIcon: <RhUiArrowUpRightDownLeftFromCenterIcon />,
   expandAllTip: 'Expand All',
   expandAllAriaLabel: 'Expand All',
   expandAllCallback: null,
@@ -140,7 +140,7 @@ export const defaultControlButtonsOptions: TopologyControlButtonsOptions = {
   expandAllHidden: false,
 
   collapseAll: false,
-  collapseAllIcon: <CollapseIcon />,
+  collapseAllIcon: <RhUiArrowDownLeftUpRightToCenterIcon />,
   collapseAllTip: 'Collapse All',
   collapseAllAriaLabel: 'Collapse All',
   collapseAllCallback: null,

@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { css } from '@patternfly/react-styles';
 import styles from '../css/topology-components';
-import AddCircleOIcon from '@patternfly/react-icons/dist/esm/icons/add-circle-o-icon';
+import RhUiAddCircleIcon from '@patternfly/react-icons/dist/esm/icons/rh-ui-add-circle-icon';
 import { Tooltip } from '@patternfly/react-core';
 import Point from '../geom/Point';
 import ConnectorArrow from './edges/terminals/ConnectorArrow';
@@ -65,14 +65,14 @@ const DefaultCreateConnector: React.FunctionComponent<DefaultCreateConnectorProp
               exitDelay={0}
               triggerRef={iconRef}
             >
-              <AddCircleOIcon
+              <RhUiAddCircleIcon
                 className={css(styles.topologyDefaultCreateConnectorCreateCursor)}
                 style={{ fontSize: cursorSize }}
                 ref={iconRef}
               />
             </Tooltip>
           ) : (
-            <AddCircleOIcon
+            <RhUiAddCircleIcon
               className={css(styles.topologyDefaultCreateConnectorCreateCursor)}
               style={{ fontSize: cursorSize }}
             />

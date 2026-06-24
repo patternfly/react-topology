@@ -3,8 +3,8 @@ import { observer } from 'mobx-react';
 import { css } from '@patternfly/react-styles';
 import styles from '@patternfly/react-topology/dist/esm/css/topology-components';
 import { AnchorEnd, GraphElement, Node, Rectangle, useCombineRefs, useSize } from '@patternfly/react-topology';
-import CheckCircleIcon from '@patternfly/react-icons/dist/esm/icons/check-circle-icon';
-import ExclamationCircleIcon from '@patternfly/react-icons/dist/esm/icons/exclamation-circle-icon';
+import RhUiCheckCircleFillIcon from '@patternfly/react-icons/dist/esm/icons/rh-ui-check-circle-fill-icon';
+import RhUiErrorFillIcon from '@patternfly/react-icons/dist/esm/icons/rh-ui-error-fill-icon';
 import { useSourceStatusAnchor } from './useSourceStatusAnchor';
 import { useTargetStatusAnchor } from './useTargetStatusAnchor';
 
@@ -101,7 +101,7 @@ const StatusConnectorNode: React.FunctionComponent<StatusConnectorNodeProps> = (
         style={{ fontSize: `${iconRadius * 2}px` }}
       >
         <g className={css(styles.topologyNodeDecoratorStatus)}>
-          <CheckCircleIcon className="pf-m-success" />
+          <RhUiCheckCircleFillIcon className="pf-m-success" />
         </g>
       </g>
     </g>
@@ -121,7 +121,7 @@ const StatusConnectorNode: React.FunctionComponent<StatusConnectorNodeProps> = (
         style={{ fontSize: `${iconRadius * 2}px` }}
       >
         <g className={css(styles.topologyNodeDecoratorStatus)}>
-          <ExclamationCircleIcon className="pf-m-danger" />
+          <RhUiErrorFillIcon className="pf-m-danger" />
         </g>
       </g>
     </g>

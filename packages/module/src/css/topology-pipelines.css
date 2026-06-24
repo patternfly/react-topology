@@ -5,7 +5,7 @@
   --pf-topology-pipelines__pill-text--FontSize: var(--pf-t--global--font--size--body--sm);
   --pf-topology-pipelines__pill-text--FontFamily: var(--pf-t--global--font--family--body);
   --pf-topology-pipelines__pill-background--Fill: var(--pf-t--global--background--color--floating--default);
-  --pf-topology-pipelines__pill-background--Stroke: var(--pf-t--global--border--color--default);
+  --pf-topology-pipelines__pill-background--Stroke: var(--pf-t--global--border--color--control--default);
   --pf-topology-pipelines__pill-background--StrokeWidth: var(--pf-t--global--border--width--regular);
 
   /* pill with status */
@@ -23,9 +23,9 @@
   --pf-topology-pipelines__pill-background--m-warning--Stroke: var(--pf-t--global--border--color--status--warning--default);
   --pf-topology-pipelines__pill-background--m-skipped--Stroke: var(--pf-t--global--border--color--nonstatus--gray--default);
   --pf-topology-pipelines__pill-background--m-in-progress--Stroke: var(--pf-t--global--border--color--nonstatus--blue--default);
-  --pf-topology-pipelines__pill-background--m-pending--Stroke: var(--pf-t--global--border--color--default);
+  --pf-topology-pipelines__pill-background--m-pending--Stroke: var(--pf-t--global--border--color--control--default);
   --pf-topology-pipelines__pill-background--m-running--Stroke: var(--pf-t--global--border--color--nonstatus--blue--default);
-  --pf-topology-pipelines__pill-background--m-idle--Stroke: var(--pf-t--global--border--color--default);
+  --pf-topology-pipelines__pill-background--m-idle--Stroke: var(--pf-t--global--border--color--control--default);
 
   /* selected pill */
   --pf-topology-pipelines__pill-background--m-selected--Fill: var(--pf-t--global--color--brand--default);
@@ -101,7 +101,6 @@
   --pf-topology-pipelines__status-icon--m-selected--m-running--color: var(--pf-t--global--icon--color--on-brand--default);
   --pf-topology-pipelines__status-icon--m-selected--m-idle--color: var(--pf-t--global--icon--color--on-brand--default);
 
-
   /* when expression */
   --pf-topology-pipelines__when-expression-background--Stroke: var(--pf-t--global--border--color--default);
   --pf-topology-pipelines__when-expression-background--Fill: var(--pf-t--global--color--nonstatus--gray--clicked);
@@ -153,11 +152,11 @@
 }
 
 .pf-topology-pipelines__pill.pf-m-idle .pf-topology-pipelines__pill-background {
-  --pf-topology-pipelines__pill-background--Stroke: var(--pf-t--global--border--color--default);
+  --pf-topology-pipelines__pill-background--Stroke: var(--pf-topology-pipelines__pill-background--m-idle--Stroke);
 }
 
 .pf-topology-pipelines__pill.pf-m-pending .pf-topology-pipelines__pill-background {
-  --pf-topology-pipelines__pill-background--Stroke: var(--pf-t--global--border--color--default);
+  --pf-topology-pipelines__pill-background--Stroke: var(--pf-topology-pipelines__pill-background--m-pending--Stroke);
 }
 
 .pf-topology-pipelines__pill.pf-m-selected .pf-topology-pipelines__pill-background {
