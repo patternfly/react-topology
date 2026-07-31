@@ -776,6 +776,14 @@
   cursor: pointer;
 }
 
+/* Opposite-direction arrow on a selected bidirectional aggregate bridge — keep visible, not highlighted. */
+.pf-topology__edge.pf-m-selected .pf-topology-connector-arrow.pf-m-muted,
+.pf-topology__edge.pf-m-selected.pf-m-hover .pf-topology-connector-arrow.pf-m-muted {
+  fill: var(--edge--fill);
+  stroke: var(--edge--stroke);
+  stroke-width: var(--edge--stroke-width);
+}
+
 .pf-topology__edge__tag__background {
   fill: var(--pf-topology__edge__tag__background--Fill);
   stroke-width: 0;
