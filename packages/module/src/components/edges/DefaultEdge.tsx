@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef } from 'react';
+import { FunctionComponent, MouseEvent, ReactNode, useLayoutEffect, useRef } from 'react';
 import { observer } from 'mobx-react';
 import {
   Edge,
@@ -22,9 +22,9 @@ import DefaultConnectorTag from './DefaultConnectorTag';
 import { Point } from '../../geom';
 import { getConnectorStartPoint } from './terminals/terminalUtils';
 
-interface DefaultEdgeProps {
+export interface DefaultEdgeProps {
   /** Additional content added to the edge */
-  children?: React.ReactNode;
+  children?: ReactNode;
   /** Additional classes added to the edge */
   className?: string;
   /** The graph edge element to represent */
@@ -78,7 +78,7 @@ interface DefaultEdgeProps {
   /** Function to call when the element should become selected (or deselected). Part of WithSelectionProps */
   onSelect?: OnSelect;
   /** Function to call to show a context menu for the edge  */
-  onContextMenu?: (e: React.MouseEvent) => void;
+  onContextMenu?: (e: MouseEvent) => void;
   /** Flag indicating that the context menu for the edge is currently open  */
   contextMenuOpen?: boolean;
   /**
@@ -91,7 +91,7 @@ interface DefaultEdgeProps {
 
 type DefaultEdgeInnerProps = Omit<DefaultEdgeProps, 'element'> & { element: Edge };
 
-const DefaultEdgeInner: React.FunctionComponent<DefaultEdgeInnerProps> = observer(
+const DefaultEdgeInner: FunctionComponent<DefaultEdgeInnerProps> = observer(
   ({
     element,
     dragging,
@@ -271,7 +271,7 @@ const DefaultEdgeInner: React.FunctionComponent<DefaultEdgeInnerProps> = observe
   }
 );
 
-const DefaultEdge: React.FunctionComponent<DefaultEdgeProps> = ({
+const DefaultEdge: FunctionComponent<DefaultEdgeProps> = ({
   element,
   startTerminalType = EdgeTerminalType.none,
   startTerminalSize = 14,

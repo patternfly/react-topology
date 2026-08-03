@@ -1,4 +1,6 @@
+import { action } from 'mobx';
 import { observer } from 'mobx-react';
+import { FunctionComponent, MouseEvent, ReactNode } from 'react';
 import DefaultGroupExpanded from './DefaultGroupExpanded';
 import { OnSelect, WithDndDragProps, ConnectDragSource, ConnectDropTarget } from '../../behavior';
 import { BadgeLocation, GraphElement, isNode, LabelPosition, Node } from '../../types';
@@ -8,7 +10,7 @@ import DefaultGroupCollapsed from './DefaultGroupCollapsed';
 
 interface DefaultGroupProps {
   /** Additional content added to the node */
-  children?: React.ReactNode;
+  children?: ReactNode;
   /** Additional classes added to the group */
   className?: string;
   /** The graph group node element to represent */
@@ -66,7 +68,7 @@ interface DefaultGroupProps {
   /** Callback when the group is collapsed */
   onCollapseChange?: (group: Node, collapsed: boolean) => void;
   /** Shape of the collapsed group */
-  getCollapsedShape?: (node: Node) => React.FunctionComponent<ShapeProps>;
+  getCollapsedShape?: (node: Node) => FunctionComponent<ShapeProps>;
   /** Shadow offset for the collapsed group */
   collapsedShadowOffset?: number;
   /** Flag if the element selected. Part of WithSelectionProps */
@@ -80,7 +82,7 @@ interface DefaultGroupProps {
   /** A ref to add to the node for dropping. Part of WithDndDropProps */
   dndDropRef?: ConnectDropTarget;
   /** Function to call to show a context menu for the node  */
-  onContextMenu?: (e: React.MouseEvent) => void;
+  onContextMenu?: (e: MouseEvent) => void;
   /** Flag indicating that the context menu for the node is currently open  */
   contextMenuOpen?: boolean;
   /** Hide context menu kebab for the group  */
@@ -93,13 +95,15 @@ interface DefaultGroupProps {
 
 type DefaultGroupInnerProps = Omit<DefaultGroupProps, 'element'> & { element: Node };
 
-const DefaultGroupInner: React.FunctionComponent<DefaultGroupInnerProps> = observer(
+const DefaultGroupInner: FunctionComponent<DefaultGroupInnerProps> = observer(
   ({ className, element, onCollapseChange, ...rest }) => {
     const handleCollapse = (group: Node, collapsed: boolean): void => {
-      if (collapsed && rest.collapsedWidth !== undefined && rest.collapsedHeight !== undefined) {
-        group.setDimensions(new Dimensions(rest.collapsedWidth, rest.collapsedHeight));
-      }
-      group.setCollapsed(collapsed);
+      action(() => {
+        if (collapsed && rest.collapsedWidth !== undefined && rest.collapsedHeight !== undefined) {
+          group.setDimensions(new Dimensions(rest.collapsedWidth, rest.collapsedHeight));
+        }
+        group.setCollapsed(collapsed);
+      })();
       onCollapseChange && onCollapseChange(group, collapsed);
     };
 
@@ -112,7 +116,7 @@ const DefaultGroupInner: React.FunctionComponent<DefaultGroupInnerProps> = obser
   }
 );
 
-const DefaultGroup: React.FunctionComponent<DefaultGroupProps> = ({ element, ...rest }: DefaultGroupProps) => {
+const DefaultGroup: FunctionComponent<DefaultGroupProps> = ({ element, ...rest }: DefaultGroupProps) => {
   if (!isNode(element)) {
     throw new Error('DefaultGroup must be used only on Node elements');
   }

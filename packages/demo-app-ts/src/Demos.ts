@@ -13,6 +13,7 @@ import { ContextMenus } from './demos/ContextMenus';
 import { TopologyPackage } from './demos/topologyPackageDemo/TopologyPackage';
 import { ComplexGroup } from './demos/Groups';
 import { CollapsibleGroups } from './demos/CollapsibleGroups';
+import { AggregateEdges } from './demos/aggregateEdges/AggregateEdges';
 import { StatusConnectors } from './demos/statusConnectorsDemo/StatusConnectors';
 
 import './Demo.css';
@@ -143,6 +144,11 @@ export const Demos: DemoInterface[] = [
     id: 'collapsible-groups',
     name: 'Collapsible Groups',
     componentType: CollapsibleGroups
+  },
+  {
+    id: 'aggregate-edges',
+    name: 'Aggregate Edges',
+    componentType: AggregateEdges
   }
 ];
 
