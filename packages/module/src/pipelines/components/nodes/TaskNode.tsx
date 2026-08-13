@@ -24,6 +24,10 @@ export interface TaskNodeProps {
   className?: string;
   /** The graph node element to represent */
   element: GraphElement;
+  /** Adds accessible text to the node. Defaults to node label followed by status */
+  'aria-label'?: string;
+  /** tab index for the node to help improve tab order */
+  tabIndex?: number;
   /** Padding to use before and after contents */
   paddingX?: number;
   /** Padding to use above and below contents */
@@ -72,6 +76,8 @@ export interface TaskNodeProps {
   hover?: boolean;
   /** The maximum length of the label before truncation */
   truncateLength?: number;
+  /** Trigger mechanism for the label tooltip when truncated **/
+  labelTooltipTrigger?: 'click' | 'mouseenter' | 'focus';
   /** Flag if the tooltip is disabled */
   disableTooltip?: boolean;
   /** Tooltip to show on node hover */
@@ -84,6 +90,8 @@ export interface TaskNodeProps {
   whenOffset?: number;
   /** Icon to use for the action menu */
   actionIcon?: React.ReactElement;
+  /** Aria label for action icon when shown. **/
+  actionIconAriaLabel?: string;
   /** Additional classes to use for the action icon */
   actionIconClassName?: string;
   /** Callback when the action icon is clicked */

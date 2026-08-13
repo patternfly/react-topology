@@ -16,6 +16,7 @@ const DefaultTaskGroupCollapsed: React.FunctionComponent<DefaultTaskGroupCollaps
   shadowCount = 2,
   collapsible,
   onCollapseChange,
+  actionIconAriaLabel = 'expand',
   ...rest
 }) => {
   return (
@@ -23,6 +24,7 @@ const DefaultTaskGroupCollapsed: React.FunctionComponent<DefaultTaskGroupCollaps
       element={element}
       actionIcon={collapsible ? <RhUiArrowUpRightDownLeftFromCenterIcon /> : undefined}
       onActionIconClick={() => onCollapseChange(element, false)}
+      actionIconAriaLabel={actionIconAriaLabel}
       shadowCount={shadowCount}
       {...rest}
     />

@@ -6,11 +6,12 @@ import { observer } from 'mobx-react';
 import { debounce, getResizeObserver } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import styles from '../css/topology-components';
-import { State } from '../types';
+import { isNode, Node, State } from '../types';
 import SVGDefsProvider from './defs/SVGDefsProvider';
 import ElementWrapper from './ElementWrapper';
 import Dimensions from '../geom/Dimensions';
 import useVisualizationController from '../hooks/useVisualizationController';
+import { findParentElement } from '../pipelines';
 
 interface VisualizationSurfaceProps {
   /** State to be passed to the controller */
@@ -73,7 +74,21 @@ const VisualizationSurface: FunctionComponent<VisualizationSurfaceProps> = ({ st
   const graph = controller.getGraph();
 
   return (
-    <div data-test-id="topology" className={css(styles.topologyVisualizationSurface)} ref={measureRef}>
+    <div
+      data-test-id="topology"
+      className={css(styles.topologyVisualizationSurface)}
+      ref={measureRef}
+      onFocus={(e) => {
+        const parentElement = findParentElement(controller, e.target);
+        if (parentElement) {
+          if (isNode(parentElement)) {
+            controller
+              .getGraph()
+              .panIntoView(parentElement as Node, { minimumVisible: parentElement.getDimensions().width / 2 });
+          }
+        }
+      }}
+    >
       <svg className={css(styles.topologyVisualizationSurfaceSvg)} onContextMenu={stopEvent}>
         <SVGDefsProvider>
           <ElementWrapper element={graph} />

@@ -23,7 +23,12 @@ const DemoFinallyNode: React.FunctionComponent<DemoFinallyNodeProps> = ({ ...pro
   return (
     <Layer id={detailsLevel !== ScaleDetailsLevel.high && hover ? TOP_LAYER : DEFAULT_LAYER}>
       <g ref={hoverRef}>
-        <FinallyNode scaleNode={hover && detailsLevel !== ScaleDetailsLevel.high} hideDetailsAtMedium {...props} />
+        <FinallyNode
+          tabIndex={props.element.getData()?.tabIndex}
+          scaleNode={hover && detailsLevel !== ScaleDetailsLevel.high}
+          hideDetailsAtMedium
+          {...props}
+        />
       </g>
     </Layer>
   );

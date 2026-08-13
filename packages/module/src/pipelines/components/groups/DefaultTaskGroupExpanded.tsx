@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useRef } from 'react';
 import { observer } from 'mobx-react';
 import { css } from '@patternfly/react-styles';
 import styles from '../../../css/topology-components';
@@ -13,13 +13,17 @@ import { DagreLayoutOptions, TOP_TO_BOTTOM } from '../../../layouts';
 import TaskGroupSourceAnchor from '../anchors/TaskGroupSourceAnchor';
 import TaskGroupTargetAnchor from '../anchors/TaskGroupTargetAnchor';
 import { DefaultTaskGroupProps } from './DefaultTaskGroup';
+import { generateTaskAriaLabel, handleKeyboardSelection, onSelectAndReFocus } from '../../../utils/accessibility-utils';
 
 const DefaultTaskGroupExpanded: React.FunctionComponent<Omit<DefaultTaskGroupProps, 'element'> & { element: Node }> =
   observer(
     ({
       className,
       element,
+      'aria-label': ariaLabel,
+      tabIndex = 0,
       collapsible,
+      collapseAriaLabel = 'Collapse',
       selected,
       onSelect,
       hover,
@@ -62,6 +66,8 @@ const DefaultTaskGroupExpanded: React.FunctionComponent<Omit<DefaultTaskGroupPro
       const groupLabelPosition = labelPosition ?? element.getLabelPosition() ?? LabelPosition.bottom;
       let parent = element.getParent();
       const detailsLevel = element.getGraph().getDetailsLevel();
+      const focusableId = `${element.getId()}-group-focusable`;
+      const clickRef = useRef();
 
       let altGroup = false;
       while (!isGraph(parent)) {
@@ -199,6 +205,8 @@ const DefaultTaskGroupExpanded: React.FunctionComponent<Omit<DefaultTaskGroupPro
             contextMenuOpen={contextMenuOpen}
             hover={isHover || labelHover}
             actionIcon={collapsible ? <RhUiArrowDownLeftUpRightToCenterIcon /> : undefined}
+            actionIconAriaLabel={collapseAriaLabel}
+            actionIconTabIndex={tabIndex}
             onActionIconClick={() => onCollapseChange(element, true)}
           >
             {label || element.getLabel()}
@@ -207,9 +215,20 @@ const DefaultTaskGroupExpanded: React.FunctionComponent<Omit<DefaultTaskGroupPro
       ) : null;
 
       return (
-        <g onContextMenu={onContextMenu} onClick={onSelect} className={groupClassName}>
+        <g
+          onContextMenu={onContextMenu}
+          onClick={
+            onSelect
+              ? (e) => {
+                  onSelectAndReFocus(onSelect, e, focusableId);
+                }
+              : undefined
+          }
+          ref={clickRef}
+          className={groupClassName}
+        >
           <Layer id={GROUPS_LAYER}>
-            <g ref={refs} onContextMenu={onContextMenu} onClick={onSelect} className={innerGroupClassName}>
+            <g ref={refs} onContextMenu={onContextMenu} className={innerGroupClassName}>
               <rect
                 x={bounds.x}
                 y={bounds.y}
@@ -218,6 +237,10 @@ const DefaultTaskGroupExpanded: React.FunctionComponent<Omit<DefaultTaskGroupPro
                 className={styles.topologyGroupBackground}
                 rx={borderRadius}
                 ry={borderRadius}
+                tabIndex={tabIndex}
+                aria-label={ariaLabel || generateTaskAriaLabel(element.getLabel(), status)}
+                onKeyDown={handleKeyboardSelection(clickRef)}
+                style={{ borderRadius }}
               />
             </g>
             {groupLabel && isHover ? (

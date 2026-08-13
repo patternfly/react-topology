@@ -47,7 +47,7 @@ export default class LayersProvider extends Component<LayersProviderProps, State
     return (
       <LayersContext.Provider value={this.contextValue}>
         {layerIds.map((id) => (
-          <g key={id} data-layer-id={id} ref={(r) => this.setDomLayers(r, id)}>
+          <g key={id} data-layer-id={id} ref={(r) => this.setDomLayers(r, id)} tabIndex={-1}>
             {id === DEFAULT_LAYER && this.state[id] ? children : undefined}
           </g>
         ))}

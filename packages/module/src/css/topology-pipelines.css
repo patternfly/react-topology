@@ -1,4 +1,8 @@
 :root {
+  --pf-topology-pipelines__pill--focus--outline-color: var(--pf-t--global--focus-ring--color--default);
+  --pf-topology-pipelines__pill--focus--outline-style: solid;
+  --pf-topology-pipelines__pill--focus--outline-width: var(--pf-t--global--border--width--strong);
+  --pf-topology-pipelines__pill--focus--outline-offset: var(--pf-t--global--focus-ring--position--offset);
 
   /* pill */
   --pf-topology-pipelines__pill--Color: var(--pf-t--global--text--color--regular);
@@ -125,6 +129,12 @@
   fill: var(--pf-topology-pipelines__pill-background--Fill);
   stroke-width: var(--pf-topology-pipelines__pill-background--StrokeWidth);
   stroke: var(--pf-topology-pipelines__pill-background--Stroke);
+}
+.pf-topology-pipelines__pill-background:focus-visible {
+  outline-color: var(--pf-topology-pipelines__pill--focus--outline-color);
+  outline-style: var(--pf-topology-pipelines__pill--focus--outline-style);
+  outline-width: var(--pf-topology-pipelines__pill--focus--outline-width);
+  outline-offset: var(--pf-topology-pipelines__pill--focus--outline-offset);
 }
 
 .pf-topology-pipelines__pill.pf-m-danger .pf-topology-pipelines__pill-background {
@@ -469,6 +479,13 @@
 .pf-topology-pipelines__status-icon-background {
   fill: var(--pf-topology-pipelines__pill-background--Fill);
   stroke: var(--pf-topology-pipelines__pill-background--Stroke);
+}
+
+.pf-topology-pipelines__status-icon-background:focus-visible {
+  outline-color: var(--pf-topology-pipelines__pill--focus--outline-color);
+  outline-style: var(--pf-topology-pipelines__pill--focus--outline-style);
+  outline-width: var(--pf-topology-pipelines__pill--focus--outline-width);
+  outline-offset: var(--pf-topology-pipelines__pill--focus--outline-offset);
 }
 
 .pf-topology-pipelines__status-icon-background.pf-m-danger {
