@@ -3,7 +3,6 @@ import {
   ComponentFactory,
   ModelKind,
   SpacerNode,
-  DefaultTaskGroup,
   DEFAULT_TASK_NODE_TYPE,
   DEFAULT_SPACER_NODE_TYPE,
   DEFAULT_EDGE_TYPE,
@@ -51,13 +50,13 @@ const pipelineComponentFactory: ComponentFactory = (
   }
   switch (type) {
     case DEFAULT_TASK_NODE_TYPE:
-      return withContextMenu(() => defaultMenu)(withSelection()(DemoTaskNode));
+      return withContextMenu(() => defaultMenu)(withSelection({ raiseOnSelect: false })(DemoTaskNode));
     case DEFAULT_FINALLY_NODE_TYPE:
-      return withContextMenu(() => defaultMenu)(withSelection()(DemoFinallyNode));
+      return withContextMenu(() => defaultMenu)(withSelection({ raiseOnSelect: false })(DemoFinallyNode));
     case 'task-group':
-      return withSelection()(DemoPipelinesGroup);
+      return withSelection({ raiseOnSelect: false })(DemoPipelinesGroup);
     case 'finally-group':
-      return DefaultTaskGroup;
+      return withSelection({ raiseOnSelect: false })(DemoPipelinesGroup);
     case DEFAULT_SPACER_NODE_TYPE:
       return SpacerNode;
     case SPACER_EDGE_TYPE:

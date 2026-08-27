@@ -26,6 +26,10 @@ export interface DefaultTaskGroupProps {
   className?: string;
   /** The graph group node element to represent */
   element: GraphElement;
+  /** Adds accessible text to the node. Defaults to node label followed by status */
+  'aria-label'?: string;
+  /** tab index for the node to help improve tab order */
+  tabIndex?: number;
   /** Flag if the node accepts drop operations */
   droppable?: boolean;
   /** Flag if the current drag operation can be dropped on the node */
@@ -88,6 +92,10 @@ export interface DefaultTaskGroupProps {
   badgeLocation?: BadgeLocation;
   /** Flag if the group is collapsible */
   collapsible?: boolean;
+  /** Aria label for collapse button when shown. Defaults to 'Collapse' **/
+  collapseAriaLabel?: string;
+  /** Aria label for expand button when shown. Defaults to 'Expand' **/
+  expandAriaLabel?: string;
   /** Width of the collapsed group */
   collapsedWidth?: number;
   /** Height of the collapsed group */

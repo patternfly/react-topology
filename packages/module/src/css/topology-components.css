@@ -1,6 +1,11 @@
 :root {
   --pf-topology-visualization-surface--BackgroundColor: transparent;
 
+  --pf-topology__focus--outline-color: var(--pf-t--global--focus-ring--color--default);
+  --pf-topology__focus--outline-style: solid;
+  --pf-topology__focus--outline-width: var(--pf-t--global--border--width--strong);
+  --pf-topology__focus--outline-offset: var(--pf-t--global--focus-ring--position--offset);
+
   /* Create connector */
   /* Remove --pf-topology-create-connector-color at a breaking change */
   --pf-topology-create-connector-color: var(--pf-t--global--border--color--on-secondary);
@@ -576,6 +581,13 @@
   fill: var(--pf-topology__group__background--Fill);
   stroke: var(--pf-topology__group__background--Stroke);
   stroke-width: var(--pf-topology__group__background--StrokeWidth);
+}
+
+.pf-topology__group__background:focus-visible {
+  outline-color: var(--pf-topology__focus--outline-color);
+  outline-style: var(--pf-topology__focus--outline-style);
+  outline-width: var(--pf-topology__focus--outline-width);
+  outline-offset: var(--pf-topology__focus--outline-offset);
 }
 
 .pf-topology__group.pf-m-alt-group .pf-topology__group__background {

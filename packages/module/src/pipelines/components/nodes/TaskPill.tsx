@@ -1,4 +1,5 @@
 import { useRef, useMemo, useCallback } from 'react';
+import type { FC, Ref, ReactNode } from 'react';
 import { css } from '@patternfly/react-styles';
 import styles from '../../../css/topology-pipelines';
 import topologyStyles from '../../../css/topology-components';
@@ -20,6 +21,7 @@ import LabelBadge from '../../../components/nodes/labels/LabelBadge';
 import LabelIcon from '../../../components/nodes/labels/LabelIcon';
 import { DagreLayoutOptions, TOP_TO_BOTTOM } from '../../../layouts';
 import { TaskNodeProps } from './TaskNode';
+import { generateTaskAriaLabel, handleKeyboardSelection, onSelectAndReFocus } from '../../../utils/accessibility-utils';
 
 const STATUS_ICON_SIZE = 16;
 
@@ -28,14 +30,16 @@ export interface TaskPillProps extends Omit<TaskNodeProps, 'element'> {
   width?: number;
   x: number;
   y: number;
-  taskRef?: React.Ref<SVGGElement>;
+  taskRef?: Ref<SVGGElement>;
   pillRef: (node: SVGGraphicsElement) => void;
   element: Node;
 }
 
-const TaskPill: React.FC<TaskPillProps> = observer(
+const TaskPill: FC<TaskPillProps> = observer(
   ({
     element,
+    'aria-label': ariaLabel = null,
+    tabIndex = 0,
     taskRef,
     pillRef,
     className,
@@ -64,6 +68,7 @@ const TaskPill: React.FC<TaskPillProps> = observer(
     taskIconPadding = 4,
     hover,
     truncateLength = 14,
+    labelTooltipTrigger,
     disableTooltip = false,
     selected,
     onSelect,
@@ -72,6 +77,7 @@ const TaskPill: React.FC<TaskPillProps> = observer(
     hideContextMenuKebab,
     actionIcon,
     actionIconClassName,
+    actionIconAriaLabel,
     onActionIconClick,
     shadowCount = 0,
     shadowOffset = 8,
@@ -94,6 +100,8 @@ const TaskPill: React.FC<TaskPillProps> = observer(
     const [contextSize, contextRef] = useSize([onContextMenu, paddingX]);
     const detailsLevel = element.getGraph().getDetailsLevel();
     const verticalLayout = (element.getGraph().getLayoutOptions?.() as DagreLayoutOptions)?.rankdir === TOP_TO_BOTTOM;
+    const focusableId = `${element.getId()}-node-focusable`;
+    const clickRef = useRef(null);
 
     const textWidth = textSize?.width ?? 0;
     const textHeight = textSize?.height ?? 0;
@@ -260,7 +268,7 @@ const TaskPill: React.FC<TaskPillProps> = observer(
       />
     ) : null;
 
-    let badgeComponent: React.ReactNode;
+    let badgeComponent: ReactNode;
     if (badgeLabel && badgeTooltip) {
       badgeComponent = (
         <Tooltip triggerRef={badgeLabelTriggerRef} content={badgeTooltip}>
@@ -295,9 +303,22 @@ const TaskPill: React.FC<TaskPillProps> = observer(
               runStatusModifier,
               selected && 'pf-m-selected'
             )}
+            id={focusableId}
             cx={statusBackgroundRadius}
             cy={statusBackgroundRadius}
             r={statusBackgroundRadius}
+            tabIndex={tabIndex}
+            aria-label={ariaLabel || generateTaskAriaLabel(element.getLabel(), status)}
+            style={{ borderRadius: statusBackgroundRadius }}
+            onKeyDown={handleKeyboardSelection(clickRef)}
+            ref={clickRef}
+            onClick={
+              onSelect
+                ? (e) => {
+                    onSelectAndReFocus(onSelect, e, focusableId);
+                  }
+                : undefined
+            }
           />
           {status && (!hiddenDetailsShownStatuses || hiddenDetailsShownStatuses.includes(status)) ? (
             <g transform={`translate(5, 5)`}>
@@ -336,7 +357,13 @@ const TaskPill: React.FC<TaskPillProps> = observer(
       <g
         className={pillClasses}
         transform={`translate(${x},${y})`}
-        onClick={onSelect}
+        onClick={
+          onSelect
+            ? (e) => {
+                onSelectAndReFocus(onSelect, e, focusableId);
+              }
+            : undefined
+        }
         onContextMenu={onContextMenu}
         ref={taskRef}
       >
@@ -351,10 +378,22 @@ const TaskPill: React.FC<TaskPillProps> = observer(
           rx={height / 2}
           className={css(styles.topologyPipelinesPillBackground)}
           filter={filter}
+          style={{ borderRadius: height / 2 }}
+          id={focusableId}
+          tabIndex={tabIndex}
+          aria-label={ariaLabel || generateTaskAriaLabel(element.getLabel(), status)}
+          onClick={
+            onSelect
+              ? (e) => {
+                  onSelectAndReFocus(onSelect, e, focusableId);
+                }
+              : undefined
+          }
+          onKeyDown={handleKeyboardSelection()}
         />
         <g transform={`translate(${textStartX}, ${paddingY + textHeight / 2 + 1})`}>
           {element.getLabel() !== label && !disableTooltip ? (
-            <Tooltip triggerRef={nameLabelTriggerRef} content={element.getLabel()}>
+            <Tooltip triggerRef={nameLabelTriggerRef} trigger={labelTooltipTrigger} content={element.getLabel()}>
               <g>{nameLabel}</g>
             </Tooltip>
           ) : (
@@ -415,6 +454,8 @@ const TaskPill: React.FC<TaskPillProps> = observer(
               icon={actionIcon}
               className={actionIconClassName}
               onClick={onActionIconClick}
+              aria-label={actionIconAriaLabel}
+              tabIndex={tabIndex}
             />
           </>
         )}

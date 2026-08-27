@@ -76,6 +76,7 @@ const DemoTaskNode: React.FunctionComponent<DemoTaskNodeProps> = ({
       <g ref={hoverRef}>
         <TaskNode
           element={element}
+          labelTooltipTrigger="mouseenter"
           onContextMenu={pipelineOptions.showContextMenus ? onContextMenu : undefined}
           contextMenuOpen={contextMenuOpen}
           scaleNode={(hover || contextMenuOpen) && detailsLevel !== ScaleDetailsLevel.high}

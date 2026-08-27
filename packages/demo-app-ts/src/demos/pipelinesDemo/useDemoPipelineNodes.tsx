@@ -106,9 +106,8 @@ export const useDemoPipelineNodes = (
       i++;
     }
 
+    const parallelTasks: PipelineNodeModel[] = [];
     if (layout) {
-      const parallelTasks: PipelineNodeModel[] = [];
-
       for (let i = 0; i < PARALLEL_TASKS_COUNT; i++) {
         const parallelTask: PipelineNodeModel = {
           id: `parallelTasks-${i}`,
@@ -144,19 +143,6 @@ export const useDemoPipelineNodes = (
         }
       }
       tasks.push(...parallelTasks);
-
-      if (showGroups) {
-        tasks.push({
-          id: `group-parallels`,
-          type: 'task-group',
-          children: parallelTasks.map((t) => t.id),
-          group: true,
-          label: 'Parallel tasks',
-          data: {
-            badge: 'Label'
-          }
-        });
-      }
     }
 
     const finallyNodes = [];
@@ -167,7 +153,9 @@ export const useDemoPipelineNodes = (
         label: `Finally task ${i}`,
         width: FINALLY_TASK_WIDTH,
         height: DEFAULT_TASK_HEIGHT,
-        style: { paddingLeft: DEFAULT_WHEN_SIZE + DEFAULT_WHEN_OFFSET }
+        style: {
+          padding: [NODE_PADDING_VERTICAL, NODE_PADDING_HORIZONTAL]
+        }
       };
 
       if (!layout) {
@@ -181,6 +169,7 @@ export const useDemoPipelineNodes = (
     const finallyGroup = {
       id: 'finally-group',
       type: 'finally-group',
+      label: 'Finally group',
       children: finallyNodes.map((n) => n.id),
       group: true
     };
@@ -206,6 +195,19 @@ export const useDemoPipelineNodes = (
       }, [] as PipelineNodeModel[]);
 
       tasks.push(...taskGroups);
+
+      if (parallelTasks.length > 0) {
+        tasks.push({
+          id: `group-parallels`,
+          type: 'task-group',
+          children: parallelTasks.map((t) => t.id),
+          group: true,
+          label: 'Parallel tasks',
+          data: {
+            badge: 'Label'
+          }
+        });
+      }
     }
 
     const iconTask1: PipelineNodeModel = {
@@ -232,7 +234,7 @@ export const useDemoPipelineNodes = (
     };
 
     if (!layout) {
-      const row = Math.ceil((TASK_STATUSES.length + 1) / STATUS_PER_ROW) - 1;
+      const row = Math.ceil((TASK_STATUSES.length + 1) / STATUS_PER_ROW);
       const columnWidth = COLUMN_WIDTH + (showIcons ? 15 : 0) + (showBadges ? 32 : 0) + (showContextMenu ? 20 : 0);
       iconTask1.x = (showIcons ? 28 : 0) + columnWidth;
       iconTask1.y = GRAPH_MARGIN_TOP + row * ROW_HEIGHT;
@@ -261,7 +263,7 @@ export const useDemoPipelineNodes = (
     };
 
     if (!layout) {
-      const row = Math.ceil((TASK_STATUSES.length + 1) / STATUS_PER_ROW) - 1;
+      const row = Math.ceil((TASK_STATUSES.length + 1) / STATUS_PER_ROW);
       const columnWidth = COLUMN_WIDTH + (showIcons ? 15 : 0) + (showBadges ? 32 : 0) + (showContextMenu ? 20 : 0);
       iconTask2.x = (showIcons ? 28 : 0) + 2 * columnWidth;
       iconTask2.y = GRAPH_MARGIN_TOP + row * ROW_HEIGHT;
@@ -290,7 +292,7 @@ export const useDemoPipelineNodes = (
     };
 
     if (!layout) {
-      const row = Math.ceil((TASK_STATUSES.length + 1) / STATUS_PER_ROW) - 1;
+      const row = Math.ceil((TASK_STATUSES.length + 1) / STATUS_PER_ROW);
       const columnWidth = COLUMN_WIDTH + (showIcons ? 15 : 0) + (showBadges ? 32 : 0) + (showContextMenu ? 20 : 0);
       iconTask3.x = (showIcons ? 28 : 0) + 3 * columnWidth;
       iconTask3.y = GRAPH_MARGIN_TOP + row * ROW_HEIGHT;

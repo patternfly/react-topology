@@ -37,6 +37,8 @@ export type NodeLabelProps = {
   actionIcon?: React.ReactElement;
   actionIconClassName?: string;
   onActionIconClick?: (e: React.MouseEvent) => void;
+  actionIconAriaLabel?: string;
+  actionIconTabIndex?: number;
   badge?: string;
   badgeColor?: string;
   badgeTextColor?: string;
@@ -82,6 +84,8 @@ const NodeLabel: React.FunctionComponent<NodeLabelProps> = ({
   actionIcon,
   actionIconClassName,
   onActionIconClick,
+  actionIconAriaLabel,
+  actionIconTabIndex,
   boxRef,
   ...other
 }) => {
@@ -293,6 +297,8 @@ const NodeLabel: React.FunctionComponent<NodeLabelProps> = ({
             icon={actionIcon}
             className={actionIconClassName}
             onClick={onActionIconClick}
+            aria-label={actionIconAriaLabel}
+            tabIndex={actionIconTabIndex}
           />
         </>
       )}

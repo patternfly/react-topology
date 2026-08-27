@@ -25,7 +25,9 @@ export const PipelineTasks: React.FC = observer(() => {
   const pipelineNodes = useDemoPipelineNodes(
     pipelineOptions.showContextMenus,
     pipelineOptions.showBadges,
-    pipelineOptions.showIcons
+    pipelineOptions.showIcons,
+    '',
+    false
   );
 
   useEffect(() => {

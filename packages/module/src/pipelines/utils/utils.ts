@@ -1,7 +1,8 @@
 import styles from '../../css/topology-pipelines';
 import { PipelineNodeModel, RunStatus, WhenStatus } from '../types';
-import { EdgeModel } from '../../types';
+import { Controller, EdgeModel, GraphElement } from '../../types';
 import { DEFAULT_EDGE_TYPE, DEFAULT_FINALLY_NODE_TYPE, DEFAULT_SPACER_NODE_TYPE } from '../const';
+import { ATTR_DATA_ID, ATTR_DATA_KIND } from '../../const';
 
 export const nonShadowModifiers: string[] = [
   styles.modifiers.danger,
@@ -248,4 +249,16 @@ export const getEdgesFromNodes = (
   }
 
   return edges;
+};
+
+export const findParentElement = (controller: Controller, element?: Element): GraphElement | null => {
+  if (!element) {
+    return null;
+  }
+
+  if (element.getAttribute(ATTR_DATA_ID) && element.getAttribute(ATTR_DATA_KIND)) {
+    return controller.getElementById(element.getAttribute(ATTR_DATA_ID));
+  }
+
+  return findParentElement(controller, element.parentElement);
 };

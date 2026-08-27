@@ -1,11 +1,14 @@
-import { forwardRef } from 'react';
+import { forwardRef, useRef } from 'react';
 import { useSize } from '../../../utils';
 import { css } from '@patternfly/react-styles';
 import styles from '../../../css/topology-components';
+import { handleKeyboardSelection } from '../../../utils/accessibility-utils';
 
 interface LabelActionIconProps {
   className?: string;
   icon: React.ReactElement;
+  'aria-label'?: string;
+  tabIndex?: number;
   onClick: (e: React.MouseEvent) => void;
   iconOffsetX?: number;
   iconOffsetY?: number;
@@ -17,8 +20,24 @@ interface LabelActionIconProps {
 }
 
 const LabelActionIcon = forwardRef<SVGRectElement, LabelActionIconProps>(
-  ({ icon, onClick, className, x, y, paddingX, height, iconOffsetX = 0, iconOffsetY = 0 }, actionRef) => {
+  (
+    {
+      icon,
+      onClick,
+      'aria-label': ariaLabel,
+      tabIndex = 0,
+      className,
+      x,
+      y,
+      paddingX,
+      height,
+      iconOffsetX = 0,
+      iconOffsetY = 0
+    },
+    actionRef
+  ) => {
     const [iconSize, iconRef] = useSize([icon, paddingX]);
+    const clickRef = useRef(null);
     const iconWidth = iconSize?.width ?? 0;
     const iconHeight = iconSize?.height ?? 0;
     const iconY = (height - iconHeight) / 2;
@@ -33,7 +52,7 @@ const LabelActionIcon = forwardRef<SVGRectElement, LabelActionIconProps>(
     };
 
     return (
-      <g className={classes} onClick={handleClick}>
+      <g className={classes} onClick={handleClick} ref={clickRef}>
         {iconSize && (
           <rect
             ref={actionRef}
@@ -42,6 +61,10 @@ const LabelActionIcon = forwardRef<SVGRectElement, LabelActionIconProps>(
             y={y}
             width={iconWidth + paddingX * 2}
             height={height}
+            tabIndex={ariaLabel ? tabIndex : undefined}
+            aria-label={ariaLabel}
+            onKeyDown={handleKeyboardSelection(clickRef)}
+            data-id="context-icon"
           />
         )}
         <g
